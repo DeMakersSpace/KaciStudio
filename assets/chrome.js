@@ -9,11 +9,11 @@
 const KaciChrome = (() => {
 
   const PAGES = [
-    { id: 'home',     label: 'Home',     href: 'Index.html'    },
-    { id: 'about',    label: 'About',    href: 'About.html'    },
-    { id: 'services', label: 'Services', href: 'Services.html' },
-    { id: 'work',     label: 'Work',     href: 'Work.html'     },
-    { id: 'contact',  label: 'Contact',  href: 'Contact.html', cta: true },
+    { id: 'home',     label: 'Home',     href: 'index.html'    },
+    { id: 'about',    label: 'About',    href: 'about.html'    },
+    { id: 'services', label: 'Services', href: 'services.html' },
+    { id: 'work',     label: 'Work',     href: 'work.html'     },
+    { id: 'contact',  label: 'Contact',  href: 'contact.html', cta: true },
   ];
 
   /* ── Helpers ── */
@@ -34,7 +34,7 @@ const KaciChrome = (() => {
     if (!slot) return;
 
     /* Logo */
-    const logo = el('a', { cls: 'kaci-nav-logo', href: 'Index.html', 'aria-label': 'KACI Studio home' });
+    const logo = el('a', { cls: 'kaci-nav-logo', href: 'index.html', 'aria-label': 'KACI Studio home' });
     logo.appendChild(document.createTextNode('KACI\u00a0'));
     logo.appendChild(el('span', { text: 'Studio' }));
 
