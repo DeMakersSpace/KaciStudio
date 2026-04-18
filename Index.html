@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en" data-theme="sand" data-density="normal" data-grain="on" data-hero="split" data-headline="v1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KACI Studio — We don't just manage socials, we tell stories.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/tokens.css">
+<style>
+/* ---------------- Home-specific ---------------- */
+
+/* Hero variants — shown/hidden via [data-hero] on html */
+html[data-hero="marquee"] #hero-marquee { display: block; }
+html[data-hero="split"]   #hero-split   { display: grid; }
+html[data-hero="type"]    #hero-type    { display: block; }
+html:not([data-hero="marquee"]) #hero-marquee,
+html:not([data-hero="split"])   #hero-split,
+html:not([data-hero="type"])    #hero-type { display: none; }
+
+/* Hero — MARQUEE variant */
+.hero-marquee-inner {
+  padding: clamp(40px, 6vw, 80px) 0 clamp(32px, 4vw, 60px);
+  position: relative;
+}
+.hero-marquee-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding: 0 var(--pad-gutter);
+  margin-bottom: clamp(40px, 6vw, 80px);
+}
+.hero-eyebrow-cluster {
+  max-width: 320px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.7;
+  color: var(--fg-muted);
+}
+.hero-eyebrow-cluster strong {
+  color: var(--fg);
+  font-weight: 500;
+}
+.hero-supertitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.hero-supertitle .tag {
+  border: 1px solid var(--rule);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.hero-headline {
+  padding: 0 var(--pad-gutter);
+  font-size: clamp(60px, 13vw, 240px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-headline .stroke {
+  -webkit-text-stroke: 1.5px var(--fg);
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.hero-cap {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: flex-end;
+  padding: clamp(40px, 5vw, 72px) var(--pad-gutter) 0;
+}
+.hero-cap-desc {
+  max-width: 460px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+.hero-cap-desc strong { color: var(--fg); font-weight: 500; }
+.hero-cap-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Headline swap variants */
+html[data-headline="v1"] .hl-v1 { display: inline; }
+html[data-headline="v2"] .hl-v2 { display: inline; }
+html[data-headline="v3"] .hl-v3 { display: inline; }
+.hl-v1, .hl-v2, .hl-v3 { display: none; }
+
+/* Hero — SPLIT variant */
+#hero-split {
+  grid-template-columns: 1.2fr 1fr;
+  gap: 0;
+  min-height: 80vh;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.split-left {
+  padding: clamp(40px, 6vw, 80px) var(--pad-gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 60px;
+}
+.split-right {
+  background: var(--espresso);
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+}
+.split-right .ph-card {
+  position: absolute;
+  inset: 32px;
+  background:
+    linear-gradient(135deg, oklch(50% 0.13 36) 0%, oklch(35% 0.08 42) 100%);
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 32px;
+  color: var(--cream);
+}
+.split-right .ph-float {
+  position: absolute;
+  top: 80px; right: 80px;
+  width: 180px; height: 240px;
+  background: var(--cream);
+  border-radius: 2px;
+  transform: rotate(4deg);
+  box-shadow: 0 30px 80px -20px oklch(18% 0.02 50 / 0.5);
+}
+.split-right .ph-float .ph-label { color: var(--espresso); opacity: 0.5; }
+
+.split-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 7vw, 108px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+.split-headline em { font-style: italic; color: var(--accent); }
+
+/* Hero — TYPE variant */
+#hero-type {
+  min-height: 92vh;
+  padding: clamp(60px, 8vw, 120px) var(--pad-gutter) clamp(40px, 5vw, 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.type-hero-word {
+  font-family: var(--font-serif);
+  font-size: clamp(80px, 22vw, 420px);
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  text-align: center;
+}
+.type-hero-word em {
+  font-style: italic;
+  color: var(--accent);
+}
+.type-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  padding-top: 48px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+}
+
+/* Client ticker bar */
+.client-bar {
+  background: var(--espresso);
+  color: var(--cream);
+  padding: 22px 0;
+  overflow: hidden;
+}
+.client-bar .marquee-track {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream);
+  animation-duration: 30s;
+}
+.client-bar .marquee-track .dot { background: var(--accent); width: 6px; height: 6px; }
+
+/* Services block */
+.services-head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: var(--stack-lg);
+}
+.services-head h2 { font-size: clamp(44px, 6vw, 96px); }
+.services-head h2 em { font-style: italic; color: var(--accent); }
+
+.services-list {
+  border-top: 1px solid var(--rule);
+}
+.svc-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 2fr 120px;
+  gap: 32px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+  cursor: pointer;
+  transition: padding 0.3s ease, background 0.3s ease;
+}
+.svc-row:hover {
+  padding-left: 20px;
+  background: color-mix(in oklch, var(--accent) 8%, transparent);
+}
+.svc-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--fg-muted);
+}
+.svc-title {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.svc-desc {
+  font-size: 15px;
+  color: var(--fg-muted);
+  max-width: 520px;
+  line-height: 1.55;
+}
+.svc-arrow {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.3s ease;
+}
+.svc-row:hover .svc-arrow { transform: translateX(8px); color: var(--accent); }
+
+/* Process section */
+.process {
+  background: var(--espresso);
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.process .eyebrow { color: color-mix(in oklch, var(--cream) 60%, transparent); }
+.process h2 { color: var(--cream); }
+.process h2 em { color: var(--accent); font-style: italic; }
+.process .rule { background: color-mix(in oklch, var(--cream) 20%, transparent); }
+
+.process-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: var(--stack-lg);
+}
+.process-head p {
+  color: color-mix(in oklch, var(--cream) 75%, transparent);
+  max-width: 440px;
+  font-size: 17px;
+  line-height: 1.55;
+}
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  border-left: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+}
+.process-step {
+  padding: 40px;
+  border-right: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  transition: background 0.3s ease;
+}
+.process-step:hover { background: color-mix(in oklch, var(--accent) 18%, transparent); }
+.process-num {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+}
+.process-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.process-title em { font-style: italic; color: var(--accent); }
+.process-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: color-mix(in oklch, var(--cream) 70%, transparent);
+  margin-top: auto;
+  max-width: 300px;
+}
+
+/* Work preview */
+.work-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: var(--stack-lg);
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.work-head h2 em { font-style: italic; color: var(--accent); }
+.work-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 24px;
+}
+.work-card { position: relative; cursor: pointer; }
+.work-card .ph {
+  aspect-ratio: 4/5;
+  transition: transform 0.5s ease;
+}
+.work-card:nth-child(1) .ph { aspect-ratio: 4/5.5; }
+.work-card:hover .ph { transform: scale(0.98); }
+.work-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  font-size: 14px;
+  align-items: baseline;
+}
+.work-meta .title { font-family: var(--font-serif); font-size: 22px; letter-spacing: -0.01em; }
+.work-meta .cat { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-muted); }
+
+/* Philosophy / pull quote */
+.pull {
+  padding: var(--pad-section-y) var(--pad-gutter);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.pull blockquote {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 80px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  max-width: 1200px;
+}
+.pull blockquote em { font-style: italic; color: var(--accent); }
+.pull .attrib {
+  margin-top: 40px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.pull .attrib-dot {
+  width: 24px; height: 1px; background: currentColor;
+}
+
+/* Stats strip */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.stat {
+  padding: 40px 28px;
+  border-right: 1px solid var(--rule);
+}
+.stat:last-child { border-right: 0; }
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.stat-num em { font-style: italic; color: var(--accent); }
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* Deposit callout */
+.deposit-card {
+  background: var(--accent);
+  color: var(--cream);
+  padding: clamp(48px, 6vw, 80px);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.deposit-card .big {
+  font-family: var(--font-serif);
+  font-size: clamp(64px, 10vw, 160px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+.deposit-card .big em { font-style: italic; color: oklch(88% 0.028 72); }
+.deposit-card p {
+  font-size: 16px;
+  line-height: 1.55;
+  opacity: 0.9;
+  max-width: 420px;
+}
+.deposit-card .btn {
+  margin-top: 32px;
+  background: var(--cream);
+  color: var(--espresso);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-cap { flex-direction: column; align-items: flex-start; }
+  #hero-split { grid-template-columns: 1fr; min-height: auto; }
+  .split-right { min-height: 420px; }
+  .services-head, .process-head, .process-grid, .work-grid, .stats, .deposit-card {
+    grid-template-columns: 1fr;
+  }
+  .svc-row { grid-template-columns: 40px 1fr; gap: 16px; }
+  .svc-row .svc-desc, .svc-row .svc-arrow { grid-column: 2; }
+  .stat { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .type-hero-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="nav-slot"></div>
+
+<!-- ============= HERO: MARQUEE (default) ============= -->
+<section id="hero-marquee" class="section" style="padding-top: 0; padding-bottom: 0;">
+  <div class="hero-marquee-inner">
+    <div class="hero-marquee-top">
+      <div class="hero-supertitle">
+        <span class="tag">Singapore 🇸🇬</span>
+        <span>Social&nbsp;·&nbsp;Strategy&nbsp;·&nbsp;Story</span>
+      </div>
+      <div class="hero-eyebrow-cluster">
+        <strong>A social media studio</strong> built by Gen Z creatives for brands who want to be stopped for — not scrolled past.
+      </div>
+    </div>
+
+    <h1 class="hero-headline">
+      <span class="hl-v1">We tell<br><em>stories</em>, not<br><span class="stroke">posts</span>.</span>
+      <span class="hl-v2">Stop the<br><em>scroll</em>.<br>Start a <span class="stroke">story</span>.</span>
+      <span class="hl-v3">Strategy<br>with <em>soul</em>.<br>Story with <span class="stroke">structure</span>.</span>
+    </h1>
+
+    <div class="hero-cap">
+      <p class="hero-cap-desc">
+        <strong>KACI Studio</strong> is a Singapore-based social media agency run by Gen Z creatives. We help lifestyle, beauty, and wellness brands build authentic, strategic, and emotionally resonant digital identities.
+      </p>
+      <div class="hero-cap-right">
+        <a href="contact.html" class="btn btn-primary">Book a discovery call <span class="arrow">→</span></a>
+        <a href="work.html" class="btn btn-ghost">See the work</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Marquee strip -->
+  <div class="marquee" style="margin-top: clamp(40px, 5vw, 72px);">
+    <div class="marquee-track">
+      <span>TikTok management <span class="dot"></span> Content creation <span class="dot"></span> Strategy &amp; calendar <span class="dot"></span> Community growth <span class="dot"></span> <em>Story-first</em> &nbsp;·&nbsp; </span>
+      <span>TikTok management <span class="dot"></span> Content creation <span class="dot"></span> Strategy &amp; calendar <span class="dot"></span> Community growth <span class="dot"></span> <em>Story-first</em> &nbsp;·&nbsp; </span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= HERO: SPLIT ============= -->
+<section id="hero-split" class="section">
+  <div class="split-left">
+    <div>
+      <div class="hero-supertitle">
+        <span class="tag">Est. 2024</span>
+        <span>Singapore social media studio</span>
+      </div>
+    </div>
+    <h1 class="split-headline">
+      We don't just manage<br>socials — we tell<br><em>stories.</em>
+    </h1>
+    <div style="display: flex; gap: 40px; align-items: flex-end; flex-wrap: wrap;">
+      <p style="max-width: 380px; font-size: 16px; line-height: 1.55; color: var(--fg-muted);">
+        Run by Gen Z creatives who know what today's audiences <strong style="color: var(--fg);">stop scrolling for</strong>. Strategy with soul. Storytelling with structure.
+      </p>
+      <div style="display: flex; gap: 10px;">
+        <a href="contact.html" class="btn btn-primary">Start a project <span class="arrow">→</span></a>
+        <a href="services.html" class="btn btn-ghost">What we do</a>
+      </div>
+    </div>
+  </div>
+  <div class="split-right">
+    <div class="ph ph-stripe ph-card">
+      <div>
+        <div class="ph-label" style="color: var(--cream); opacity: 0.7;">LIFESTYLE · 04:21</div>
+        <div style="font-family: var(--font-serif); font-size: 40px; font-style: italic; line-height: 1;">
+          On set<br>with Brixx
+        </div>
+      </div>
+    </div>
+    <div class="ph ph-float">
+      <div class="ph-label">REEL · 0:15</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= HERO: TYPE ============= -->
+<section id="hero-type">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-bottom: 40px;">
+    <div class="hero-supertitle">
+      <span class="tag">KACI Studio</span>
+      <span>SG · Social media agency · Est. 2024</span>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; text-align: right; color: var(--fg-muted); max-width: 280px; line-height: 1.7;">
+      A social media studio<br>for brands that care about<br><span style="color: var(--fg);">how they're remembered</span>
+    </div>
+  </div>
+
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+    <div class="type-hero-word">
+      stop the<br><em>scroll.</em>
+    </div>
+  </div>
+
+  <div class="type-hero-grid">
+    <div>
+      <div class="eyebrow" style="margin-bottom: 10px;">What we are</div>
+      Singapore-based social media agency, run by Gen Z creatives.
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom: 10px;">What we do</div>
+      Full-scope TikTok &amp; Instagram. Strategy, content, community.
+    </div>
+    <div style="display: flex; gap: 8px; align-self: end;">
+      <a href="contact.html" class="btn btn-primary">Inquire →</a>
+      <a href="services.html" class="btn btn-ghost">Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Client ticker ============= -->
+<div class="client-bar">
+  <div class="marquee" style="border: 0; padding: 0;">
+    <div class="marquee-track">
+      <span>Resurrack × LittleMissMarket <span class="dot"></span> Flyco <span class="dot"></span> Brixx Derma <span class="dot"></span> Trusted by brands who care about <em>how they're remembered</em> <span class="dot"></span> </span>
+      <span>Resurrack × LittleMissMarket <span class="dot"></span> Flyco <span class="dot"></span> Brixx Derma <span class="dot"></span> Trusted by brands who care about <em>how they're remembered</em> <span class="dot"></span> </span>
+    </div>
+  </div>
+</div>
+
+<!-- ============= Services ============= -->
+<section class="section">
+  <div class="wrap">
+    <div class="services-head reveal">
+      <div>
+        <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
+        <h2>A full-scope<br>social studio<br><em>for growing brands.</em></h2>
+      </div>
+      <div style="max-width: 380px; font-size: 16px; line-height: 1.6; color: var(--fg-muted);">
+        Whether you're a growing business or an emerging brand, we work as an extension of your team — blending strategy with soul, and storytelling with structure.
+      </div>
+    </div>
+
+    <div class="services-list reveal">
+      <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
+        <div class="svc-num">(01)</div>
+        <div class="svc-title">Social media management</div>
+        <div class="svc-desc">Full TikTok &amp; Instagram management — editing, scheduling, captions, DMs. We become the voice behind the feed.</div>
+        <div class="svc-arrow">Read more →</div>
+      </a>
+      <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
+        <div class="svc-num">(02)</div>
+        <div class="svc-title">Content creation</div>
+        <div class="svc-desc">One shoot day. Eight TikToks, four IG reels, four static posts, eight stories — all shot, edited, and captioned by us.</div>
+        <div class="svc-arrow">Read more →</div>
+      </a>
+      <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
+        <div class="svc-num">(03)</div>
+        <div class="svc-title">Strategy &amp; calendar</div>
+        <div class="svc-desc">A custom content plan built around your brand's story, audience, and goals — not a generic template.</div>
+        <div class="svc-arrow">Read more →</div>
+      </a>
+      <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
+        <div class="svc-num">(04)</div>
+        <div class="svc-title">Community growth</div>
+        <div class="svc-desc">Real engagement with real humans. We reply, we listen, we build the kind of loyalty algorithms can't buy.</div>
+        <div class="svc-arrow">Read more →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Stats strip ============= -->
+<section style="padding: 0 var(--pad-gutter);">
+  <div class="wrap" style="padding: 0;">
+    <div class="stats reveal">
+      <div class="stat">
+        <div class="stat-num"><em>8</em> TikToks</div>
+        <div class="stat-label">per month, per client</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><em>4</em> IG reels</div>
+        <div class="stat-label">+ 4 static + 8 stories</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><em>1</em> shoot</div>
+        <div class="stat-label">day, fully produced</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><em>2</em> meetings</div>
+        <div class="stat-label">discovery &amp; strategy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Process ============= -->
+<section class="section process">
+  <div class="wrap">
+    <div class="process-head reveal">
+      <div>
+        <div class="eyebrow" style="margin-bottom: 20px;">◎ HOW WE WORK · 02</div>
+        <h2>Six steps,<br><em>one studio</em>,<br>zero guesswork.</h2>
+      </div>
+      <p>We start with trust, and build from there. Every stage is designed to let you see the work, feel the pace, and decide if it feels right before committing.</p>
+    </div>
+
+    <div class="process-grid reveal">
+      <div class="process-step">
+        <div class="process-num">STEP 01</div>
+        <div class="process-title">Inquiry</div>
+        <div class="process-desc">DM us or drop us an email. No forms, no funnels — just a real conversation to get started.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">STEP 02</div>
+        <div class="process-title">Discovery<br>call</div>
+        <div class="process-desc">A quick chat to understand your brand — your story, your goals, your why.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">STEP 03</div>
+        <div class="process-title"><em>Strategy</em><br>presentation</div>
+        <div class="process-desc">We put together a custom content plan and calendar, designed just for you.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">STEP 04</div>
+        <div class="process-title">Shoot day</div>
+        <div class="process-desc">We handle planning and production. You show up. We make it easy.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">STEP 05</div>
+        <div class="process-title">Content<br>rollout</div>
+        <div class="process-desc">We manage your TikTok &amp; IG — from editing to posting to engaging.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">STEP 06</div>
+        <div class="process-title"><em>Review</em></div>
+        <div class="process-desc">At month's end, you decide how much you'd like to pay — based on your experience and budget. We start with trust.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Pull quote ============= -->
+<section class="pull">
+  <div class="reveal">
+    <div class="eyebrow" style="margin-bottom: 32px;">◎ OUR PHILOSOPHY · 03</div>
+    <blockquote>
+      We grow<br><em>with you,</em><br>not just <span style="-webkit-text-stroke: 1.5px var(--fg); -webkit-text-fill-color: transparent;">for&nbsp;you</span>.
+    </blockquote>
+    <div class="attrib">
+      <span class="attrib-dot"></span>
+      <span>The KACI promise</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Work preview ============= -->
+<section class="section" style="background: var(--bg-alt);">
+  <div class="wrap">
+    <div class="work-head reveal">
+      <div>
+        <div class="eyebrow" style="margin-bottom: 20px;">◎ SELECTED WORK · 04</div>
+        <h2>Brands we've<br><em>grown with.</em></h2>
+      </div>
+      <a href="work.html" class="btn btn-ghost">View all work <span class="arrow">→</span></a>
+    </div>
+
+    <div class="work-grid reveal">
+      <a href="work.html" class="work-card" style="text-decoration:none; color:inherit;">
+        <div class="ph ph-terra">
+          <div class="ph-label" style="color: var(--cream); opacity: 0.8;">CASE · 001</div>
+          <div style="position: absolute; bottom: 40px; left: 40px; color: var(--cream); font-family: var(--font-serif); font-size: 56px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
+            Resurrack<br>×&nbsp;LMM
+          </div>
+          <div class="ph-label ph-label-br" style="color: var(--cream); opacity: 0.8;">Lifestyle&nbsp;·&nbsp;TikTok</div>
+        </div>
+        <div class="work-meta">
+          <span class="title">Resurrack × LittleMissMarket</span>
+          <span class="cat">2025 · Lifestyle</span>
+        </div>
+      </a>
+      <a href="work.html" class="work-card" style="text-decoration:none; color:inherit;">
+        <div class="ph ph-olive">
+          <div class="ph-label">CASE · 002</div>
+          <div style="position: absolute; bottom: 40px; left: 40px; color: var(--cream); font-family: var(--font-serif); font-size: 48px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
+            Flyco
+          </div>
+          <div class="ph-label ph-label-br">Tech · IG&amp;TT</div>
+        </div>
+        <div class="work-meta">
+          <span class="title">Flyco</span>
+          <span class="cat">2025 · Tech</span>
+        </div>
+      </a>
+      <a href="work.html" class="work-card" style="text-decoration:none; color:inherit;">
+        <div class="ph ph-espresso">
+          <div class="ph-label" style="color: var(--cream); opacity: 0.7;">CASE · 003</div>
+          <div style="position: absolute; bottom: 40px; left: 40px; color: var(--accent); font-family: var(--font-serif); font-size: 48px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
+            Brixx<br>Derma
+          </div>
+          <div class="ph-label ph-label-br" style="color: var(--cream); opacity: 0.7;">Beauty · Skin</div>
+        </div>
+        <div class="work-meta">
+          <span class="title">Brixx Derma</span>
+          <span class="cat">2026 · Beauty</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Deposit ============= -->
+<section class="section">
+  <div class="wrap">
+    <div class="deposit-card reveal">
+      <div>
+        <div class="eyebrow" style="color: var(--cream); opacity: 0.7; margin-bottom: 20px;">◎ A SMALL COMMITMENT · 05</div>
+        <div class="big"><em>SGD $500</em><br>to begin.</div>
+      </div>
+      <div>
+        <p>Before working on each client's project, we ask for a small deposit of $500 to get started. It's a commitment upfront that holds your slot and respects the time, energy, and intention we're about to pour into your brand.</p>
+        <p style="margin-top: 16px;">Ultimately, we want to show up with intention, prove what we can do, and give you the space to decide if it feels right moving forward.</p>
+        <a href="contact.html" class="btn">Reserve your slot <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script src="assets/chrome.js"></script>
+<script>
+  KaciChrome.nav("home");
+  KaciChrome.footer();
+</script>
+<script src="assets/tweaks.js"></script>
+</body>
+</html>
