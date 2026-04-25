@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Services — KACI Studio</title>
+<meta name="description" content="Full social media management, content creation, strategy, and event branding. Built around your brand's story.">
+<title>Services — KACISTUDIO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -32,7 +33,7 @@
 
 /* Package — the main offering */
 .package {
-  background: var(--espresso);
+  background: var(--fg);
   color: var(--cream);
   padding: clamp(48px, 7vw, 120px) var(--pad-gutter);
 }
@@ -118,7 +119,7 @@
   background: transparent;
 }
 .compare-col.us {
-  background: var(--espresso);
+  background: var(--fg);
   color: var(--cream);
 }
 .compare-col h3 {
@@ -206,11 +207,63 @@
 .cta-band h2 em { font-style: italic; color: var(--accent); }
 .cta-band .btns { margin-top: 40px; display: inline-flex; gap: 12px; }
 
+/* Services overview list */
+.services-overview { padding: var(--pad-section-y) var(--pad-gutter); max-width: 1440px; margin: 0 auto; }
+.services-overview-head { margin-bottom: var(--stack-md); }
+.services-overview-head h2 em { font-style: italic; color: var(--accent); }
+.services-list { border-top: 1px solid var(--rule); }
+.svc-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 2fr 120px;
+  gap: 32px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+  transition: padding 0.3s ease, background 0.3s ease;
+  color: inherit;
+}
+.svc-row:hover { padding-left: 20px; background: color-mix(in oklch, var(--accent) 8%, transparent); }
+.svc-num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--fg-muted); }
+.svc-title { font-family: var(--font-serif); font-size: clamp(26px, 3vw, 44px); line-height: 1.05; letter-spacing: -0.02em; }
+.svc-desc { font-size: 15px; color: var(--fg-muted); max-width: 520px; line-height: 1.55; }
+.svc-arrow { justify-self: end; font-family: var(--font-mono); font-size: 14px; display: flex; align-items: center; gap: 10px; transition: transform 0.3s ease; }
+.svc-row:hover .svc-arrow { transform: translateX(8px); color: var(--accent); }
+
+/* Content type chips — inside dark package section */
+.content-types-wrap { max-width: 1440px; margin: clamp(40px, 5vw, 60px) auto 0; padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid color-mix(in oklch, var(--cream) 15%, transparent); }
+.content-types-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in oklch, var(--cream) 50%, transparent); margin-bottom: 14px; display: block; }
+.content-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.content-chip { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 8px 16px; border: 1px solid color-mix(in oklch, var(--cream) 22%, transparent); border-radius: 999px; color: color-mix(in oklch, var(--cream) 70%, transparent); }
+
+/* Why KACISTUDIO pillars */
+.why-section { padding: var(--pad-section-y) var(--pad-gutter); max-width: 1440px; margin: 0 auto; }
+.why-head { margin-bottom: var(--stack-md); }
+.why-head h2 em { font-style: italic; color: var(--accent); }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.why-item { padding: 40px 32px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-height: 260px; display: flex; flex-direction: column; }
+.why-num { font-family: var(--font-serif); font-size: 64px; color: var(--accent); font-style: italic; line-height: 0.9; margin-bottom: 20px; }
+.why-title { font-family: var(--font-serif); font-size: 26px; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 12px; }
+.why-title em { font-style: italic; color: var(--accent); }
+.why-desc { font-size: 14px; line-height: 1.6; color: var(--fg-muted); margin-top: auto; max-width: 280px; }
+
 @media (max-width: 900px) {
   .page-hero, .package-inner, .compare-head, .compare-grid { grid-template-columns: 1fr; gap: 32px; }
   .del-row { grid-template-columns: 40px 1fr; gap: 16px; }
   .del-row .type { display: none; }
   .faq-item { grid-template-columns: 1fr; gap: 8px; }
+  .svc-row { grid-template-columns: 40px 1fr; gap: 16px; }
+  .svc-row .svc-desc, .svc-row .svc-arrow { grid-column: 2; }
+  .why-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 430px) {
+  .page-hero h1 { font-size: clamp(36px, 9vw, 52px); }
+  .svc-title { font-size: 16px; line-height: 1.3; }
+  .del-row .count { font-size: 28px; }
+  .del-row .desc { font-size: 15px; }
+  .why-title { font-size: 18px; }
+  .content-chip { font-size: 10px; padding: 4px 10px; }
+  .faq-q { font-size: 14px; }
 }
 </style>
 </head>
@@ -224,18 +277,59 @@
     <h1>Full-scope,<br><em>no half-steps.</em></h1>
   </div>
   <p class="intro">
-    <strong>We offer one thing: the whole thing.</strong> One monthly retainer, one Gen Z studio, one content engine built around your brand's story. You'll experience the full scope of what working with us feels like.
+    Whether you need a full monthly retainer or a focused campaign, we work with the same intention either way. One Gen Z studio, one content engine built around your brand's story.
   </p>
 </section>
 
 <hr class="rule" style="margin: 0 var(--pad-gutter);">
 
+<!-- Services Overview -->
+<section class="services-overview">
+  <div class="services-overview-head reveal">
+    <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
+    <h2 style="font-size: clamp(44px, 6vw, 88px);">Everything<br>under one <em>studio.</em></h2>
+  </div>
+  <div class="services-list reveal">
+    <div class="svc-row">
+      <div class="svc-num">01</div>
+      <div class="svc-title">Monthly Retainer<br>Management</div>
+      <div class="svc-desc">End-to-end social media management across Instagram, TikTok, and more — strategy, production, posting, and community handled as one continuous rhythm.</div>
+      <div class="svc-arrow">→</div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-num">02</div>
+      <div class="svc-title">Content Strategy<br>&amp; Planning</div>
+      <div class="svc-desc">A monthly content calendar built around your brand's story — not trends. Every post has a reason, a tone, and a place in the bigger picture.</div>
+      <div class="svc-arrow">→</div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-num">03</div>
+      <div class="svc-title">Photography &amp; Video<br>Production</div>
+      <div class="svc-desc">Planned and produced shoot days, shot on professional gear and edited in-house. Reels, statics, behind-the-scenes, and product content — all on-brand.</div>
+      <div class="svc-arrow">→</div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-num">04</div>
+      <div class="svc-title">Community<br>Management</div>
+      <div class="svc-desc">DMs, comments, and replies handled with the same voice as your content. We don't outsource the conversation — the team that made it is the team that replies.</div>
+      <div class="svc-arrow">→</div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-num">05</div>
+      <div class="svc-title">Event Branding<br>&amp; Marketing</div>
+      <div class="svc-desc">On-ground coverage, event content strategy, and real-time social for launches, pop-ups, and campaigns. We capture the moment and make it last online.</div>
+      <div class="svc-arrow">→</div>
+    </div>
+  </div>
+</section>
+
 <!-- Package -->
 <section class="package">
   <div class="package-inner">
     <div>
-      <div class="package-tag">◎ THE PACKAGE · 01</div>
-      <h2>Full TikTok &amp; Instagram <em>management.</em></h2>
+      <div class="package-tag">◎ THE PACKAGE · 02</div>
+      <h2>Full social media <em>management.</em></h2>
+      <p style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-top: 16px;">Instagram · TikTok · Facebook · Lemon8 · Xiaohongshu</p>
       <p style="color: color-mix(in oklch, var(--cream) 70%, transparent); font-size: 16px; line-height: 1.6; max-width: 420px; margin-top: 28px;">
         One retainer, every deliverable, one monthly cycle. It isn't a half-step — you'll experience the full scope of what working with us feels like.
       </p>
@@ -288,6 +382,23 @@
       </div>
     </div>
   </div>
+  <div class="content-types-wrap">
+    <span class="content-types-label">Content we create</span>
+    <div class="content-chips">
+      <span class="content-chip">Short-form video</span>
+      <span class="content-chip">Reels &amp; TikToks</span>
+      <span class="content-chip">Product photography</span>
+      <span class="content-chip">Lifestyle shoots</span>
+      <span class="content-chip">Editorial statics</span>
+      <span class="content-chip">Stories &amp; carousels</span>
+      <span class="content-chip">Event coverage</span>
+      <span class="content-chip">Behind-the-scenes</span>
+      <span class="content-chip">UGC-style content</span>
+      <span class="content-chip">Campaign videos</span>
+      <span class="content-chip">Brand films</span>
+      <span class="content-chip">Captions &amp; copy</span>
+    </div>
+  </div>
 </section>
 
 <!-- Compare -->
@@ -316,16 +427,41 @@
       </ul>
     </div>
     <div class="compare-col us">
-      <div class="eyebrow" style="margin-bottom: 8px; color: color-mix(in oklch, var(--cream) 60%, transparent);">KACI Studio</div>
+      <div class="eyebrow" style="margin-bottom: 8px; color: color-mix(in oklch, var(--cream) 60%, transparent);">KACISTUDIO</div>
       <h3>Built <em>around you.</em></h3>
       <ul>
         <li>Custom strategy every month, by the team that shot your content</li>
-        <li>One flat monthly retainer, after a $500 starter deposit</li>
+        <li>One flat monthly retainer, month-to-month</li>
         <li>Same studio, same voice — from shoot day to DM reply</li>
         <li>Brand-first: trends serve the story, not the other way around</li>
         <li>Monthly reviews that actually shape next month's plan</li>
         <li>Month-to-month — <em>you decide</em> if it feels right</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Why KACISTUDIO -->
+<section class="why-section">
+  <div class="why-head reveal">
+    <div class="eyebrow" style="margin-bottom: 20px;">◎ WHY US · 03</div>
+    <h2 style="font-size: clamp(44px, 6vw, 88px);">Three reasons<br>brands <em>choose us.</em></h2>
+  </div>
+  <div class="why-grid reveal">
+    <div class="why-item">
+      <div class="why-num">01</div>
+      <div class="why-title">Small team,<br><em>big focus.</em></div>
+      <div class="why-desc">We cap our roster at two new brands per quarter. The person on your discovery call is the same person editing your reels — no account managers, no handoffs.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">02</div>
+      <div class="why-title">Story-first content,<br><em>always.</em></div>
+      <div class="why-desc">Every piece of content is written by humans who know your brand. No AI captions, no trending-audio cosplay, no recycled templates. If it doesn't say something, it doesn't get made.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">03</div>
+      <div class="why-title">A true <em>creative partner.</em></div>
+      <div class="why-desc">We work as an extension of your team — strategy to storyboard to shoot day to final post. Month-to-month, so we earn your trust every cycle instead of locking it in.</div>
     </div>
   </div>
 </section>
@@ -342,40 +478,33 @@
       <div class="faq-item">
         <div class="faq-num">(01)</div>
         <div>
-          <div class="faq-q">What's the <em>$500 deposit</em> for?</div>
-          <div class="faq-a">It's a small commitment upfront that holds your slot and respects the time, energy, and intention we're about to pour into your brand. After month one, you decide how much you'd like to pay based on your experience and budget. We start with trust and build from there.</div>
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-num">(02)</div>
-        <div>
           <div class="faq-q">Can I pick and choose deliverables?</div>
           <div class="faq-a">We offer full-scope management only. It's not a flex — it's the only way we can deliver the kind of cohesive, story-first social presence we're known for. One voice, one rhythm, one studio.</div>
         </div>
       </div>
       <div class="faq-item">
-        <div class="faq-num">(03)</div>
+        <div class="faq-num">(02)</div>
         <div>
           <div class="faq-q">Do you work with brands <em>outside Singapore?</em></div>
           <div class="faq-a">Yes — we're Singapore-based, but our clients are global. Shoot days happen in SG; everything else (strategy, editing, management, community) works asynchronously across time zones.</div>
         </div>
       </div>
       <div class="faq-item">
-        <div class="faq-num">(04)</div>
+        <div class="faq-num">(03)</div>
         <div>
           <div class="faq-q">How long is the commitment?</div>
-          <div class="faq-a">Month-to-month. After the starter deposit, every cycle ends with a review — you decide if it feels right to continue. We'd rather earn the next month than lock one in.</div>
+          <div class="faq-a">Month-to-month. Every cycle ends with a review — you decide if it feels right to continue. We'd rather earn the next month than lock one in.</div>
         </div>
       </div>
       <div class="faq-item">
-        <div class="faq-num">(05)</div>
+        <div class="faq-num">(04)</div>
         <div>
           <div class="faq-q">Who owns the content we make together?</div>
           <div class="faq-a">You do. All raw footage, edits, photography, and brand assets from shoot day are yours to keep, use, and repurpose — forever.</div>
         </div>
       </div>
       <div class="faq-item">
-        <div class="faq-num">(06)</div>
+        <div class="faq-num">(05)</div>
         <div>
           <div class="faq-q">How soon can we start?</div>
           <div class="faq-a">We take on a limited number of brands per quarter so we can show up with intention. Reach out — if we're a fit, we'll propose the nearest available slot.</div>

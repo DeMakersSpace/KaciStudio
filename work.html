@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Work — KACI Studio</title>
+<meta name="description" content="Case studies from Brixx Derma, Flyco, Melissa Shoes, and more.">
+<title>Work — KACISTUDIO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -153,26 +154,78 @@
 
 /* Cover types */
 .cover-resurrack {
-  background: linear-gradient(135deg, oklch(58% 0.14 38) 0%, oklch(42% 0.12 32) 100%);
-  color: var(--cream);
+  background: var(--fg);
+  color: var(--bg);
 }
+.cover-resurrack .big-type { color: var(--accent); }
+
 .cover-flyco {
-  background: var(--olive);
-  color: var(--cream);
-}
-.cover-brixx {
   background: var(--espresso);
-  color: var(--cream);
+  color: var(--bg);
+  aspect-ratio: 4/5.5;
 }
-.cover-brixx .big-type { color: var(--accent); }
-.cover-resurrack .big-type { color: var(--cream); }
-.cover-flyco .big-type { color: var(--cream); }
+.cover-flyco .big-type { color: var(--accent); }
+
+.cover-brixx {
+  background: var(--olive);
+  color: var(--bg);
+}
+.cover-brixx .big-type { color: var(--bg); }
+
+.cover-melissa {
+  background: var(--accent);
+  color: var(--espresso);
+  aspect-ratio: 4/6;
+}
+.cover-melissa .big-type { color: var(--espresso); }
+
+.cover-coffeeman {
+  background: var(--bg-alt);
+  color: var(--fg);
+}
+.cover-coffeeman .big-type { color: var(--fg); }
+
+/* Hover photo reveal — second card peeking underneath */
+.case-visual-wrap {
+  position: relative;
+}
+.case-visual-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: color-mix(in oklch, var(--accent) 22%, var(--bg-alt));
+  transform: rotate(3deg) translate(14px, 14px) scale(0.97);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+}
+.case-visual-wrap .case-visual {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.case-visual-wrap:hover .case-visual {
+  transform: rotate(-1.5deg) translate(-6px, -6px);
+}
+.case-visual-wrap:hover::after {
+  transform: rotate(5.5deg) translate(22px, 22px) scale(0.93);
+}
 
 @media (max-width: 900px) {
   .work-intro { grid-template-columns: 1fr; }
   .work-intro-meta { justify-self: start; text-align: left; }
   .case, .case.reverse { grid-template-columns: 1fr; direction: ltr; }
   .case-stats { grid-template-columns: repeat(3, 1fr); }
+  .case-visual-wrap:hover .case-visual { transform: none; }
+  .case-visual-wrap::after { display: none; }
+}
+
+@media (max-width: 430px) {
+  .work-hero h1 { font-size: clamp(36px, 9vw, 52px); }
+  .case-visual { min-height: 280px; }
+  .big-type { font-size: clamp(40px, 12vw, 64px); }
+  .case-stats { grid-template-columns: 1fr 1fr; }
+  .case-stat:last-child { grid-column: 1 / -1; }
 }
 </style>
 </head>
@@ -183,7 +236,7 @@
 <section class="work-hero">
   <div class="work-hero-top">
     <div class="eyebrow">◎ SELECTED WORK · 2024–2026</div>
-    <div class="eyebrow">CASE STUDIES <span style="color: var(--accent);">●</span> 03</div>
+    <div class="eyebrow">CASE STUDIES <span style="color: var(--accent);">●</span> 05</div>
   </div>
   <h1>Brands we've<br><em>grown</em> with.</h1>
 </section>
@@ -192,18 +245,20 @@
   <p><strong>We don't do volume, we do velocity.</strong> A small roster of brands we genuinely care about, each with a studio-level content engine behind it. Every piece here was written, shot, edited, and posted by the same small team.</p>
   <div class="work-intro-meta">
     <span>Singapore&nbsp;·&nbsp;Remote</span>
-    <span>Lifestyle&nbsp;·&nbsp;Beauty&nbsp;·&nbsp;Tech</span>
-    <span>TikTok&nbsp;·&nbsp;Instagram</span>
+    <span>Lifestyle&nbsp;·&nbsp;Beauty&nbsp;·&nbsp;Fashion&nbsp;·&nbsp;F&amp;B</span>
+    <span>TikTok&nbsp;·&nbsp;Instagram&nbsp;·&nbsp;Telegram</span>
   </div>
 </section>
 
 <section class="cases">
   <!-- Case 01 -->
   <article class="case">
+    <div class="case-visual-wrap">
     <div class="case-visual ph cover-resurrack">
       <div class="ph-label" style="opacity: 0.8;">CASE · 001 · 2025</div>
       <div class="big-type">Resurrack<br>× LMM</div>
       <div class="ph-label ph-label-br" style="opacity: 0.8;">LIFESTYLE · TT+IG</div>
+    </div>
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 001 · Resurrack × LittleMissMarket</div>
@@ -218,19 +273,8 @@
         <span class="case-chip">Instagram</span>
         <span class="case-chip">Community</span>
       </div>
-      <div class="case-stats">
-        <div class="case-stat">
-          <div class="n"><em>3.2</em>M</div>
-          <div class="l">Organic views</div>
-        </div>
-        <div class="case-stat">
-          <div class="n"><em>+48%</em></div>
-          <div class="l">Follower growth</div>
-        </div>
-        <div class="case-stat">
-          <div class="n"><em>2</em>×</div>
-          <div class="l">Drop sell-through</div>
-        </div>
+      <div style="border-top: 1px solid var(--rule); padding-top: 28px; margin-bottom: 32px;">
+        <p style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-muted);">Results updating — check back soon</p>
       </div>
       <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
     </div>
@@ -238,35 +282,29 @@
 
   <!-- Case 02 -->
   <article class="case reverse">
+    <div class="case-visual-wrap">
     <div class="case-visual ph cover-flyco">
       <div class="ph-label">CASE · 002 · 2025</div>
       <div class="big-type">Flyco.</div>
-      <div class="ph-label ph-label-br">TECH · TT+IG</div>
+      <div class="ph-label ph-label-br">CAMPAIGN · TT</div>
+    </div>
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 002 · Flyco</div>
-      <h2>Making tech<br><em>feel human.</em></h2>
+      <h2>Pop-worthy,<br>personally <em>yours.</em></h2>
       <p class="deck">
-        <strong>Flyco</strong> needed a social presence that matched the quiet confidence of their product. We leaned hard into <em>"unboxing as ritual"</em> — slow, tactile TikToks that let the engineering speak for itself, and IG carousels that treated product detail shots like still life.
+        <strong>Flyco</strong> brought us their Blackpink concert campaign — a moment to put their customisable luggage in front of fans who live for bold self-expression. We built a video campaign that spoke the language of the BLINK community: high-energy, trend-aware, and visually unmissable. The result felt less like advertising and more like fan culture.
       </p>
       <div class="case-chips">
-        <span class="case-chip">Content strategy</span>
-        <span class="case-chip">Brand voice</span>
-        <span class="case-chip">Shoot day</span>
+        <span class="case-chip">Campaign Strategy</span>
+        <span class="case-chip">Video Production</span>
+        <span class="case-chip">Shoot Day</span>
         <span class="case-chip">Editing</span>
       </div>
       <div class="case-stats">
         <div class="case-stat">
-          <div class="n"><em>18</em>%</div>
-          <div class="l">Avg. engagement rate</div>
-        </div>
-        <div class="case-stat">
-          <div class="n"><em>4</em>×</div>
-          <div class="l">Saves per post</div>
-        </div>
-        <div class="case-stat">
-          <div class="n"><em>#1</em></div>
-          <div class="l">On brand hashtag</div>
+          <div class="n"><em>23K+</em></div>
+          <div class="l">Campaign video views</div>
         </div>
       </div>
       <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
@@ -275,10 +313,12 @@
 
   <!-- Case 03 -->
   <article class="case">
+    <div class="case-visual-wrap">
     <div class="case-visual ph cover-brixx">
       <div class="ph-label" style="opacity: 0.7;">CASE · 003 · 2026</div>
       <div class="big-type">Brixx<br>Derma</div>
       <div class="ph-label ph-label-br" style="opacity: 0.7;">BEAUTY · SKIN</div>
+    </div>
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 003 · Brixx Derma</div>
@@ -291,20 +331,100 @@
         <span class="case-chip">Strategy</span>
         <span class="case-chip">Education</span>
         <span class="case-chip">Community</span>
+        <span class="case-chip">Telegram</span>
         <span class="case-chip">Product drops</span>
       </div>
       <div class="case-stats">
         <div class="case-stat">
-          <div class="n"><em>0→62</em>k</div>
-          <div class="l">TikTok in 90 days</div>
+          <div class="n"><em>30K+</em></div>
+          <div class="l">Instagram views (73% new)</div>
         </div>
         <div class="case-stat">
-          <div class="n"><em>31</em>%</div>
-          <div class="l">DM-to-cart rate</div>
+          <div class="n"><em>+500%</em></div>
+          <div class="l">TikTok view growth</div>
         </div>
         <div class="case-stat">
-          <div class="n"><em>4.9</em></div>
-          <div class="l">Avg. saved reviews</div>
+          <div class="n"><em>+1,700%</em></div>
+          <div class="l">TikTok likes growth</div>
+        </div>
+      </div>
+      <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
+    </div>
+  </article>
+
+  <!-- Case 04 -->
+  <article class="case reverse">
+    <div class="case-visual-wrap">
+    <div class="case-visual ph cover-melissa">
+      <div class="ph-label">CASE · 004 · 2025</div>
+      <div class="big-type">Melissa<br>Shoes</div>
+      <div class="ph-label ph-label-br">FASHION · FW</div>
+    </div>
+    </div>
+    <div class="case-body">
+      <div class="eyebrow">CASE 004 · Melissa Shoes</div>
+      <h2>Gen Z ready,<br><em>future-facing.</em></h2>
+      <p class="deck">
+        <strong>Melissa Shoes</strong> came to us needing a shift away from static product visuals toward story-driven, motion-first content. We created a campaign connecting Gen Z and millennials through culturally relevant, trend-led videos that position Melissa as playful, future-facing, and fashion-forward.
+      </p>
+      <div class="case-chips">
+        <span class="case-chip">Content Creation</span>
+        <span class="case-chip">Brand Voice</span>
+        <span class="case-chip">Strategy</span>
+        <span class="case-chip">Motion Video</span>
+        <span class="case-chip">Gen Z</span>
+      </div>
+      <div class="case-stats">
+        <div class="case-stat">
+          <div class="n"><em>10K+</em></div>
+          <div class="l">Views across campaigns</div>
+        </div>
+        <div class="case-stat">
+          <div class="n"><em>900%+</em></div>
+          <div class="l">Audience interaction uplift</div>
+        </div>
+        <div class="case-stat">
+          <div class="n"><em>↑</em></div>
+          <div class="l">Outperformed baseline</div>
+        </div>
+      </div>
+      <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
+    </div>
+  </article>
+
+  <!-- Case 05 -->
+  <article class="case">
+    <div class="case-visual-wrap">
+    <div class="case-visual ph cover-coffeeman">
+      <div class="ph-label">CASE · 005 · 2025</div>
+      <div class="big-type">Coffee<br>man</div>
+      <div class="ph-label ph-label-br">FOOD &amp; BEVERAGE</div>
+    </div>
+    </div>
+    <div class="case-body">
+      <div class="eyebrow">CASE 005 · Coffeeman@NYP</div>
+      <h2>Craft,<br><em>captured.</em></h2>
+      <p class="deck">
+        <strong>Coffeeman@NYP</strong> needed to create buzz for their new menu and showcase the craft behind each dish. We built content that let the food speak — intimate, warm, and intentional.
+      </p>
+      <div class="case-chips">
+        <span class="case-chip">Content Creation</span>
+        <span class="case-chip">Food &amp; Beverage</span>
+        <span class="case-chip">Launch Campaign</span>
+        <span class="case-chip">Community</span>
+      </div>
+      <div class="case-stats">
+        <div class="case-stat">
+          <div class="n"><em>1K+</em></div>
+          <div class="l">Views per video</div>
+        </div>
+        <div class="case-stat">
+          <div class="n"><em>92%</em></div>
+          <div class="l">New audiences reached</div>
+        </div>
+        <div class="case-stat">
+          <div class="n"><em>100s</em></div>
+          <div class="l">Of interactions</div>
         </div>
       </div>
       <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>

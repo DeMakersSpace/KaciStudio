@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en" data-theme="sand" data-density="normal" data-grain="on" data-hero="split" data-headline="v1">
+<html lang="en" data-theme="sand" data-density="normal" data-grain="on">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KACI Studio — We don't just manage socials, we tell stories.</title>
+<meta name="description" content="KACISTUDIO is a Singapore-based social media studio. We help brands tell their story with intention across TikTok, Instagram, and beyond.">
+<title>KACISTUDIO — Where your story meets socials.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -11,13 +12,6 @@
 <style>
 /* ---------------- Home-specific ---------------- */
 
-/* Hero variants — shown/hidden via [data-hero] on html */
-html[data-hero="marquee"] #hero-marquee { display: block; }
-html[data-hero="split"]   #hero-split   { display: grid; }
-html[data-hero="type"]    #hero-type    { display: block; }
-html:not([data-hero="marquee"]) #hero-marquee,
-html:not([data-hero="split"])   #hero-split,
-html:not([data-hero="type"])    #hero-type { display: none; }
 
 /* Hero — MARQUEE variant */
 .hero-marquee-inner {
@@ -105,6 +99,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
 /* Hero — SPLIT variant */
 #hero-split {
+  display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 0;
   min-height: 80vh;
@@ -119,33 +114,202 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   gap: 60px;
 }
 .split-right {
-  background: var(--espresso);
+  background: var(--fg);
   position: relative;
   overflow: hidden;
   min-height: 600px;
-}
-.split-right .ph-card {
-  position: absolute;
-  inset: 32px;
-  background:
-    linear-gradient(135deg, oklch(50% 0.13 36) 0%, oklch(35% 0.08 42) 100%);
-  border-radius: 4px;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  padding: 32px;
-  color: var(--cream);
+  align-items: center;
+  justify-content: center;
 }
-.split-right .ph-float {
+
+/* ── Hero Card Cluster — polaroid scatter ── */
+.hero-star {
+  position: relative;
+  width: 520px;
+  height: 620px;
+  flex-shrink: 0;
+}
+
+@keyframes hsc-drop {
+  from {
+    opacity: 0;
+    transform: rotate(var(--rot)) translate(var(--tx, 0px), var(--ty, 0px)) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--rot)) translate(0px, 0px) scale(1);
+  }
+}
+
+.hsc {
   position: absolute;
-  top: 80px; right: 80px;
-  width: 180px; height: 240px;
-  background: var(--cream);
-  border-radius: 2px;
-  transform: rotate(4deg);
-  box-shadow: 0 30px 80px -20px oklch(18% 0.02 50 / 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+  --rot: 0deg;
+  --drop-delay: 0ms;
+  border: 3px solid rgba(248, 246, 218, 0.72);
+  transform: rotate(var(--rot)) translateY(0px);
+  transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.38s ease;
+  box-shadow: 3px 6px 24px rgba(0, 0, 0, 0.32), 1px 2px 7px rgba(0, 0, 0, 0.16);
+  animation: hsc-drop 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--drop-delay);
 }
-.split-right .ph-float .ph-label { color: var(--espresso); opacity: 0.5; }
+
+.hsc:hover {
+  transform: rotate(calc(var(--rot) * 0.3)) translateY(-14px) scale(1.05);
+  z-index: 10;
+  box-shadow: 6px 16px 44px rgba(0, 0, 0, 0.40), 2px 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.hsc-label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.hsc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─ Pile A: top-left cluster ─ */
+
+.hsc-pa {
+  width: 168px; height: 210px;
+  top: 28px; left: 18px;
+  --rot: -7deg;
+  background: #B59E7D;
+  z-index: 2;
+}
+
+.hsc-st {
+  width: 158px; height: 202px;
+  top: 12px; left: 138px;
+  --rot: 5.5deg;
+  background: #93A9D2;
+  z-index: 3;
+}
+
+.hsc-wide {
+  width: 170px; height: 160px;
+  top: 8px; left: 258px;
+  --rot: -8deg;
+  background: #93A9D2;
+  z-index: 4;
+}
+
+/* ─ Pile B: centre anchor ─ */
+
+.hsc-bt {
+  width: 162px; height: 162px;
+  top: 296px; left: 22px;
+  --rot: -3.5deg;
+  background: #00145D;
+  z-index: 3;
+}
+
+.hsc-logo {
+  width: 185px; height: 118px;
+  top: 251px; left: 168px;
+  --rot: 1.5deg;
+  background: #F8F6DA;
+  border-color: rgba(88, 71, 56, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  z-index: 5;
+}
+
+/* ─ Pile C: right column ─ */
+
+.hsc-sq4 {
+  width: 90px; height: 90px;
+  top: 162px; left: 410px;
+  --rot: 8deg;
+  background: #00145D;
+  z-index: 1;
+}
+
+.hsc-pb {
+  width: 155px; height: 206px;
+  top: 238px; left: 348px;
+  --rot: 6.5deg;
+  background: #B59E7D;
+  z-index: 2;
+}
+
+/* ─ Bottom scatter ─ */
+
+.hsc-sqa {
+  width: 148px; height: 148px;
+  top: 440px; left: 52px;
+  --rot: -6deg;
+  background: #B59E7D;
+  z-index: 2;
+}
+
+.hsc-sq3 {
+  width: 138px; height: 118px;
+  top: 478px; left: 182px;
+  --rot: 5deg;
+  background: #93A9D2;
+  z-index: 3;
+}
+
+.hsc-sqb {
+  width: 108px; height: 108px;
+  top: 438px; left: 362px;
+  --rot: -7deg;
+  background: #00145D;
+  z-index: 1;
+}
+
+/* logo card only needs a subtle border (it's the sole light card) */
+
+/* fly-out origin: (logo-center) minus (each card's own center) */
+.hsc-pa   { --tx:  158px; --ty:  177px; }
+.hsc-st   { --tx:   43px; --ty:  197px; }
+.hsc-wide { --tx:  -83px; --ty:  222px; }
+.hsc-bt   { --tx:  157px; --ty:  -67px; }
+.hsc-sq4  { --tx: -195px; --ty:  103px; }
+.hsc-pb   { --tx: -166px; --ty:  -31px; }
+.hsc-sqa  { --tx:  134px; --ty: -204px; }
+.hsc-sq3  { --tx:    9px; --ty: -227px; }
+.hsc-sqb  { --tx: -156px; --ty: -182px; }
+
+.hsc-logo-name {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.hsc-logo-name span { color: var(--accent); font-style: italic; }
+.hsc-logo-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hsc { transition: none; animation: none; }
+}
 
 .split-headline {
   font-family: var(--font-serif);
@@ -186,7 +350,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
 /* Client ticker bar */
 .client-bar {
-  background: var(--espresso);
+  background: var(--fg);
   color: var(--cream);
   padding: 22px 0;
   overflow: hidden;
@@ -261,7 +425,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
 /* Process section */
 .process {
-  background: var(--espresso);
+  background: var(--fg);
   color: var(--cream);
   position: relative;
   overflow: hidden;
@@ -415,93 +579,134 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   color: var(--fg-muted);
 }
 
-/* Deposit callout */
-.deposit-card {
-  background: var(--accent);
-  color: var(--cream);
-  padding: clamp(48px, 6vw, 80px);
-  border-radius: 4px;
+
+/* Client Love Letters */
+.love {
+  background: var(--bg-alt);
+  padding: var(--pad-section-y) var(--pad-gutter);
+}
+.love-inner { max-width: 1440px; margin: 0 auto; }
+.love-head {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: center;
+  align-items: end;
+  margin-bottom: var(--stack-lg);
 }
-.deposit-card .big {
+.love-head h2 { font-size: clamp(44px, 6vw, 88px); }
+.love-head h2 em { font-style: italic; color: var(--accent); }
+.love-placeholder-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  opacity: 0.7;
+  margin-bottom: 16px;
+  display: block;
+}
+.love-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.love-card {
+  border: 1px solid var(--olive);
+  border-radius: 4px;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  opacity: 0.55;
+  background: var(--bg);
+  min-height: 340px;
+}
+.love-quote {
   font-family: var(--font-serif);
-  font-size: clamp(64px, 10vw, 160px);
-  line-height: 0.85;
-  letter-spacing: -0.04em;
+  font-size: clamp(18px, 1.8vw, 26px);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  flex: 1;
 }
-.deposit-card .big em { font-style: italic; color: oklch(88% 0.028 72); }
-.deposit-card p {
-  font-size: 16px;
-  line-height: 1.55;
-  opacity: 0.9;
-  max-width: 420px;
+.love-quote::before {
+  content: '\201C';
+  color: var(--accent);
+  font-size: 1.5em;
+  line-height: 0;
+  vertical-align: -0.35em;
+  margin-right: 2px;
 }
-.deposit-card .btn {
-  margin-top: 32px;
-  background: var(--cream);
-  color: var(--espresso);
+.love-quote::after {
+  content: '\201D';
+  color: var(--accent);
+  font-size: 1.5em;
+  line-height: 0;
+  vertical-align: -0.35em;
+  margin-left: 2px;
+}
+.love-client {
+  border-top: 1px solid color-mix(in oklch, var(--olive) 35%, transparent);
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.love-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+.love-brand {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
 }
 
 /* Responsive */
+@media (max-width: 1150px) {
+  .hero-star { zoom: 0.84; }
+}
+
 @media (max-width: 900px) {
   .hero-cap { flex-direction: column; align-items: flex-start; }
   #hero-split { grid-template-columns: 1fr; min-height: auto; }
-  .split-right { min-height: 420px; }
-  .services-head, .process-head, .process-grid, .work-grid, .stats, .deposit-card {
+  .split-right { min-height: 460px; }
+  .hero-star { zoom: 0.68; }
+  .services-head, .process-head, .process-grid, .work-grid, .stats {
     grid-template-columns: 1fr;
   }
   .svc-row { grid-template-columns: 40px 1fr; gap: 16px; }
   .svc-row .svc-desc, .svc-row .svc-arrow { grid-column: 2; }
   .stat { border-right: 0; border-bottom: 1px solid var(--rule); }
   .type-hero-grid { grid-template-columns: 1fr; gap: 20px; }
+  .love-head, .love-grid { grid-template-columns: 1fr; }
 }
+
+@media (max-width: 768px) {
+  .split-right { min-height: 380px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 430px) {
+  .split-headline { font-size: clamp(36px, 9vw, 52px); }
+  .hero-btns { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .hero-star { zoom: 0.52; }
+  .client-bar { padding: 14px 0; }
+  .client-bar .marquee-track { font-size: 11px; }
+  .svc-title { font-size: clamp(18px, 4vw, 22px); }
+  .stats { grid-template-columns: 1fr; }
+  .process-num { font-size: 10px; }
+  .pull blockquote { font-size: clamp(28px, 8vw, 40px); }
+  .love-card { padding: 20px; }
+}
+
 </style>
 </head>
 <body>
 
 <div id="nav-slot"></div>
-
-<!-- ============= HERO: MARQUEE (default) ============= -->
-<section id="hero-marquee" class="section" style="padding-top: 0; padding-bottom: 0;">
-  <div class="hero-marquee-inner">
-    <div class="hero-marquee-top">
-      <div class="hero-supertitle">
-        <span class="tag">Singapore 🇸🇬</span>
-        <span>Social&nbsp;·&nbsp;Strategy&nbsp;·&nbsp;Story</span>
-      </div>
-      <div class="hero-eyebrow-cluster">
-        <strong>A social media studio</strong> built by Gen Z creatives for brands who want to be stopped for — not scrolled past.
-      </div>
-    </div>
-
-    <h1 class="hero-headline">
-      <span class="hl-v1">We tell<br><em>stories</em>, not<br><span class="stroke">posts</span>.</span>
-      <span class="hl-v2">Stop the<br><em>scroll</em>.<br>Start a <span class="stroke">story</span>.</span>
-      <span class="hl-v3">Strategy<br>with <em>soul</em>.<br>Story with <span class="stroke">structure</span>.</span>
-    </h1>
-
-    <div class="hero-cap">
-      <p class="hero-cap-desc">
-        <strong>KACI Studio</strong> is a Singapore-based social media agency run by Gen Z creatives. We help lifestyle, beauty, and wellness brands build authentic, strategic, and emotionally resonant digital identities.
-      </p>
-      <div class="hero-cap-right">
-        <a href="contact.html" class="btn btn-primary">Book a discovery call <span class="arrow">→</span></a>
-        <a href="work.html" class="btn btn-ghost">See the work</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Marquee strip -->
-  <div class="marquee" style="margin-top: clamp(40px, 5vw, 72px);">
-    <div class="marquee-track">
-      <span>TikTok management <span class="dot"></span> Content creation <span class="dot"></span> Strategy &amp; calendar <span class="dot"></span> Community growth <span class="dot"></span> <em>Story-first</em> &nbsp;·&nbsp; </span>
-      <span>TikTok management <span class="dot"></span> Content creation <span class="dot"></span> Strategy &amp; calendar <span class="dot"></span> Community growth <span class="dot"></span> <em>Story-first</em> &nbsp;·&nbsp; </span>
-    </div>
-  </div>
-</section>
 
 <!-- ============= HERO: SPLIT ============= -->
 <section id="hero-split" class="section">
@@ -513,63 +718,53 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       </div>
     </div>
     <h1 class="split-headline">
-      We don't just manage<br>socials — we tell<br><em>stories.</em>
+      Where your story<br>meets <em>socials.</em>
     </h1>
     <div style="display: flex; gap: 40px; align-items: flex-end; flex-wrap: wrap;">
-      <p style="max-width: 380px; font-size: 16px; line-height: 1.55; color: var(--fg-muted);">
-        Run by Gen Z creatives who know what today's audiences <strong style="color: var(--fg);">stop scrolling for</strong>. Strategy with soul. Storytelling with structure.
-      </p>
-      <div style="display: flex; gap: 10px;">
+      <div style="display: flex; gap: 10px;" class="hero-btns">
         <a href="contact.html" class="btn btn-primary">Start a project <span class="arrow">→</span></a>
         <a href="services.html" class="btn btn-ghost">What we do</a>
       </div>
     </div>
   </div>
   <div class="split-right">
-    <div class="ph ph-stripe ph-card">
-      <div>
-        <div class="ph-label" style="color: var(--cream); opacity: 0.7;">LIFESTYLE · 04:21</div>
-        <div style="font-family: var(--font-serif); font-size: 40px; font-style: italic; line-height: 1;">
-          On set<br>with Brixx
-        </div>
+    <div class="hero-star">
+
+      <!-- Logo appears first — everything flies out from here -->
+      <div class="hsc hsc-logo" style="--drop-delay:0ms">
+        <div class="hsc-logo-name">KACI<span>STUDIO</span></div>
+        <div class="hsc-logo-sub">SG · Est. 2024</div>
       </div>
-    </div>
-    <div class="ph ph-float">
-      <div class="ph-label">REEL · 0:15</div>
-    </div>
-  </div>
-</section>
 
-<!-- ============= HERO: TYPE ============= -->
-<section id="hero-type">
-  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; padding-bottom: 40px;">
-    <div class="hero-supertitle">
-      <span class="tag">KACI Studio</span>
-      <span>SG · Social media agency · Est. 2024</span>
-    </div>
-    <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; text-align: right; color: var(--fg-muted); max-width: 280px; line-height: 1.7;">
-      A social media studio<br>for brands that care about<br><span style="color: var(--fg);">how they're remembered</span>
-    </div>
-  </div>
+      <!-- Pile A: top-left cluster -->
+      <div class="hsc hsc-pa" style="--drop-delay:80ms">
+        <div class="hsc-label">Portrait · 01</div>
+      </div>
+      <div class="hsc hsc-st" style="--drop-delay:120ms">
+        <div class="hsc-label">Story · BTS</div>
+      </div>
+      <div class="hsc hsc-wide" style="--drop-delay:160ms">
+        <div class="hsc-label">Editorial · SG</div>
+      </div>
 
-  <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
-    <div class="type-hero-word">
-      stop the<br><em>scroll.</em>
-    </div>
-  </div>
+      <!-- Pile B: centre anchor -->
+      <div class="hsc hsc-bt" style="--drop-delay:100ms">
+        <div class="hsc-label">BTS · On set</div>
+      </div>
 
-  <div class="type-hero-grid">
-    <div>
-      <div class="eyebrow" style="margin-bottom: 10px;">What we are</div>
-      Singapore-based social media agency, run by Gen Z creatives.
-    </div>
-    <div>
-      <div class="eyebrow" style="margin-bottom: 10px;">What we do</div>
-      Full-scope TikTok &amp; Instagram. Strategy, content, community.
-    </div>
-    <div style="display: flex; gap: 8px; align-self: end;">
-      <a href="contact.html" class="btn btn-primary">Inquire →</a>
-      <a href="services.html" class="btn btn-ghost">Services</a>
+      <!-- Pile C: right column -->
+      <div class="hsc hsc-sq4" style="--drop-delay:200ms"></div>
+      <div class="hsc hsc-pb" style="--drop-delay:140ms">
+        <div class="hsc-label">Portrait · 02</div>
+      </div>
+
+      <!-- Bottom scatter -->
+      <div class="hsc hsc-sqa" style="--drop-delay:220ms"></div>
+      <div class="hsc hsc-sq3" style="--drop-delay:255ms">
+        <div class="hsc-label">Studio · Kit</div>
+      </div>
+      <div class="hsc hsc-sqb" style="--drop-delay:275ms"></div>
+
     </div>
   </div>
 </section>
@@ -592,34 +787,37 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
         <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
         <h2>A full-scope<br>social studio<br><em>for growing brands.</em></h2>
       </div>
-      <div style="max-width: 380px; font-size: 16px; line-height: 1.6; color: var(--fg-muted);">
-        Whether you're a growing business or an emerging brand, we work as an extension of your team — blending strategy with soul, and storytelling with structure.
-      </div>
     </div>
 
     <div class="services-list reveal">
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(01)</div>
         <div class="svc-title">Social media management</div>
-        <div class="svc-desc">Full TikTok &amp; Instagram management — editing, scheduling, captions, DMs. We become the voice behind the feed.</div>
+        <div class="svc-desc">TikTok &amp; Instagram — editing, scheduling, captions, and community.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(02)</div>
         <div class="svc-title">Content creation</div>
-        <div class="svc-desc">One shoot day. Eight TikToks, four IG reels, four static posts, eight stories — all shot, edited, and captioned by us.</div>
+        <div class="svc-desc">One shoot day. Eight TikToks, four reels, eight stories.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(03)</div>
         <div class="svc-title">Strategy &amp; calendar</div>
-        <div class="svc-desc">A custom content plan built around your brand's story, audience, and goals — not a generic template.</div>
+        <div class="svc-desc">A custom content plan built around your brand's story.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(04)</div>
         <div class="svc-title">Community growth</div>
-        <div class="svc-desc">Real engagement with real humans. We reply, we listen, we build the kind of loyalty algorithms can't buy.</div>
+        <div class="svc-desc">Real engagement. The kind of loyalty algorithms can't buy.</div>
+        <div class="svc-arrow">Read more →</div>
+      </a>
+      <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
+        <div class="svc-num">(05)</div>
+        <div class="svc-title">Event Branding &amp; Marketing</div>
+        <div class="svc-desc">On-ground coverage for launches, pop-ups, and campaigns.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
     </div>
@@ -656,41 +854,35 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div class="process-head reveal">
       <div>
         <div class="eyebrow" style="margin-bottom: 20px;">◎ HOW WE WORK · 02</div>
-        <h2>Six steps,<br><em>one studio</em>,<br>zero guesswork.</h2>
+        <h2>Five steps,<br><em>one studio</em>,<br>zero guesswork.</h2>
       </div>
-      <p>We start with trust, and build from there. Every stage is designed to let you see the work, feel the pace, and decide if it feels right before committing.</p>
     </div>
 
     <div class="process-grid reveal">
       <div class="process-step">
         <div class="process-num">STEP 01</div>
-        <div class="process-title">Inquiry</div>
-        <div class="process-desc">DM us or drop us an email. No forms, no funnels — just a real conversation to get started.</div>
+        <div class="process-title">Discover<br>&amp; <em>Align</em></div>
+        <div class="process-desc">We meet in person to understand your brand and see if we're the right fit.</div>
       </div>
       <div class="process-step">
         <div class="process-num">STEP 02</div>
-        <div class="process-title">Discovery<br>call</div>
-        <div class="process-desc">A quick chat to understand your brand — your story, your goals, your why.</div>
+        <div class="process-title">Research<br>&amp; <em>Strategy</em></div>
+        <div class="process-desc">A deep audit and custom strategy, built for your brand specifically.</div>
       </div>
       <div class="process-step">
         <div class="process-num">STEP 03</div>
-        <div class="process-title"><em>Strategy</em><br>presentation</div>
-        <div class="process-desc">We put together a custom content plan and calendar, designed just for you.</div>
+        <div class="process-title">Content<br><em>Planning</em></div>
+        <div class="process-desc">Full content calendar — captions, creative direction, and timing.</div>
       </div>
       <div class="process-step">
         <div class="process-num">STEP 04</div>
-        <div class="process-title">Shoot day</div>
-        <div class="process-desc">We handle planning and production. You show up. We make it easy.</div>
+        <div class="process-title">Creation<br>&amp; <em>Approval</em></div>
+        <div class="process-desc">We shoot, edit, share for approval, and refine.</div>
       </div>
       <div class="process-step">
         <div class="process-num">STEP 05</div>
-        <div class="process-title">Content<br>rollout</div>
-        <div class="process-desc">We manage your TikTok &amp; IG — from editing to posting to engaging.</div>
-      </div>
-      <div class="process-step">
-        <div class="process-num">STEP 06</div>
-        <div class="process-title"><em>Review</em></div>
-        <div class="process-desc">At month's end, you decide how much you'd like to pay — based on your experience and budget. We start with trust.</div>
+        <div class="process-title">Execute<br>&amp; <em>Elevate</em></div>
+        <div class="process-desc">Posting, monitoring, and refinement as we grow together.</div>
       </div>
     </div>
   </div>
@@ -705,7 +897,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     </blockquote>
     <div class="attrib">
       <span class="attrib-dot"></span>
-      <span>The KACI promise</span>
+      <span>The KACISTUDIO promise</span>
     </div>
   </div>
 </section>
@@ -721,8 +913,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       <a href="work.html" class="btn btn-ghost">View all work <span class="arrow">→</span></a>
     </div>
 
-    <div class="work-grid reveal">
-      <a href="work.html" class="work-card" style="text-decoration:none; color:inherit;">
+    <div class="work-grid">
+      <a href="work.html" class="work-card reveal" style="--reveal-delay:0ms; text-decoration:none; color:inherit;">
         <div class="ph ph-terra">
           <div class="ph-label" style="color: var(--cream); opacity: 0.8;">CASE · 001</div>
           <div style="position: absolute; bottom: 40px; left: 40px; color: var(--cream); font-family: var(--font-serif); font-size: 56px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
@@ -735,7 +927,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
           <span class="cat">2025 · Lifestyle</span>
         </div>
       </a>
-      <a href="work.html" class="work-card" style="text-decoration:none; color:inherit;">
+      <a href="work.html" class="work-card reveal" style="--reveal-delay:80ms; text-decoration:none; color:inherit;">
         <div class="ph ph-olive">
           <div class="ph-label">CASE · 002</div>
           <div style="position: absolute; bottom: 40px; left: 40px; color: var(--cream); font-family: var(--font-serif); font-size: 48px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
@@ -748,7 +940,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
           <span class="cat">2025 · Tech</span>
         </div>
       </a>
-      <a href="work.html" class="work-card" style="text-decoration:none; color:inherit;">
+      <a href="work.html" class="work-card reveal" style="--reveal-delay:160ms; text-decoration:none; color:inherit;">
         <div class="ph ph-espresso">
           <div class="ph-label" style="color: var(--cream); opacity: 0.7;">CASE · 003</div>
           <div style="position: absolute; bottom: 40px; left: 40px; color: var(--accent); font-family: var(--font-serif); font-size: 48px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
@@ -765,18 +957,37 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   </div>
 </section>
 
-<!-- ============= Deposit ============= -->
-<section class="section">
-  <div class="wrap">
-    <div class="deposit-card reveal">
+
+<!-- ============= Client Love Letters ============= -->
+<section class="love">
+  <div class="love-inner">
+    <div class="love-head reveal">
       <div>
-        <div class="eyebrow" style="color: var(--cream); opacity: 0.7; margin-bottom: 20px;">◎ A SMALL COMMITMENT · 05</div>
-        <div class="big"><em>SGD $500</em><br>to begin.</div>
+        <div class="eyebrow" style="margin-bottom: 20px;">◎ CLIENT LOVE · 05</div>
+        <h2>What our<br><em>clients say.</em></h2>
       </div>
-      <div>
-        <p>Before working on each client's project, we ask for a small deposit of $500 to get started. It's a commitment upfront that holds your slot and respects the time, energy, and intention we're about to pour into your brand.</p>
-        <p style="margin-top: 16px;">Ultimately, we want to show up with intention, prove what we can do, and give you the space to decide if it feels right moving forward.</p>
-        <a href="contact.html" class="btn">Reserve your slot <span class="arrow">→</span></a>
+    </div>
+    <div class="love-grid reveal">
+      <div class="love-card">
+        <p class="love-quote">They don't just post — they think. Every piece of content felt like it came from us, not an agency checklist.</p>
+        <div class="love-client">
+          <div class="love-name">Client Name</div>
+          <div class="love-brand">Brand Name · Industry</div>
+        </div>
+      </div>
+      <div class="love-card">
+        <p class="love-quote">Working with KACISTUDIO felt less like outsourcing and more like gaining a creative co-founder who actually gets the vibe.</p>
+        <div class="love-client">
+          <div class="love-name">Client Name</div>
+          <div class="love-brand">Brand Name · Industry</div>
+        </div>
+      </div>
+      <div class="love-card">
+        <p class="love-quote">Our TikTok went from zero to something we're genuinely proud of. They found our voice before we knew what it sounded like.</p>
+        <div class="love-client">
+          <div class="love-name">Client Name</div>
+          <div class="love-brand">Brand Name · Industry</div>
+        </div>
       </div>
     </div>
   </div>
@@ -790,5 +1001,69 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   KaciChrome.footer();
 </script>
 <script src="assets/tweaks.js"></script>
+<script>
+(function() {
+  var CHIPS = [
+    { icon: '✦', title: 'Small team, big focus.',    desc: 'Every brand gets our full attention.'        },
+    { icon: '◎', title: 'Story-first, always.',       desc: 'We post to connect, not just to post.'      },
+    { icon: '→', title: 'True creative partner.',     desc: 'We grow with you, not just for you.'        },
+    { icon: '✦', title: 'No lock-in contracts.',      desc: 'Month-to-month. We earn it every time.'     },
+    { icon: '◎', title: 'Gen Z fluency.',             desc: 'We live on these platforms. We know them.'  },
+    { icon: '→', title: 'Boutique by design.',        desc: 'Max 2 new brands per quarter. Intentional.' },
+  ];
+
+  var slot = document.getElementById('bucket-chip-slot');
+  if (!slot) return;
+
+  var current = 0;
+  var activeChip = null;
+
+  function createChip(data) {
+    var el = document.createElement('div');
+    el.className = 'bucket-chip';
+
+    var icon = document.createElement('div');
+    icon.className = 'bucket-chip-icon';
+    icon.textContent = data.icon;
+
+    var text = document.createElement('div');
+    text.className = 'bucket-chip-text';
+
+    var title = document.createElement('div');
+    title.className = 'bucket-chip-title';
+    title.textContent = data.title;
+
+    var desc = document.createElement('div');
+    desc.className = 'bucket-chip-desc';
+    desc.textContent = data.desc;
+
+    text.appendChild(title);
+    text.appendChild(desc);
+    el.appendChild(icon);
+    el.appendChild(text);
+    return el;
+  }
+
+  function showNext() {
+    if (activeChip) {
+      var old = activeChip;
+      old.classList.remove('chip-enter');
+      old.classList.add('chip-exit');
+      setTimeout(function() { if (old.parentNode) old.parentNode.removeChild(old); }, 500);
+    }
+    setTimeout(function() {
+      var chip = createChip(CHIPS[current]);
+      slot.appendChild(chip);
+      chip.getBoundingClientRect();
+      chip.classList.add('chip-enter');
+      activeChip = chip;
+      current = (current + 1) % CHIPS.length;
+    }, 150);
+  }
+
+  showNext();
+  setInterval(showNext, 2500);
+})();
+</script>
 </body>
 </html>

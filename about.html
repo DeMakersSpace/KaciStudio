@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About — KACI Studio</title>
+<meta name="description" content="Meet Angeline and Jovinna — the Gen Z creatives behind KACISTUDIO.">
+<title>About — KACISTUDIO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -43,7 +44,7 @@
 
 /* Values as big editorial numbers */
 .values {
-  background: var(--espresso);
+  background: var(--fg);
   color: var(--cream);
   padding: var(--pad-section-y) var(--pad-gutter);
 }
@@ -63,7 +64,7 @@
   max-width: 1440px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
   border-left: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
 }
@@ -113,7 +114,7 @@
 .team-head h2 em { font-style: italic; color: var(--accent); }
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 32px;
 }
 .member .ph {
@@ -202,11 +203,344 @@
 .about-cta h2 em { font-style: italic; color: var(--accent); }
 .about-cta .btns { margin-top: 40px; display: inline-flex; gap: 12px; }
 
+/* Name story callout */
+.name-story {
+  padding: clamp(40px, 5vw, 80px) var(--pad-gutter);
+  border-bottom: 1px solid var(--rule);
+}
+.name-story-inner { max-width: 1440px; margin: 0 auto; }
+.name-story-copy {
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3vw, 44px);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  max-width: 860px;
+  margin-top: 20px;
+}
+.name-story-copy em { font-style: italic; color: var(--accent); }
+
+/* ══════════════════════════════════
+   FOLLOW ALONG — Dual Embed Layout
+   ══════════════════════════════════ */
+
+.follow-section {
+  padding: var(--pad-section-y) var(--pad-gutter);
+  background: var(--bg-alt);
+  border-top: .5px solid var(--rule);
+}
+
+.follow-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Top row */
+.follow-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.follow-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 12px;
+}
+
+.follow-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 48px);
+  font-style: italic;
+  color: var(--fg);
+  line-height: 1.0;
+}
+
+.follow-subtext {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  max-width: 300px;
+  text-align: right;
+}
+
+/* Main row: embed | stats | embed */
+.follow-main {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Embed column */
+.embed-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.embed-col-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* The card itself */
+.embed-card-wrap {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 24px rgba(88,71,56,.10),
+    0 1px 4px  rgba(88,71,56,.06);
+  transition: opacity .4s ease;
+}
+
+.embed-card-wrap.switching {
+  opacity: 0;
+}
+
+/* Embed sizing */
+.embed-card-wrap .instagram-media {
+  width: 100% !important;
+  margin: 0 !important;
+}
+.embed-card-wrap .tiktok-embed {
+  width: 100% !important;
+  min-width: unset !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+/* Switcher row: prev arrow · dots · next arrow */
+.embed-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.embed-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: .5px solid var(--rule);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--fg);
+  transition: background .2s, border-color .2s;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.embed-arrow:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.embed-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.embed-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--fg);
+  opacity: .18;
+  cursor: pointer;
+  transition: opacity .25s, background .25s;
+  flex-shrink: 0;
+}
+
+.embed-dot.active {
+  opacity: 1;
+  background: var(--accent);
+  width: 18px;
+  border-radius: 999px;
+}
+
+/* Stats centre column */
+.stats-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-item { text-align: center; }
+
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 46px);
+  font-style: italic;
+  color: var(--fg);
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.stat-rule {
+  width: 32px;
+  height: .5px;
+  background: var(--rule);
+}
+
+/* Bottom row */
+.follow-bottom {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  padding-top: 8px;
+  border-top: .5px solid var(--rule);
+}
+
+.follow-cta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: .5px solid var(--accent);
+  padding-bottom: 2px;
+  transition: opacity .2s;
+}
+
+.follow-cta:hover { opacity: .6; }
+
+/* ── Responsive ── */
+@media (max-width: 899px) {
+  .follow-top { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .follow-subtext { text-align: left; max-width: 100%; }
+  .follow-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .stats-col { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 16px 28px; }
+  .stat-rule { display: none; }
+}
+
+@media (max-width: 599px) {
+  .follow-bottom { flex-direction: column; align-items: center; gap: 14px; }
+  .embed-arrow { width: 24px; height: 24px; font-size: 10px; }
+}
+
+@media (min-width: 1200px) {
+  .follow-main { grid-template-columns: 1fr 140px 1fr; gap: 32px; }
+}
+
+/* Social links */
+.social-links {
+  padding: var(--pad-section-y) var(--pad-gutter);
+  border-top: 1px solid var(--rule);
+}
+.social-links-inner { max-width: 1440px; margin: 0 auto; }
+.social-rows { display: flex; flex-direction: column; }
+.social-row {
+  display: grid;
+  grid-template-columns: auto 1fr 48px;
+  align-items: center;
+  gap: 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.social-row:first-child { border-top: 1px solid var(--rule); }
+.social-platform {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4.5vw, 68px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  transition: color 0.3s ease;
+}
+.social-handle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  transition: color 0.3s ease;
+}
+.social-arrow {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.social-row::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.social-row:hover .social-platform { color: var(--accent); }
+.social-row:hover .social-handle { color: var(--fg); }
+.social-row:hover .social-arrow { opacity: 1; transform: translateX(0); }
+.social-row:hover::after { transform: scaleX(1); }
+
 @media (max-width: 900px) {
   .manifesto, .values-head, .team-head, .team-grid, .values-grid, .kit-grid {
     grid-template-columns: 1fr;
   }
   .values-grid { grid-template-columns: repeat(2, 1fr); }
+  .social-row { grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+  .social-arrow { display: none; }
+}
+
+@media (max-width: 768px) {
+  .manifesto { grid-template-columns: 1fr; }
+  .kit-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 430px) {
+  .manifesto p { font-size: clamp(13px, 3.5vw, 16px); }
+  .member-name { font-size: 20px; }
+  .kit-grid { grid-template-columns: 1fr; }
+  .name-story-copy { font-size: clamp(14px, 4vw, 18px); }
+  .social-platform { font-size: clamp(20px, 5vw, 32px); }
+  .social-handle { font-size: 11px; }
+  .follow-bottom { flex-direction: column; align-items: center; gap: 14px; }
+  .about-cta .btns { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .about-cta .btns .btn { justify-content: center; white-space: normal; text-align: center; width: 100%; }
 }
 </style>
 </head>
@@ -219,6 +553,13 @@
   <h1>A small studio<br>that takes<br><em>stories</em> seriously.</h1>
 </section>
 
+<section class="name-story">
+  <div class="name-story-inner">
+    <div class="eyebrow">◎ THE NAME · 00</div>
+    <p class="name-story-copy">KACI came from us. <em>K</em> from Khor, <em>C</em> from Chow — jumbled into something that sounds like a person, not an acronym. Because that's exactly what we wanted to be.</p>
+  </div>
+</section>
+
 <section class="manifesto">
   <div class="lhs">
     <strong>Who</strong><br>Gen Z creatives<br>based in Singapore<br><br>
@@ -226,8 +567,8 @@
     <strong>For</strong><br>Brands that care<br>how they're remembered
   </div>
   <div>
-    <p>At KACI Studio, we don't just manage socials — we tell <em>stories</em>. We're run by Gen Z creatives who understand what today's audiences <em>stop scrolling for</em>.</p>
-    <p>Our mission is to help brands build authentic, strategic, and emotionally resonant digital identities. Whether you're a growing business or an emerging brand, we work as an <em>extension of your team</em> — blending strategy with soul, storytelling with structure.</p>
+    <p>At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We're run by Gen Z creatives who understand what today's audiences <em>stop scrolling for</em>.</p>
+    <p>Our mission is to help brands show up in a way that feels unmistakably like them. Whether you're a growing business or an emerging brand, we work as an <em>extension of your team</em> — blending strategy with soul, and storytelling with structure.</p>
     <p>We don't chase volume, algorithms, or trends. We chase the feeling that makes someone stop, save, and send it to a friend.</p>
   </div>
 </section>
@@ -236,7 +577,7 @@
   <div class="values-head">
     <div>
       <div class="eyebrow" style="color: color-mix(in oklch, var(--cream) 60%, transparent); margin-bottom: 20px;">◎ WHAT WE BELIEVE · 01</div>
-      <h2>Five things<br>we <em>don't</em><br>compromise on.</h2>
+      <h2>Three things<br>we <em>don't</em><br>compromise on.</h2>
     </div>
     <p>Running a small studio means every value is a filter — for the brands we take on, the work we make, and the rhythm we keep.</p>
   </div>
@@ -249,18 +590,13 @@
     </div>
     <div class="value">
       <div class="value-num">02</div>
-      <div class="value-title">Trust, <em>then</em> scope.</div>
-      <div class="value-desc">A $500 starter deposit. Month-to-month from there. You always have a way out.</div>
-    </div>
-    <div class="value">
-      <div class="value-num">03</div>
       <div class="value-title">Small roster, real care.</div>
       <div class="value-desc">Two new brands per quarter, max. So the attention never gets diluted.</div>
     </div>
     <div class="value">
-      <div class="value-num">04</div>
-      <div class="value-title">Humans write the <em>captions.</em></div>
-      <div class="value-desc">No AI slop in our voice. Ever. If the audience is human, the words have to be too.</div>
+      <div class="value-num">03</div>
+      <div class="value-title">A true creative <em>partner.</em></div>
+      <div class="value-desc">We work as an extension of your team — strategy to storyboard to shoot day to final post. Month-to-month, so we earn your trust every cycle.</div>
     </div>
   </div>
 </section>
@@ -281,25 +617,17 @@
       <div class="ph ph-terra">
         <div class="ph-label" style="color: var(--cream); opacity: 0.8;">PORTRAIT · 01</div>
       </div>
-      <div class="member-name">Kaci <em>Tan</em></div>
-      <div class="member-role">Founder · Creative direction</div>
-      <p class="member-bio">Writes the briefs, signs off on the edits, replies to the 1am DMs. Obsessed with the three seconds before someone scrolls past.</p>
-    </div>
-    <div class="member">
-      <div class="ph ph-olive">
-        <div class="ph-label">PORTRAIT · 02</div>
-      </div>
-      <div class="member-name">Reza <em>Idris</em></div>
-      <div class="member-role">Content lead · Editor</div>
-      <p class="member-bio">Runs shoot days and cuts every TikTok. Believes a good edit can save a mediocre idea, but not the other way around.</p>
+      <div class="member-name">Angeline <em>Khor</em></div>
+      <div class="member-role">Co-Founder · Creative &amp; Content Lead</div>
+      <p class="member-bio">Angeline leads content ideation and aesthetic curation — crafting assets that align seamlessly with a brand's voice. She's the creative mind behind KACISTUDIO's signature style: relatable and engaging, with a visual appeal that feels both authentic and elevated.</p>
     </div>
     <div class="member">
       <div class="ph ph-espresso">
-        <div class="ph-label" style="color: var(--cream); opacity: 0.7;">PORTRAIT · 03</div>
+        <div class="ph-label" style="color: var(--cream); opacity: 0.7;">PORTRAIT · 02</div>
       </div>
-      <div class="member-name">Mei Lin <em>Goh</em></div>
-      <div class="member-role">Strategy · Community</div>
-      <p class="member-bio">Builds the calendars, reads every analytics dashboard, and has opinions about trending audio we don't always agree with.</p>
+      <div class="member-name">Jovinna <em>Chow</em></div>
+      <div class="member-role">Co-Founder · Media Production &amp; Project Lead</div>
+      <p class="member-bio">Jovinna manages end-to-end shoot and production campaigns. From visual planning and logistics to on-site content creation, she makes sure every concept comes to life cohesively — strategy to storyboard to final output.</p>
     </div>
   </div>
 </section>
@@ -352,6 +680,118 @@
   </div>
 </section>
 
+<section class="follow-section">
+  <div class="follow-wrap">
+
+    <!-- TOP ROW -->
+    <div class="follow-top reveal">
+      <div>
+        <div class="follow-eyebrow">◎ FOLLOW ALONG · 04</div>
+        <h2 class="follow-heading">Watch us <em>work.</em></h2>
+      </div>
+      <p class="follow-subtext">We document the shoots, the strategy, and the content that actually gets made. Follow along — this is what working with intention looks like.</p>
+    </div>
+
+    <!-- MAIN ROW -->
+    <div class="follow-main">
+
+      <!-- Instagram embed col -->
+      <div class="embed-col">
+        <div class="embed-col-label">Instagram · @kacistudio.co</div>
+        <div class="embed-card-wrap" id="ig-card">
+          <blockquote
+            class="instagram-media"
+            data-instgrm-permalink="https://www.instagram.com/p/DXT7IMigTPe/"
+            data-instgrm-version="14"
+            data-instgrm-captioned
+            style="background:#FFF;border:0;margin:0;padding:0;width:100%;">
+          </blockquote>
+        </div>
+        <div class="embed-switcher">
+          <button class="embed-arrow" onclick="igSwitch(-1)" aria-label="Previous">←</button>
+          <div class="embed-dots" id="ig-dots"></div>
+          <button class="embed-arrow" onclick="igSwitch(1)" aria-label="Next">→</button>
+        </div>
+      </div>
+
+      <!-- Stats centre -->
+      <div class="stats-col">
+        <div class="stat-item">
+          <div class="stat-num">5</div>
+          <div class="stat-lbl">Active<br>clients</div>
+        </div>
+        <div class="stat-rule"></div>
+        <div class="stat-item">
+          <div class="stat-num">3.2M+</div>
+          <div class="stat-lbl">Views<br>generated</div>
+        </div>
+        <div class="stat-rule"></div>
+        <div class="stat-item">
+          <div class="stat-num">500%+</div>
+          <div class="stat-lbl">TikTok<br>growth</div>
+        </div>
+      </div>
+
+      <!-- TikTok embed col -->
+      <div class="embed-col">
+        <div class="embed-col-label">TikTok · @kacistudio</div>
+        <div class="embed-card-wrap" id="tt-card">
+          <blockquote
+            class="tiktok-embed"
+            cite="https://www.tiktok.com/@kacistudio.co/video/7531984081895050514"
+            data-video-id="7531984081895050514"
+            style="border:none;margin:0;width:100%;">
+            <section></section>
+          </blockquote>
+        </div>
+        <div class="embed-switcher">
+          <button class="embed-arrow" onclick="ttSwitch(-1)" aria-label="Previous">←</button>
+          <div class="embed-dots" id="tt-dots"></div>
+          <button class="embed-arrow" onclick="ttSwitch(1)" aria-label="Next">→</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="follow-bottom">
+      <a href="https://www.instagram.com/kacistudio.co"
+         target="_blank" rel="noopener noreferrer"
+         class="follow-cta">Follow on Instagram →</a>
+      <a href="https://www.tiktok.com/@kacistudio"
+         target="_blank" rel="noopener noreferrer"
+         class="follow-cta">Follow on TikTok →</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="social-links">
+  <div class="social-links-inner reveal">
+    <div class="eyebrow" style="margin-bottom: 40px;">◎ FIND US HERE · 04</div>
+    <div class="social-rows">
+      <a href="https://www.instagram.com/kacistudio.co" target="_blank" rel="noopener noreferrer" class="social-row">
+        <span class="social-platform">Instagram</span>
+        <span class="social-handle">
+          @kacistudio.co
+          <em style="display: block; font-family: var(--font-serif); font-style: italic; font-size: 0.85em; opacity: 0.65; margin-top: 2px;">Where your story meets social</em>
+        </span>
+        <span class="social-arrow">→</span>
+      </a>
+      <a href="https://www.tiktok.com/@kacistudio" target="_blank" rel="noopener noreferrer" class="social-row">
+        <span class="social-platform">TikTok</span>
+        <span class="social-handle">@kacistudio</span>
+        <span class="social-arrow">→</span>
+      </a>
+      <a href="mailto:hello.kacistudio@gmail.com" class="social-row">
+        <span class="social-platform">Email</span>
+        <span class="social-handle">hello.kacistudio@gmail.com</span>
+        <span class="social-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="about-cta">
   <div class="eyebrow" style="margin-bottom: 28px;">◎ READY?</div>
   <h2>Come<br><em>say hi.</em></h2>
@@ -365,5 +805,121 @@
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("about"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
+<script async src="https://www.instagram.com/embed.js"></script>
+<script async src="https://www.tiktok.com/embed.js"></script>
+
+<script>
+/* ══════════════════════════
+   Instagram switcher
+   Add more URLs to IG_REELS
+   when KACI provides them
+   ══════════════════════════ */
+const IG_REELS = [
+  'https://www.instagram.com/p/DXT7IMigTPe/',
+  'https://www.instagram.com/p/DXOPjP0AdCx/?img_index=1',
+  'https://www.instagram.com/p/DXJl30jBR3B/',
+  /* ADD MORE IG REEL URLS HERE */
+];
+
+/* ══════════════════════════
+   TikTok switcher
+   Add video IDs to TT_VIDEOS
+   when KACI provides them
+   Format: { id: '123456', cite: 'https://www.tiktok.com/@kacistudio/video/123456' }
+   ══════════════════════════ */
+const TT_VIDEOS = [
+  { id: '7531984081895050514', cite: 'https://www.tiktok.com/@kacistudio.co/video/7531984081895050514' },
+  { id: '7528716815854259463', cite: 'https://www.tiktok.com/@kacistudio.co/video/7528716815854259463' },
+  { id: '7529087101048982802', cite: 'https://www.tiktok.com/@kacistudio.co/video/7529087101048982802' },
+  /* ADD MORE TIKTOK VIDEO OBJECTS HERE */
+];
+
+/* ── Generic switcher factory ── */
+function makeSwitcher({ reels, cardId, dotsId, type }) {
+  const card = document.getElementById(cardId);
+  const dotsWrap = document.getElementById(dotsId);
+  if (!card || !dotsWrap || reels.length === 0) return { go: () => {} };
+
+  let current = 0;
+
+  /* Build dots */
+  reels.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'embed-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => go(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function setDots(i) {
+    dotsWrap.querySelectorAll('.embed-dot').forEach((d, idx) => {
+      d.classList.toggle('active', idx === i);
+    });
+  }
+
+  function go(index) {
+    if (index === current) return;
+    current = ((index % reels.length) + reels.length) % reels.length;
+
+    card.classList.add('switching');
+
+    setTimeout(() => {
+      if (type === 'instagram') {
+        card.textContent = '';
+        const bq = document.createElement('blockquote');
+        bq.className = 'instagram-media';
+        bq.setAttribute('data-instgrm-permalink', reels[current]);
+        bq.setAttribute('data-instgrm-version', '14');
+        bq.setAttribute('data-instgrm-captioned', '');
+        bq.style.cssText = 'background:#FFF;border:0;margin:0;padding:0;width:100%';
+        card.appendChild(bq);
+        if (window.instgrm && window.instgrm.Embeds) {
+          window.instgrm.Embeds.process();
+        }
+      } else if (type === 'tiktok') {
+        const r = reels[current];
+        card.textContent = '';
+        const bq = document.createElement('blockquote');
+        bq.className = 'tiktok-embed';
+        bq.setAttribute('cite', r.cite);
+        bq.setAttribute('data-video-id', r.id);
+        bq.style.cssText = 'border:none;margin:0;width:100%';
+        bq.appendChild(document.createElement('section'));
+        card.appendChild(bq);
+        const s = document.createElement('script');
+        s.src = 'https://www.tiktok.com/embed.js';
+        s.async = true;
+        document.body.appendChild(s);
+      }
+
+      setDots(current);
+      card.classList.remove('switching');
+    }, 400);
+  }
+
+  return {
+    go: (dir) => go(current + dir)
+  };
+}
+
+/* Init Instagram switcher */
+const igSwitcher = makeSwitcher({
+  reels: IG_REELS,
+  cardId: 'ig-card',
+  dotsId: 'ig-dots',
+  type: 'instagram'
+});
+
+/* Init TikTok switcher */
+const ttSwitcher = makeSwitcher({
+  reels: TT_VIDEOS,
+  cardId: 'tt-card',
+  dotsId: 'tt-dots',
+  type: 'tiktok'
+});
+
+/* Arrow button handlers — called from onclick in HTML */
+function igSwitch(dir) { igSwitcher.go(dir); }
+function ttSwitch(dir) { ttSwitcher.go(dir); }
+</script>
 </body>
 </html>
