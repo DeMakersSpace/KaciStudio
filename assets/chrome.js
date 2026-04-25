@@ -34,10 +34,16 @@ const KaciChrome = (() => {
 
     const bannerEl = el('div', { cls: 'kaci-banner', id: 'kaci-banner' });
 
-    bannerEl.appendChild(document.createTextNode('Now accepting 2 brands for Q3 2026 — '));
+    /* Rainbow gradient overlay — sits behind text via z-index */
+    bannerEl.appendChild(el('div', { cls: 'kaci-banner-rainbow' }));
+
+    /* Text wrapper — floats above the rainbow */
+    const textWrap = el('span', { cls: 'kaci-banner-text' });
+    textWrap.appendChild(document.createTextNode('Now accepting 2 brands for Q3 2026 — '));
     const link = el('a', { href: 'contact.html' });
     link.textContent = 'Apply here →';
-    bannerEl.appendChild(link);
+    textWrap.appendChild(link);
+    bannerEl.appendChild(textWrap);
 
     const closeBtn = el('button', { cls: 'kaci-banner-close', 'aria-label': 'Dismiss banner' });
     closeBtn.textContent = '×';

@@ -19,7 +19,7 @@
   --fg:           #584738;
   --fg-muted:     color-mix(in oklch, #584738 60%, transparent);
   --accent:       #93A9D2;
-  --espresso:     #00145D;
+  --espresso:     #584738;
   --cream:        #F8F6DA;
   --olive:        #B59E7D;
   --rule:         color-mix(in oklch, #584738 15%, transparent);
@@ -576,6 +576,10 @@ body.nav-locked { overflow: hidden; }
   0%, 100% { opacity: 1;   transform: scale(1); }
   50%       { opacity: 0.3; transform: scale(0.6); }
 }
+@keyframes kaci-banner-flow {
+  from { background-position: 0% 0; }
+  to   { background-position: 100% 0; }
+}
 
 .kaci-banner {
   background: var(--espresso);
@@ -591,6 +595,7 @@ body.nav-locked { overflow: hidden; }
   text-transform: uppercase;
   position: relative;
   z-index: 200;
+  overflow: hidden;
   animation: kaci-banner-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 .kaci-banner::before {
@@ -598,13 +603,44 @@ body.nav-locked { overflow: hidden; }
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
+  background: #39ff14;
   flex-shrink: 0;
   margin-right: 12px;
+  position: relative;
+  z-index: 1;
   animation: kaci-live-pulse 2.2s ease-in-out infinite;
 }
+
+/* Rainbow flowing gradient overlay */
+.kaci-banner-rainbow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(248, 220, 160, 0.28) 6%,
+    transparent 14%,
+    rgba(230, 195, 130, 0.2) 22%,
+    transparent 30%,
+    rgba(248, 236, 190, 0.22) 38%,
+    transparent 48%,
+    transparent 50%
+  );
+  background-size: 200% 100%;
+  animation: kaci-banner-flow 18s linear infinite;
+  filter: saturate(1.4) brightness(1.1);
+}
+
+/* Text sits above the rainbow overlay */
+.kaci-banner-text {
+  position: relative;
+  z-index: 1;
+}
+
 .kaci-banner a {
-  color: var(--accent);
+  color: var(--cream);
   text-decoration: none;
   font-family: var(--font-mono);
   font-size: 12px;
@@ -625,6 +661,7 @@ body.nav-locked { overflow: hidden; }
   cursor: pointer;
   line-height: 1;
   padding: 4px 8px;
+  z-index: 1;
   transition: color 0.2s ease;
   font-family: var(--font-sans);
 }
@@ -632,6 +669,7 @@ body.nav-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .kaci-banner { animation: none; }
   .kaci-banner::before { animation: none; }
+  .kaci-banner-rainbow { animation: none; }
 }
 
 @media (max-width: 430px) {
