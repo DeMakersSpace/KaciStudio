@@ -740,6 +740,7 @@
             class="tiktok-embed"
             cite="https://www.tiktok.com/@kacistudio.co/video/7531984081895050514"
             data-video-id="7531984081895050514"
+            data-unique-id="kacistudio.co"
             style="border:none;margin:0;width:100%;">
             <section></section>
           </blockquote>
@@ -882,6 +883,7 @@ function makeSwitcher({ reels, cardId, dotsId, type }) {
         bq.className = 'tiktok-embed';
         bq.setAttribute('cite', r.cite);
         bq.setAttribute('data-video-id', r.id);
+        bq.setAttribute('data-unique-id', 'kacistudio.co');
         bq.style.cssText = 'border:none;margin:0;width:100%';
         bq.appendChild(document.createElement('section'));
         card.appendChild(bq);
