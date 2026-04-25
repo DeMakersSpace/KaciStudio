@@ -265,6 +265,68 @@
   .content-chip { font-size: 10px; padding: 4px 10px; }
   .faq-q { font-size: 14px; }
 }
+
+/* ── Parallax service panels ── */
+.parallax-services { background: var(--bg); }
+.parallax-block {
+  height: 130vh;
+  padding: 12px;
+  position: relative;
+}
+.parallax-sticky {
+  position: sticky;
+  top: 12px;
+  height: calc(100vh - 24px);
+  border-radius: 16px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transform-origin: center center;
+  will-change: transform;
+}
+.parallax-dark {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 5, 0.52);
+  pointer-events: none;
+}
+.parallax-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream);
+  text-align: center;
+  padding: var(--pad-gutter);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+.parallax-sub {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.1vw, 13px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+.parallax-head {
+  font-family: var(--font-serif);
+  font-size: clamp(44px, 8vw, 120px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+.parallax-head em { font-style: italic; color: var(--accent); }
+
+@media (max-width: 430px) {
+  .parallax-block { height: 110vh; padding: 8px; }
+  .parallax-sticky { top: 8px; height: calc(100vh - 16px); border-radius: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .parallax-sticky { transform: none !important; }
+  .parallax-overlay { transform: none !important; opacity: 1 !important; }
+}
 </style>
 </head>
 <body>
@@ -277,17 +339,52 @@
     <h1>Full-scope,<br><em>no half-steps.</em></h1>
   </div>
   <p class="intro">
-    Whether you need a full monthly retainer or a focused campaign, we work with the same intention either way. One Gen Z studio, one content engine built around your brand's story.
+    Whether you need a full monthly retainer or a focused campaign, we work with the same intention either way. One Gen Z agency, one content engine built around your brand's story.
   </p>
 </section>
 
 <hr class="rule" style="margin: 0 var(--pad-gutter);">
 
+<!-- Parallax service panels -->
+<section class="parallax-services">
+
+  <div class="parallax-block">
+    <div class="parallax-sticky" style="background-image: url('https://placehold.co/1600x900/584738/F8F6DA');">
+      <div class="parallax-dark"></div>
+      <div class="parallax-overlay">
+        <div class="parallax-sub">◎ Strategy &amp; Management · 01</div>
+        <div class="parallax-head">One retainer.<br><em>Every deliverable.</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="parallax-block">
+    <div class="parallax-sticky" style="background-image: url('https://placehold.co/1600x900/93A9D2/F8F6DA');">
+      <div class="parallax-dark"></div>
+      <div class="parallax-overlay">
+        <div class="parallax-sub">◎ Content &amp; Production · 02</div>
+        <div class="parallax-head">Shot, edited,<br><em>posted.</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="parallax-block">
+    <div class="parallax-sticky" style="background-image: url('https://placehold.co/1600x900/B59E7D/F8F6DA');">
+      <div class="parallax-dark"></div>
+      <div class="parallax-overlay">
+        <div class="parallax-sub">◎ Community &amp; Events · 03</div>
+        <div class="parallax-head">On the ground.<br><em>Always.</em></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
 <!-- Services Overview -->
 <section class="services-overview">
   <div class="services-overview-head reveal">
     <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
-    <h2 style="font-size: clamp(44px, 6vw, 88px);">Everything<br>under one <em>studio.</em></h2>
+    <h2 style="font-size: clamp(44px, 6vw, 88px);">Everything<br>under one <em>agency.</em></h2>
   </div>
   <div class="services-list reveal">
     <div class="svc-row">
@@ -335,7 +432,7 @@
       </p>
       <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
         <a href="contact.html" class="btn btn-primary">Book discovery →</a>
-        <a href="#faq" class="btn btn-ghost" style="color: var(--cream); border-color: color-mix(in oklch, var(--cream) 40%, transparent);">Read the fine print</a>
+        <a href="#faq" class="btn btn-ghost" style="color: var(--cream); border-color: color-mix(in oklch, var(--cream) 40%, transparent);">Read the FAQ</a>
       </div>
     </div>
 
@@ -432,7 +529,7 @@
       <ul>
         <li>Custom strategy every month, by the team that shot your content</li>
         <li>One flat monthly retainer, month-to-month</li>
-        <li>Same studio, same voice — from shoot day to DM reply</li>
+        <li>Same agency, same voice — from shoot day to DM reply</li>
         <li>Brand-first: trends serve the story, not the other way around</li>
         <li>Monthly reviews that actually shape next month's plan</li>
         <li>Month-to-month — <em>you decide</em> if it feels right</li>
@@ -470,7 +567,7 @@
 <section id="faq" class="faq">
   <div class="faq-inner">
     <div class="faq-head reveal">
-      <div class="eyebrow" style="margin-bottom: 20px;">◎ FINE PRINT · 03</div>
+      <div class="eyebrow" style="margin-bottom: 20px;">◎ FAQ · 03</div>
       <h2 style="font-size: clamp(44px, 6vw, 88px);">Questions we<br>hear <em>a lot.</em></h2>
     </div>
 
@@ -479,7 +576,7 @@
         <div class="faq-num">(01)</div>
         <div>
           <div class="faq-q">Can I pick and choose deliverables?</div>
-          <div class="faq-a">We offer full-scope management only. It's not a flex — it's the only way we can deliver the kind of cohesive, story-first social presence we're known for. One voice, one rhythm, one studio.</div>
+          <div class="faq-a">We offer full-scope management only. It's not a flex — it's the only way we can deliver the kind of cohesive, story-first social presence we're known for. One voice, one rhythm, one agency.</div>
         </div>
       </div>
       <div class="faq-item">
@@ -528,5 +625,6 @@
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("services"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
+<script src="assets/parallax.js" defer></script>
 </body>
 </html>

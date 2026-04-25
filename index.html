@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="KACISTUDIO is a Singapore-based social media studio. We help brands tell their story with intention across TikTok, Instagram, and beyond.">
+<meta name="description" content="KACISTUDIO is a Singapore-based social media agency. We help brands tell their story with intention across TikTok, Instagram, and beyond.">
 <title>KACISTUDIO — Where your story meets socials.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -126,55 +126,49 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 /* ── Hero Card Cluster — polaroid scatter ── */
 .hero-star {
   position: relative;
-  width: 520px;
-  height: 620px;
+  width: 560px;
+  height: 660px;
   flex-shrink: 0;
+  margin-top: 60px;
 }
 
 @keyframes hsc-drop {
   from {
     opacity: 0;
-    transform: rotate(var(--rot)) translate(var(--tx, 0px), var(--ty, 0px)) scale(0.5);
+    transform: rotate(var(--rot)) translateY(-40px) scale(0.88);
   }
   to {
     opacity: 1;
-    transform: rotate(var(--rot)) translate(0px, 0px) scale(1);
+    transform: rotate(var(--rot)) translateY(0);
   }
 }
 
 .hsc {
   position: absolute;
-  border-radius: 4px;
-  overflow: hidden;
+  background: #F5F3EE;
+  border-radius: 1px;
   box-sizing: border-box;
   --rot: 0deg;
   --drop-delay: 0ms;
-  border: 3px solid rgba(248, 246, 218, 0.72);
-  transform: rotate(var(--rot)) translateY(0px);
-  transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 0.38s ease;
-  box-shadow: 3px 6px 24px rgba(0, 0, 0, 0.32), 1px 2px 7px rgba(0, 0, 0, 0.16);
-  animation: hsc-drop 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  padding: 9px 9px 38px;
+  transform: rotate(var(--rot));
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s ease;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.28),
+    0 10px 32px rgba(0,0,0,0.22),
+    0 1px 2px rgba(0,0,0,0.14);
+  animation: hsc-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: var(--drop-delay);
+  overflow: hidden;
 }
 
 .hsc:hover {
-  transform: rotate(calc(var(--rot) * 0.3)) translateY(-14px) scale(1.05);
-  z-index: 10;
-  box-shadow: 6px 16px 44px rgba(0, 0, 0, 0.40), 2px 4px 12px rgba(0, 0, 0, 0.18);
-}
-
-.hsc-label {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--cream);
-  opacity: 0.55;
-  pointer-events: none;
+  transform: rotate(calc(var(--rot) * 0.15)) translateY(-18px) scale(1.07);
+  z-index: 20 !important;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.28),
+    0 24px 60px rgba(0,0,0,0.22);
 }
 
 .hsc img {
@@ -184,128 +178,51 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   display: block;
 }
 
-/* ─ Pile A: top-left cluster ─ */
-
-.hsc-pa {
-  width: 168px; height: 210px;
-  top: 28px; left: 18px;
-  --rot: -7deg;
-  background: #B59E7D;
-  z-index: 2;
-}
-
-.hsc-st {
-  width: 158px; height: 202px;
-  top: 12px; left: 138px;
-  --rot: 5.5deg;
-  background: #93A9D2;
-  z-index: 3;
-}
-
-.hsc-wide {
-  width: 170px; height: 160px;
-  top: 8px; left: 258px;
-  --rot: -8deg;
-  background: #93A9D2;
-  z-index: 4;
-}
-
-/* ─ Pile B: centre anchor ─ */
-
-.hsc-bt {
-  width: 162px; height: 162px;
-  top: 296px; left: 22px;
-  --rot: -3.5deg;
-  background: #00145D;
-  z-index: 3;
-}
-
-.hsc-logo {
-  width: 185px; height: 118px;
-  top: 251px; left: 168px;
-  --rot: 1.5deg;
-  background: #F8F6DA;
-  border-color: rgba(88, 71, 56, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  z-index: 5;
-}
-
-/* ─ Pile C: right column ─ */
-
-.hsc-sq4 {
-  width: 90px; height: 90px;
-  top: 162px; left: 410px;
-  --rot: 8deg;
-  background: #00145D;
-  z-index: 1;
-}
-
-.hsc-pb {
-  width: 155px; height: 206px;
-  top: 238px; left: 348px;
-  --rot: 6.5deg;
-  background: #B59E7D;
-  z-index: 2;
-}
-
-/* ─ Bottom scatter ─ */
-
-.hsc-sqa {
-  width: 148px; height: 148px;
-  top: 440px; left: 52px;
-  --rot: -6deg;
-  background: #B59E7D;
-  z-index: 2;
-}
-
-.hsc-sq3 {
-  width: 138px; height: 118px;
-  top: 478px; left: 182px;
-  --rot: 5deg;
-  background: #93A9D2;
-  z-index: 3;
-}
-
-.hsc-sqb {
-  width: 108px; height: 108px;
-  top: 438px; left: 362px;
-  --rot: -7deg;
-  background: #00145D;
-  z-index: 1;
-}
-
-/* logo card only needs a subtle border (it's the sole light card) */
-
-/* fly-out origin: (logo-center) minus (each card's own center) */
-.hsc-pa   { --tx:  158px; --ty:  177px; }
-.hsc-st   { --tx:   43px; --ty:  197px; }
-.hsc-wide { --tx:  -83px; --ty:  222px; }
-.hsc-bt   { --tx:  157px; --ty:  -67px; }
-.hsc-sq4  { --tx: -195px; --ty:  103px; }
-.hsc-pb   { --tx: -166px; --ty:  -31px; }
-.hsc-sqa  { --tx:  134px; --ty: -204px; }
-.hsc-sq3  { --tx:    9px; --ty: -227px; }
-.hsc-sqb  { --tx: -156px; --ty: -182px; }
-
-.hsc-logo-name {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--fg);
-}
-.hsc-logo-name span { color: var(--accent); font-style: italic; }
-.hsc-logo-sub {
+.hsc-label {
+  position: absolute;
+  bottom: 11px;
+  left: 0; right: 0;
+  text-align: center;
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.14em;
+  font-size: 7px;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--fg-muted);
+  color: rgba(15,10,5,0.38);
+  pointer-events: none;
 }
+
+/* Scattered positions — big rotations, heavy overlap, all within container */
+.hsc-pa   { width: 162px; height: 198px; top: -5px;  left: 0px;   --rot: -13deg; z-index: 2; }
+.hsc-st   { width: 148px; height: 184px; top: 20px;  left: 238px; --rot: 17deg;  z-index: 3; }
+.hsc-wide { width: 178px; height: 216px; top: 18px;  left: 92px;  --rot: -8deg;  z-index: 4; }
+.hsc-bt   { width: 158px; height: 194px; top: 198px; left: 6px;   --rot: -19deg; z-index: 3; }
+.hsc-logo { width: 188px; height: 228px; top: 0px;   left: 312px; --rot: 10deg;  z-index: 4; }
+.hsc-brand { width: 188px; height: 228px; top: 165px; left: 182px; --rot: -3deg;  z-index: 6; }
+.hsc-brand-inner {
+  width: 100%; height: 100%;
+  background: var(--fg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px;
+}
+.hsc-brand-name {
+  font-family: var(--font-serif);
+  font-size: 17px; font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #F5F3EE;
+}
+.hsc-brand-name span { color: var(--accent); font-style: italic; }
+.hsc-brand-sub {
+  font-family: var(--font-mono);
+  font-size: 8px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245,243,238,0.4);
+}
+.hsc-sq4  { width: 142px; height: 176px; top: 172px; left: 390px; --rot: 13deg;  z-index: 2; }
+.hsc-pb   { width: 162px; height: 198px; top: 360px; left: 292px; --rot: -9deg;  z-index: 3; }
+.hsc-sqa  { width: 155px; height: 190px; top: 400px; left: 40px;  --rot: 16deg;  z-index: 2; }
+.hsc-sq3  { width: 170px; height: 208px; top: 412px; left: 168px; --rot: -6deg;  z-index: 3; }
+.hsc-sqb  { width: 140px; height: 172px; top: 432px; left: 408px; --rot: 8deg;   z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .hsc { transition: none; animation: none; }
@@ -571,6 +488,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   margin-bottom: 8px;
 }
 .stat-num em { font-style: italic; color: var(--accent); }
+.stat-unit { font-size: 0.45em; font-style: normal; letter-spacing: 0; font-family: var(--font-serif); font-weight: 700; }
 .stat-label {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -714,7 +632,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div>
       <div class="hero-supertitle">
         <span class="tag">Est. 2024</span>
-        <span>Singapore social media studio</span>
+        <span>Singapore social media agency</span>
       </div>
     </div>
     <h1 class="split-headline">
@@ -722,7 +640,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     </h1>
     <div style="display: flex; gap: 40px; align-items: flex-end; flex-wrap: wrap;">
       <div style="display: flex; gap: 10px;" class="hero-btns">
-        <a href="contact.html" class="btn btn-primary">Start a project <span class="arrow">→</span></a>
+        <a href="contact.html" class="btn btn-primary">Start your project <span class="arrow">→</span></a>
         <a href="services.html" class="btn btn-ghost">What we do</a>
       </div>
     </div>
@@ -730,40 +648,63 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   <div class="split-right">
     <div class="hero-star">
 
-      <!-- Logo appears first — everything flies out from here -->
-      <div class="hsc hsc-logo" style="--drop-delay:0ms">
-        <div class="hsc-logo-name">KACI<span>STUDIO</span></div>
-        <div class="hsc-logo-sub">SG · Est. 2024</div>
-      </div>
-
-      <!-- Pile A: top-left cluster -->
-      <div class="hsc hsc-pa" style="--drop-delay:80ms">
+      <div class="hsc hsc-pa" style="--drop-delay:60ms">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=400&fit=crop&auto=format&q=80" alt="Portrait">
         <div class="hsc-label">Portrait · 01</div>
       </div>
+
       <div class="hsc hsc-st" style="--drop-delay:120ms">
+        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=400&fit=crop&auto=format&q=80" alt="Story BTS">
         <div class="hsc-label">Story · BTS</div>
       </div>
-      <div class="hsc hsc-wide" style="--drop-delay:160ms">
+
+      <div class="hsc hsc-wide" style="--drop-delay:90ms">
+        <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=400&h=400&fit=crop&auto=format&q=80" alt="Editorial">
         <div class="hsc-label">Editorial · SG</div>
       </div>
 
-      <!-- Pile B: centre anchor -->
-      <div class="hsc hsc-bt" style="--drop-delay:100ms">
+      <div class="hsc hsc-bt" style="--drop-delay:180ms">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&auto=format&q=80" alt="BTS">
         <div class="hsc-label">BTS · On set</div>
       </div>
 
-      <!-- Pile C: right column -->
-      <div class="hsc hsc-sq4" style="--drop-delay:200ms"></div>
+      <div class="hsc hsc-logo" style="--drop-delay:0ms">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop&auto=format&q=80" alt="Campaign">
+        <div class="hsc-label">Campaign · 01</div>
+      </div>
+
+      <div class="hsc hsc-brand" style="--drop-delay:30ms">
+        <div class="hsc-brand-inner">
+          <div class="hsc-brand-name">KACI<span>STUDIO</span></div>
+          <div class="hsc-brand-sub">SG · Est. 2024</div>
+        </div>
+        <div class="hsc-label">Agency · SG</div>
+      </div>
+
+      <div class="hsc hsc-sq4" style="--drop-delay:200ms">
+        <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=400&fit=crop&auto=format&q=80" alt="Agency">
+        <div class="hsc-label">Agency · Kit</div>
+      </div>
+
       <div class="hsc hsc-pb" style="--drop-delay:140ms">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop&auto=format&q=80" alt="Portrait 02">
         <div class="hsc-label">Portrait · 02</div>
       </div>
 
-      <!-- Bottom scatter -->
-      <div class="hsc hsc-sqa" style="--drop-delay:220ms"></div>
-      <div class="hsc hsc-sq3" style="--drop-delay:255ms">
-        <div class="hsc-label">Studio · Kit</div>
+      <div class="hsc hsc-sqa" style="--drop-delay:220ms">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=500&fit=crop&crop=bottom&auto=format&q=80" alt="Content">
+        <div class="hsc-label">Content · 03</div>
       </div>
-      <div class="hsc hsc-sqb" style="--drop-delay:275ms"></div>
+
+      <div class="hsc hsc-sq3" style="--drop-delay:255ms">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=500&fit=crop&crop=top&auto=format&q=80" alt="Agency SG">
+        <div class="hsc-label">Agency · SG</div>
+      </div>
+
+      <div class="hsc hsc-sqb" style="--drop-delay:275ms">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=500&fit=crop&crop=top&auto=format&q=80" alt="Content 04">
+        <div class="hsc-label">Content · 04</div>
+      </div>
 
     </div>
   </div>
@@ -785,7 +726,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div class="services-head reveal">
       <div>
         <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
-        <h2>A full-scope<br>social studio<br><em>for growing brands.</em></h2>
+        <h2>A full-scope<br>social agency<br><em>for growing brands.</em></h2>
       </div>
     </div>
 
@@ -829,19 +770,19 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   <div class="wrap" style="padding: 0;">
     <div class="stats reveal">
       <div class="stat">
-        <div class="stat-num"><em>8</em> TikToks</div>
+        <div class="stat-num"><em>8</em> <span class="stat-unit">TikToks</span></div>
         <div class="stat-label">per month, per client</div>
       </div>
       <div class="stat">
-        <div class="stat-num"><em>4</em> IG reels</div>
+        <div class="stat-num"><em>4</em> <span class="stat-unit">IG reels</span></div>
         <div class="stat-label">+ 4 static + 8 stories</div>
       </div>
       <div class="stat">
-        <div class="stat-num"><em>1</em> shoot</div>
+        <div class="stat-num"><em>1</em> <span class="stat-unit">shoot</span></div>
         <div class="stat-label">day, fully produced</div>
       </div>
       <div class="stat">
-        <div class="stat-num"><em>2</em> meetings</div>
+        <div class="stat-num"><em>2</em> <span class="stat-unit">meetings</span></div>
         <div class="stat-label">discovery &amp; strategy</div>
       </div>
     </div>
@@ -854,7 +795,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div class="process-head reveal">
       <div>
         <div class="eyebrow" style="margin-bottom: 20px;">◎ HOW WE WORK · 02</div>
-        <h2>Five steps,<br><em>one studio</em>,<br>zero guesswork.</h2>
+        <h2>Five steps,<br><em>one agency</em>,<br>zero guesswork.</h2>
       </div>
     </div>
 
