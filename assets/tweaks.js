@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   KACI STUDIO — Tweaks
+   KACISTUDIO — Tweaks
    Scroll reveal · Marquee · Chips · Form
 ═══════════════════════════════════════════════ */
 

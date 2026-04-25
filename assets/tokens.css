@@ -1,20 +1,28 @@
 /* ═══════════════════════════════════════════════
-   KACI STUDIO — Design Tokens & Shared Styles
+   KACISTUDIO — Design Tokens & Shared Styles
    Sand theme · Warm editorial aesthetic
 ═══════════════════════════════════════════════ */
 
 /* ── 1. Custom Properties ── */
 :root {
-  /* Palette — sand / espresso / terracotta */
-  --bg:           #F9F6F0;
-  --bg-alt:       #EEE9DF;
-  --fg:           #1A1612;
-  --fg-muted:     #786E64;
-  --accent:       #C05A1F;
-  --espresso:     #1A1008;
-  --cream:        #FBF9F5;
-  --olive:        #4A5A35;
-  --rule:         rgba(26, 22, 18, 0.11);
+  /*
+   * COLOUR HIERARCHY
+   * --bg / --bg-alt    → page surfaces (Coconut Cream / Merino)
+   * --fg               → primary dark tone (Judge Gray #584738) — use for dark sections
+   * --accent           → highlight colour (Polo Blue #93A9D2)
+   * --espresso         → sub-colour only (Midnight Blue #00145D) — banner, mobile menu, submit btn ONLY
+   * --olive            → warm mid-tone (Mongoose #B59E7D)
+   */
+  /* Palette — coconut cream / midnight blue / polo blue */
+  --bg:           #F8F6DA;
+  --bg-alt:       #F1EADA;
+  --fg:           #584738;
+  --fg-muted:     color-mix(in oklch, #584738 60%, transparent);
+  --accent:       #93A9D2;
+  --espresso:     #00145D;
+  --cream:        #F8F6DA;
+  --olive:        #B59E7D;
+  --rule:         color-mix(in oklch, #584738 15%, transparent);
 
   /* Typography */
   --font-serif:   'Fraunces', serif;
@@ -22,8 +30,8 @@
   --font-mono:    'Geist Mono', monospace;
 
   /* Layout */
-  --pad-gutter:    clamp(20px, 4vw, 72px);
-  --pad-section-y: clamp(60px, 8vw, 120px);
+  --pad-gutter:    clamp(16px, 4vw, 72px);
+  --pad-section-y: clamp(40px, 8vw, 120px);
   --stack-lg:      clamp(48px, 6vw, 80px);
   --stack-md:      clamp(32px, 4vw, 56px);
 }
@@ -39,6 +47,8 @@
 html {
   scroll-behavior: smooth;
   background: var(--bg);
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -52,6 +62,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* bottom space for fixed pill nav */
   padding-bottom: 5rem;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 img {
@@ -60,6 +72,8 @@ img {
   display: block;
   object-fit: cover;
 }
+
+video, iframe, blockquote { max-width: 100%; }
 
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; background: none; border: none; }
@@ -96,6 +110,7 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   color: var(--fg-muted);
   display: block;
+  margin-bottom: 1.5rem;
 }
 
 
@@ -108,6 +123,11 @@ h1, h2, h3, h4 {
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 var(--pad-gutter);
+}
+
+/* Prose line-length cap — apply to any long-copy container */
+.prose p {
+  max-width: 65ch;
 }
 
 hr.rule {
@@ -171,27 +191,22 @@ hr.rule {
 
 /* Colour variants */
 .ph-terra {
-  background: linear-gradient(
-    140deg,
-    oklch(56% 0.14 36) 0%,
-    oklch(42% 0.12 32) 100%
-  );
+  background: var(--olive);
 }
 .ph-olive {
-  background: linear-gradient(
-    140deg,
-    oklch(44% 0.07 132) 0%,
-    oklch(34% 0.05 128) 100%
-  );
+  background: color-mix(in oklch, var(--olive) 60%, var(--bg));
 }
 .ph-espresso {
   background: var(--espresso);
 }
 .ph-stripe {
-  background: linear-gradient(
+  background: var(--espresso);
+  background-image: repeating-linear-gradient(
     135deg,
-    oklch(50% 0.13 36) 0%,
-    oklch(35% 0.08 42) 100%
+    transparent,
+    transparent 12px,
+    rgba(255,255,255,0.04) 12px,
+    rgba(255,255,255,0.04) 24px
   );
 }
 
@@ -206,6 +221,12 @@ hr.rule {
   text-transform: uppercase;
   color: var(--fg-muted);
   z-index: 2;
+}
+/* Warm placeholder surfaces need dark labels for contrast */
+.ph-terra .ph-label,
+.ph-olive .ph-label {
+  color: var(--fg);
+  opacity: 0.6;
 }
 
 .ph-label-br {
@@ -277,6 +298,7 @@ hr.rule {
   transform: translateY(28px);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal.is-visible {
   opacity: 1;
@@ -299,7 +321,7 @@ hr.rule {
   align-items: center;
   padding: 0 0.5rem;
   border-radius: 9999px;
-  background: rgba(26, 16, 8, 0.90);
+  background: color-mix(in oklch, var(--espresso) 92%, transparent);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -458,6 +480,13 @@ body.nav-locked { overflow: hidden; }
   .kaci-nav-hamburger   { display: flex; }
 }
 
+@media (max-width: 430px) {
+  .kaci-nav { width: calc(100% - 32px); justify-content: space-between; }
+  .kaci-nav-logo-text { display: none; }
+  /* Prevent iOS auto-zoom on form inputs */
+  input, textarea, select { font-size: 16px; }
+}
+
 
 /* ── 11. Footer ── */
 .kaci-footer {
@@ -535,4 +564,123 @@ body.nav-locked { overflow: hidden; }
 @media (max-width: 600px) {
   .kaci-footer-bottom { flex-direction: column; align-items: flex-start; }
   .kaci-footer-credit { text-align: left; }
+}
+
+
+/* ── 12. Availability Banner ── */
+@keyframes kaci-banner-in {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes kaci-live-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.6); }
+}
+
+.kaci-banner {
+  background: var(--espresso);
+  color: var(--cream);
+  padding: 12px var(--pad-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 200;
+  animation: kaci-banner-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+.kaci-banner::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-right: 12px;
+  animation: kaci-live-pulse 2.2s ease-in-out infinite;
+}
+.kaci-banner a {
+  color: var(--accent);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: opacity 0.2s ease;
+}
+.kaci-banner a:hover { text-decoration: underline; opacity: 0.85; }
+.kaci-banner-close {
+  position: absolute;
+  right: var(--pad-gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: color-mix(in oklch, var(--cream) 55%, transparent);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.2s ease;
+  font-family: var(--font-sans);
+}
+.kaci-banner-close:hover { color: var(--cream); }
+@media (prefers-reduced-motion: reduce) {
+  .kaci-banner { animation: none; }
+  .kaci-banner::before { animation: none; }
+}
+
+@media (max-width: 430px) {
+  .kaci-banner { font-size: 10px; padding: 6px 12px; }
+}
+
+
+/* ── 13. Footer enhancements ── */
+.kaci-footer-brand-wrap { display: flex; flex-direction: column; gap: 8px; }
+
+.kaci-footer-brand-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.kaci-footer-social {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: clamp(16px, 2vw, 22px) 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 0;
+}
+
+.kaci-footer-social-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: color 0.2s ease;
+}
+.kaci-footer-social-link:hover { color: var(--accent); }
+
+.kaci-footer-social-sep {
+  color: var(--rule);
+  font-size: 16px;
+  user-select: none;
+}
+
+.kaci-footer-tagline {
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--fg-muted);
+  padding: clamp(18px, 2.5vw, 28px) 0;
 }
