@@ -735,16 +735,7 @@
       <!-- TikTok embed col -->
       <div class="embed-col">
         <div class="embed-col-label">TikTok · @kacistudio</div>
-        <div class="embed-card-wrap" id="tt-card">
-          <blockquote
-            class="tiktok-embed"
-            cite="https://www.tiktok.com/@kacistudio.co/video/7531984081895050514"
-            data-video-id="7531984081895050514"
-            data-unique-id="kacistudio.co"
-            style="border:none;margin:0;width:100%;">
-            <section></section>
-          </blockquote>
-        </div>
+        <div class="embed-card-wrap" id="tt-card"></div>
         <div class="embed-switcher">
           <button class="embed-arrow" onclick="ttSwitch(-1)" aria-label="Previous">←</button>
           <div class="embed-dots" id="tt-dots"></div>
@@ -807,7 +798,6 @@
 <script>KaciChrome.nav("about"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
 <script async src="https://www.instagram.com/embed.js"></script>
-<script async src="https://www.tiktok.com/embed.js"></script>
 
 <script>
 /* ══════════════════════════
@@ -922,6 +912,24 @@ const ttSwitcher = makeSwitcher({
 /* Arrow button handlers — called from onclick in HTML */
 function igSwitch(dir) { igSwitcher.go(dir); }
 function ttSwitch(dir) { ttSwitcher.go(dir); }
+
+/* Init first TikTok video dynamically so it loads as a proper interactive player */
+(function () {
+  const card = document.getElementById('tt-card');
+  const r = TT_VIDEOS[0];
+  const bq = document.createElement('blockquote');
+  bq.className = 'tiktok-embed';
+  bq.setAttribute('cite', r.cite);
+  bq.setAttribute('data-video-id', r.id);
+  bq.setAttribute('data-unique-id', 'kacistudio.co');
+  bq.style.cssText = 'border:none;margin:0;width:100%';
+  bq.appendChild(document.createElement('section'));
+  card.appendChild(bq);
+  const s = document.createElement('script');
+  s.src = 'https://www.tiktok.com/embed.js';
+  s.async = true;
+  document.body.appendChild(s);
+})();
 </script>
 </body>
 </html>
