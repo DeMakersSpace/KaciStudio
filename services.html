@@ -235,16 +235,75 @@
 .content-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .content-chip { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 8px 16px; border: 1px solid color-mix(in oklch, var(--cream) 22%, transparent); border-radius: 999px; color: color-mix(in oklch, var(--cream) 70%, transparent); }
 
-/* Why KACISTUDIO pillars */
+/* Why KACISTUDIO — carousel */
 .why-section { padding: var(--pad-section-y) var(--pad-gutter); max-width: 1440px; margin: 0 auto; }
 .why-head { margin-bottom: var(--stack-md); }
 .why-head h2 em { font-style: italic; color: var(--accent); }
-.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
-.why-item { padding: 40px 32px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-height: 260px; display: flex; flex-direction: column; }
-.why-num { font-family: var(--font-serif); font-size: 64px; color: var(--accent); font-style: italic; line-height: 0.9; margin-bottom: 20px; }
-.why-title { font-family: var(--font-serif); font-size: 26px; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 12px; }
-.why-title em { font-style: italic; color: var(--accent); }
-.why-desc { font-size: 14px; line-height: 1.6; color: var(--fg-muted); margin-top: auto; max-width: 280px; }
+.why-carousel { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 100px); align-items: center; }
+.why-images-wrap { position: relative; width: 100%; height: clamp(320px, 36vw, 500px); perspective: 1000px; }
+.why-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+  will-change: transform, opacity;
+  transition: transform 0.8s cubic-bezier(0.4, 2, 0.3, 1), opacity 0.8s cubic-bezier(0.4, 2, 0.3, 1);
+}
+.why-content-panel { display: flex; flex-direction: column; }
+.why-active-inner { transition: opacity 0.22s ease, transform 0.22s ease; }
+.why-active-inner.fading { opacity: 0; transform: translateY(14px); }
+.why-active-num {
+  font-family: var(--font-serif);
+  font-size: clamp(56px, 6vw, 88px);
+  font-style: italic;
+  color: var(--accent);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.why-active-title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.2vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.why-active-title em { font-style: italic; color: var(--accent); }
+.why-active-desc { font-size: clamp(14px, 1.4vw, 16px); line-height: 1.7; color: var(--fg-muted); max-width: 460px; margin: 0; }
+.why-word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(4px);
+  animation: whyWordIn 0.22s ease forwards;
+}
+@keyframes whyWordIn { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+.why-nav { display: flex; gap: 12px; margin-top: 32px; }
+.why-nav-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: var(--fg);
+  color: var(--cream);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+.why-nav-btn:hover { background: var(--accent); transform: scale(1.08); }
+.why-nav-btn:active { transform: scale(0.95); }
+@media (prefers-reduced-motion: reduce) {
+  .why-img { transition: none; }
+  .why-word { animation: none; opacity: 1; filter: none; transform: none; }
+  .why-active-inner { transition: none; }
+}
 
 @media (max-width: 900px) {
   .page-hero, .package-inner, .compare-head, .compare-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -253,7 +312,8 @@
   .faq-item { grid-template-columns: 1fr; gap: 8px; }
   .svc-row { grid-template-columns: 40px 1fr; gap: 16px; }
   .svc-row .svc-desc, .svc-row .svc-arrow { grid-column: 2; }
-  .why-grid { grid-template-columns: 1fr; }
+  .why-carousel { grid-template-columns: 1fr; }
+  .why-images-wrap { height: clamp(260px, 55vw, 380px); }
 }
 
 @media (max-width: 430px) {
@@ -264,6 +324,155 @@
   .why-title { font-size: 18px; }
   .content-chip { font-size: 10px; padding: 4px 10px; }
   .faq-q { font-size: 14px; }
+}
+
+/* ── Flip cards — services overview ── */
+.flip-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.flip-card {
+  perspective: 1200px;
+  height: clamp(280px, 26vw, 360px);
+  cursor: pointer;
+  outline: none;
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px var(--fg);
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.flip-card:hover .flip-card-inner,
+.flip-card:focus-within .flip-card-inner,
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  padding: clamp(24px, 3vw, 40px);
+  display: flex;
+  flex-direction: column;
+}
+.flip-card-front {
+  background: var(--fg);
+  color: var(--cream);
+}
+.flip-card-back {
+  background: var(--cream);
+  color: var(--fg);
+  transform: rotateY(180deg);
+}
+.fc-num {
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 5.5vw, 80px);
+  font-style: italic;
+  color: var(--accent);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+.fc-title {
+  font-family: var(--font-serif);
+  font-size: clamp(19px, 2vw, 28px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-top: auto;
+  color: var(--cream);
+}
+.fc-hint {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--cream) 28%, transparent);
+  margin-top: 14px;
+}
+.fc-back-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.fc-desc {
+  font-size: clamp(13px, 1.3vw, 15px);
+  line-height: 1.65;
+  color: var(--fg-muted);
+  flex: 1;
+}
+.fc-arrow {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--accent);
+  margin-top: 20px;
+}
+
+.flip-card-front--logo {
+  background: var(--cream);
+  color: var(--fg);
+  justify-content: flex-end;
+}
+.flip-card-back--logo {
+  background: var(--fg);
+}
+.fc-logo-wordmark {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.2vw, 46px);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--fg);
+  margin-bottom: auto;
+}
+.fc-logo-wordmark em {
+  font-style: italic;
+  color: var(--accent);
+}
+.fc-logo-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 14px;
+}
+.fc-logo-cta {
+  display: inline-block;
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: var(--accent);
+  padding: 10px 20px;
+  border-radius: 2px;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+.fc-logo-cta:hover { opacity: 0.82; }
+
+@media (max-width: 900px) {
+  .flip-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .flip-card { height: clamp(240px, 44vw, 320px); }
+}
+@media (max-width: 540px) {
+  .flip-cards-grid { grid-template-columns: 1fr; }
+  .flip-card { height: 230px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner { transition: none; }
 }
 
 /* ── Parallax service panels ── */
@@ -386,37 +595,98 @@
     <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
     <h2 style="font-size: clamp(44px, 6vw, 88px);">Everything<br>under one <em>agency.</em></h2>
   </div>
-  <div class="services-list reveal">
-    <div class="svc-row">
-      <div class="svc-num">01</div>
-      <div class="svc-title">Monthly Retainer<br>Management</div>
-      <div class="svc-desc">End-to-end social media management across Instagram, TikTok, and more — strategy, production, posting, and community handled as one continuous rhythm.</div>
-      <div class="svc-arrow">→</div>
+  <div class="flip-cards-grid reveal">
+
+    <div class="flip-card" tabindex="0">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="fc-num">01</div>
+          <div class="fc-title">Monthly Retainer<br>Management</div>
+          <div class="fc-hint">Hover to explore</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="fc-back-tag">01 · Retainer</div>
+          <div class="fc-desc">End-to-end social media management across Instagram, TikTok, and more — strategy, production, posting, and community handled as one continuous rhythm.</div>
+          <div class="fc-arrow">→</div>
+        </div>
+      </div>
     </div>
-    <div class="svc-row">
-      <div class="svc-num">02</div>
-      <div class="svc-title">Content Strategy<br>&amp; Planning</div>
-      <div class="svc-desc">A monthly content calendar built around your brand's story — not trends. Every post has a reason, a tone, and a place in the bigger picture.</div>
-      <div class="svc-arrow">→</div>
+
+    <div class="flip-card" tabindex="0">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="fc-num">02</div>
+          <div class="fc-title">Content Strategy<br>&amp; Planning</div>
+          <div class="fc-hint">Hover to explore</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="fc-back-tag">02 · Strategy</div>
+          <div class="fc-desc">A monthly content calendar built around your brand's story — not trends. Every post has a reason, a tone, and a place in the bigger picture.</div>
+          <div class="fc-arrow">→</div>
+        </div>
+      </div>
     </div>
-    <div class="svc-row">
-      <div class="svc-num">03</div>
-      <div class="svc-title">Photography &amp; Video<br>Production</div>
-      <div class="svc-desc">Planned and produced shoot days, shot on professional gear and edited in-house. Reels, statics, behind-the-scenes, and product content — all on-brand.</div>
-      <div class="svc-arrow">→</div>
+
+    <div class="flip-card" tabindex="0">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="fc-num">03</div>
+          <div class="fc-title">Photography &amp; Video<br>Production</div>
+          <div class="fc-hint">Hover to explore</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="fc-back-tag">03 · Production</div>
+          <div class="fc-desc">Planned and produced shoot days, shot on professional gear and edited in-house. Reels, statics, behind-the-scenes, and product content — all on-brand.</div>
+          <div class="fc-arrow">→</div>
+        </div>
+      </div>
     </div>
-    <div class="svc-row">
-      <div class="svc-num">04</div>
-      <div class="svc-title">Community<br>Management</div>
-      <div class="svc-desc">DMs, comments, and replies handled with the same voice as your content. We don't outsource the conversation — the team that made it is the team that replies.</div>
-      <div class="svc-arrow">→</div>
+
+    <div class="flip-card" tabindex="0">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="fc-num">04</div>
+          <div class="fc-title">Community<br>Management</div>
+          <div class="fc-hint">Hover to explore</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="fc-back-tag">04 · Community</div>
+          <div class="fc-desc">DMs, comments, and replies handled with the same voice as your content. We don't outsource the conversation — the team that made it is the team that replies.</div>
+          <div class="fc-arrow">→</div>
+        </div>
+      </div>
     </div>
-    <div class="svc-row">
-      <div class="svc-num">05</div>
-      <div class="svc-title">Event Branding<br>&amp; Marketing</div>
-      <div class="svc-desc">On-ground coverage, event content strategy, and real-time social for launches, pop-ups, and campaigns. We capture the moment and make it last online.</div>
-      <div class="svc-arrow">→</div>
+
+    <div class="flip-card" tabindex="0">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="fc-num">05</div>
+          <div class="fc-title">Event Branding<br>&amp; Marketing</div>
+          <div class="fc-hint">Hover to explore</div>
+        </div>
+        <div class="flip-card-back">
+          <div class="fc-back-tag">05 · Events</div>
+          <div class="fc-desc">On-ground coverage, event content strategy, and real-time social for launches, pop-ups, and campaigns. We capture the moment and make it last online.</div>
+          <div class="fc-arrow">→</div>
+        </div>
+      </div>
     </div>
+
+    <div class="flip-card flip-card--logo" tabindex="0">
+      <div class="flip-card-inner">
+        <div class="flip-card-front flip-card-front--logo">
+          <div class="fc-logo-wordmark">KACI<em>STUDIO</em></div>
+          <div class="fc-logo-sub">Singapore · 2024</div>
+          <div class="fc-hint" style="color: color-mix(in oklch, var(--fg) 28%, transparent);">Hover to explore</div>
+        </div>
+        <div class="flip-card-back flip-card-back--logo">
+          <div class="fc-back-tag" style="color: color-mix(in oklch, var(--cream) 55%, transparent);">◎ The Studio</div>
+          <div class="fc-desc" style="color: color-mix(in oklch, var(--cream) 75%, transparent);">Full-scope. No half-steps. One Gen Z agency built around your brand's story — strategy, production, and community as one continuous rhythm.</div>
+          <a href="contact.html" class="fc-logo-cta">Book discovery →</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -544,21 +814,22 @@
     <div class="eyebrow" style="margin-bottom: 20px;">◎ WHY US · 03</div>
     <h2 style="font-size: clamp(44px, 6vw, 88px);">Three reasons<br>brands <em>choose us.</em></h2>
   </div>
-  <div class="why-grid reveal">
-    <div class="why-item">
-      <div class="why-num">01</div>
-      <div class="why-title">Small team,<br><em>big focus.</em></div>
-      <div class="why-desc">We cap our roster at two new brands per quarter. The person on your discovery call is the same person editing your reels — no account managers, no handoffs.</div>
+  <div class="why-carousel reveal">
+    <div class="why-images-wrap" id="whyImagesWrap">
+      <img class="why-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&auto=format" alt="Small creative team collaborating">
+      <img class="why-img" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=600&fit=crop&auto=format" alt="Content creation and video production">
+      <img class="why-img" src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop&auto=format" alt="Creative team partnership">
     </div>
-    <div class="why-item">
-      <div class="why-num">02</div>
-      <div class="why-title">Story-first content,<br><em>always.</em></div>
-      <div class="why-desc">Every piece of content is written by humans who know your brand. No AI captions, no trending-audio cosplay, no recycled templates. If it doesn't say something, it doesn't get made.</div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">03</div>
-      <div class="why-title">A true <em>creative partner.</em></div>
-      <div class="why-desc">We work as an extension of your team — strategy to storyboard to shoot day to final post. Month-to-month, so we earn your trust every cycle instead of locking it in.</div>
+    <div class="why-content-panel">
+      <div class="why-active-inner" id="whyActiveContent">
+        <div class="why-active-num" id="whyActiveNum">01</div>
+        <div class="why-active-title" id="whyActiveTitle">Small team,<br><em>big focus.</em></div>
+        <p class="why-active-desc" id="whyActiveDesc"></p>
+      </div>
+      <div class="why-nav">
+        <button class="why-nav-btn" id="whyPrev" aria-label="Previous reason">←</button>
+        <button class="why-nav-btn" id="whyNext" aria-label="Next reason">→</button>
+      </div>
     </div>
   </div>
 </section>
@@ -626,5 +897,7 @@
 <script>KaciChrome.nav("services"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
 <script src="assets/parallax.js" defer></script>
+<script src="assets/flip-cards.js" defer></script>
+<script src="assets/why-carousel.js" defer></script>
 </body>
 </html>
