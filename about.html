@@ -278,6 +278,15 @@
   align-items: center;
 }
 
+/* Bottom row */
+.follow-bottom {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  padding-top: 8px;
+  border-top: .5px solid var(--rule);
+}
+
 /* Embed column */
 .embed-col {
   display: flex;
@@ -303,6 +312,14 @@
     0 4px 24px rgba(88,71,56,.10),
     0 1px 4px  rgba(88,71,56,.06);
   transition: opacity .4s ease;
+  min-height: 320px;
+}
+
+.embed-card-wrap:empty::before,
+.embed-card-wrap:not(:has(blockquote))::before {
+  content: '';
+  display: block;
+  min-height: 320px;
 }
 
 .embed-card-wrap.switching {
@@ -410,15 +427,6 @@
   background: var(--rule);
 }
 
-/* Bottom row */
-.follow-bottom {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-  padding-top: 8px;
-  border-top: .5px solid var(--rule);
-}
-
 .follow-cta {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -437,10 +445,7 @@
 @media (max-width: 899px) {
   .follow-top { flex-direction: column; align-items: flex-start; gap: 16px; }
   .follow-subtext { text-align: left; max-width: 100%; }
-  .follow-main {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-  }
+  .follow-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
   .stats-col { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 16px 28px; }
   .stat-rule { display: none; }
 }
@@ -698,15 +703,7 @@
       <!-- Instagram embed col -->
       <div class="embed-col">
         <div class="embed-col-label">Instagram · @kacistudio.co</div>
-        <div class="embed-card-wrap" id="ig-card">
-          <blockquote
-            class="instagram-media"
-            data-instgrm-permalink="https://www.instagram.com/p/DXT7IMigTPe/"
-            data-instgrm-version="14"
-            data-instgrm-captioned
-            style="background:#FFF;border:0;margin:0;padding:0;width:100%;">
-          </blockquote>
-        </div>
+        <div class="embed-card-wrap" id="ig-card"></div>
         <div class="embed-switcher">
           <button class="embed-arrow" onclick="igSwitch(-1)" aria-label="Previous">←</button>
           <div class="embed-dots" id="ig-dots"></div>
@@ -747,12 +744,8 @@
 
     <!-- BOTTOM ROW -->
     <div class="follow-bottom">
-      <a href="https://www.instagram.com/kacistudio.co"
-         target="_blank" rel="noopener noreferrer"
-         class="follow-cta">Follow on Instagram →</a>
-      <a href="https://www.tiktok.com/@kacistudio"
-         target="_blank" rel="noopener noreferrer"
-         class="follow-cta">Follow on TikTok →</a>
+      <a href="https://www.instagram.com/kacistudio.co" target="_blank" rel="noopener noreferrer" class="follow-cta">Follow on Instagram →</a>
+      <a href="https://www.tiktok.com/@kacistudio" target="_blank" rel="noopener noreferrer" class="follow-cta">Follow on TikTok →</a>
     </div>
 
   </div>
@@ -797,47 +790,97 @@
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("about"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
-<script async src="https://www.instagram.com/embed.js"></script>
-
 <script>
-/* ══════════════════════════
-   Instagram switcher
-   Add more URLs to IG_REELS
-   when KACI provides them
-   ══════════════════════════ */
+/* ══════════════════════════════════════
+   KACISTUDIO — Dual embed switcher
+   Loads IG and TikTok scripts ONCE,
+   reuses them for all switches.
+   ══════════════════════════════════════ */
+
 const IG_REELS = [
   'https://www.instagram.com/p/DXT7IMigTPe/',
-  'https://www.instagram.com/p/DXOPjP0AdCx/?img_index=1',
+  'https://www.instagram.com/p/DXOPjP0AdCx/',
   'https://www.instagram.com/p/DXJl30jBR3B/',
-  /* ADD MORE IG REEL URLS HERE */
 ];
 
-/* ══════════════════════════
-   TikTok switcher
-   Add video IDs to TT_VIDEOS
-   when KACI provides them
-   Format: { id: '123456', cite: 'https://www.tiktok.com/@kacistudio/video/123456' }
-   ══════════════════════════ */
 const TT_VIDEOS = [
   { id: '7531984081895050514', cite: 'https://www.tiktok.com/@kacistudio.co/video/7531984081895050514' },
   { id: '7528716815854259463', cite: 'https://www.tiktok.com/@kacistudio.co/video/7528716815854259463' },
   { id: '7529087101048982802', cite: 'https://www.tiktok.com/@kacistudio.co/video/7529087101048982802' },
-  /* ADD MORE TIKTOK VIDEO OBJECTS HERE */
 ];
 
-/* ── Generic switcher factory ── */
-function makeSwitcher({ reels, cardId, dotsId, type }) {
+/* ── Load each platform script EXACTLY ONCE ── */
+
+function loadScriptOnce(src, id) {
+  return new Promise((resolve) => {
+    if (document.getElementById(id)) {
+      resolve();
+      return;
+    }
+    const s = document.createElement('script');
+    s.id = id;
+    s.src = src;
+    s.async = true;
+    s.onload = () => resolve();
+    document.head.appendChild(s);
+  });
+}
+
+/* ── Render an Instagram embed ── */
+async function renderIG(card, url) {
+  await loadScriptOnce('https://www.instagram.com/embed.js', 'ig-embed-script');
+  card.textContent = '';
+  const bq = document.createElement('blockquote');
+  bq.className = 'instagram-media';
+  bq.setAttribute('data-instgrm-permalink', url);
+  bq.setAttribute('data-instgrm-version', '14');
+  bq.setAttribute('data-instgrm-captioned', '');
+  bq.style.cssText = 'background:#FFF;border:0;margin:0;padding:0;width:100%';
+  card.appendChild(bq);
+  if (window.instgrm && window.instgrm.Embeds) {
+    window.instgrm.Embeds.process();
+  }
+}
+
+/* ── Render a TikTok embed ── */
+async function renderTT(card, video) {
+  card.textContent = '';
+  const bq = document.createElement('blockquote');
+  bq.className = 'tiktok-embed';
+  bq.setAttribute('cite', video.cite);
+  bq.setAttribute('data-video-id', video.id);
+  bq.setAttribute('data-unique-id', 'kacistudio.co');
+  bq.style.cssText = 'border:none;margin:0;width:100%';
+  bq.appendChild(document.createElement('section'));
+  card.appendChild(bq);
+
+  /* TikTok script must be re-triggered for each new blockquote.
+     We load it once, then if it's already loaded we manually
+     re-render any unprocessed blockquotes. */
+  const existingScript = document.getElementById('tt-embed-script');
+  if (!existingScript) {
+    await loadScriptOnce('https://www.tiktok.com/embed.js', 'tt-embed-script');
+  } else if (window.tiktokEmbedLoad) {
+    window.tiktokEmbedLoad();
+  } else {
+    /* Force TikTok to re-scan by reloading the script with a fresh tag */
+    existingScript.remove();
+    await loadScriptOnce('https://www.tiktok.com/embed.js?t=' + Date.now(), 'tt-embed-script');
+  }
+}
+
+/* ── Switcher factory ── */
+function makeSwitcher({ items, cardId, dotsId, render }) {
   const card = document.getElementById(cardId);
   const dotsWrap = document.getElementById(dotsId);
-  if (!card || !dotsWrap || reels.length === 0) return { go: () => {} };
+  if (!card || !dotsWrap || items.length === 0) return { go: () => {} };
 
   let current = 0;
 
-  /* Build dots */
-  reels.forEach((_, i) => {
+  items.forEach((_, i) => {
     const d = document.createElement('div');
     d.className = 'embed-dot' + (i === 0 ? ' active' : '');
-    d.addEventListener('click', () => go(i));
+    d.addEventListener('click', () => goTo(i));
     dotsWrap.appendChild(d);
   });
 
@@ -847,89 +890,48 @@ function makeSwitcher({ reels, cardId, dotsId, type }) {
     });
   }
 
-  function go(index) {
+  async function goTo(index) {
     if (index === current) return;
-    current = ((index % reels.length) + reels.length) % reels.length;
-
+    current = ((index % items.length) + items.length) % items.length;
     card.classList.add('switching');
-
-    setTimeout(() => {
-      if (type === 'instagram') {
-        card.textContent = '';
-        const bq = document.createElement('blockquote');
-        bq.className = 'instagram-media';
-        bq.setAttribute('data-instgrm-permalink', reels[current]);
-        bq.setAttribute('data-instgrm-version', '14');
-        bq.setAttribute('data-instgrm-captioned', '');
-        bq.style.cssText = 'background:#FFF;border:0;margin:0;padding:0;width:100%';
-        card.appendChild(bq);
-        if (window.instgrm && window.instgrm.Embeds) {
-          window.instgrm.Embeds.process();
-        }
-      } else if (type === 'tiktok') {
-        const r = reels[current];
-        card.textContent = '';
-        const bq = document.createElement('blockquote');
-        bq.className = 'tiktok-embed';
-        bq.setAttribute('cite', r.cite);
-        bq.setAttribute('data-video-id', r.id);
-        bq.setAttribute('data-unique-id', 'kacistudio.co');
-        bq.style.cssText = 'border:none;margin:0;width:100%';
-        bq.appendChild(document.createElement('section'));
-        card.appendChild(bq);
-        const s = document.createElement('script');
-        s.src = 'https://www.tiktok.com/embed.js';
-        s.async = true;
-        document.body.appendChild(s);
-      }
-
-      setDots(current);
-      card.classList.remove('switching');
-    }, 400);
+    await new Promise(r => setTimeout(r, 250));
+    await render(card, items[current]);
+    setDots(current);
+    requestAnimationFrame(() => card.classList.remove('switching'));
   }
 
-  return {
-    go: (dir) => go(current + dir)
-  };
+  return { go: (dir) => goTo(current + dir) };
 }
 
-/* Init Instagram switcher */
+/* ── Initialise both switchers ── */
 const igSwitcher = makeSwitcher({
-  reels: IG_REELS,
+  items: IG_REELS,
   cardId: 'ig-card',
   dotsId: 'ig-dots',
-  type: 'instagram'
+  render: (card, url) => renderIG(card, url),
 });
 
-/* Init TikTok switcher */
 const ttSwitcher = makeSwitcher({
-  reels: TT_VIDEOS,
+  items: TT_VIDEOS,
   cardId: 'tt-card',
   dotsId: 'tt-dots',
-  type: 'tiktok'
+  render: (card, video) => renderTT(card, video),
 });
 
-/* Arrow button handlers — called from onclick in HTML */
+/* Arrow handlers */
 function igSwitch(dir) { igSwitcher.go(dir); }
 function ttSwitch(dir) { ttSwitcher.go(dir); }
 
-/* Init first TikTok video dynamically so it loads as a proper interactive player */
-(function () {
-  const card = document.getElementById('tt-card');
-  const r = TT_VIDEOS[0];
-  const bq = document.createElement('blockquote');
-  bq.className = 'tiktok-embed';
-  bq.setAttribute('cite', r.cite);
-  bq.setAttribute('data-video-id', r.id);
-  bq.setAttribute('data-unique-id', 'kacistudio.co');
-  bq.style.cssText = 'border:none;margin:0;width:100%';
-  bq.appendChild(document.createElement('section'));
-  card.appendChild(bq);
-  const s = document.createElement('script');
-  s.src = 'https://www.tiktok.com/embed.js';
-  s.async = true;
-  document.body.appendChild(s);
-})();
+/* ── Initial render — load both first items on page load ── */
+window.addEventListener('load', () => {
+  const igCard = document.getElementById('ig-card');
+  const ttCard = document.getElementById('tt-card');
+  if (igCard) renderIG(igCard, IG_REELS[0]);
+  setTimeout(() => {
+    if (ttCard) renderTT(ttCard, TT_VIDEOS[0]);
+  }, 200);
+});
+
 </script>
 </body>
 </html>

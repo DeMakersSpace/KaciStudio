@@ -114,7 +114,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   gap: 60px;
 }
 .split-right {
-  background: var(--fg);
+  background: var(--fg) url('media/bgforindexherosection.png') center center / cover no-repeat;
   position: relative;
   overflow: hidden;
   min-height: 600px;
@@ -158,7 +158,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     0 2px 6px rgba(0,0,0,0.28),
     0 10px 32px rgba(0,0,0,0.22),
     0 1px 2px rgba(0,0,0,0.14);
-  animation: hsc-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hsc-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   animation-delay: var(--drop-delay);
   overflow: hidden;
 }
@@ -197,7 +197,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 .hsc-wide { width: 178px; height: 216px; top: 18px;  left: 92px;  --rot: -8deg;  z-index: 4; }
 .hsc-bt   { width: 158px; height: 194px; top: 198px; left: 6px;   --rot: -19deg; z-index: 3; }
 .hsc-logo { width: 188px; height: 228px; top: 0px;   left: 312px; --rot: 10deg;  z-index: 4; }
-.hsc-brand { width: 188px; height: 228px; top: 165px; left: 182px; --rot: -3deg;  z-index: 6; }
+.hsc-brand { width: 188px; height: 228px; top: 165px; left: 212px; --rot: -3deg;  z-index: 6; }
 .hsc-brand-inner {
   width: 100%; height: 100%;
   background: var(--fg);
@@ -224,8 +224,97 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 .hsc-sq3  { width: 170px; height: 208px; top: 412px; left: 168px; --rot: -6deg;  z-index: 3; }
 .hsc-sqb  { width: 140px; height: 172px; top: 432px; left: 408px; --rot: 8deg;   z-index: 1; }
 
+/*
+  Collapse vectors — offset from each card's natural position to the brand card centre.
+  Brand card centre inside .hero-star ≈ (276px, 279px).
+  Each vector = brand_centre − card_centre, so adding it moves the card onto the brand card.
+*/
+.hsc-pa   { --fly-x:  195px; --fly-y:  185px; --fly-delay:   0ms; }
+.hsc-st   { --fly-x:  -36px; --fly-y:  167px; --fly-delay:  40ms; }
+.hsc-wide { --fly-x:   95px; --fly-y:  153px; --fly-delay:  20ms; }
+.hsc-bt   { --fly-x:  191px; --fly-y:  -16px; --fly-delay:  60ms; }
+.hsc-logo { --fly-x: -130px; --fly-y:  165px; --fly-delay:  10ms; }
+.hsc-sq4  { --fly-x: -185px; --fly-y:   19px; --fly-delay:  50ms; }
+.hsc-pb   { --fly-x:  -97px; --fly-y: -180px; --fly-delay:  80ms; }
+.hsc-sqa  { --fly-x:  158px; --fly-y: -216px; --fly-delay:  90ms; }
+.hsc-sq3  { --fly-x:   23px; --fly-y: -237px; --fly-delay:  70ms; }
+.hsc-sqb  { --fly-x: -202px; --fly-y: -239px; --fly-delay: 100ms; }
+
+/* Default: non-brand cards sit collapsed on top of the brand card */
+.hsc:not(.hsc-brand) {
+  animation: none;
+  transform: translate(var(--fly-x, 0px), var(--fly-y, 0px))
+             rotate(var(--rot))
+             scale(0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.6s ease;
+  transition-delay: var(--fly-delay, 0ms);
+}
+
+/* .is-expanded toggled by JS on each brand-card mouseenter */
+.hero-star.is-expanded .hsc:not(.hsc-brand) {
+  transform: rotate(var(--rot));
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hero-star.is-expanded .hsc-brand {
+  transform: rotate(0deg) scale(1) translateY(-8px);
+  z-index: 30 !important;
+  overflow: hidden;
+  box-shadow:
+    0 12px 32px rgba(0,0,0,0.32),
+    0 32px 80px rgba(0,0,0,0.24);
+}
+
+/* Hide hint label once expanded */
+.hero-star.is-expanded .hsc-brand::after { display: none; }
+
+/* ── Interaction hint ── */
+@keyframes brand-pulse {
+  0%   { box-shadow: 0 2px 6px rgba(0,0,0,0.28), 0 10px 32px rgba(0,0,0,0.22), 0 0 0 0px  rgba(147,169,210,0.55); }
+  100% { box-shadow: 0 2px 6px rgba(0,0,0,0.28), 0 10px 32px rgba(0,0,0,0.22), 0 0 0 22px rgba(147,169,210,0);   }
+}
+
+@keyframes hint-blink {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.15; }
+}
+
+/* Brand card: bigger on load, ripple plays 3× after drop-in */
+.hsc-brand {
+  overflow: visible;
+  transform: rotate(var(--rot)) scale(1.3);
+  animation: hsc-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards,
+             brand-pulse 1.3s ease-out 1.1s 3;
+}
+
+/* Hint label sits below the polaroid strip — offset for scaled card */
+.hsc-brand::after {
+  content: '◎ hover to explore';
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245,243,238,0.55);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: hint-blink 1.8s ease-in-out 1.6s infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hsc { transition: none; animation: none; }
+  .hsc:not(.hsc-brand) { transition: none; }
+  .hsc-brand { animation: none; }
+  .hsc-brand::after { animation: none; opacity: 0.55; }
+  .hero-star.is-expanded .hsc:not(.hsc-brand),
+  .hero-star.is-expanded .hsc-brand { transition: none; }
 }
 
 .split-headline {
@@ -935,6 +1024,19 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 </section>
 
 <div id="footer-slot"></div>
+
+<script>
+(function () {
+  var star = document.querySelector('.hero-star');
+  var brand = document.querySelector('.hsc-brand');
+  if (!star || !brand) return;
+  brand.addEventListener('mouseenter', function () {
+    star.classList.toggle('is-expanded');
+    // Lock out the drop-in animation so it never restarts on collapse
+    brand.style.animation = 'none';
+  });
+})();
+</script>
 
 <script src="assets/chrome.js"></script>
 <script>

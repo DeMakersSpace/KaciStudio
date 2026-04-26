@@ -55,26 +55,35 @@
   text-align: right;
 }
 
-/* Case list */
-.cases { padding: var(--pad-section-y) 0; }
-.case {
-  padding: clamp(40px, 6vw, 96px) var(--pad-gutter);
+/* ── Case grid (getsocial.sg / tobesocial.sg style) ── */
+.cases {
+  padding: var(--pad-section-y) var(--pad-gutter);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
-  border-top: 1px solid var(--rule);
+  gap: clamp(24px, 4vw, 56px) clamp(24px, 4vw, 40px);
 }
-.case:last-child { border-bottom: 1px solid var(--rule); }
-.case.reverse { direction: rtl; }
-.case.reverse > * { direction: ltr; }
+
+.case {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.case-visual-wrap {
+  position: relative;
+  width: 100%;
+}
 
 .case-visual {
   aspect-ratio: 4/5;
   position: relative;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 4px;
+  width: 100%;
 }
+
 .case-visual .big-type {
   position: absolute;
   inset: 0;
@@ -82,62 +91,82 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-serif);
-  font-size: clamp(56px, 9vw, 140px);
+  font-size: clamp(36px, 5vw, 72px);
   line-height: 0.85;
   letter-spacing: -0.03em;
   font-style: italic;
   text-align: center;
-  padding: 24px;
+  padding: 20px;
 }
+
 .case-visual .ph-label { z-index: 2; }
 
-.case-body .eyebrow { margin-bottom: 16px; }
-.case-body h2 {
-  font-size: clamp(44px, 6vw, 88px);
-  line-height: 0.92;
-  margin-bottom: 20px;
+/* Card meta — eyebrow + headline + minimal preview */
+.case-body {
+  padding: 4px 4px 0;
 }
+
+.case-body .eyebrow { margin-bottom: 10px; font-size: 10px; }
+
+.case-body h2 {
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+
 .case-body h2 em { font-style: italic; color: var(--accent); }
+
 .case-body .deck {
-  font-size: 17px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--fg-muted);
-  max-width: 520px;
-  margin-bottom: 32px;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+
 .case-body .deck strong { color: var(--fg); font-weight: 500; }
 
 .case-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  margin-bottom: 32px;
-  border-top: 1px solid var(--rule);
-  padding-top: 28px;
+  display: flex;
+  gap: 18px;
+  margin-bottom: 14px;
 }
+
 .case-stat .n {
   font-family: var(--font-serif);
-  font-size: clamp(32px, 4vw, 52px);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--fg);
   line-height: 1;
-  letter-spacing: -0.02em;
 }
-.case-stat .n em { font-style: italic; color: var(--accent); }
+.case-stat .n em { color: var(--accent); }
+
 .case-stat .l {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
+  font-size: 9px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--fg-muted);
-  margin-top: 8px;
+  margin-top: 4px;
+  line-height: 1.4;
 }
-.case-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+
+.case-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .case-chip {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
+  font-size: 9px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 6px 12px;
-  border: 1px solid var(--rule);
+  padding: 3px 8px;
+  border: .5px solid var(--rule);
   border-radius: 999px;
   color: var(--fg-muted);
 }
@@ -185,37 +214,43 @@
 }
 .cover-coffeeman .big-type { color: var(--fg); }
 
-/* Hover photo reveal — second card peeking underneath */
-.case-visual-wrap {
-  position: relative;
-}
+/* Hover photo reveal — keep but scale down */
 .case-visual-wrap::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 4px;
   background: color-mix(in oklch, var(--accent) 22%, var(--bg-alt));
-  transform: rotate(3deg) translate(14px, 14px) scale(0.97);
-  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: rotate(2deg) translate(8px, 8px) scale(0.97);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 0;
 }
+
 .case-visual-wrap .case-visual {
   position: relative;
   z-index: 1;
-  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
 .case-visual-wrap:hover .case-visual {
-  transform: rotate(-1.5deg) translate(-6px, -6px);
+  transform: rotate(-1deg) translate(-3px, -3px);
 }
+
 .case-visual-wrap:hover::after {
-  transform: rotate(5.5deg) translate(22px, 22px) scale(0.93);
+  transform: rotate(4deg) translate(14px, 14px) scale(0.94);
 }
 
 @media (max-width: 900px) {
   .work-intro { grid-template-columns: 1fr; }
   .work-intro-meta { justify-self: start; text-align: left; }
-  .case, .case.reverse { grid-template-columns: 1fr; direction: ltr; }
-  .case-stats { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 768px) {
+  .cases {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
   .case-visual-wrap:hover .case-visual { transform: none; }
   .case-visual-wrap::after { display: none; }
 }
@@ -223,9 +258,6 @@
 @media (max-width: 430px) {
   .work-hero h1 { font-size: clamp(36px, 9vw, 52px); }
   .case-visual { min-height: 280px; }
-  .big-type { font-size: clamp(40px, 12vw, 64px); }
-  .case-stats { grid-template-columns: 1fr 1fr; }
-  .case-stat:last-child { grid-column: 1 / -1; }
 }
 </style>
 </head>
@@ -281,7 +313,7 @@
   </article>
 
   <!-- Case 02 -->
-  <article class="case reverse">
+  <article class="case">
     <div class="case-visual-wrap">
     <div class="case-visual ph cover-flyco">
       <div class="ph-label">CASE · 002 · 2025</div>
@@ -353,7 +385,7 @@
   </article>
 
   <!-- Case 04 -->
-  <article class="case reverse">
+  <article class="case">
     <div class="case-visual-wrap">
     <div class="case-visual ph cover-melissa">
       <div class="ph-label">CASE · 004 · 2025</div>
