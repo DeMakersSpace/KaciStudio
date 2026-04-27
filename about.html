@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Meet Angeline and Jovinna — the Gen Z creatives behind KACISTUDIO.">
 <title>About — KACISTUDIO</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/tokens.css">
 <style>
 .about-hero {
@@ -32,20 +29,21 @@
   border-top: 1px solid var(--rule);
   align-items: start;
 }
-.manifesto .lhs { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-muted); line-height: 2; }
-.manifesto .lhs strong { color: var(--fg); font-weight: 500; }
+.manifesto .lhs { font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); line-height: 2.1; }
+.manifesto .lhs strong { color: var(--fg); font-weight: 600; }
 .manifesto-body { display: flow-root; }
 .manifesto p {
-  font-family: var(--font-serif);
-  font-size: clamp(22px, 2.4vw, 34px);
-  line-height: 1.35;
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 300;
+  line-height: 1.7;
   letter-spacing: -0.01em;
 }
 .manifesto p + p { margin-top: 28px; }
-.manifesto em { color: var(--accent); font-style: italic; }
+.manifesto em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 600; }
 .manifesto-photo {
   float: right;
-  width: 155px;
+  width: 215px;
   margin: 6px 0 24px 32px;
   background: #F5F3EE;
   padding: 9px 9px 38px;
@@ -169,9 +167,20 @@
 .team-head h2 em { font-style: italic; color: var(--accent); }
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
+  max-width: 680px;
   gap: 32px;
+  margin: 0 auto;
+  text-align: center;
 }
+.member-bio-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 16px;
+  text-align: left;
+}
+.member-bio { margin-left: auto; margin-right: auto; }
 .member .ph {
   aspect-ratio: 4/5;
   margin-bottom: 20px;
@@ -198,6 +207,25 @@
   margin-top: 16px;
   max-width: 320px;
 }
+.founder-tag {
+  position: absolute;
+  top: 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.founder-tag--left  { left: 28%; }
+.founder-tag--right { right: 30%; }
+.founder-tag-name {
+  font-family: var(--font-script);
+  font-size: 30px;
+  color: rgba(248,246,218,0.92);
+  line-height: 1;
+  white-space: nowrap;
+}
+.founder-tag svg { display: block; }
 
 /* Bg alt section — place/kit/toolkit */
 .kit {
@@ -279,14 +307,15 @@
 }
 .name-story-inner { max-width: 1440px; margin: 0 auto; }
 .name-story-copy {
-  font-family: var(--font-serif);
-  font-size: clamp(22px, 3vw, 44px);
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
   max-width: 860px;
   margin-top: 20px;
 }
-.name-story-copy em { font-style: italic; color: var(--accent); }
+.name-story-copy em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 600; }
 
 /* ══════════════════════════════════
    FOLLOW ALONG — Dual Embed Layout
@@ -638,6 +667,14 @@
   .kit-card:first-child { grid-template-columns: 1fr; gap: 24px; }
 }
 
+@media (max-width: 600px) {
+  .member-bio-split { grid-template-columns: 1fr; gap: 16px; }
+  .team-grid { max-width: 100%; }
+  .founder-tag--left  { left: 10%; }
+  .founder-tag--right { right: 6%; }
+  .founder-tag-name { font-size: 22px; }
+}
+
 @media (max-width: 430px) {
   .manifesto p { font-size: clamp(13px, 3.5vw, 16px); }
   .member-name { font-size: 20px; }
@@ -649,6 +686,10 @@
   .follow-bottom { flex-direction: column; align-items: center; gap: 14px; }
   .about-cta .btns { display: flex; flex-direction: column; align-items: center; width: 100%; }
   .about-cta .btns .btn { justify-content: center; white-space: normal; text-align: center; width: 100%; }
+  .member-bio-split { grid-template-columns: 1fr; }
+  .founder-tag--left  { left: 6%; }
+  .founder-tag--right { right: 4%; }
+  .founder-tag-name { font-size: 18px; }
 }
 </style>
 </head>
@@ -677,7 +718,7 @@
   <div class="manifesto-body">
     <p>At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We're run by Gen Z creatives who understand what today's audiences <em>stop scrolling for</em>.</p>
     <div class="manifesto-photo">
-      <img src="https://placehold.co/155x206" alt="Behind the scenes at KACISTUDIO">
+      <img src="media/Photos of Co-Founder/fxn 2025-11-16 142444.612.jpg" alt="Angeline and Jovinna, KACISTUDIO founders" style="object-position:center top;">
       <div class="manifesto-photo-label">Behind the scenes</div>
     </div>
     <p>Our mission is to help brands show up in a way that feels unmistakably like them. Whether you're a growing business or an emerging brand, we work as an <em>extension of your team</em> — blending strategy with soul, and storytelling with structure.</p>
@@ -726,20 +767,29 @@
 
   <div class="team-grid reveal">
     <div class="member">
-      <div class="ph ph-terra">
-        <div class="ph-label" style="color: var(--cream); opacity: 0.8;">PORTRAIT · 01</div>
+      <div class="ph" style="aspect-ratio:4/5; position:relative;">
+        <img src="media/Photos of Co-Founder/fxn 2025-11-16 145436.802.jpg" alt="Angeline Khor and Jovinna Chow, Co-Founders of KACISTUDIO" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:15% top;">
+        <div class="founder-tag founder-tag--left">
+          <span class="founder-tag-name">Angeline</span>
+          <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 14 2 C 16 14, 22 22, 20 44" stroke="rgba(248,246,218,0.85)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 13 39 L 20 44 L 25 38" stroke="rgba(248,246,218,0.85)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="founder-tag founder-tag--right">
+          <span class="founder-tag-name">Jovinna</span>
+          <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 14 2 C 12 14, 6 22, 8 44" stroke="rgba(248,246,218,0.85)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M 15 39 L 8 44 L 3 38" stroke="rgba(248,246,218,0.85)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
       </div>
-      <div class="member-name">Angeline <em>Khor</em></div>
-      <div class="member-role">Co-Founder · Creative &amp; Content Lead</div>
-      <p class="member-bio">Angeline leads content ideation and aesthetic curation — crafting assets that align seamlessly with a brand's voice. She's the creative mind behind KACISTUDIO's signature style: relatable and engaging, with a visual appeal that feels both authentic and elevated.</p>
-    </div>
-    <div class="member">
-      <div class="ph ph-espresso">
-        <div class="ph-label" style="color: var(--cream); opacity: 0.7;">PORTRAIT · 02</div>
+      <div class="member-name">Angeline <em>Khor</em> &amp; Jovinna <em>Chow</em></div>
+      <div class="member-role">Co-Founders · KACISTUDIO</div>
+      <div class="member-bio-split">
+        <p class="member-bio">Angeline leads content ideation and aesthetic curation — crafting assets that align seamlessly with a brand's voice. She's the creative mind behind KACISTUDIO's signature style: relatable and engaging, with a visual appeal that feels both authentic and elevated.</p>
+        <p class="member-bio">Jovinna manages end-to-end shoot and production campaigns. From visual planning and logistics to on-site content creation, she makes sure every concept comes to life cohesively — strategy to storyboard to final output.</p>
       </div>
-      <div class="member-name">Jovinna <em>Chow</em></div>
-      <div class="member-role">Co-Founder · Media Production &amp; Project Lead</div>
-      <p class="member-bio">Jovinna manages end-to-end shoot and production campaigns. From visual planning and logistics to on-site content creation, she makes sure every concept comes to life cohesively — strategy to storyboard to final output.</p>
     </div>
   </div>
 </section>

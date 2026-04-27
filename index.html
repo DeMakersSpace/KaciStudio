@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="KACISTUDIO is a Singapore-based social media agency. We help brands tell their story with intention across TikTok, Instagram, and beyond.">
 <title>KACISTUDIO — Where your story meets socials.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/tokens.css">
 <style>
 /* ---------------- Home-specific ---------------- */
@@ -168,7 +165,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
 .hsc:hover {
   transform: rotate(calc(var(--rot) * 0.15)) translateY(-18px) scale(1.07);
-  z-index: 20 !important;
+  z-index: 50 !important;
   box-shadow:
     0 8px 20px rgba(0,0,0,0.28),
     0 24px 60px rgba(0,0,0,0.22);
@@ -198,29 +195,10 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 .hsc-pa   { width: 162px; height: 198px; top: -5px;  left: 0px;   --rot: -13deg; z-index: 2; }
 .hsc-st   { width: 148px; height: 184px; top: 20px;  left: 238px; --rot: 17deg;  z-index: 3; }
 .hsc-wide { width: 178px; height: 216px; top: 18px;  left: 92px;  --rot: -8deg;  z-index: 4; }
-.hsc-bt   { width: 158px; height: 194px; top: 198px; left: 6px;   --rot: -19deg; z-index: 3; }
-.hsc-logo { width: 188px; height: 228px; top: 0px;   left: 312px; --rot: 10deg;  z-index: 4; }
+.hsc-bt   { width: 188px; height: 228px; top: 0px;   left: 312px; --rot: 10deg;  z-index: 4; }
+.hsc-logo { width: 158px; height: 194px; top: 198px; left: 60px;  --rot: -19deg; z-index: 3; }
 .hsc-brand { width: 188px; height: 228px; top: 165px; left: 215px; --rot: -3deg;  z-index: 6; }
-.hsc-brand-inner {
-  width: 100%; height: 100%;
-  background: var(--fg);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 6px;
-}
-.hsc-brand-name {
-  font-family: var(--font-serif);
-  font-size: 17px; font-weight: 500;
-  letter-spacing: -0.01em;
-  color: #F5F3EE;
-}
-.hsc-brand-name span { color: var(--accent); font-style: italic; }
-.hsc-brand-sub {
-  font-family: var(--font-mono);
-  font-size: 8px; letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(245,243,238,0.4);
-}
+
 .hsc-sq4  { width: 142px; height: 176px; top: 172px; left: 390px; --rot: 13deg;  z-index: 2; }
 .hsc-pb   { width: 162px; height: 198px; top: 360px; left: 292px; --rot: -9deg;  z-index: 3; }
 .hsc-sqa  { width: 155px; height: 190px; top: 400px; left: 40px;  --rot: 16deg;  z-index: 2; }
@@ -235,8 +213,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 .hsc-pa   { --fly-x:  195px; --fly-y:  185px; --fly-delay:   0ms; }
 .hsc-st   { --fly-x:  -36px; --fly-y:  167px; --fly-delay:  40ms; }
 .hsc-wide { --fly-x:   95px; --fly-y:  153px; --fly-delay:  20ms; }
-.hsc-bt   { --fly-x:  191px; --fly-y:  -16px; --fly-delay:  60ms; }
-.hsc-logo { --fly-x: -130px; --fly-y:  165px; --fly-delay:  10ms; }
+.hsc-bt   { --fly-x: -130px; --fly-y:  165px; --fly-delay:  10ms; }
+.hsc-logo { --fly-x:  191px; --fly-y:  -16px; --fly-delay:  60ms; }
 .hsc-sq4  { --fly-x: -185px; --fly-y:   19px; --fly-delay:  50ms; }
 .hsc-pb   { --fly-x:  -97px; --fly-y: -180px; --fly-delay:  80ms; }
 .hsc-sqa  { --fly-x:  158px; --fly-y: -216px; --fly-delay:  90ms; }
@@ -289,7 +267,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 /* Brand card: bigger on load, ripple plays 3× after drop-in */
 .hsc-brand {
   overflow: visible;
-  transform: rotate(var(--rot)) scale(1.3);
+  transform: rotate(var(--rot)) scale(1.1);
   animation: hsc-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards,
              brand-pulse 1.3s ease-out 1.1s 3;
 }
@@ -464,43 +442,125 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0;
-  border-top: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
   border-left: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  position: relative;
 }
-.process-step:last-child {
-  border-right: 0;
+/* Accent connector line spanning all steps */
+.process-grid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    color-mix(in oklch, var(--accent) 30%, transparent),
+    var(--accent) 20%,
+    var(--accent) 80%,
+    color-mix(in oklch, var(--accent) 30%, transparent)
+  );
+  z-index: 1;
 }
+.process-step:last-child { border-right: 0; }
 .process-step {
-  padding: 40px;
+  padding: clamp(28px, 3vw, 44px) clamp(24px, 2.5vw, 36px);
+  background: color-mix(in oklch, var(--cream) 8%, var(--fg));
   border-right: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
   border-bottom: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
-  min-height: 280px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0;
   position: relative;
-  transition: background 0.3s ease;
+  transition:
+    background 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0ms,
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
 }
-.process-step:hover { background: color-mix(in oklch, var(--accent) 18%, transparent); }
-.process-num {
+.process-step:hover {
+  background: color-mix(in oklch, var(--accent) 14%, var(--fg));
+}
+
+/* Timeline node — accent dot sitting on the connector line */
+.process-step::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  z-index: 2;
+}
+
+/* Separator arrow — circular badge on each vertical divider */
+.process-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: color-mix(in oklch, var(--cream) 50%, transparent);
+  background: color-mix(in oklch, var(--cream) 8%, var(--fg));
+  border: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Large display number — Perandory Condensed as visual anchor */
+.step-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--cream) 35%, transparent);
+  display: block;
+  margin-bottom: 10px;
+}
+.step-n {
   font-family: var(--font-serif);
-  font-size: 14px;
-  letter-spacing: 0.3em;
+  font-weight: 700;
+  font-size: clamp(56px, 6.5vw, 92px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
   color: var(--accent);
+  display: block;
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+  transition: color 0.35s ease;
 }
+.process-step:hover .step-n {
+  color: color-mix(in oklch, var(--accent) 80%, var(--cream));
+}
+
 .process-title {
   font-family: var(--font-serif);
-  font-size: clamp(18px, 1.7vw, 26px);
-  line-height: 1.05;
+  font-weight: 400;
+  font-size: clamp(16px, 1.5vw, 21px);
+  line-height: 1.1;
   letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: clamp(16px, 2vw, 24px);
 }
-.process-title em { font-style: italic; color: var(--accent); }
+.process-title em {
+  font-family: var(--font-serif) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  color: var(--cream);
+}
 .process-desc {
-  font-size: 14px;
-  line-height: 1.55;
-  color: color-mix(in oklch, var(--cream) 70%, transparent);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.65;
+  color: color-mix(in oklch, var(--cream) 62%, transparent);
   margin-top: auto;
-  max-width: 300px;
 }
 
 /* Work preview */
@@ -722,7 +782,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
 @media (max-width: 1100px) {
   .process-grid { grid-template-columns: repeat(3, 1fr); }
-  .process-step:last-child { border-right: 1px solid color-mix(in oklch, var(--cream) 20%, transparent); }
+  .process-step:last-child { border-right: 1px solid color-mix(in oklch, var(--cream) 15%, transparent); }
   .process-step:nth-child(3n) { border-right: 0; }
 }
 
@@ -736,6 +796,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   }
   .process-step:nth-child(3n) { border-right: 1px solid color-mix(in oklch, var(--cream) 20%, transparent); }
   .process-step:last-child { border-right: 0; }
+  .process-step:not(:last-child)::after { display: none; }
   .svc-row { grid-template-columns: 40px 1fr; gap: 16px; }
   .svc-row .svc-desc, .svc-row .svc-arrow { grid-column: 2; }
   .stat { border-right: 0; border-bottom: 1px solid var(--rule); }
@@ -746,6 +807,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 @media (max-width: 768px) {
   .split-right { min-height: 380px; }
   .stats { grid-template-columns: 1fr 1fr; }
+  .type-hero-word { font-size: clamp(48px, 12vw, 80px); }
 }
 
 @media (max-width: 430px) {
@@ -757,8 +819,9 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   .svc-title { font-size: clamp(18px, 4vw, 22px); }
   .stats { grid-template-columns: 1fr; }
   .process-num { font-size: 10px; }
-  .pull blockquote { font-size: clamp(28px, 8vw, 40px); }
+  .pull blockquote { font-size: clamp(24px, 7vw, 36px); }
   .love-card { padding: 20px; }
+  .type-hero-word { font-size: clamp(40px, 10vw, 60px); }
 }
 
 </style>
@@ -790,61 +853,58 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div class="hero-star">
 
       <div class="hsc hsc-pa" style="--drop-delay:60ms">
-        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=400&fit=crop&auto=format&q=80" alt="Portrait">
+        <img src="media/BTS-Stock Photos/IMG_2959.jpg" alt="KACISTUDIO behind the scenes">
         <div class="hsc-label">Portrait · 01</div>
       </div>
 
       <div class="hsc hsc-st" style="--drop-delay:120ms">
-        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=400&fit=crop&auto=format&q=80" alt="Story BTS">
-        <div class="hsc-label">Story · BTS</div>
+        <img src="media/Event Pics/25.png" alt="LittleMissMarket Dear Diary activation">
+        <div class="hsc-label">Event · LMM</div>
       </div>
 
       <div class="hsc hsc-wide" style="--drop-delay:90ms">
-        <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=400&h=400&fit=crop&auto=format&q=80" alt="Editorial">
-        <div class="hsc-label">Editorial · SG</div>
+        <img src="media/Event Pics/23.png" alt="Live music at Singapore street event">
+        <div class="hsc-label">Event · SG</div>
       </div>
 
-      <div class="hsc hsc-bt" style="--drop-delay:180ms">
-        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&auto=format&q=80" alt="BTS">
+      <div class="hsc hsc-bt" style="--drop-delay:0ms">
+        <img src="media/BTS-Stock Photos/IMG_2944 2.jpg" alt="Behind the scenes at KACISTUDIO">
         <div class="hsc-label">BTS · On set</div>
       </div>
 
-      <div class="hsc hsc-logo" style="--drop-delay:0ms">
-        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop&auto=format&q=80" alt="Campaign">
-        <div class="hsc-label">Campaign · 01</div>
+      <div class="hsc hsc-logo" style="--drop-delay:180ms">
+        <img src="Logo/Secondary Logo (White).png" alt="KACISTUDIO — Social Media Agency" style="object-fit:contain;width:100%;height:100%;">
+        <div class="hsc-label">KACI · Studio</div>
       </div>
 
       <div class="hsc hsc-brand" style="--drop-delay:30ms">
-        <div class="hsc-brand-inner">
-          <div class="hsc-brand-name">KACI<span>STUDIO</span></div>
-          <div class="hsc-brand-sub">SG · Est. 2024</div>
-        </div>
+        <img src="Logo/Primary Logo (Blue).png" alt="KACISTUDIO" style="object-fit:cover;width:100%;height:100%;">
         <div class="hsc-label">Agency · SG</div>
       </div>
 
       <div class="hsc hsc-sq4" style="--drop-delay:200ms">
-        <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=400&fit=crop&auto=format&q=80" alt="Agency">
-        <div class="hsc-label">Agency · Kit</div>
+        <img src="media/Event Pics/fxn 2026-04-12 204001D84AFE509AF0.jpeg" alt="Dear Diary event activation wall">
+        <div class="hsc-label">Event · Wall</div>
       </div>
 
       <div class="hsc hsc-pb" style="--drop-delay:140ms">
-        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop&auto=format&q=80" alt="Portrait 02">
+        <img src="media/Photos of Co-Founder/fxn 2025-11-16 121044.102.JPG" alt="KACISTUDIO co-founders" style="object-position:center top;">
         <div class="hsc-label">Portrait · 02</div>
       </div>
 
       <div class="hsc hsc-sqa" style="--drop-delay:220ms">
-        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=500&fit=crop&crop=bottom&auto=format&q=80" alt="Content">
-        <div class="hsc-label">Content · 03</div>
+        <img src="media/Event Pics/26.png" alt="LittleMissMarket outdoor market stall">
+        <div class="hsc-label">Market · SG</div>
       </div>
 
       <div class="hsc hsc-sq3" style="--drop-delay:255ms">
-        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=500&fit=crop&crop=top&auto=format&q=80" alt="Agency SG">
-        <div class="hsc-label">Agency · SG</div>
+        <img src="media/Event Pics/28.png" alt="LittleMissMarket indoor market">
+        <div class="hsc-label">Market · In</div>
       </div>
 
       <div class="hsc hsc-sqb" style="--drop-delay:275ms">
-        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=500&fit=crop&crop=top&auto=format&q=80" alt="Content 04">
-        <div class="hsc-label">Content · 04</div>
+        <img src="media/Event Pics/29.png" alt="LittleMissMarket clothing racks">
+        <div class="hsc-label">Fashion · LMM</div>
       </div>
 
     </div>
@@ -948,30 +1008,45 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       </div>
     </div>
 
-    <div class="process-grid reveal">
-      <div class="process-step">
-        <div class="process-num">STEP 01</div>
-        <div class="process-title">Discover<br>&amp; <em>Align</em></div>
+    <div class="process-grid">
+      <div class="process-step reveal reveal-scroll" style="--reveal-delay:0ms">
+        <div class="process-num">
+          <span class="step-label">STEP</span>
+          <span class="step-n">01</span>
+        </div>
+        <div class="process-title">Discover<br>&amp; Align</div>
         <div class="process-desc">We meet in person to understand your brand and see if we're the right fit.</div>
       </div>
-      <div class="process-step">
-        <div class="process-num">STEP 02</div>
-        <div class="process-title">Research<br>&amp; <em>Strategy</em></div>
+      <div class="process-step reveal reveal-scroll" style="--reveal-delay:90ms">
+        <div class="process-num">
+          <span class="step-label">STEP</span>
+          <span class="step-n">02</span>
+        </div>
+        <div class="process-title">Research<br>&amp; Strategy</div>
         <div class="process-desc">A deep audit and custom strategy, built for your brand specifically.</div>
       </div>
-      <div class="process-step">
-        <div class="process-num">STEP 03</div>
-        <div class="process-title">Content<br><em>Planning</em></div>
+      <div class="process-step reveal reveal-scroll" style="--reveal-delay:180ms">
+        <div class="process-num">
+          <span class="step-label">STEP</span>
+          <span class="step-n">03</span>
+        </div>
+        <div class="process-title">Content<br>Planning</div>
         <div class="process-desc">Full content calendar — captions, creative direction, and timing.</div>
       </div>
-      <div class="process-step">
-        <div class="process-num">STEP 04</div>
-        <div class="process-title">Creation<br>&amp; <em>Approval</em></div>
+      <div class="process-step reveal reveal-scroll" style="--reveal-delay:270ms">
+        <div class="process-num">
+          <span class="step-label">STEP</span>
+          <span class="step-n">04</span>
+        </div>
+        <div class="process-title">Creation<br>&amp; Approval</div>
         <div class="process-desc">We shoot, edit, share for approval, and refine.</div>
       </div>
-      <div class="process-step">
-        <div class="process-num">STEP 05</div>
-        <div class="process-title">Execute<br>&amp; <em>Elevate</em></div>
+      <div class="process-step reveal reveal-scroll" style="--reveal-delay:360ms">
+        <div class="process-num">
+          <span class="step-label">STEP</span>
+          <span class="step-n">05</span>
+        </div>
+        <div class="process-title">Execute<br>&amp; Elevate</div>
         <div class="process-desc">Posting, monitoring, and refinement as we grow together.</div>
       </div>
     </div>

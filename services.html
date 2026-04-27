@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Full social media management, content creation, strategy, and event branding. Built around your brand's story.">
 <title>Services — KACISTUDIO</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,50..100&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/tokens.css">
 <style>
 .page-hero {
@@ -80,7 +77,7 @@
   color: var(--accent);
 }
 .del-row .desc { font-family: var(--font-serif); font-size: 22px; letter-spacing: -0.01em; }
-.del-row .desc em { color: var(--accent); font-style: italic; }
+.del-row .desc em { color: var(--accent); font-family: var(--font-script); font-style: normal; font-weight: 400; font-size: 1.15em; }
 .del-row .type {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -324,6 +321,8 @@
   .why-title { font-size: 18px; }
   .content-chip { font-size: 10px; padding: 4px 10px; }
   .faq-q { font-size: 14px; }
+  .package-inner { padding: clamp(20px, 5vw, 40px); }
+  .cta-band { padding: clamp(40px, 8vw, 80px) var(--pad-gutter); }
 }
 
 /* ── Flip cards — services overview ── */
