@@ -65,7 +65,10 @@ const KaciChrome = (() => {
 
     /* Logo */
     const logo = el('a', { cls: 'kaci-nav-logo', href: 'index.html', 'aria-label': 'KACISTUDIO home' });
-    logo.appendChild(document.createTextNode('KACISTUDIO'));
+    const logoWrap = document.createElement('div');
+    logoWrap.setAttribute('aria-hidden', 'true');
+    logoWrap.style.cssText = 'width:102px;height:38px;border-radius:5px;flex-shrink:0;background-image:url("Logo/Primary Logo (Blue).png");background-repeat:no-repeat;background-size:164px 164px;background-position:-22px -61px;';
+    logo.appendChild(logoWrap);
 
     /* Desktop links */
     const linkRow = el('div', { cls: 'kaci-nav-links' });
@@ -114,10 +117,13 @@ const KaciChrome = (() => {
 
     const year = new Date().getFullYear();
 
-    /* Brand wordmark + sub-label */
+    /* Brand logo + sub-label */
     const brand = el('div', { cls: 'kaci-footer-brand' });
-    brand.appendChild(document.createTextNode('KACI'));
-    brand.appendChild(el('span', { text: 'STUDIO' }));
+    const logoImg = document.createElement('img');
+    logoImg.src = 'Logo/Primary Logo (Blue).png';
+    logoImg.alt = 'Kaci Studio';
+    logoImg.className = 'kaci-footer-logo-img';
+    brand.appendChild(logoImg);
     const brandWrap = el('div', { cls: 'kaci-footer-brand-wrap' });
     brandWrap.appendChild(brand);
     brandWrap.appendChild(el('div', { cls: 'kaci-footer-brand-sub', text: 'Singapore · Est. 2024' }));
