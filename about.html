@@ -35,12 +35,12 @@
 .manifesto p {
   font-family: var(--font-sans);
   font-size: clamp(18px, 2vw, 26px);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   letter-spacing: -0.01em;
 }
 .manifesto p + p { margin-top: 28px; }
-.manifesto em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 600; }
+.manifesto em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 .manifesto-photo {
   float: right;
   width: 215px;
@@ -68,6 +68,41 @@
   margin-top: 10px;
 }
 
+/* Tape corners on polaroid */
+.tape {
+  position: absolute;
+  width: 38px;
+  height: 12px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,0.028) 0px,
+      rgba(0,0,0,0.028) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    rgba(235, 213, 140, 0.58);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  z-index: 3;
+  pointer-events: none;
+}
+.tape--tl {
+  top: 0; left: 0;
+  transform: translate(-50%, -50%) rotate(-43deg);
+}
+.tape--tr {
+  top: 0; right: 0;
+  transform: translate(50%, -50%) rotate(47deg);
+}
+.tape--bl {
+  bottom: 0; left: 0;
+  transform: translate(-50%, 50%) rotate(43deg);
+}
+.tape--br {
+  bottom: 0; right: 0;
+  transform: translate(50%, 50%) rotate(-47deg);
+}
+
 /* Values as big editorial numbers */
 .values {
   background: var(--fg);
@@ -80,7 +115,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: end;
+  align-items: center;
 }
 .values-head h2 { font-size: clamp(44px, 6vw, 96px); color: var(--cream); }
 .values-head h2 em { font-style: italic; color: var(--accent); }
@@ -102,6 +137,21 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  background: color-mix(in oklch, var(--fg) 92%, var(--cream) 8%);
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.35),
+    0 8px 28px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.055);
+  transition:
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s ease;
+}
+.value:hover {
+  background: color-mix(in oklch, var(--fg) 86%, var(--cream) 14%);
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.5),
+    0 20px 56px rgba(0,0,0,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.09);
 }
 .value::before {
   content: '';
@@ -122,8 +172,8 @@
 .value:last-child {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 100px 1fr 1fr;
-  gap: clamp(40px, 5vw, 80px);
+  grid-template-columns: 80px 1fr 1.8fr;
+  gap: clamp(32px, 4vw, 60px);
   align-items: start;
   padding: clamp(36px, 4vw, 56px) 32px;
 }
@@ -139,16 +189,16 @@
 }
 .value-title {
   font-family: var(--font-serif);
-  font-size: clamp(22px, 2vw, 30px);
+  font-size: clamp(26px, 2.6vw, 40px);
   line-height: 1.05;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin-bottom: 16px;
 }
 .value-desc {
-  font-size: 13px;
-  line-height: 1.55;
-  color: color-mix(in oklch, var(--cream) 70%, transparent);
-  margin-top: auto;
+  font-size: 14px;
+  line-height: 1.6;
+  color: color-mix(in oklch, var(--cream) 84%, transparent);
+  margin-top: 16px;
 }
 
 /* Team */
@@ -278,9 +328,20 @@
               transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: default;
 }
+.kit-item::before {
+  content: '–';
+  color: var(--accent);
+  margin-right: 10px;
+  display: inline-block;
+  font-style: normal;
+  opacity: 0.85;
+}
 .kit-item:hover {
   color: var(--accent);
   transform: translateX(6px);
+}
+.kit-item:hover::before {
+  opacity: 1;
 }
 .kit-card p {
   font-size: 14px;
@@ -315,7 +376,7 @@
   max-width: 860px;
   margin-top: 20px;
 }
-.name-story-copy em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 600; }
+.name-story-copy em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 
 /* ══════════════════════════════════
    FOLLOW ALONG — Dual Embed Layout
@@ -718,6 +779,10 @@
   <div class="manifesto-body">
     <p>At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We're run by Gen Z creatives who understand what today's audiences <em>stop scrolling for</em>.</p>
     <div class="manifesto-photo">
+      <span class="tape tape--tl"></span>
+      <span class="tape tape--tr"></span>
+      <span class="tape tape--bl"></span>
+      <span class="tape tape--br"></span>
       <img src="media/Photos of Co-Founder/fxn 2025-11-16 142444.612.jpg" alt="Angeline and Jovinna, KACISTUDIO founders" style="object-position:center top;">
       <div class="manifesto-photo-label">Behind the scenes</div>
     </div>
