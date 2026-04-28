@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
 <meta name="description" content="Case studies from Brixx Derma, Flyco, Melissa Shoes, and more.">
 <title>Work — KACISTUDIO</title>
 <link rel="stylesheet" href="assets/tokens.css">
@@ -257,6 +258,18 @@
   .case-visual { min-height: 280px; }
   .case-stats { flex-wrap: wrap; gap: 12px; }
   .future h2 { font-size: clamp(36px, 9vw, 52px); }
+}
+
+/* ── Touch devices: prevent stuck hover rotation effects ── */
+@media (hover: none) {
+  .case-visual-wrap:hover .case-visual { transform: none; }
+  .case-visual-wrap:hover::after { transform: rotate(2deg) translate(8px, 8px) scale(0.97); }
+}
+
+/* ── Future CTA on mobile ── */
+@media (max-width: 600px) {
+  .future { padding: clamp(40px, 8vw, 64px) var(--pad-gutter); }
+  .future .btn { width: 100%; justify-content: center; }
 }
 </style>
 </head>
