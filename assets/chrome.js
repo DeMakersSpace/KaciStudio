@@ -67,7 +67,12 @@ const KaciChrome = (() => {
     const logo = el('a', { cls: 'kaci-nav-logo', href: 'index.html', 'aria-label': 'KACISTUDIO home' });
     const logoWrap = document.createElement('div');
     logoWrap.setAttribute('aria-hidden', 'true');
-    logoWrap.style.cssText = 'width:102px;height:38px;border-radius:5px;flex-shrink:0;background-image:url("Logo/Primary Logo (Blue).png");background-repeat:no-repeat;background-size:164px 164px;background-position:-22px -61px;';
+    logoWrap.style.cssText = 'overflow:hidden;border-radius:6px;flex-shrink:0;width:96px;height:36px;background:#93A9D2;';
+    const logoImg = document.createElement('img');
+    logoImg.src = 'Logo/Primary Logo (Blue).png';
+    logoImg.alt = 'Kaci Studio';
+    logoImg.style.cssText = 'width:144px;height:144px;margin-top:-57px;margin-left:8px;display:block;';
+    logoWrap.appendChild(logoImg);
     logo.appendChild(logoWrap);
 
     /* Desktop links */
