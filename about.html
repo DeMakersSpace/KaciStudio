@@ -13,7 +13,7 @@
 }
 .about-hero .eyebrow { margin-bottom: 32px; }
 .about-hero h1 {
-  font-size: clamp(60px, 11vw, 200px);
+  font-size: clamp(80px, 14vw, 260px);
   line-height: 0.88;
   letter-spacing: -0.04em;
   max-width: 16ch;
@@ -118,7 +118,7 @@
   gap: 60px;
   align-items: center;
 }
-.values-head h2 { font-size: clamp(44px, 6vw, 96px); color: var(--cream); }
+.values-head h2 { font-size: clamp(56px, 8vw, 120px); color: var(--cream); }
 .values-head h2 em { font-style: italic; color: var(--accent); }
 .values-head p { color: color-mix(in oklch, var(--cream) 70%, transparent); font-size: 16px; line-height: 1.6; max-width: 420px; }
 
@@ -260,7 +260,7 @@
 }
 .founder-tag {
   position: absolute;
-  top: 12%;
+  top: 8%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -358,7 +358,7 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-.about-cta h2 { font-size: clamp(52px, 8vw, 120px); line-height: 0.95; }
+.about-cta h2 { font-size: clamp(56px, 8vw, 120px); line-height: 0.95; }
 .about-cta h2 em { font-style: italic; color: var(--accent); }
 .about-cta .btns { margin-top: 40px; display: inline-flex; gap: 12px; }
 
@@ -416,7 +416,7 @@
 
 .follow-heading {
   font-family: var(--font-serif);
-  font-size: clamp(28px, 3vw, 48px);
+  font-size: clamp(56px, 8vw, 120px);
   color: var(--fg);
   line-height: 1.0;
 }
@@ -715,7 +715,7 @@
   .manifesto, .values-head, .team-head, .team-grid, .values-grid, .kit-grid {
     grid-template-columns: 1fr;
   }
-  .manifesto-photo { float: none; width: 120px; margin: 0 0 20px 0; }
+  .manifesto-photo { float: none; width: 180px; margin: 24px auto 32px; display: block; transform: rotate(-2deg); }
   .values-grid { grid-template-columns: 1fr; }
   .value:last-child { grid-template-columns: 60px 1fr; gap: 24px; }
   .value:last-child .value-desc { grid-column: 2; }
@@ -727,14 +727,15 @@
   .manifesto { grid-template-columns: 1fr; }
   .kit-grid { grid-template-columns: 1fr 1fr; }
   .kit-card:first-child { grid-template-columns: 1fr; gap: 24px; }
+  .kit-card:last-child { grid-column: 1 / -1; max-width: calc(50% - 12px); margin: 0 auto; }
 }
 
 @media (max-width: 600px) {
   .member-bio-split { grid-template-columns: 1fr; gap: 16px; }
   .team-grid { max-width: 100%; }
-  .founder-tag--left  { left: 10%; }
-  .founder-tag--right { right: 6%; }
-  .founder-tag-name { font-size: 22px; }
+  .founder-tag--left  { left: 26%; }
+  .founder-tag--right { right: 28%; }
+  .founder-tag-name { font-size: 20px; }
 }
 
 @media (max-width: 430px) {
@@ -749,13 +750,13 @@
   .about-cta .btns { display: flex; flex-direction: column; align-items: center; width: 100%; }
   .about-cta .btns .btn { justify-content: center; white-space: normal; text-align: center; width: 100%; }
   .member-bio-split { grid-template-columns: 1fr; }
-  .founder-tag--left  { left: 6%; }
-  .founder-tag--right { right: 4%; }
-  .founder-tag-name { font-size: 18px; }
+  .founder-tag--left  { left: 24%; }
+  .founder-tag--right { right: 26%; }
+  .founder-tag-name { font-size: 16px; }
 }
 
-/* ── Hide overlapping founder name tags on narrow screens ── */
-@media (max-width: 768px) {
+/* ── Founder name tags: hide only on very narrow phones where they'd collide ── */
+@media (max-width: 340px) {
   .founder-tag { display: none; }
 }
 
@@ -881,7 +882,7 @@
   <div class="kit-inner">
     <div class="kit-head reveal">
       <div class="eyebrow" style="margin-bottom: 20px;">◎ HOW WE WORK · 03</div>
-      <h2 style="font-size: clamp(44px, 6vw, 88px);">Tools, tone,<br>and an <em>agency</em> rhythm.</h2>
+      <h2 style="font-size: clamp(56px, 8vw, 120px);">Tools, tone,<br>and an <em>agency</em> rhythm.</h2>
     </div>
     <div class="kit-grid reveal">
       <div class="kit-card">
