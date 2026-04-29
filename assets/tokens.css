@@ -226,7 +226,7 @@ h1 {
 /* Perandory Semi-Condensed — section headings */
 h2 {
   font-weight: 600;
-  font-size: clamp(36px, 5vw, 80px);
+  font-size: clamp(56px, 8vw, 120px);
 }
 
 /* Perandory Regular — sub-headings, supporting labels */
