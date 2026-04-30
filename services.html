@@ -20,7 +20,7 @@
   line-height: 0.88;
   letter-spacing: -0.04em;
 }
-.page-hero h1 em { font-style: italic; color: var(--accent); }
+.page-hero h1 em { font-family: var(--font-serif) !important; font-style: italic !important; color: var(--accent); }
 .page-hero .intro {
   font-size: 17px;
   line-height: 1.6;
@@ -78,7 +78,7 @@
   color: var(--accent);
 }
 .del-row .desc { font-family: var(--font-serif); font-size: 22px; letter-spacing: -0.01em; }
-.del-row .desc em { color: var(--accent); font-family: var(--font-script); font-style: normal; font-weight: 400; font-size: 1.15em; }
+.del-row .desc em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 .del-row .type {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -119,6 +119,62 @@
 .compare-col.us {
   background: var(--fg);
   color: var(--cream);
+  border-color: color-mix(in oklch, var(--accent) 55%, transparent);
+  animation: kaci-col-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes kaci-col-pulse {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0px 0px color-mix(in oklch, var(--accent) 0%, transparent),
+      0 0 0 0px   color-mix(in oklch, var(--accent) 0%, transparent),
+      0 0 0 0px   color-mix(in oklch, var(--accent) 0%, transparent),
+      0 0 0 0px   color-mix(in oklch, var(--accent) 0%, transparent),
+      0 16px 48px rgba(0,0,0,0.18);
+    border-color: color-mix(in oklch, var(--accent) 55%, transparent);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 28px 0px color-mix(in oklch, var(--accent) 12%, transparent),
+      0 0 0 6px   color-mix(in oklch, var(--accent) 55%, transparent),
+      0 0 0 14px  color-mix(in oklch, var(--accent) 28%, transparent),
+      0 0 0 28px  color-mix(in oklch, var(--accent) 10%, transparent),
+      0 16px 48px rgba(0,0,0,0.18);
+    border-color: color-mix(in oklch, var(--accent) 90%, transparent);
+  }
+}
+
+.live-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  position: relative;
+  animation: live-dot-pulse 2.8s ease-in-out infinite;
+}
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  animation: live-dot-ring 2.8s ease-in-out infinite;
+}
+@keyframes live-dot-pulse {
+  0%, 100% { opacity: 1;    transform: scale(1);    box-shadow: 0 0 0 0px color-mix(in oklch, var(--accent) 50%, transparent); }
+  50%       { opacity: 0.5; transform: scale(0.75); box-shadow: 0 0 0 6px color-mix(in oklch, var(--accent) 0%,  transparent); }
+}
+@keyframes live-dot-ring {
+  0%   { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0;   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compare-col.us { animation: none; }
+  .live-dot { animation: none; }
 }
 .compare-col h3 {
   font-size: 28px;
@@ -228,10 +284,72 @@
 .svc-row:hover .svc-arrow { transform: translateX(8px); color: var(--accent); }
 
 /* Content type chips — inside dark package section */
-.content-types-wrap { max-width: 1440px; margin: clamp(40px, 5vw, 60px) auto 0; padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid color-mix(in oklch, var(--cream) 15%, transparent); }
-.content-types-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in oklch, var(--cream) 50%, transparent); margin-bottom: 14px; display: block; }
-.content-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.content-chip { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 8px 16px; border: 1px solid color-mix(in oklch, var(--cream) 22%, transparent); border-radius: 999px; color: color-mix(in oklch, var(--cream) 70%, transparent); }
+.content-types-wrap { margin: clamp(40px, 5vw, 60px) calc(-1 * var(--pad-gutter)) 0; padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid color-mix(in oklch, var(--cream) 15%, transparent); }
+.content-types-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in oklch, var(--cream) 50%, transparent); margin-bottom: 14px; display: block; padding: 0 var(--pad-gutter); }
+
+/* ── Perspective Marquee ── */
+.persp-marquee {
+  position: relative;
+  overflow: hidden;
+  height: clamp(56px, 6.5vw, 88px);
+  perspective: 1400px;
+}
+.persp-marquee-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  transform: rotateX(8deg) rotateY(-28deg);
+  transform-style: preserve-3d;
+}
+.persp-marquee-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: persp-scroll 34s linear infinite;
+  will-change: transform;
+}
+@keyframes persp-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.persp-item {
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 1.8vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  padding: 0 clamp(16px, 2.2vw, 32px);
+  display: inline-block;
+  opacity: 0.88;
+}
+.persp-bullet {
+  color: var(--accent);
+  opacity: 0.4;
+  font-size: 9px;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+.persp-fade-x {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--fg) 0%, transparent 16%, transparent 84%, var(--fg) 100%);
+  z-index: 2;
+}
+.persp-fade-y {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--fg) 0%, transparent 30%, transparent 70%, var(--fg) 100%);
+  z-index: 2;
+}
+@media (max-width: 768px) {
+  .persp-marquee-scene { transform: rotateX(5deg) rotateY(-14deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .persp-marquee-track { animation: none; }
+}
 
 /* Why KACISTUDIO — carousel */
 .why-section { padding: var(--pad-section-y) var(--pad-gutter); max-width: 1440px; margin: 0 auto; }
@@ -477,6 +595,18 @@
 
 /* ── Parallax service panels ── */
 .parallax-services { background: var(--bg); }
+
+/* Zoom-out override — pseudo-element scaled down so more of the photo is visible */
+.parallax-zoom-out { background-image: none !important; }
+.parallax-zoom-out::before {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  background-image: var(--panel-bg);
+  background-size: cover;
+  background-position: center;
+  transform: scale(0.86);
+}
 .parallax-block {
   height: 130vh;
   padding: 12px;
@@ -519,12 +649,17 @@
   text-transform: uppercase;
   margin-bottom: 24px;
   opacity: 0.7;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
 }
 .parallax-head {
   font-family: var(--font-serif);
   font-size: clamp(44px, 8vw, 120px);
   line-height: 0.92;
   letter-spacing: -0.03em;
+  text-shadow:
+    0 2px 4px rgba(0,0,0,0.4),
+    0 8px 32px rgba(0,0,0,0.35),
+    0 24px 64px rgba(0,0,0,0.25);
 }
 .parallax-head em { font-style: italic; color: var(--accent); }
 
@@ -588,7 +723,7 @@
 <section class="parallax-services">
 
   <div class="parallax-block">
-    <div class="parallax-sticky" style="background-image: url('https://placehold.co/1600x900/584738/F8F6DA');">
+    <div class="parallax-sticky parallax-zoom-out" style="--panel-bg: url('media/BTS-Stock%20Photos/IMG_2956.jpg');">
       <div class="parallax-dark"></div>
       <div class="parallax-overlay">
         <div class="parallax-sub">◎ Strategy &amp; Management · 01</div>
@@ -598,7 +733,7 @@
   </div>
 
   <div class="parallax-block">
-    <div class="parallax-sticky" style="background-image: url('https://placehold.co/1600x900/93A9D2/F8F6DA');">
+    <div class="parallax-sticky" style="background-image: url('media/Shot-Edited-Posted.jpg');">
       <div class="parallax-dark"></div>
       <div class="parallax-overlay">
         <div class="parallax-sub">◎ Content &amp; Production · 02</div>
@@ -608,7 +743,7 @@
   </div>
 
   <div class="parallax-block">
-    <div class="parallax-sticky" style="background-image: url('https://placehold.co/1600x900/B59E7D/F8F6DA');">
+    <div class="parallax-sticky" style="background-image: url('media/BTS-Stock%20Photos/IMG_2944%202.jpg');">
       <div class="parallax-dark"></div>
       <div class="parallax-overlay">
         <div class="parallax-sub">◎ Community &amp; Events · 03</div>
@@ -625,9 +760,9 @@
     <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
     <h2 style="font-size: clamp(56px, 8vw, 120px);">Everything<br>under one <em>agency.</em></h2>
   </div>
-  <div class="flip-cards-grid reveal">
+  <div class="flip-cards-grid">
 
-    <div class="flip-card" tabindex="0">
+    <div class="flip-card reveal" style="--reveal-delay: 0ms;" tabindex="0">
       <div class="flip-card-inner">
         <div class="flip-card-front">
           <div class="fc-num">01</div>
@@ -642,7 +777,7 @@
       </div>
     </div>
 
-    <div class="flip-card" tabindex="0">
+    <div class="flip-card reveal" style="--reveal-delay: 120ms;" tabindex="0">
       <div class="flip-card-inner">
         <div class="flip-card-front">
           <div class="fc-num">02</div>
@@ -657,7 +792,7 @@
       </div>
     </div>
 
-    <div class="flip-card" tabindex="0">
+    <div class="flip-card reveal" style="--reveal-delay: 240ms;" tabindex="0">
       <div class="flip-card-inner">
         <div class="flip-card-front">
           <div class="fc-num">03</div>
@@ -672,7 +807,7 @@
       </div>
     </div>
 
-    <div class="flip-card" tabindex="0">
+    <div class="flip-card reveal" style="--reveal-delay: 360ms;" tabindex="0">
       <div class="flip-card-inner">
         <div class="flip-card-front">
           <div class="fc-num">04</div>
@@ -687,7 +822,7 @@
       </div>
     </div>
 
-    <div class="flip-card" tabindex="0">
+    <div class="flip-card reveal" style="--reveal-delay: 480ms;" tabindex="0">
       <div class="flip-card-inner">
         <div class="flip-card-front">
           <div class="fc-num">05</div>
@@ -702,7 +837,7 @@
       </div>
     </div>
 
-    <div class="flip-card flip-card--logo" tabindex="0">
+    <div class="flip-card flip-card--logo reveal" style="--reveal-delay: 600ms;" tabindex="0">
       <div class="flip-card-inner">
         <div class="flip-card-front flip-card-front--logo">
           <div class="fc-logo-wordmark">KACI<em>STUDIO</em></div>
@@ -781,19 +916,38 @@
   </div>
   <div class="content-types-wrap">
     <span class="content-types-label">Content we create</span>
-    <div class="content-chips">
-      <span class="content-chip">Short-form video</span>
-      <span class="content-chip">Reels &amp; TikToks</span>
-      <span class="content-chip">Product photography</span>
-      <span class="content-chip">Lifestyle shoots</span>
-      <span class="content-chip">Editorial statics</span>
-      <span class="content-chip">Stories &amp; carousels</span>
-      <span class="content-chip">Event coverage</span>
-      <span class="content-chip">Behind-the-scenes</span>
-      <span class="content-chip">UGC-style content</span>
-      <span class="content-chip">Campaign videos</span>
-      <span class="content-chip">Brand films</span>
-      <span class="content-chip">Captions &amp; copy</span>
+    <div class="persp-marquee">
+      <div class="persp-marquee-scene">
+        <div class="persp-marquee-track">
+          <span class="persp-item">Short-form video</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Reels &amp; TikToks</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Product photography</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Lifestyle shoots</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Editorial statics</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Stories &amp; carousels</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Event coverage</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Behind-the-scenes</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">UGC-style content</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Campaign videos</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Brand films</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Captions &amp; copy</span><span class="persp-bullet">◎</span>
+          <!-- duplicate for seamless loop -->
+          <span class="persp-item">Short-form video</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Reels &amp; TikToks</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Product photography</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Lifestyle shoots</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Editorial statics</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Stories &amp; carousels</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Event coverage</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Behind-the-scenes</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">UGC-style content</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Campaign videos</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Brand films</span><span class="persp-bullet">◎</span>
+          <span class="persp-item">Captions &amp; copy</span><span class="persp-bullet">◎</span>
+        </div>
+      </div>
+      <div class="persp-fade-x"></div>
+      <div class="persp-fade-y"></div>
     </div>
   </div>
 </section>
@@ -824,7 +978,9 @@
       </ul>
     </div>
     <div class="compare-col us">
-      <div class="eyebrow" style="margin-bottom: 8px; color: color-mix(in oklch, var(--cream) 60%, transparent);">KACISTUDIO</div>
+      <div class="eyebrow" style="margin-bottom: 8px; color: color-mix(in oklch, var(--cream) 60%, transparent); display: flex; align-items: center; gap: 8px;">
+        <span class="live-dot"></span>KACISTUDIO
+      </div>
       <h3>Built <em>around you.</em></h3>
       <ul>
         <li>Custom strategy every month, by the team that shot your content</li>
@@ -846,7 +1002,7 @@
   </div>
   <div class="why-carousel reveal">
     <div class="why-images-wrap" id="whyImagesWrap">
-      <img class="why-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&auto=format" alt="Small creative team collaborating">
+      <img class="why-img" src="media/Photos%20of%20Co-Founder/SmallTeam.jpg" alt="Small creative team collaborating">
       <img class="why-img" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=600&fit=crop&auto=format" alt="Content creation and video production">
       <img class="why-img" src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop&auto=format" alt="Creative team partnership">
     </div>
