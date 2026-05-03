@@ -130,8 +130,10 @@
 
 .case-stats {
   display: flex;
-  gap: 18px;
-  margin-bottom: 14px;
+  gap: clamp(24px, 3vw, 44px);
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  margin-bottom: 32px;
 }
 
 .case-stat .n {
@@ -157,6 +159,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-bottom: 28px;
 }
 
 .case-chip {
@@ -262,6 +265,55 @@
   .future h2 { font-size: clamp(36px, 9vw, 52px); }
 }
 
+/* ── Case study expand drawer ── */
+.case-expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.case-expand.is-open {
+  grid-template-rows: 1fr;
+}
+.case-expand-inner {
+  overflow: hidden;
+}
+.case-expand-body {
+  padding: 28px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.case-expand-section {
+  border-top: 1px solid var(--rule);
+  padding: 20px 0;
+}
+.case-expand-section:last-child {
+  padding-bottom: 8px;
+}
+.case-expand-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: block;
+  margin-bottom: 10px;
+}
+.case-expand-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  max-width: 560px;
+}
+.case-expand-text strong { color: var(--fg); font-weight: 500; }
+
+.case-read-btn { cursor: pointer; }
+.case-read-btn .btn-arrow {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.case-read-btn.is-open .btn-arrow { transform: rotate(-90deg); }
+
 /* ── Touch devices: prevent stuck hover rotation effects ── */
 @media (hover: none) {
   .case-visual-wrap:hover .case-visual { transform: none; }
@@ -322,7 +374,25 @@
       <div style="border-top: 1px solid var(--rule); padding-top: 28px; margin-bottom: 32px;">
         <p style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-muted);">Results updating — check back soon</p>
       </div>
-      <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+    </div>
+    <div class="case-expand" aria-hidden="true">
+      <div class="case-expand-inner">
+        <div class="case-expand-body">
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Resurrack and LittleMissMarket came to us ahead of a co-branded drop — two lifestyle audiences, one story to tell. Two distinct communities, both leaning into the same slow, intentional living aesthetic. The ask: make the collab feel organic, not promotional.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">We built the narrative arc across eight TikToks and a co-hosted IG shoot day. Rather than announcing the drop, we let it unfold — framing it as a <strong>"weekend in, weekend out"</strong> ritual. Content lived in the everyday: Sunday markets, slow mornings, the kind of lifestyle both brands already represent. Captions led with feeling, not SKUs.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text">Content that felt brand-native, not agency-made. Audience overlap between both brands amplified reach without paid spend. Full results in progress — check back soon.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 
@@ -353,7 +423,25 @@
           <div class="l">Campaign video views</div>
         </div>
       </div>
-      <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+    </div>
+    <div class="case-expand" aria-hidden="true">
+      <div class="case-expand-inner">
+        <div class="case-expand-body">
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Flyco came to us with a tight brief — the Blackpink Singapore concert was weeks away and they needed content that could speak directly to the BLINK fanbase. The product: customisable luggage. The audience: fans who see travel as identity and self-expression.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">We leaned fully into fan culture language — not luggage ads, but BLINK-coded content that happened to feature Flyco. High-energy edits, trend-aware pacing, and visuals that matched the concert aesthetic. Every frame was built to stop a scroll and hold it.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>23K+</strong> views on the campaign video. The content outperformed their typical product posts and reached an audience who engaged because they wanted to — not because they were retargeted.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 
@@ -394,7 +482,25 @@
           <div class="l">TikTok likes growth</div>
         </div>
       </div>
-      <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+    </div>
+    <div class="case-expand" aria-hidden="true">
+      <div class="case-expand-inner">
+        <div class="case-expand-body">
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Brixx Derma is a derm-led skincare line with rigorous formulas and a credibility problem on social. Their existing content leaned too clinical — it educated without connecting. They needed a voice that felt like a trusted friend, not a white paper.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">We rebuilt their social around the concept of <strong>"bedtime, not breakthrough"</strong> — nightly routine TikToks, ingredient storytelling that felt conversational, and Telegram community drops for their most engaged followers. Brand voice, strategy, education, community, and product drops — all coordinated from one team. Launches became events, not announcements.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>30K+</strong> Instagram views (73% from new audiences). <strong>+500%</strong> TikTok view growth. <strong>+1,700%</strong> growth in TikTok likes. A community that replies, shares, and waits for the next drop.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 
@@ -434,7 +540,25 @@
           <div class="l">Outperformed baseline</div>
         </div>
       </div>
-      <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+    </div>
+    <div class="case-expand" aria-hidden="true">
+      <div class="case-expand-inner">
+        <div class="case-expand-body">
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Melissa Shoes — a brand with real heritage and a clear Gen Z opportunity — came to us needing motion-first content to shift their positioning from legacy footwear label to future-facing fashion brand. Static product shots weren't cutting through with the audience they were trying to reach.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">We built a campaign around cultural fluency — trend-led, movement-heavy, and styled to speak to both Gen Z and millennials without alienating either. Every video started with the culture, not the product. Content creation, brand voice, strategy, and motion video — a full creative stack from a single team.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>10K+</strong> views across campaigns. <strong>900%+</strong> audience interaction uplift. Content that consistently outperformed their baseline and gave Melissa a social presence worth following.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 
@@ -473,7 +597,25 @@
           <div class="l">Of interactions</div>
         </div>
       </div>
-      <a href="contact.html" class="btn btn-ghost">Read the case study <span class="arrow">→</span></a>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+    </div>
+    <div class="case-expand" aria-hidden="true">
+      <div class="case-expand-inner">
+        <div class="case-expand-body">
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Coffeeman@NYP had a new menu and a story worth telling — craft coffee and thoughtful food in a campus setting. They needed content that communicated quality without pretension, and enough buzz to drive real foot traffic through the door.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">Intimate, warm, and intentional — we let the food and process do the talking. Close-up sequences, craft-in-motion storytelling, and an honest tone that matched the brand's personality. No lifestyle inflation. Just good food, made well, shown properly.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>1K+</strong> views per video. <strong>92%</strong> new audiences reached. Hundreds of genuine interactions from people who saw the content and made the trip in person.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 </section>
@@ -489,6 +631,29 @@
 </section>
 
 <div id="footer-slot"></div>
+<script>
+(function () {
+  document.querySelectorAll('.case-read-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var article = btn.closest('article.case');
+      var expand  = article.querySelector('.case-expand');
+      var label   = btn.querySelector('.btn-text');
+      var isOpen  = expand.classList.contains('is-open');
+
+      expand.classList.toggle('is-open');
+      btn.classList.toggle('is-open');
+      expand.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+      if (label) label.textContent = isOpen ? 'Read the case study' : 'Close case study';
+
+      if (!isOpen) {
+        setTimeout(function () {
+          expand.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 80);
+      }
+    });
+  });
+})();
+</script>
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("work"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
