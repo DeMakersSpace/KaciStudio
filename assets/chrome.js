@@ -75,9 +75,9 @@ const KaciChrome = (() => {
     logoWrap.appendChild(logoImg);
     logo.appendChild(logoWrap);
 
-    /* Desktop links */
+    /* Desktop links — Home is omitted; the KACI logo links to home */
     const linkRow = el('div', { cls: 'kaci-nav-links' });
-    PAGES.forEach(p => {
+    PAGES.filter(p => p.id !== 'home').forEach(p => {
       const cls = ['kaci-nav-link', p.cta ? 'kaci-nav-cta' : '', p.id === activePage ? 'is-active' : ''].filter(Boolean).join(' ');
       const a = el('a', { cls, href: p.href });
       a.textContent = p.label + (p.cta ? ' →' : '');
@@ -101,7 +101,7 @@ const KaciChrome = (() => {
     const closeBtn   = el('button', { cls: 'kaci-mobile-close', 'aria-label': 'Close menu', text: '×' });
     const mobileNav  = el('nav', { cls: 'kaci-mobile-links' });
 
-    PAGES.forEach(p => {
+    PAGES.filter(p => p.id !== 'home').forEach(p => {
       const cls = ['kaci-mobile-link', p.id === activePage ? 'is-active' : ''].filter(Boolean).join(' ');
       mobileNav.appendChild(el('a', { cls, href: p.href, text: p.label }));
     });
@@ -131,15 +131,10 @@ const KaciChrome = (() => {
     brand.appendChild(logoImg);
     const brandWrap = el('div', { cls: 'kaci-footer-brand-wrap' });
     brandWrap.appendChild(brand);
-    brandWrap.appendChild(el('div', { cls: 'kaci-footer-brand-sub', text: 'Singapore · Est. 2024' }));
-
-    /* Footer nav */
-    const footerNav = el('nav', { cls: 'kaci-footer-links', 'aria-label': 'Footer navigation' });
-    PAGES.forEach(p => footerNav.appendChild(el('a', { href: p.href, text: p.label })));
+    brandWrap.appendChild(el('div', { cls: 'kaci-footer-brand-sub', text: 'Singapore · Est. 2025' }));
 
     const top = el('div', { cls: 'kaci-footer-top' });
     top.appendChild(brandWrap);
-    top.appendChild(footerNav);
 
     /* Social links bar */
     const social = el('div', { cls: 'kaci-footer-social' });

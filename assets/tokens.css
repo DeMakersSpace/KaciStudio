@@ -699,10 +699,11 @@ body.nav-locked { overflow: hidden; }
 
 .kaci-footer-top {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   gap: 40px;
   flex-wrap: wrap;
+  text-align: center;
   margin-bottom: clamp(32px, 4vw, 48px);
 }
 
@@ -905,7 +906,7 @@ body.nav-locked { overflow: hidden; }
 
 
 /* ── 13. Footer enhancements ── */
-.kaci-footer-brand-wrap { display: flex; flex-direction: column; gap: 8px; }
+.kaci-footer-brand-wrap { display: flex; flex-direction: column; gap: 8px; align-items: center; }
 
 .kaci-footer-brand-sub {
   font-family: var(--font-mono);
@@ -918,6 +919,7 @@ body.nav-locked { overflow: hidden; }
 .kaci-footer-social {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
   padding: clamp(16px, 2vw, 22px) 0;
@@ -948,4 +950,5 @@ body.nav-locked { overflow: hidden; }
   letter-spacing: -0.01em;
   color: var(--fg-muted);
   padding: clamp(18px, 2.5vw, 28px) 0;
+  text-align: center;
 }
