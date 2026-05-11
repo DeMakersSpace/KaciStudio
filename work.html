@@ -4,12 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
-<meta name="description" content="Case studies from Brixx Derma, Flyco, Melissa Shoes, and more.">
+<meta name="description" content="Selected work from KACISTUDIO — five case studies across beauty, lifestyle, fashion, and F&B. Brixx Derma: +1,700% TikTok likes growth. Melissa Shoes: +900% interaction.">
+<meta name="keywords" content="social media case studies Singapore, TikTok growth agency, Brixx Derma case study, Melissa Shoes social media, lifestyle brand content creation, beauty brand Instagram">
+<meta property="og:title" content="Work — KACISTUDIO">
+<meta property="og:description" content="Case studies from KACISTUDIO — Brixx Derma, Flyco, Melissa Shoes, Coffeeman@NYP, and Resurrack × LittleMissMarket. Real results from a story-first agency.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kacistudio.co/work.html">
+<!-- TODO: create a 1200×630 social share image and replace the og:image and twitter:image values below -->
+<meta property="og:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<meta property="og:site_name" content="KACISTUDIO">
+<meta property="og:locale" content="en_SG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Work — KACISTUDIO">
+<meta name="twitter:description" content="Case studies from KACISTUDIO — Brixx Derma, Flyco, Melissa Shoes, Coffeeman@NYP, and Resurrack × LittleMissMarket. Real results from a story-first agency.">
+<meta name="twitter:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<link rel="canonical" href="https://kacistudio.co/work.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="KACISTUDIO">
+<meta name="geo.region" content="SG">
+<meta name="geo.placename" content="Singapore">
 <title>Work — KACISTUDIO</title>
 <link rel="stylesheet" href="assets/tokens.css">
 <style>
 .work-hero {
-  padding: clamp(60px, 8vw, 120px) var(--pad-gutter) clamp(32px, 4vw, 60px);
+  padding: clamp(40px, 5vw, 72px) var(--pad-gutter) clamp(28px, 4vw, 56px);
+  max-width: 1320px;
+  margin: 0 auto;
+  text-align: center;
 }
 .work-hero-top {
   display: flex;
@@ -17,12 +38,14 @@
   align-items: baseline;
   gap: 40px;
   flex-wrap: wrap;
+  text-align: left;
 }
 .work-hero h1 {
-  font-size: clamp(80px, 14vw, 260px);
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  margin-top: 40px;
+  font-size: clamp(48px, 7vw, 76px);
+  line-height: 1.05;
+  letter-spacing: normal;
+  margin: clamp(28px, 3vw, 44px) auto 0;
+  max-width: 18ch;
 }
 .work-hero h1 em { font-style: italic; color: var(--accent); }
 
@@ -75,7 +98,7 @@
 }
 
 .case-visual {
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/3.2;
   position: relative;
   overflow: hidden;
   border-radius: 4px;
@@ -107,9 +130,9 @@
 .case-body .eyebrow { margin-bottom: 10px; font-size: 10px; }
 
 .case-body h2 {
-  font-size: clamp(40px, 5vw, 80px);
-  line-height: 0.9;
-  letter-spacing: -0.03em;
+  font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.15;
+  letter-spacing: normal;
   margin-bottom: 14px;
 }
 
@@ -173,6 +196,40 @@
   color: var(--fg-muted);
 }
 
+/* Follow-the-client row */
+.case-follow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-bottom: 24px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.case-follow-label {
+  color: var(--fg-muted);
+  opacity: 0.75;
+}
+.case-follow-link {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.case-follow-link:hover,
+.case-follow-link:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+.case-follow-sep {
+  color: var(--fg-muted);
+  opacity: 0.4;
+}
+
 /* In-progress placeholder card */
 .future {
   padding: clamp(48px, 6vw, 96px) var(--pad-gutter);
@@ -180,7 +237,7 @@
   max-width: 1000px;
   margin: 0 auto;
 }
-.future h2 { font-size: clamp(40px, 5vw, 72px); }
+.future h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1.08; letter-spacing: normal; }
 .future h2 em { font-style: italic; color: var(--accent); }
 
 /* Cover types */
@@ -193,7 +250,7 @@
 .cover-flyco {
   background: var(--espresso);
   color: var(--bg);
-  aspect-ratio: 4/5.5;
+  aspect-ratio: 4/3.5;
 }
 .cover-flyco .big-type { color: var(--accent); }
 
@@ -206,7 +263,7 @@
 .cover-melissa {
   background: var(--accent);
   color: var(--espresso);
-  aspect-ratio: 4/6;
+  aspect-ratio: 4/3.5;
 }
 .cover-melissa .big-type { color: var(--espresso); }
 
@@ -258,11 +315,11 @@
 }
 
 @media (max-width: 430px) {
-  .work-hero h1 { font-size: clamp(72px, 14vw, 260px); }
-  .case-body h2 { font-size: clamp(32px, 9vw, 48px); }
+  .work-hero h1 { font-size: clamp(40px, 9vw, 56px); }
+  .case-body h2 { font-size: clamp(20px, 5.5vw, 28px); }
   .case-visual { min-height: 280px; }
   .case-stats { flex-wrap: wrap; gap: 12px; }
-  .future h2 { font-size: clamp(36px, 9vw, 52px); }
+  .future h2 { font-size: clamp(30px, 8vw, 44px); }
 }
 
 /* ── Case study expand drawer ── */
@@ -326,6 +383,87 @@
   .future .btn { width: 100%; justify-content: center; }
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Selected Work — KACISTUDIO",
+      "url": "https://kacistudio.co/work.html",
+      "description": "Case studies from KACISTUDIO — Brixx Derma, Flyco, Melissa Shoes, Coffeeman@NYP, and Resurrack × LittleMissMarket. Five brands, real results.",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kacistudio.co/index.html" },
+          { "@type": "ListItem", "position": 2, "name": "Work", "item": "https://kacistudio.co/work.html" }
+        ]
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": 5,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "item": { "@id": "https://kacistudio.co/work.html#case-resurrack" } },
+          { "@type": "ListItem", "position": 2, "item": { "@id": "https://kacistudio.co/work.html#case-flyco" } },
+          { "@type": "ListItem", "position": 3, "item": { "@id": "https://kacistudio.co/work.html#case-brixx" } },
+          { "@type": "ListItem", "position": 4, "item": { "@id": "https://kacistudio.co/work.html#case-melissa" } },
+          { "@type": "ListItem", "position": 5, "item": { "@id": "https://kacistudio.co/work.html#case-coffeeman" } }
+        ]
+      }
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://kacistudio.co/work.html#case-resurrack",
+      "name": "Resurrack × LittleMissMarket — A Lifestyle Collab That Stuck",
+      "about": { "@type": "Organization", "name": "Resurrack × LittleMissMarket" },
+      "creator": { "@id": "https://kacistudio.co/#organization" },
+      "datePublished": "2025",
+      "description": "Two lifestyle audiences, one story. Built the narrative arc across eight TikToks and a co-hosted Instagram shoot day, framing the collab as a weekend ritual rather than a product push.",
+      "keywords": "TikTok, Instagram, lifestyle, content strategy, community"
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://kacistudio.co/work.html#case-flyco",
+      "name": "Flyco — Pop-Worthy, Personally Yours",
+      "about": { "@type": "Organization", "name": "Flyco" },
+      "creator": { "@id": "https://kacistudio.co/#organization" },
+      "datePublished": "2025",
+      "description": "Blackpink concert campaign for Flyco customisable luggage. BLINK-coded content that spoke the language of the fan community. Result: 23K+ campaign video views.",
+      "keywords": "campaign video, TikTok, fan culture, video production"
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://kacistudio.co/work.html#case-brixx",
+      "name": "Brixx Derma — Science, But Soft-Spoken",
+      "about": { "@type": "Organization", "name": "Brixx Derma" },
+      "creator": { "@id": "https://kacistudio.co/#organization" },
+      "datePublished": "2026",
+      "description": "Rebuilt Brixx Derma's social around nightly-routine TikToks and ingredient storytelling. Result: 30K+ Instagram views (73% new audiences), +500% TikTok view growth, +1,700% TikTok likes growth.",
+      "keywords": "skincare, beauty, TikTok growth, Instagram, Telegram, brand voice"
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://kacistudio.co/work.html#case-melissa",
+      "name": "Melissa Shoes — Gen Z Ready, Future-Facing",
+      "about": { "@type": "Organization", "name": "Melissa Shoes" },
+      "creator": { "@id": "https://kacistudio.co/#organization" },
+      "datePublished": "2025",
+      "description": "Motion-first campaign connecting Gen Z and millennials through culturally relevant, trend-led videos. Result: 10K+ views across campaigns, 900%+ audience interaction uplift.",
+      "keywords": "fashion, content creation, motion video, Gen Z marketing"
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://kacistudio.co/work.html#case-coffeeman",
+      "name": "Coffeeman@NYP — Craft, Captured",
+      "about": { "@type": "Organization", "name": "Coffeeman@NYP" },
+      "creator": { "@id": "https://kacistudio.co/#organization" },
+      "datePublished": "2025",
+      "description": "New menu launch campaign for Coffeeman@NYP. Intimate, warm content that let the food speak. Result: 1K+ views per video, 92% new audiences reached.",
+      "keywords": "F&B, food photography, launch campaign, community management"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -333,7 +471,7 @@
 
 <section class="work-hero">
   <div class="work-hero-top">
-    <div class="eyebrow">◎ SELECTED WORK · 2024–2026</div>
+    <div class="eyebrow">◎ SELECTED WORK · 2025–2026</div>
     <div class="eyebrow">CASE STUDIES <span style="color: var(--accent);">●</span> 05</div>
   </div>
   <h1>Brands we've<br><em>grown</em> with.</h1>
@@ -360,7 +498,7 @@
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 001 · Resurrack × LittleMissMarket</div>
-      <h2>A lifestyle<br>collab that <em>stuck.</em></h2>
+      <h2>A co-branded drop,<br>told as a <em>shared ritual.</em></h2>
       <p class="deck">
         <strong>Resurrack</strong> and <strong>LittleMissMarket</strong> came to us ahead of a co-branded drop — two lifestyle audiences, one story to tell. We built the narrative arc across eight TikToks and a co-hosted IG shoot day, framing the collab as a <em>"weekend in, weekend out"</em> ritual rather than a product push.
       </p>
@@ -374,7 +512,13 @@
       <div style="border-top: 1px solid var(--rule); padding-top: 28px; margin-bottom: 32px;">
         <p style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-muted);">Results updating — check back soon</p>
       </div>
-      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+      <div class="case-follow">
+        <span class="case-follow-label">Find them on</span>
+        <a class="case-follow-link" href="https://www.instagram.com/resurrack/" target="_blank" rel="noopener noreferrer">@resurrack</a>
+        <span class="case-follow-sep">·</span>
+        <a class="case-follow-link" href="https://www.instagram.com/littlemissmrkt/" target="_blank" rel="noopener noreferrer">@littlemissmrkt</a>
+      </div>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read more</span> <span class="btn-arrow arrow">→</span></button>
     </div>
     <div class="case-expand" aria-hidden="true">
       <div class="case-expand-inner">
@@ -407,7 +551,7 @@
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 002 · Flyco</div>
-      <h2>Pop-worthy,<br>personally <em>yours.</em></h2>
+      <h2>A concert campaign<br>for <em>customisable</em> luggage.</h2>
       <p class="deck">
         <strong>Flyco</strong> brought us their Blackpink concert campaign — a moment to put their customisable luggage in front of fans who live for bold self-expression. We built a video campaign that spoke the language of the BLINK community: high-energy, trend-aware, and visually unmissable. The result felt less like advertising and more like fan culture.
       </p>
@@ -423,7 +567,11 @@
           <div class="l">Campaign video views</div>
         </div>
       </div>
-      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+      <div class="case-follow">
+        <span class="case-follow-label">Find them on</span>
+        <a class="case-follow-link" href="https://www.instagram.com/flycotravel/" target="_blank" rel="noopener noreferrer">@flycotravel</a>
+      </div>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read more</span> <span class="btn-arrow arrow">→</span></button>
     </div>
     <div class="case-expand" aria-hidden="true">
       <div class="case-expand-inner">
@@ -456,7 +604,7 @@
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 003 · Brixx Derma</div>
-      <h2>Science, but<br><em>soft-spoken.</em></h2>
+      <h2>Rebuilding voice for<br>a <em>derm-led</em> skincare line.</h2>
       <p class="deck">
         <strong>Brixx Derma</strong> is a derm-led skincare line — rigorous formulas, but a story that kept getting lost in jargon. We rebuilt their social around the idea of <em>"bedtime, not breakthrough"</em>: nightly-routine TikToks, ingredient-as-ingredient storytelling, and stories that actually get replied to.
       </p>
@@ -482,7 +630,11 @@
           <div class="l">TikTok likes growth</div>
         </div>
       </div>
-      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+      <div class="case-follow">
+        <span class="case-follow-label">Find them on</span>
+        <a class="case-follow-link" href="https://www.instagram.com/brixxderma/" target="_blank" rel="noopener noreferrer">@brixxderma</a>
+      </div>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read more</span> <span class="btn-arrow arrow">→</span></button>
     </div>
     <div class="case-expand" aria-hidden="true">
       <div class="case-expand-inner">
@@ -515,7 +667,7 @@
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 004 · Melissa Shoes</div>
-      <h2>Gen Z ready,<br><em>future-facing.</em></h2>
+      <h2>Repositioning a heritage<br>footwear label for <em>Gen Z.</em></h2>
       <p class="deck">
         <strong>Melissa Shoes</strong> came to us needing a shift away from static product visuals toward story-driven, motion-first content. We created a campaign connecting Gen Z and millennials through culturally relevant, trend-led videos that position Melissa as playful, future-facing, and fashion-forward.
       </p>
@@ -540,7 +692,11 @@
           <div class="l">Outperformed baseline</div>
         </div>
       </div>
-      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+      <div class="case-follow">
+        <span class="case-follow-label">Find them on</span>
+        <a class="case-follow-link" href="https://www.instagram.com/melissashoessg/" target="_blank" rel="noopener noreferrer">@melissashoessg</a>
+      </div>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read more</span> <span class="btn-arrow arrow">→</span></button>
     </div>
     <div class="case-expand" aria-hidden="true">
       <div class="case-expand-inner">
@@ -573,7 +729,7 @@
     </div>
     <div class="case-body">
       <div class="eyebrow">CASE 005 · Coffeeman@NYP</div>
-      <h2>Craft,<br><em>captured.</em></h2>
+      <h2>A menu launch for<br>a <em>campus</em> coffee bar.</h2>
       <p class="deck">
         <strong>Coffeeman@NYP</strong> needed to create buzz for their new menu and showcase the craft behind each dish. We built content that let the food speak — intimate, warm, and intentional.
       </p>
@@ -597,7 +753,11 @@
           <div class="l">Of interactions</div>
         </div>
       </div>
-      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read the case study</span> <span class="btn-arrow arrow">→</span></button>
+      <div class="case-follow">
+        <span class="case-follow-label">Find them on</span>
+        <a class="case-follow-link" href="https://www.instagram.com/coffeeman_nyp/" target="_blank" rel="noopener noreferrer">@coffeeman_nyp</a>
+      </div>
+      <button class="btn btn-ghost case-read-btn"><span class="btn-text">Read more</span> <span class="btn-arrow arrow">→</span></button>
     </div>
     <div class="case-expand" aria-hidden="true">
       <div class="case-expand-inner">
@@ -643,7 +803,7 @@
       expand.classList.toggle('is-open');
       btn.classList.toggle('is-open');
       expand.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
-      if (label) label.textContent = isOpen ? 'Read the case study' : 'Close case study';
+      if (label) label.textContent = isOpen ? 'Read more' : 'Close';
 
       if (!isOpen) {
         setTimeout(function () {

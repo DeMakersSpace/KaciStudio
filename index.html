@@ -5,9 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
 <meta name="description" content="KACISTUDIO is a Singapore-based social media agency. We help brands tell their story with intention across TikTok, Instagram, and beyond.">
+<meta name="keywords" content="social media agency Singapore, TikTok agency Singapore, Instagram management Singapore, Gen Z social media agency, content creation Singapore, lifestyle brand marketing">
+<meta property="og:title" content="KACISTUDIO — Where your story meets socials.">
+<meta property="og:description" content="Singapore-based Gen Z social media agency. Story-first strategy, production, and community for lifestyle, beauty, and wellness brands. Est. 2025.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kacistudio.co/index.html">
+<!-- TODO: create a 1200×630 social share image and replace the og:image and twitter:image values below -->
+<meta property="og:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<meta property="og:site_name" content="KACISTUDIO">
+<meta property="og:locale" content="en_SG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KACISTUDIO — Where your story meets socials.">
+<meta name="twitter:description" content="Singapore-based Gen Z social media agency. Story-first strategy, production, and community for lifestyle, beauty, and wellness brands. Est. 2025.">
+<meta name="twitter:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<link rel="canonical" href="https://kacistudio.co/index.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="KACISTUDIO">
+<meta name="geo.region" content="SG">
+<meta name="geo.placename" content="Singapore">
 <title>KACISTUDIO — Where your story meets socials.</title>
 <link rel="stylesheet" href="assets/tokens.css">
 <style>
+/* ---------------- Home density overrides ---------------- */
+/* Tighter vertical pacing — scoped to this page only */
+:root {
+  --pad-section-y: clamp(28px, 4.5vw, 64px);
+  --stack-lg: clamp(24px, 3vw, 40px);
+}
+
 /* ---------------- Home-specific ---------------- */
 
 
@@ -100,16 +125,31 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 0;
-  min-height: 80vh;
+  min-height: 56vh;
   padding-top: 0;
   padding-bottom: 0;
 }
 .split-left {
-  padding: clamp(40px, 6vw, 80px) var(--pad-gutter);
+  padding: clamp(28px, 4vw, 56px) var(--pad-gutter);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 60px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: clamp(20px, 2.5vw, 32px);
+}
+.hero-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.hero-desc {
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 460px;
+  margin: 0;
 }
 .split-right {
   background: var(--fg);
@@ -122,6 +162,10 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 768px) {
+  #hero-split { grid-template-columns: 1fr; min-height: auto; }
+  .split-right { min-height: clamp(360px, 80vw, 480px); }
 }
 
 /* ── Hero Card Cluster — polaroid scatter ── */
@@ -304,9 +348,9 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
 .split-headline {
   font-family: var(--font-serif);
-  font-size: clamp(80px, 14vw, 260px);
-  line-height: 0.9;
-  letter-spacing: -0.03em;
+  font-size: clamp(48px, 7vw, 76px);
+  line-height: 1.05;
+  letter-spacing: normal;
 }
 .split-headline em { font-style: italic; color: var(--accent); }
 
@@ -357,6 +401,68 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 }
 .client-bar .marquee-track .dot { background: var(--accent); width: 6px; height: 6px; }
 
+/* Logo marquee — continuous right-to-left scroll with hover pause */
+.logo-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.logo-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: kaci-logo-marquee 40s linear infinite;
+  will-change: transform;
+}
+.logo-marquee:hover .logo-marquee-track {
+  animation-play-state: paused;
+}
+.logo-marquee-item {
+  flex: 0 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+}
+@media (min-width: 1024px) {
+  .logo-marquee-item {
+    height: 64px;
+    padding: 0 40px;
+  }
+}
+.logo-marquee-tile {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  white-space: nowrap;
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+}
+@media (min-width: 1024px) { .logo-marquee-tile { font-size: 22px; } }
+.logo-marquee-item:hover .logo-marquee-tile { opacity: 1; }
+.logo-marquee-img {
+  display: block;
+  height: 48px;
+  width: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  opacity: 0.88;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+@media (min-width: 1024px) { .logo-marquee-img { height: 60px; width: 60px; border-radius: 12px; } }
+.logo-marquee-item:hover .logo-marquee-img { opacity: 1; transform: scale(1.04); }
+@keyframes kaci-logo-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track { animation: none; }
+}
+
 /* Services block */
 .services-head {
   display: grid;
@@ -365,7 +471,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   align-items: end;
   margin-bottom: var(--stack-lg);
 }
-.services-head h2 { font-size: clamp(56px, 8vw, 120px); }
+.services-head h2 { font-size: clamp(34px, 4.5vw, 56px); letter-spacing: normal; line-height: 1.08; }
 .services-head h2 em {
   font-style: italic;
   color: var(--accent);
@@ -500,22 +606,46 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   overflow: hidden;
 }
 .process .eyebrow { color: color-mix(in oklch, var(--cream) 60%, transparent); }
-.process h2 { color: var(--cream); font-size: clamp(56px, 8vw, 120px); }
+.process h2 { color: var(--cream); font-size: clamp(34px, 4.5vw, 56px); letter-spacing: normal; line-height: 1.08; }
 .process h2 em { color: var(--accent); font-style: italic; }
 .process .rule { background: color-mix(in oklch, var(--cream) 20%, transparent); }
 
 .process-head {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: end;
+  gap: clamp(28px, 4vw, 60px);
+  align-items: stretch;
   margin-bottom: var(--stack-lg);
 }
+.process-head-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: clamp(20px, 2vw, 28px);
+}
+.process-head-text h2 { margin-bottom: clamp(8px, 1vw, 12px); }
 .process-head p {
   color: color-mix(in oklch, var(--cream) 75%, transparent);
   max-width: 440px;
-  font-size: 17px;
-  line-height: 1.55;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.process-head-photo {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  border: 1px solid color-mix(in oklch, var(--cream) 14%, transparent);
+}
+.process-head-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 768px) {
+  .process-head { grid-template-columns: 1fr; }
+  .process-head-photo { aspect-ratio: 16/10; }
 }
 .process-grid {
   display: grid;
@@ -642,6 +772,85 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   margin-top: auto;
 }
 
+/* Process carousel — drag + prev/next + spring snap */
+.process-carousel {
+  display: block !important;
+  position: relative;
+  border-left: 0 !important;
+}
+.process-carousel::before { display: none; }
+.process-carousel .process-step::before,
+.process-carousel .process-step::after { display: none; }
+
+.process-viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+.process-track {
+  display: flex;
+  cursor: grab;
+  transition: transform 0.6s cubic-bezier(0.34, 1.16, 0.64, 1);
+  user-select: none;
+  touch-action: pan-y;
+  will-change: transform;
+}
+.process-track.is-dragging {
+  transition: none;
+  cursor: grabbing;
+}
+.process-carousel .process-step {
+  flex: 0 0 78%;
+  min-width: 0;
+  pointer-events: auto;
+  opacity: 0.28;
+  transform: scale(0.94);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.process-carousel .process-step.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (min-width: 768px) {
+  .process-carousel .process-step { flex-basis: 52%; }
+}
+@media (min-width: 1024px) {
+  .process-carousel .process-step { flex-basis: 40%; }
+}
+
+.process-nav {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+.process-nav-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--cream) 10%, var(--fg));
+  color: var(--cream);
+  border: 1px solid color-mix(in oklch, var(--cream) 25%, transparent);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, color 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
+}
+.process-nav-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--fg);
+  transform: scale(1.06);
+}
+.process-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.process-nav-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 /* Work preview */
 .work-head {
   display: flex;
@@ -651,7 +860,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   gap: 40px;
   flex-wrap: wrap;
 }
-.work-head h2 { font-size: clamp(56px, 8vw, 120px); }
+.work-head h2 { font-size: clamp(34px, 4.5vw, 56px); letter-spacing: normal; line-height: 1.08; }
 .work-head h2 em { font-style: italic; color: var(--accent); }
 .work-grid {
   display: grid;
@@ -664,6 +873,9 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .work-card:nth-child(1) .ph { aspect-ratio: 4/5.5; }
+@media (max-width: 768px) {
+  .work-grid { grid-template-columns: 1fr; }
+}
 .work-card:hover .ph { transform: scale(0.97); }
 
 /* Hover overlay — gradient darkens from bottom on hover */
@@ -707,6 +919,86 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 .work-card:hover .work-meta-arrow {
   opacity: 1;
   transform: translateX(0);
+}
+
+/* Editorial work list — replaces the card grid on home */
+.work-list {
+  border-top: 1px solid var(--rule);
+}
+.work-row {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 3vw, 48px);
+  padding: clamp(20px, 2.4vw, 32px) clamp(8px, 1.5vw, 20px);
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: padding 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s ease;
+}
+.work-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--fg);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.work-row:hover::before { opacity: 0.04; }
+.work-row > * { position: relative; z-index: 1; }
+.work-row:hover {
+  padding-left: clamp(16px, 2.4vw, 32px);
+}
+.work-row-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  flex: 0 0 auto;
+}
+.work-row-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.2vw, 32px);
+  line-height: 1.1;
+  letter-spacing: normal;
+  color: var(--fg);
+  flex: 1 1 auto;
+}
+.work-row-cat {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.work-row-arrow {
+  font-size: 18px;
+  color: var(--fg-muted);
+  flex: 0 0 auto;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+}
+.work-row:hover .work-row-arrow {
+  color: var(--fg);
+  transform: translateX(8px);
+}
+@media (max-width: 600px) {
+  .work-row {
+    flex-wrap: wrap;
+    column-gap: 14px;
+    row-gap: 6px;
+    padding: 22px 8px;
+  }
+  .work-row-num { order: 1; }
+  .work-row-arrow { order: 2; margin-left: auto; }
+  .work-row-title { order: 3; flex-basis: 100%; font-size: 22px; }
+  .work-row-cat { order: 4; flex-basis: 100%; }
 }
 
 /* Philosophy / pull quote */
@@ -772,9 +1064,11 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
 /* Client Love Letters */
 .love {
-  background: var(--bg-alt);
+  background: var(--olive);
   padding: var(--pad-section-y) var(--pad-gutter);
 }
+.love .eyebrow,
+.love-head h2 { color: var(--fg); }
 .love-inner { max-width: 1440px; margin: 0 auto; }
 .love-head {
   display: grid;
@@ -783,7 +1077,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   align-items: end;
   margin-bottom: var(--stack-lg);
 }
-.love-head h2 { font-size: clamp(56px, 8vw, 120px); }
+.love-head h2 { font-size: clamp(34px, 4.5vw, 56px); letter-spacing: normal; line-height: 1.08; }
 .love-head h2 em { font-style: italic; color: var(--accent); }
 .love-placeholder-note {
   font-family: var(--font-mono);
@@ -801,13 +1095,12 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   gap: 20px;
 }
 .love-card {
-  border: 1px solid var(--olive);
+  border: 1px solid color-mix(in oklch, var(--fg) 14%, transparent);
   border-radius: 4px;
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
   gap: 32px;
-  opacity: 0.55;
   background: var(--bg);
   min-height: 340px;
 }
@@ -852,6 +1145,24 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--fg-muted);
+}
+.love-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: clamp(28px, 3vw, 40px);
+}
+.love-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--fg);
+  opacity: 0.32;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.love-dot.is-active {
+  opacity: 1;
+  transform: scale(1.15);
 }
 
 /* ── Ruler Carousel (HOW WE WORK) ── */
@@ -1172,7 +1483,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 }
 
 @media (max-width: 430px) {
-  .split-headline { font-size: clamp(72px, 14vw, 260px); }
+  .split-headline { font-size: clamp(40px, 9vw, 64px); }
   .hero-btns { flex-direction: column; align-items: flex-start; gap: 10px; }
   .hero-star { zoom: 0.52; }
   .client-bar { padding: 14px 0; }
@@ -1223,6 +1534,95 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 }
 
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://kacistudio.co/#organization",
+      "name": "KACISTUDIO",
+      "url": "https://kacistudio.co",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png"
+      },
+      "sameAs": [
+        "https://www.instagram.com/kacistudio.co",
+        "https://www.tiktok.com/@kacistudio.co"
+      ],
+      "founder": [
+        {
+          "@type": "Person",
+          "@id": "https://kacistudio.co/#angeline-khor",
+          "name": "Angeline Khor",
+          "jobTitle": "Co-Founder"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://kacistudio.co/#jovinna-chow",
+          "name": "Jovinna Chow",
+          "jobTitle": "Co-Founder"
+        }
+      ],
+      "foundingDate": "2025",
+      "description": "Singapore-based Gen Z social media agency. Story-first strategy, production, and community for lifestyle, beauty, and wellness brands.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Singapore"
+      },
+      "email": "hello.kacistudio@gmail.com"
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://kacistudio.co/#local-business",
+      "name": "KACISTUDIO",
+      "image": "https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "SG",
+        "addressLocality": "Singapore"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "opens": "10:00",
+          "closes": "19:00"
+        }
+      ],
+      "email": "hello.kacistudio@gmail.com",
+      "url": "https://kacistudio.co",
+      "parentOrganization": { "@id": "https://kacistudio.co/#organization" }
+    },
+    {
+      "@type": "WebSite",
+      "name": "KACISTUDIO",
+      "url": "https://kacistudio.co",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://kacistudio.co/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://kacistudio.co/index.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -1231,20 +1631,13 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 <!-- ============= HERO: SPLIT ============= -->
 <section id="hero-split" class="section">
   <div class="split-left">
-    <div>
-      <div class="hero-supertitle">
-        <span class="tag">Est. 2024</span>
-        <span>Singapore social media agency</span>
-      </div>
-    </div>
     <h1 class="split-headline">
       Where your story<br>meets <em>socials.</em>
     </h1>
-    <div style="display: flex; gap: 40px; align-items: flex-end; flex-wrap: wrap;">
-      <div style="display: flex; gap: 10px;" class="hero-btns">
-        <a href="contact.html" class="btn btn-primary">Start your project <span class="arrow">→</span></a>
-        <a href="services.html" class="btn btn-ghost">What we do</a>
-      </div>
+    <p class="hero-desc">A boutique social media agency in Singapore, helping brands show up online in a way that feels unmistakably them.</p>
+    <div class="hero-btns">
+      <a href="contact.html" class="btn btn-primary">Start your project <span class="arrow">→</span></a>
+      <a href="https://www.instagram.com/kacistudio.co" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Follow @kacistudio.co</a>
     </div>
   </div>
   <div class="split-right">
@@ -1309,13 +1702,10 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   </div>
 </section>
 
-<!-- ============= Client ticker ============= -->
+<!-- ============= Client ticker (logo marquee) ============= -->
 <div class="client-bar">
-  <div class="marquee" style="border: 0; padding: 0;">
-    <div class="marquee-track">
-      <span>Resurrack × LMM <span class="dot"></span> Flyco <span class="dot"></span> Brixx Derma <span class="dot"></span> Story-first brands <span class="dot"></span> </span>
-      <span>Resurrack × LMM <span class="dot"></span> Flyco <span class="dot"></span> Brixx Derma <span class="dot"></span> Story-first brands <span class="dot"></span> </span>
-    </div>
+  <div class="logo-marquee" aria-label="Selected brands">
+    <div class="logo-marquee-track" id="logo-marquee-track"></div>
   </div>
 </div>
 
@@ -1325,11 +1715,10 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div class="services-head reveal">
       <div>
         <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
-        <h2>A full-scope<br>social agency<br><em>for growing brands.</em></h2>
+        <h2>Four ways we tell<br>your story.</h2>
       </div>
       <div style="padding-bottom: 8px; display: flex; flex-direction: column; justify-content: flex-end; gap: 28px;">
-        <p style="font-size: 17px; line-height: 1.65; color: var(--fg-muted); max-width: 400px;">From strategy to execution — we handle TikTok and Instagram end-to-end, so you can focus on running your brand.</p>
-        <a href="services.html" class="btn btn-ghost" style="align-self: flex-start;">Explore our services <span class="arrow">→</span></a>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--fg-muted); max-width: 400px;">Strategy, shoot days, and the daily posting. We take social off your plate so you can run your brand.</p>
       </div>
     </div>
 
@@ -1337,103 +1726,27 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(01)</div>
         <div class="svc-title">Social media management</div>
-        <div class="svc-desc">TikTok &amp; Instagram — editing, scheduling, captions, and community.</div>
+        <div class="svc-desc">Planning, captions, scheduling, posting, and community management across TikTok and Instagram.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(02)</div>
         <div class="svc-title">Content creation</div>
-        <div class="svc-desc">One shoot day. Eight TikToks, four reels, eight stories.</div>
+        <div class="svc-desc">Filming, editing, graphics, reels, carousels, and stories. Brand visuals across every platform.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(03)</div>
-        <div class="svc-title">Strategy &amp; calendar</div>
-        <div class="svc-desc">A custom content plan built around your brand's story.</div>
+        <div class="svc-title">Social media strategy</div>
+        <div class="svc-desc">A custom plan built around your brand's story, content pillars, and how it should sound online.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
       <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
         <div class="svc-num">(04)</div>
-        <div class="svc-title">Community growth</div>
-        <div class="svc-desc">Real engagement. The kind of loyalty algorithms can't buy.</div>
+        <div class="svc-title">Event branding &amp; marketing</div>
+        <div class="svc-desc">Concept, creative direction, and onsite styling for pop-ups, markets, and brand-led events.</div>
         <div class="svc-arrow">Read more →</div>
       </a>
-      <a class="svc-row" href="services.html" style="text-decoration:none; color:inherit; display:grid;">
-        <div class="svc-num">(05)</div>
-        <div class="svc-title">Event Branding &amp; Marketing</div>
-        <div class="svc-desc">On-ground coverage for launches, pop-ups, and campaigns.</div>
-        <div class="svc-arrow">Read more →</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============= Stats strip ============= -->
-<section style="padding: 0 var(--pad-gutter);">
-  <div class="wrap" style="padding: 0;">
-    <div class="stats reveal">
-      <div class="stat">
-        <div class="stat-num"><em>8</em> <span class="stat-unit">TikToks</span></div>
-        <div class="stat-label">per month, per client</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num"><em>4</em> <span class="stat-unit">IG reels</span></div>
-        <div class="stat-label">+ 4 static + 8 stories</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num"><em>1</em> <span class="stat-unit">shoot</span></div>
-        <div class="stat-label">day, fully produced</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num"><em>2</em> <span class="stat-unit">meetings</span></div>
-        <div class="stat-label">discovery &amp; strategy</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============= Process ============= -->
-<section class="section process">
-  <div class="wrap">
-    <div class="process-head reveal">
-      <div>
-        <div class="eyebrow" style="margin-bottom: 20px;">◎ HOW WE WORK · 02</div>
-        <h2>Five steps,<br><em>one agency</em>,<br>zero guesswork.</h2>
-      </div>
-      <div style="display: flex; flex-direction: column; justify-content: flex-end; gap: 28px; padding-bottom: 8px;">
-        <p>We don't jump straight to content. Every brand goes through the same five-step journey — designed to get us close enough to tell your story properly.</p>
-        <a href="contact.html" class="btn btn-ghost" style="align-self: flex-start; border-color: color-mix(in oklch, var(--cream) 30%, transparent); color: var(--cream);">Start the process <span class="arrow">→</span></a>
-      </div>
-    </div>
-
-    <div class="process-ruler reveal" id="processRuler">
-      <div class="ruler-detail" id="rulerDetail"></div>
-      <div class="ruler-nav">
-        <button class="ruler-btn" id="rulerPrev" aria-label="Previous step">←</button>
-        <div class="ruler-steps" id="rulerSteps"></div>
-        <button class="ruler-btn" id="rulerNext" aria-label="Next step">→</button>
-      </div>
-      <div class="ruler-band">
-        <div class="ruler-strip" id="rulerTop"><div class="ruler-strip-inner" id="rulerTopInner"></div></div>
-        <div class="ruler-track-wrap">
-          <div class="ruler-track" id="rulerTrack"></div>
-        </div>
-        <div class="ruler-strip" id="rulerBot"><div class="ruler-strip-inner" id="rulerBotInner"></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============= Pull quote ============= -->
-<section class="pull">
-  <div class="reveal">
-    <div class="eyebrow" style="margin-bottom: 32px;">◎ OUR PHILOSOPHY · 03</div>
-    <blockquote>
-      We grow<br><em>with you,</em><br>not just <span style="-webkit-text-stroke: 1.5px var(--fg); -webkit-text-fill-color: transparent;">for&nbsp;you</span>.
-    </blockquote>
-    <div class="attrib">
-      <span class="attrib-dot"></span>
-      <span>The KACISTUDIO promise</span>
     </div>
   </div>
 </section>
@@ -1443,8 +1756,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   <div class="wrap">
     <div class="work-head reveal">
       <div>
-        <div class="eyebrow" style="margin-bottom: 20px;">◎ SELECTED WORK · 04</div>
-        <h2>Brands we've<br><em>grown with.</em></h2>
+        <div class="eyebrow" style="margin-bottom: 20px;">◎ SELECTED WORK · 02</div>
+        <h2>Brands we've<br>grown with.</h2>
       </div>
       <a href="work.html" class="btn btn-ghost">View all work <span class="arrow">→</span></a>
     </div>
@@ -1453,15 +1766,15 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       <a href="work.html" class="work-card reveal" style="--reveal-delay:0ms; text-decoration:none; color:inherit;">
         <div class="ph ph-terra">
           <div class="ph-label" style="color: var(--cream); opacity: 0.8;">CASE · 001</div>
-          <div style="position: absolute; bottom: 40px; left: 40px; color: var(--cream); font-family: var(--font-serif); font-size: 56px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
+          <div style="position: absolute; bottom: 36px; left: 36px; color: var(--cream); font-family: var(--font-serif); font-size: 44px; line-height: 0.95; letter-spacing: normal; font-style: italic;">
             Resurrack<br>×&nbsp;LMM
           </div>
-          <div class="ph-label ph-label-br" style="color: var(--cream); opacity: 0.8;">Lifestyle&nbsp;·&nbsp;TikTok</div>
+          <div class="ph-label ph-label-br" style="color: var(--cream); opacity: 0.8;">Lifestyle&nbsp;·&nbsp;2025</div>
         </div>
         <div class="work-meta">
           <span class="title">Resurrack × LittleMissMarket</span>
           <span class="work-meta-right">
-            <span class="cat">2025 · Lifestyle</span>
+            <span class="cat">Lifestyle</span>
             <span class="work-meta-arrow">→</span>
           </span>
         </div>
@@ -1469,15 +1782,15 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       <a href="work.html" class="work-card reveal" style="--reveal-delay:80ms; text-decoration:none; color:inherit;">
         <div class="ph ph-olive">
           <div class="ph-label">CASE · 002</div>
-          <div style="position: absolute; bottom: 40px; left: 40px; color: var(--cream); font-family: var(--font-serif); font-size: 48px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
+          <div style="position: absolute; bottom: 36px; left: 36px; color: var(--cream); font-family: var(--font-serif); font-size: 40px; line-height: 0.95; letter-spacing: normal; font-style: italic;">
             Flyco
           </div>
-          <div class="ph-label ph-label-br">Tech · IG&amp;TT</div>
+          <div class="ph-label ph-label-br">Tech &middot; 2025</div>
         </div>
         <div class="work-meta">
           <span class="title">Flyco</span>
           <span class="work-meta-right">
-            <span class="cat">2025 · Tech</span>
+            <span class="cat">Tech</span>
             <span class="work-meta-arrow">→</span>
           </span>
         </div>
@@ -1485,15 +1798,15 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       <a href="work.html" class="work-card reveal" style="--reveal-delay:160ms; text-decoration:none; color:inherit;">
         <div class="ph ph-espresso">
           <div class="ph-label" style="color: var(--cream); opacity: 0.7;">CASE · 003</div>
-          <div style="position: absolute; bottom: 40px; left: 40px; color: var(--accent); font-family: var(--font-serif); font-size: 48px; line-height: 0.9; letter-spacing: -0.02em; font-style: italic;">
+          <div style="position: absolute; bottom: 36px; left: 36px; color: var(--accent); font-family: var(--font-serif); font-size: 40px; line-height: 0.95; letter-spacing: normal; font-style: italic;">
             Brixx<br>Derma
           </div>
-          <div class="ph-label ph-label-br" style="color: var(--cream); opacity: 0.7;">Beauty · Skin</div>
+          <div class="ph-label ph-label-br" style="color: var(--cream); opacity: 0.7;">Beauty &middot; 2026</div>
         </div>
         <div class="work-meta">
           <span class="title">Brixx Derma</span>
           <span class="work-meta-right">
-            <span class="cat">2026 · Beauty</span>
+            <span class="cat">Beauty</span>
             <span class="work-meta-arrow">→</span>
           </span>
         </div>
@@ -1508,31 +1821,50 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   <div class="love-inner">
     <div class="love-head reveal">
       <div>
-        <div class="eyebrow" style="margin-bottom: 20px;">◎ CLIENT LOVE · 05</div>
-        <h2>What our<br><em>clients say.</em></h2>
+        <div class="eyebrow" style="margin-bottom: 20px;">◎ CLIENT LOVE · 03</div>
+        <h2>What our<br>clients say.</h2>
       </div>
     </div>
     <div class="love-grid reveal">
       <div class="love-card">
-        <p class="love-quote">They don't just post — they think. Every piece of content felt like it came from us, not an agency checklist.</p>
+        <p class="love-quote">They don't just post. They think. Every piece of content felt like it came from us, not an agency checklist.</p>
         <div class="love-client">
-          <div class="love-name">Client Name</div>
-          <div class="love-brand">Brand Name · Industry</div>
+          <div class="love-name">[Client to provide]</div>
+          <div class="love-brand">Brand Name &middot; Industry</div>
         </div>
       </div>
       <div class="love-card">
         <p class="love-quote">Working with KACISTUDIO felt less like outsourcing and more like gaining a creative co-founder who actually gets the vibe.</p>
         <div class="love-client">
-          <div class="love-name">Client Name</div>
-          <div class="love-brand">Brand Name · Industry</div>
+          <div class="love-name">[Client to provide]</div>
+          <div class="love-brand">Brand Name &middot; Industry</div>
         </div>
       </div>
       <div class="love-card">
         <p class="love-quote">Our TikTok went from zero to something we're genuinely proud of. They found our voice before we knew what it sounded like.</p>
         <div class="love-client">
-          <div class="love-name">Client Name</div>
-          <div class="love-brand">Brand Name · Industry</div>
+          <div class="love-name">[Client to provide]</div>
+          <div class="love-brand">Brand Name &middot; Industry</div>
         </div>
+      </div>
+    </div>
+    <div class="love-pagination" role="tablist" aria-label="Testimonials">
+      <span class="love-dot is-active" role="tab" aria-selected="true"></span>
+      <span class="love-dot" role="tab" aria-selected="false"></span>
+      <span class="love-dot" role="tab" aria-selected="false"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Closing CTA ============= -->
+<section class="section closing-cta">
+  <div class="wrap" style="text-align: center; max-width: 760px;">
+    <div class="reveal">
+      <div class="eyebrow" style="margin-bottom: 28px;">◎ READY?</div>
+      <h2 style="font-size: clamp(36px, 5vw, 64px); margin-bottom: 32px; line-height: 1.08; letter-spacing: normal;">Where your story<br><em>starts.</em></h2>
+      <p style="font-size: 18px; line-height: 1.7; color: var(--fg-muted); max-width: 560px; margin: 0 auto 40px;">Tell us a bit about your brand. We read every form, reply within a couple of days, and only take on a few new brands a quarter.</p>
+      <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; align-items: center;">
+        <a href="contact.html" class="btn btn-primary">Start your project <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
@@ -1552,254 +1884,206 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 </script>
 
 <script>
+/* Process carousel — circular (infinite loop) + peek + drag + prev/next */
 (function () {
-  var STEPS = [
-    { n: '01', title: 'Discover & Align',    desc: 'We meet in person to understand your brand and see if we\'re the right fit.' },
-    { n: '02', title: 'Research & Strategy', desc: 'A deep audit and custom strategy, built for your brand specifically.' },
-    { n: '03', title: 'Content Planning',    desc: 'Full content calendar — captions, creative direction, and timing.' },
-    { n: '04', title: 'Creation & Approval', desc: 'We shoot, edit, share for approval, and refine.' },
-    { n: '05', title: 'Execute & Elevate',   desc: 'Posting, monitoring, and refinement as we grow together.' }
-  ];
+  var carousel = document.getElementById('processCarousel');
+  if (!carousel) return;
+  var viewport = carousel.querySelector('.process-viewport');
+  var track = carousel.querySelector('.process-track');
+  var prevBtn = document.getElementById('processPrev');
+  var nextBtn = document.getElementById('processNext');
+  if (!viewport || !track || !prevBtn || !nextBtn) return;
 
-  var ruler    = document.getElementById('processRuler');
-  if (!ruler) return;
-  var track    = document.getElementById('rulerTrack');
-  var prevBtn  = document.getElementById('rulerPrev');
-  var nextBtn  = document.getElementById('rulerNext');
-  var stepsEl  = document.getElementById('rulerSteps');
-  var detailEl = document.getElementById('rulerDetail');
-  /* Perforations now handled by CSS SVG background — no DOM ticks needed */
-
-  var N = STEPS.length;
-  var allItems = [];
-  [0, 1, 2].forEach(function (set) {
-    STEPS.forEach(function (s, i) { allItems.push({ step: s, orig: i }); });
-  });
-
-  /* Detail sliding track — tripled panels, peek left/right */
-  var detailTrack = document.createElement('div');
-  detailTrack.className = 'detail-track';
-  detailEl.appendChild(detailTrack);
-
-  var lMark = document.createElement('div');
-  lMark.className = 'ruler-edge-mark ruler-edge-mark-left';
-  lMark.setAttribute('aria-hidden', 'true');
-  lMark.textContent = 'KACISTUDIO · SINGAPORE · SOCIAL MEDIA PRODUCTIONS · 2025';
-  detailEl.appendChild(lMark);
-
-  var rMark = document.createElement('div');
-  rMark.className = 'ruler-edge-mark ruler-edge-mark-right';
-  rMark.setAttribute('aria-hidden', 'true');
-  rMark.textContent = 'DISCOVER · RESEARCH · PLAN · CREATE · EXECUTE';
-  detailEl.appendChild(rMark);
-
-  var detailPanels = allItems.map(function (it, idx) {
-    var p   = document.createElement('div');
-    p.className = 'detail-panel';
-    p.addEventListener('click', function () { navigate(idx); });
-
-    var lbl = document.createElement('span'); lbl.className = 'ruler-detail-step'; lbl.textContent = 'STEP';
-    var num = document.createElement('span'); num.className = 'ruler-detail-n';    num.textContent = it.step.n;
-    var ttl = document.createElement('span'); ttl.className = 'ruler-detail-title'; ttl.textContent = it.step.title;
-    var dsc = document.createElement('p');   dsc.className = 'ruler-detail-desc';  dsc.textContent = it.step.desc;
-    var bgn = document.createElement('span'); bgn.className = 'ruler-bg-n'; bgn.setAttribute('aria-hidden', 'true'); bgn.textContent = it.step.n;
-
-    p.appendChild(lbl); p.appendChild(num); p.appendChild(ttl); p.appendChild(dsc); p.appendChild(bgn);
-    detailTrack.appendChild(p);
-    return p;
-  });
-
-  /* Step nav pills — one per real step, clickable */
-  var stepPills = STEPS.map(function (s, i) {
-    var pill = document.createElement('button');
-    pill.className = 'ruler-step-pill';
-    pill.textContent = s.n;
-    pill.setAttribute('aria-label', 'Go to step ' + (i + 1) + ': ' + s.title);
-    pill.addEventListener('click', function () { navigate(N + i); });
-    stepsEl.appendChild(pill);
-    return pill;
-  });
-
-  /* Ruler title track */
-  var btns = allItems.map(function (it, idx) {
-    var b = document.createElement('button');
-    b.className   = 'ruler-item';
-    b.textContent = it.step.title;
-    b.addEventListener('click', function () { navigate(idx); });
-    track.appendChild(b);
-    return b;
-  });
-
-  var active    = N;
-  var resetting = false;
-
-  /* Projector flash element — sits inside the film track wrap */
-  var flashEl = document.createElement('div');
-  flashEl.className = 'ruler-flash';
-  flashEl.setAttribute('aria-hidden', 'true');
-  track.parentElement.appendChild(flashEl);
-
-  function triggerFlash() {
-    flashEl.classList.remove('is-flashing');
-    void flashEl.offsetWidth;
-    flashEl.classList.add('is-flashing');
+  /* Clone the original 5 steps once before and once after for seamless loop:
+     [clones-set-A] [originals] [clones-set-C]   (15 items total) */
+  var ORIGINALS = track.children.length;
+  var originals = Array.prototype.slice.call(track.children);
+  for (var i = ORIGINALS - 1; i >= 0; i--) {
+    var c = originals[i].cloneNode(true);
+    c.setAttribute('aria-hidden', 'true');
+    track.insertBefore(c, track.firstChild);
   }
-
-  function iW()  { return window.innerWidth <= 600 ? 180 : 280; }
-  function iG()  { return window.innerWidth <= 600 ? 40  : 80;  }
-  function iDW() { return window.innerWidth <= 600 ? 260 : 380; }
-  function iDG() { return window.innerWidth <= 600 ? 32  : 60;  }
-
-  function render(instant) {
-    var W = iW(), G = iG(), slot = W + G;
-    var DW = iDW(), DG = iDG(), dSlot = DW + DG;
-    var wrapW   = track.parentElement.offsetWidth;
-    var detailW = detailEl.offsetWidth;
-    var tx    = wrapW   / 2 - W  / 2 - active * slot;
-    var dtx   = detailW / 2 - DW / 2 - active * dSlot;
-
-    if (instant) ruler.classList.add('ruler-resetting');
-    track.style.transform       = 'translateX(' + tx  + 'px)';
-    detailTrack.style.transform = 'translateX(' + dtx + 'px)';
-    if (instant) { track.offsetHeight; ruler.classList.remove('ruler-resetting'); }
-
-    /* Ruler title items */
-    btns.forEach(function (el, i) {
-      var d = Math.abs(i - active);
-      el.style.transform = 'scale(' + (d === 0 ? 1 : d === 1 ? 0.76 : 0.62) + ')';
-      el.style.opacity   = String(d === 0 ? 1 : d === 1 ? 0.35 : 0.18);
-      el.style.width     = W + 'px';
-    });
-
-    /* Detail peek panels */
-    detailPanels.forEach(function (el, i) {
-      var d = Math.abs(i - active);
-      el.classList.toggle('is-active', d === 0);
-      el.style.opacity   = String(d === 0 ? 1 : d === 1 ? 0.30 : 0);
-      el.style.transform = 'scale(' + (d === 0 ? 1 : d === 1 ? 0.90 : 0.80) + ')';
-      el.style.width     = DW + 'px';
-      el.style.cursor    = d === 1 ? 'pointer' : 'default';
-    });
-
-    var cur = ((active % N) + N) % N;
-    stepPills.forEach(function (pill, i) { pill.classList.toggle('is-active', i === cur); });
+  for (var j = 0; j < ORIGINALS; j++) {
+    var c2 = originals[j].cloneNode(true);
+    c2.setAttribute('aria-hidden', 'true');
+    track.appendChild(c2);
   }
+  var items = track.children;
+  var total = items.length; /* = ORIGINALS * 3 */
 
-  function checkInfinite() {
-    if (active < N) {
-      resetting = true;
-      setTimeout(function () { active += N; render(true); resetting = false; }, 0);
-    } else if (active >= N * 2) {
-      resetting = true;
-      setTimeout(function () { active -= N; render(true); resetting = false; }, 0);
+  var index = ORIGINALS; /* start at first item of the middle set (step 01) */
+  var DRAG_THRESHOLD = 50;
+  var dragStartX = null;
+  var dragDelta = 0;
+  var pointerActive = false;
+
+  function basisPercent() {
+    var w = window.innerWidth;
+    if (w >= 1024) return 40;
+    if (w >= 768) return 52;
+    return 78;
+  }
+  function setTranslate(noTransition) {
+    if (noTransition) {
+      track.style.transition = 'none';
+    }
+    var basis = basisPercent();
+    var translate = 50 - (index * basis) - (basis / 2);
+    track.style.transform = 'translateX(' + translate + '%)';
+    if (noTransition) {
+      /* Force reflow before re-enabling transition so the jump is instant */
+      void track.offsetWidth;
+      track.style.transition = '';
     }
   }
-
-  function navigate(idx) {
-    if (resetting) return;
-    var orig = idx % N;
-    var best = [orig, orig + N, orig + N * 2].reduce(function (a, b) {
-      return Math.abs(b - active) < Math.abs(a - active) ? b : a;
+  function paint() {
+    Array.prototype.forEach.call(items, function (item, i) {
+      item.classList.toggle('is-active', i === index);
     });
-    if (best === active) return;
-    active = best; render(false); checkInfinite(); triggerFlash();
+  }
+  function snapToIndex(noTransition) {
+    setTranslate(noTransition);
+    paint();
   }
 
-  prevBtn.addEventListener('click', function () { if (!resetting) { active--; render(false); checkInfinite(); triggerFlash(); } });
-  nextBtn.addEventListener('click', function () { if (!resetting) { active++; render(false); checkInfinite(); triggerFlash(); } });
-
-  document.addEventListener('keydown', function (e) {
-    if (resetting) return;
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); active--; render(false); checkInfinite(); triggerFlash(); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); active++; render(false); checkInfinite(); triggerFlash(); }
+  /* When the slide animation finishes, if we're inside one of the clone sets,
+     silently jump to the equivalent slot in the middle set. */
+  track.addEventListener('transitionend', function (e) {
+    if (e.target !== track || e.propertyName !== 'transform') return;
+    if (index < ORIGINALS) {
+      index += ORIGINALS;
+      snapToIndex(true);
+    } else if (index >= ORIGINALS * 2) {
+      index -= ORIGINALS;
+      snapToIndex(true);
+    }
   });
 
-  /* Touch swipe */
-  var touchX = 0;
-  ruler.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
-  ruler.addEventListener('touchend', function (e) {
-    if (resetting) return;
-    var dx = touchX - e.changedTouches[0].clientX;
-    if (Math.abs(dx) > 40) {
-      if (dx > 0) { active++; } else { active--; }
-      render(false); checkInfinite(); triggerFlash();
-    }
-  }, { passive: true });
+  function go(delta) {
+    index += delta;
+    track.classList.remove('is-dragging');
+    snapToIndex(false);
+  }
 
-  window.addEventListener('resize', function () { render(true); });
-  render(true);
+  prevBtn.addEventListener('click', function () { go(-1); });
+  nextBtn.addEventListener('click', function () { go(1); });
+
+  /* Drag — pointer events for unified mouse + touch */
+  function onPointerDown(e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    pointerActive = true;
+    dragStartX = e.clientX;
+    dragDelta = 0;
+    track.classList.add('is-dragging');
+    track.setPointerCapture(e.pointerId);
+  }
+  function onPointerMove(e) {
+    if (!pointerActive) return;
+    dragDelta = e.clientX - dragStartX;
+    var basis = basisPercent();
+    var basePct = 50 - (index * basis) - (basis / 2);
+    var dragPct = (dragDelta / viewport.offsetWidth) * 100;
+    track.style.transform = 'translateX(' + (basePct + dragPct) + '%)';
+  }
+  function onPointerEnd(e) {
+    if (!pointerActive) return;
+    pointerActive = false;
+    track.classList.remove('is-dragging');
+    if (track.hasPointerCapture && e && e.pointerId != null && track.hasPointerCapture(e.pointerId)) {
+      track.releasePointerCapture(e.pointerId);
+    }
+    if (dragDelta < -DRAG_THRESHOLD) go(1);
+    else if (dragDelta > DRAG_THRESHOLD) go(-1);
+    else snapToIndex(false);
+    dragDelta = 0;
+    dragStartX = null;
+  }
+
+  track.addEventListener('pointerdown', onPointerDown);
+  track.addEventListener('pointermove', onPointerMove);
+  track.addEventListener('pointerup', onPointerEnd);
+  track.addEventListener('pointercancel', onPointerEnd);
+  track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+  carousel.tabIndex = 0;
+  carousel.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+  });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { snapToIndex(true); }, 120);
+  });
+
+  snapToIndex(true);
 })();
 </script>
+
 
 <script src="assets/chrome.js"></script>
 <script>
   KaciChrome.nav("home");
   KaciChrome.footer();
+
+  // Seamless infinite brand marquee — fill the track until one set
+  // is wider than the viewport, then duplicate it for a clean -50% loop.
+  (function () {
+    var track = document.getElementById("logo-marquee-track");
+    if (!track) return;
+
+    var BRANDS = [
+      { src: "media/Kaci's Clients/resurrack.jpg",      alt: "Resurrack" },
+      { src: "media/Kaci's Clients/littlemissmrkt.jpg", alt: "LittleMissMarket" },
+      { src: "media/Kaci's Clients/flycotravel.jpg",    alt: "Flyco" },
+      { src: "media/Kaci's Clients/brixxderma.jpg",     alt: "Brixx Derma" },
+      { src: "media/Kaci's Clients/melissashoessg.jpg", alt: "Melissa Shoes" },
+      { src: "media/Kaci's Clients/coffeeman_nyp.jpg",  alt: "Coffeeman@NYP" },
+    ];
+
+    function appendBrand(brand, hidden) {
+      var item = document.createElement("div");
+      item.className = "logo-marquee-item";
+      if (hidden) item.setAttribute("aria-hidden", "true");
+      var img = document.createElement("img");
+      img.className = "logo-marquee-img";
+      img.src = brand.src;
+      img.alt = hidden ? "" : brand.alt;
+      img.loading = "lazy";
+      item.appendChild(img);
+      track.appendChild(item);
+    }
+
+    function build() {
+      while (track.firstChild) track.removeChild(track.firstChild);
+      var viewport = track.parentElement.offsetWidth || window.innerWidth;
+      BRANDS.forEach(function (b) { appendBrand(b, false); });
+
+      var safetyLoops = 0;
+      while (track.scrollWidth < viewport * 1.2 && safetyLoops < 10) {
+        BRANDS.forEach(function (b) { appendBrand(b, true); });
+        safetyLoops++;
+      }
+
+      var children = Array.prototype.slice.call(track.children);
+      children.forEach(function (node) {
+        var clone = node.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        var img = clone.querySelector("img");
+        if (img) img.alt = "";
+        track.appendChild(clone);
+      });
+    }
+
+    build();
+    var rebuildTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(rebuildTimer);
+      rebuildTimer = setTimeout(build, 200);
+    });
+  })();
 </script>
 <script src="assets/tweaks.js"></script>
-<script>
-(function() {
-  var CHIPS = [
-    { icon: '✦', title: 'Small team, big focus.',    desc: 'Every brand gets our full attention.'        },
-    { icon: '◎', title: 'Story-first, always.',       desc: 'We post to connect, not just to post.'      },
-    { icon: '→', title: 'True creative partner.',     desc: 'We grow with you, not just for you.'        },
-    { icon: '✦', title: 'No lock-in contracts.',      desc: 'Month-to-month. We earn it every time.'     },
-    { icon: '◎', title: 'Gen Z fluency.',             desc: 'We live on these platforms. We know them.'  },
-    { icon: '→', title: 'Boutique by design.',        desc: 'Max 2 new brands per quarter. Intentional.' },
-  ];
-
-  var slot = document.getElementById('bucket-chip-slot');
-  if (!slot) return;
-
-  var current = 0;
-  var activeChip = null;
-
-  function createChip(data) {
-    var el = document.createElement('div');
-    el.className = 'bucket-chip';
-
-    var icon = document.createElement('div');
-    icon.className = 'bucket-chip-icon';
-    icon.textContent = data.icon;
-
-    var text = document.createElement('div');
-    text.className = 'bucket-chip-text';
-
-    var title = document.createElement('div');
-    title.className = 'bucket-chip-title';
-    title.textContent = data.title;
-
-    var desc = document.createElement('div');
-    desc.className = 'bucket-chip-desc';
-    desc.textContent = data.desc;
-
-    text.appendChild(title);
-    text.appendChild(desc);
-    el.appendChild(icon);
-    el.appendChild(text);
-    return el;
-  }
-
-  function showNext() {
-    if (activeChip) {
-      var old = activeChip;
-      old.classList.remove('chip-enter');
-      old.classList.add('chip-exit');
-      setTimeout(function() { if (old.parentNode) old.parentNode.removeChild(old); }, 500);
-    }
-    setTimeout(function() {
-      var chip = createChip(CHIPS[current]);
-      slot.appendChild(chip);
-      chip.getBoundingClientRect();
-      chip.classList.add('chip-enter');
-      activeChip = chip;
-      current = (current + 1) % CHIPS.length;
-    }, 150);
-  }
-
-  showNext();
-  setInterval(showNext, 2500);
-})();
-</script>
 </body>
 </html>
