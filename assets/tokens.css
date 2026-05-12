@@ -283,15 +283,6 @@ blockquote em,
   font-weight: 600 !important;
 }
 
-/* Sloop Script — footer tagline (pure brand voice, ideal for script) */
-.kaci-footer-tagline {
-  font-family: var(--font-script);
-  font-size: clamp(18px, 2vw, 28px);
-  font-style: normal;
-  letter-spacing: 0;
-  color: var(--fg-muted);
-}
-
 /* BootzyTM — hero polaroid brand card + footer wordmark */
 .hsc-brand-name {
   font-family: var(--font-display) !important;
@@ -683,7 +674,10 @@ body.nav-locked { overflow: hidden; }
 }
 
 @media (max-width: 430px) {
-  .kaci-nav { width: calc(100% - 32px); justify-content: space-between; }
+  .kaci-nav { width: auto; gap: 4px; }
+  .kaci-nav-logo { padding: 0 0.5rem; }
+  .kaci-nav-logo::after { display: none; }
+  .kaci-nav-hamburger { padding: 0.5rem 0.7rem; }
   .kaci-nav-logo-text { display: none; }
   /* Prevent iOS auto-zoom on form inputs */
   input, textarea, select { font-size: 16px; }
@@ -727,25 +721,6 @@ body.nav-locked { overflow: hidden; }
   transform-origin: center center;
 }
 
-.kaci-footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 0;
-  align-items: center;
-}
-.kaci-footer-links a {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  padding: 6px 16px;
-  transition: color 0.2s ease;
-  border-right: 1px solid var(--rule);
-}
-.kaci-footer-links a:last-child { border-right: none; }
-.kaci-footer-links a:hover { color: var(--fg); }
-
 .kaci-footer-bottom {
   display: flex;
   justify-content: space-between;
@@ -776,10 +751,8 @@ body.nav-locked { overflow: hidden; }
 .kaci-footer-credit a:hover { color: var(--fg); }
 
 @media (max-width: 768px) {
-  /* Stack logo block above nav links and centre everything */
   .kaci-footer-top       { flex-direction: column; align-items: center; text-align: center; gap: 24px; }
   .kaci-footer-brand-wrap { align-items: center; }
-  .kaci-footer-links     { justify-content: center; }
   .kaci-footer-social    { justify-content: center; gap: 10px 14px; }
   .kaci-footer-tagline   { text-align: center; }
 }
