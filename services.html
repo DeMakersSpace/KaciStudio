@@ -1324,7 +1324,7 @@
   height: 1px;
   background: color-mix(in srgb, var(--fg) 32%, transparent);
 }
-.tiers h2 {
+.tiers h1 {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
@@ -1334,7 +1334,7 @@
   color: var(--fg);
   margin: 0 0 18px;
 }
-.tiers h2 em { color: var(--accent); font-style: italic; }
+.tiers h1 em { color: var(--accent); font-style: italic; }
 .tiers .tiers-sub {
   font-family: var(--font-serif);
   font-size: clamp(16px, 1.4vw, 19px);
@@ -1531,7 +1531,7 @@
 .register-photo {
   position: relative;
   width: 100%;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/3.5;
   overflow: hidden;
   margin: 0;
 }
@@ -1700,7 +1700,8 @@
 .register-tier.is-open .register-chev {
   transform: rotate(45deg);
 }
-/* Shared drawer below the row — only the active tier's details show */
+/* Drawer parks under the row on wide screens, slots after the clicked
+   tier inside .register-cols on narrower screens — span full row there. */
 .register-drawer {
   max-height: 0;
   overflow: hidden;
@@ -1711,6 +1712,7 @@
     opacity 0.4s ease 0.05s,
     border-color 0.4s ease;
 }
+.register-cols > .register-drawer { grid-column: 1 / -1; }
 .register-drawer.is-open {
   max-height: 720px;
   opacity: 1;
@@ -1865,8 +1867,7 @@
   max-width: 1280px;
   margin: 0 auto;
   overflow: hidden;
-  min-height: 480px;
-  align-items: center;
+  align-items: start;
   position: relative;
 }
 @media (min-width: 900px) {
@@ -1893,17 +1894,13 @@
 
 /* Chips column */
 .onboard-chips {
-  position: relative;
-  height: 320px;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
   z-index: 2;
 }
 .onboard-chip {
-  position: absolute;
-  top: 50%;
-  left: 0;
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -1918,13 +1915,14 @@
   background: transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.45s ease, color 0.45s ease, border-color 0.45s ease;
+  opacity: 0.7;
+  transition: background 0.45s ease, color 0.45s ease, border-color 0.45s ease, opacity 0.45s ease;
 }
 .onboard-chip.is-active {
   background: var(--cream);
   color: var(--fg);
   border-color: var(--cream);
-  z-index: 4;
+  opacity: 1;
 }
 .onboard-chip:hover:not(.is-active) {
   color: var(--cream);
@@ -1953,6 +1951,10 @@
   width: 100%;
   margin: 0 auto;
   perspective: 1000px;
+}
+/* Next-card sits at translateX(22%) past stage — cap stage on phones. */
+@media (max-width: 480px) {
+  .onboard-stage { max-width: min(320px, 70vw); }
 }
 .onboard-card {
   position: absolute;
@@ -2749,17 +2751,11 @@
 
 <div id="nav-slot"></div>
 
-<section class="page-hero">
-  <div class="eyebrow">◎ SERVICES · 2026</div>
-  <h1>Crafted with soul.<br>Created to <em>connect.</em></h1>
-  <p class="intro">Whether it's a full monthly retainer or a focused campaign, we work with the same intention either way. Strategy on the back end. Story on the feed.</p>
-</section>
-
 <!-- ════════ §01 Packages — horizontal tier grid ════════ -->
 <section class="tiers reveal">
   <div class="tiers-head">
     <div class="tiers-eyebrow">◎ Packages &middot; 01</div>
-    <h2>Four ways to<br>work with <em>us.</em></h2>
+    <h1>Four packages to<br>work with <em>us.</em></h1>
     <p class="tiers-sub">Pick the one that fits where your brand is right now. Every tier runs month to month, no lock-in, with two new brands per quarter max.</p>
   </div>
   <div class="price-register">
@@ -3139,14 +3135,31 @@
 </script>
 
 <script>
-/* Price register — shared drawer below the row; only one panel visible */
+/* Price register — drawer parks under the row on desktop, but slots in
+   right after the clicked tier on mobile so details stay near the click. */
 (function () {
   var register = document.querySelector('.price-register');
   if (!register) return;
+  var cols = register.querySelector('.register-cols');
   var tiers = Array.from(register.querySelectorAll('.register-tier'));
   var drawer = document.getElementById('registerDrawer');
-  if (!drawer) return;
+  if (!drawer || !cols) return;
   var panels = Array.from(drawer.querySelectorAll('.drawer-panel'));
+  var deskParent = drawer.parentNode;
+  var deskAnchor = drawer.nextSibling;
+  var compactQuery = window.matchMedia('(max-width: 1079px)');
+
+  function parkDesktop() {
+    if (drawer.parentNode !== deskParent) {
+      deskParent.insertBefore(drawer, deskAnchor);
+    }
+  }
+  function parkAfter(tier) {
+    var anchor = tier.nextSibling;
+    if (drawer.previousSibling !== tier) {
+      cols.insertBefore(drawer, anchor);
+    }
+  }
 
   function setActive(index) {
     tiers.forEach(function (t, i) {
@@ -3161,6 +3174,10 @@
       p.setAttribute('aria-hidden', String(!active));
     });
     drawer.classList.toggle('is-open', index >= 0);
+
+    if (index < 0) { parkDesktop(); return; }
+    if (compactQuery.matches) parkAfter(tiers[index]);
+    else parkDesktop();
   }
 
   function closeAll() { setActive(-1); }
@@ -3170,9 +3187,16 @@
     if (!summary) return;
     summary.addEventListener('click', function () {
       var isOpen = tier.classList.contains('is-open');
-      if (isOpen) closeAll();
-      else setActive(i);
+      if (isOpen) { closeAll(); return; }
+      setActive(i);
     });
+  });
+
+  compactQuery.addEventListener('change', function () {
+    var openIdx = tiers.findIndex(function (t) { return t.classList.contains('is-open'); });
+    if (openIdx < 0) return;
+    if (compactQuery.matches) parkAfter(tiers[openIdx]);
+    else parkDesktop();
   });
 })();
 </script>
@@ -3202,9 +3226,6 @@
 
   function paint() {
     chips.forEach(function (chip, i) {
-      var n = normalize(i - index);
-      chip.style.transform = 'translateY(calc(-50% + ' + (n * ITEM_GAP) + 'px))';
-      chip.style.opacity = String(Math.max(0, 1 - Math.abs(n) * 0.28));
       chip.classList.toggle('is-active', i === index);
     });
     cards.forEach(function (card, i) {

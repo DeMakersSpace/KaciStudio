@@ -430,20 +430,13 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     padding: 0 40px;
   }
 }
-.logo-marquee-tile {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  color: var(--cream);
-  white-space: nowrap;
-  opacity: 0.55;
-  transition: opacity 0.4s ease;
+.logo-marquee-link {
+  display: block;
+  text-decoration: none;
+  border-radius: 12px;
+  outline: none;
 }
-@media (min-width: 1024px) { .logo-marquee-tile { font-size: 22px; } }
-.logo-marquee-item:hover .logo-marquee-tile { opacity: 1; }
+.logo-marquee-link:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
 .logo-marquee-img {
   display: block;
   height: 48px;
@@ -452,6 +445,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   object-fit: cover;
   opacity: 0.88;
   transition: opacity 0.4s ease, transform 0.4s ease;
+  cursor: pointer;
 }
 @media (min-width: 1024px) { .logo-marquee-img { height: 60px; width: 60px; border-radius: 12px; } }
 .logo-marquee-item:hover .logo-marquee-img { opacity: 1; transform: scale(1.04); }
@@ -1473,7 +1467,60 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   .svc-row .svc-desc, .svc-row .svc-arrow { grid-column: 2; }
   .stat { border-right: 0; border-bottom: 1px solid var(--rule); }
   .type-hero-grid { grid-template-columns: 1fr; gap: 20px; }
-  .love-head, .love-grid { grid-template-columns: 1fr; }
+  .love-head { grid-template-columns: 1fr; }
+  /* Horizontal swipe carousel on mobile/tablet — keeps the section short */
+  .love-carousel { position: relative; }
+  .love-grid {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad-gutter);
+    gap: 16px;
+    margin-inline: calc(-1 * var(--pad-gutter));
+    padding: 4px var(--pad-gutter) 24px;
+    scrollbar-width: none;
+  }
+  .love-grid::-webkit-scrollbar { display: none; }
+  .love-card {
+    flex: 0 0 86%;
+    min-width: 0;
+    scroll-snap-align: center;
+    min-height: auto;
+  }
+  .love-nav {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: clamp(20px, 3vw, 28px);
+  }
+  .love-nav-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklch, var(--fg) 30%, transparent);
+    background: transparent;
+    color: var(--fg);
+    font-size: 18px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .love-nav-btn:hover,
+  .love-nav-btn:focus-visible {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+    outline: none;
+  }
+  .love-dot { cursor: pointer; }
+}
+@media (min-width: 901px) {
+  .love-nav { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -1637,7 +1684,6 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <p class="hero-desc">A boutique social media agency in Singapore, helping brands show up online in a way that feels unmistakably them.</p>
     <div class="hero-btns">
       <a href="contact.html" class="btn btn-primary">Start your project <span class="arrow">→</span></a>
-      <a href="https://www.instagram.com/kacistudio.co" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Follow @kacistudio.co</a>
     </div>
   </div>
   <div class="split-right">
@@ -1825,33 +1871,39 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
         <h2>What our<br>clients say.</h2>
       </div>
     </div>
-    <div class="love-grid reveal">
-      <div class="love-card">
-        <p class="love-quote">They don't just post. They think. Every piece of content felt like it came from us, not an agency checklist.</p>
-        <div class="love-client">
-          <div class="love-name">[Client to provide]</div>
-          <div class="love-brand">Brand Name &middot; Industry</div>
+    <div class="love-carousel">
+      <div class="love-grid reveal" id="loveTrack">
+        <div class="love-card">
+          <p class="love-quote">They don't just post. They think. Every piece of content felt like it came from us, not an agency checklist.</p>
+          <div class="love-client">
+            <div class="love-name">[Client to provide]</div>
+            <div class="love-brand">Brand Name &middot; Industry</div>
+          </div>
+        </div>
+        <div class="love-card">
+          <p class="love-quote">Working with KACISTUDIO felt less like outsourcing and more like gaining a creative co-founder who actually gets the vibe.</p>
+          <div class="love-client">
+            <div class="love-name">[Client to provide]</div>
+            <div class="love-brand">Brand Name &middot; Industry</div>
+          </div>
+        </div>
+        <div class="love-card">
+          <p class="love-quote">Our TikTok went from zero to something we're genuinely proud of. They found our voice before we knew what it sounded like.</p>
+          <div class="love-client">
+            <div class="love-name">[Client to provide]</div>
+            <div class="love-brand">Brand Name &middot; Industry</div>
+          </div>
         </div>
       </div>
-      <div class="love-card">
-        <p class="love-quote">Working with KACISTUDIO felt less like outsourcing and more like gaining a creative co-founder who actually gets the vibe.</p>
-        <div class="love-client">
-          <div class="love-name">[Client to provide]</div>
-          <div class="love-brand">Brand Name &middot; Industry</div>
-        </div>
+      <div class="love-pagination" role="tablist" aria-label="Testimonials">
+        <button class="love-dot is-active" type="button" role="tab" aria-selected="true" aria-label="Testimonial 1" data-idx="0"></button>
+        <button class="love-dot" type="button" role="tab" aria-selected="false" aria-label="Testimonial 2" data-idx="1"></button>
+        <button class="love-dot" type="button" role="tab" aria-selected="false" aria-label="Testimonial 3" data-idx="2"></button>
       </div>
-      <div class="love-card">
-        <p class="love-quote">Our TikTok went from zero to something we're genuinely proud of. They found our voice before we knew what it sounded like.</p>
-        <div class="love-client">
-          <div class="love-name">[Client to provide]</div>
-          <div class="love-brand">Brand Name &middot; Industry</div>
-        </div>
+      <div class="love-nav">
+        <button class="love-nav-btn" type="button" data-dir="-1" aria-label="Previous testimonial">←</button>
+        <button class="love-nav-btn" type="button" data-dir="1" aria-label="Next testimonial">→</button>
       </div>
-    </div>
-    <div class="love-pagination" role="tablist" aria-label="Testimonials">
-      <span class="love-dot is-active" role="tab" aria-selected="true"></span>
-      <span class="love-dot" role="tab" aria-selected="false"></span>
-      <span class="love-dot" role="tab" aria-selected="false"></span>
     </div>
   </div>
 </section>
@@ -2027,6 +2079,52 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   KaciChrome.nav("home");
   KaciChrome.footer();
 
+  // Testimonial carousel — arrows + dots scroll the snap-track.
+  (function () {
+    var track = document.getElementById('loveTrack');
+    if (!track) return;
+    var cards = Array.prototype.slice.call(track.querySelectorAll('.love-card'));
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.love-dot'));
+    var arrows = Array.prototype.slice.call(document.querySelectorAll('.love-nav-btn'));
+
+    function activeIndex() {
+      var center = track.scrollLeft + track.clientWidth / 2;
+      var best = 0, bestDist = Infinity;
+      cards.forEach(function (c, i) {
+        var cardCenter = c.offsetLeft + c.offsetWidth / 2;
+        var d = Math.abs(center - cardCenter);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    }
+    function paintDots() {
+      var i = activeIndex();
+      dots.forEach(function (d, j) {
+        var on = j === i;
+        d.classList.toggle('is-active', on);
+        d.setAttribute('aria-selected', String(on));
+      });
+    }
+    function scrollTo(i) {
+      var clamped = Math.max(0, Math.min(cards.length - 1, i));
+      var card = cards[clamped];
+      track.scrollTo({ left: card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2, behavior: 'smooth' });
+    }
+
+    dots.forEach(function (d, i) {
+      d.addEventListener('click', function () { scrollTo(i); });
+    });
+    arrows.forEach(function (a) {
+      a.addEventListener('click', function () {
+        scrollTo(activeIndex() + parseInt(a.getAttribute('data-dir'), 10));
+      });
+    });
+    track.addEventListener('scroll', function () {
+      window.requestAnimationFrame(paintDots);
+    }, { passive: true });
+    paintDots();
+  })();
+
   // Seamless infinite brand marquee — fill the track until one set
   // is wider than the viewport, then duplicate it for a clean -50% loop.
   (function () {
@@ -2034,35 +2132,40 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     if (!track) return;
 
     var BRANDS = [
-      { src: "media/Kaci's Clients/resurrack.jpg",      alt: "Resurrack" },
-      { src: "media/Kaci's Clients/littlemissmrkt.jpg", alt: "LittleMissMarket" },
-      { src: "media/Kaci's Clients/flycotravel.jpg",    alt: "Flyco" },
-      { src: "media/Kaci's Clients/brixxderma.jpg",     alt: "Brixx Derma" },
-      { src: "media/Kaci's Clients/melissashoessg.jpg", alt: "Melissa Shoes" },
-      { src: "media/Kaci's Clients/coffeeman_nyp.jpg",  alt: "Coffeeman@NYP" },
+      { src: "media/Kaci's Clients/resurrack.jpg",      alt: "Resurrack",        href: "https://www.instagram.com/resurrack/" },
+      { src: "media/Kaci's Clients/littlemissmrkt.jpg", alt: "LittleMissMarket", href: "https://www.instagram.com/littlemissmrkt/" },
+      { src: "media/Kaci's Clients/flycotravel.jpg",    alt: "Flyco",            href: "https://www.instagram.com/flycotravel/" },
+      { src: "media/Kaci's Clients/brixxderma.jpg",     alt: "Brixx Derma",      href: "https://www.instagram.com/brixxderma/" },
+      { src: "media/Kaci's Clients/melissashoessg.jpg", alt: "Melissa Shoes",    href: "https://www.instagram.com/melissashoessg/" },
+      { src: "media/Kaci's Clients/coffeeman_nyp.jpg",  alt: "Coffeeman@NYP",    href: "https://www.instagram.com/coffeeman_nyp/" },
     ];
 
-    function appendBrand(brand, hidden) {
+    function appendBrand(brand) {
       var item = document.createElement("div");
       item.className = "logo-marquee-item";
-      if (hidden) item.setAttribute("aria-hidden", "true");
+      var link = document.createElement("a");
+      link.className = "logo-marquee-link";
+      link.href = brand.href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.setAttribute("aria-label", "Visit " + brand.alt + " on Instagram");
       var img = document.createElement("img");
       img.className = "logo-marquee-img";
       img.src = brand.src;
-      img.alt = hidden ? "" : brand.alt;
-      img.loading = "lazy";
-      item.appendChild(img);
+      img.alt = brand.alt;
+      link.appendChild(img);
+      item.appendChild(link);
       track.appendChild(item);
     }
 
     function build() {
       while (track.firstChild) track.removeChild(track.firstChild);
       var viewport = track.parentElement.offsetWidth || window.innerWidth;
-      BRANDS.forEach(function (b) { appendBrand(b, false); });
+      BRANDS.forEach(appendBrand);
 
       var safetyLoops = 0;
       while (track.scrollWidth < viewport * 1.2 && safetyLoops < 10) {
-        BRANDS.forEach(function (b) { appendBrand(b, true); });
+        BRANDS.forEach(appendBrand);
         safetyLoops++;
       }
 
@@ -2070,15 +2173,22 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       children.forEach(function (node) {
         var clone = node.cloneNode(true);
         clone.setAttribute("aria-hidden", "true");
-        var img = clone.querySelector("img");
-        if (img) img.alt = "";
+        var cloneLink = clone.querySelector("a");
+        if (cloneLink) {
+          cloneLink.setAttribute("tabindex", "-1");
+          cloneLink.removeAttribute("aria-label");
+        }
         track.appendChild(clone);
       });
     }
 
     build();
     var rebuildTimer;
+    var lastWidth = window.innerWidth;
+    // Mobile URL-bar collapse fires resize for height changes too; ignore those.
     window.addEventListener("resize", function () {
+      if (Math.abs(window.innerWidth - lastWidth) < 50) return;
+      lastWidth = window.innerWidth;
       clearTimeout(rebuildTimer);
       rebuildTimer = setTimeout(build, 200);
     });

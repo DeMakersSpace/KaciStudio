@@ -49,8 +49,11 @@
 .manifesto {
   padding: clamp(40px, 5vw, 80px) var(--pad-gutter);
   display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 80px;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 64px;
   max-width: 1440px;
   margin: 0 auto;
   border-top: 1px solid var(--rule);
@@ -69,15 +72,18 @@
 .manifesto p + p { margin-top: 28px; }
 .manifesto em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 .manifesto-photo {
-  float: right;
-  width: 215px;
-  margin: 6px 0 24px 32px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
   background: #F5F3EE;
   padding: 9px 9px 38px;
   box-shadow:
     0 2px 6px rgba(0,0,0,0.18),
     0 10px 32px rgba(0,0,0,0.14);
-  transform: rotate(-3deg);
+  transform: rotate(-2deg);
+}
+@media (max-width: 768px) {
+  .manifesto-photo { max-width: none; }
 }
 .manifesto-photo img {
   width: 100%;
@@ -244,9 +250,13 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4/5;
-  max-width: 360px;
+  max-width: 280px;
   margin: 0 auto;
   perspective: 1000px;
+}
+/* Rotated cards translate 22% past the stage — cap stage so they stay in-viewport on phones. */
+@media (max-width: 480px) {
+  .values-stage { max-width: min(240px, 70vw); }
 }
 .value-card {
   position: absolute;
@@ -989,7 +999,7 @@
   .manifesto, .values-head, .team-head, .team-grid, .values-grid, .kit-grid {
     grid-template-columns: 1fr;
   }
-  .manifesto-photo { float: none; width: 180px; margin: 24px auto 32px; display: block; transform: rotate(-2deg); }
+  .manifesto-photo { float: none; width: 100%; max-width: 300px; margin: 24px auto 32px; display: block; transform: rotate(-2deg); }
   .values-grid { grid-template-columns: 1fr; }
   .value:last-child { grid-template-columns: 60px 1fr; gap: 24px; }
   .value:last-child .value-desc { grid-column: 2; }
@@ -1094,23 +1104,18 @@
 </section>
 
 <section class="manifesto">
-  <div class="lhs">
-    <strong>Who</strong><br>Gen Z creatives<br>based in Singapore<br><br>
-    <strong>What</strong><br>A Social Media Agency<br>That Helps You Tell Your Stories<br><br><br>
-    <strong>For</strong><br>Brands that care<br>how they're remembered
-  </div>
   <div class="manifesto-body">
     <p>At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We understand what today's audiences <em>stop scrolling for</em>, and we make the kind of content that earns it.</p>
-    <div class="manifesto-photo">
-      <span class="tape tape--tl"></span>
-      <span class="tape tape--tr"></span>
-      <span class="tape tape--bl"></span>
-      <span class="tape tape--br"></span>
-      <img src="media/Photos of Co-Founder/fxn 2025-11-16 142444.612.jpg" alt="Angeline and Jovinna, KACISTUDIO founders" style="object-position:center top;">
-      <div class="manifesto-photo-label">Behind the scenes</div>
-    </div>
     <p>We help brands show up online in a way that feels unmistakably like them. Whether you're starting out or scaling up, we work as an <em>extension of your team</em>. Strategy on the back end. Story on the feed.</p>
     <p>We don't chase volume, algorithms, or trends. We chase the feeling that makes someone stop, save, and send it to a friend.</p>
+  </div>
+  <div class="manifesto-photo">
+    <span class="tape tape--tl"></span>
+    <span class="tape tape--tr"></span>
+    <span class="tape tape--bl"></span>
+    <span class="tape tape--br"></span>
+    <img src="media/Photos of Co-Founder/fxn 2025-11-16 142444.612.jpg" alt="Angeline and Jovinna, KACISTUDIO founders" style="object-position:center top;">
+    <div class="manifesto-photo-label">Behind the scenes</div>
   </div>
 </section>
 
@@ -1280,12 +1285,6 @@
         </div>
       </div>
 
-    </div>
-
-    <!-- BOTTOM ROW -->
-    <div class="follow-bottom">
-      <a href="https://www.instagram.com/kacistudio.co" target="_blank" rel="noopener noreferrer" class="follow-cta">Follow on Instagram →</a>
-      <a href="https://www.tiktok.com/@kacistudio.co" target="_blank" rel="noopener noreferrer" class="follow-cta">Follow on TikTok →</a>
     </div>
 
   </div>

@@ -41,8 +41,9 @@
 
 .contact-lead {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  gap: clamp(40px, 6vw, 96px);
   padding: clamp(40px, 5vw, 80px) var(--pad-gutter) 0;
   border-top: 1px solid var(--rule);
   max-width: 1440px;
@@ -74,13 +75,9 @@
 }
 .form-head {
   margin-bottom: var(--stack-md);
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 40px;
-  flex-wrap: wrap;
+  text-align: center;
 }
-.form-head h2 { font-size: clamp(34px, 4.5vw, 56px); line-height: 1.08; letter-spacing: normal; }
+.form-head h2 { font-size: clamp(28px, 4vw, 48px); line-height: 1.08; letter-spacing: normal; }
 .form-head h2 em { font-style: italic; color: var(--accent); }
 .form-head .step {
   font-family: var(--font-mono);
@@ -357,8 +354,7 @@
 <!-- Form -->
 <section class="form-section">
   <div class="form-head">
-    <h2>Tell us about<br>your <em>brand.</em></h2>
-    <span class="step">Step 01 / Inquiry</span>
+    <h2>Tell us about your <em>brand.</em></h2>
   </div>
 
   <form class="form" id="brief" onsubmit="return submitBrief(event)">
@@ -419,37 +415,6 @@
   </div>
 </section>
 
-<!-- Other ways -->
-<section class="other-ways">
-  <div class="other-ways-inner">
-    <div>
-      <div class="eyebrow" style="color: color-mix(in oklch, var(--cream) 60%, transparent); margin-bottom: 20px;">◎ OR DM US · 02</div>
-      <h2>If a form<br>feels like <em>too much.</em></h2>
-      <p style="color: color-mix(in oklch, var(--cream) 70%, transparent); font-size: 16px; line-height: 1.6; margin-top: 28px; max-width: 420px;">
-        We mean it when we say slide into our DMs. We reply like humans, and we don't do automated replies.
-      </p>
-    </div>
-
-    <div class="contact-list">
-      <a href="mailto:hello.kacistudio@gmail.com" class="contact-item">
-        <div class="kind">Email</div>
-        <div class="val">hello.kacistudio@gmail.com</div>
-        <div class="arr">→</div>
-      </a>
-      <a href="https://www.instagram.com/kacistudio.co" target="_blank" rel="noopener noreferrer" class="contact-item">
-        <div class="kind">Instagram</div>
-        <div class="val">@kacistudio.co</div>
-        <div class="arr">→</div>
-      </a>
-      <a href="https://www.tiktok.com/@kacistudio.co" target="_blank" rel="noopener noreferrer" class="contact-item">
-        <div class="kind">TikTok</div>
-        <div class="val">@kacistudio.co</div>
-        <div class="arr">→</div>
-      </a>
-
-    </div>
-  </div>
-</section>
 
 <div id="footer-slot"></div>
 <script src="assets/chrome.js"></script>
