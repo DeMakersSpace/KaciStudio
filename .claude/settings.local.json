@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Remove-Item convert-webp.js, update-webp-refs.js -Force)",
+      "Bash(Remove-Item node_modules -Recurse -Force)",
+      "Bash(Remove-Item package.json -Force -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item package-lock.json -Force -ErrorAction SilentlyContinue)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}
