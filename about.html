@@ -1,0 +1,1733 @@
+<!doctype html>
+<html lang="en" data-theme="sand" data-density="normal" data-grain="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="A small team that takes stories seriously. KACISTUDIO is founded by Angeline Khor and Jovinna Chow — Gen Z creatives based in Singapore, est. 2025.">
+<meta name="keywords" content="Angeline Khor, Jovinna Chow, KACISTUDIO founders, Gen Z social media agency Singapore, story-first social media, creative agency Singapore">
+<meta property="og:title" content="About — KACISTUDIO">
+<meta property="og:description" content="Meet Angeline Khor and Jovinna Chow — the Gen Z creatives behind KACISTUDIO. A story-first social media agency based in Singapore since 2025.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kacistudio.co/about.html">
+<meta property="og:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<meta property="og:site_name" content="KACISTUDIO">
+<meta property="og:locale" content="en_SG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About — KACISTUDIO">
+<meta name="twitter:description" content="Meet Angeline Khor and Jovinna Chow — the Gen Z creatives behind KACISTUDIO. A story-first social media agency based in Singapore since 2025.">
+<meta name="twitter:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<link rel="canonical" href="https://kacistudio.co/about.html">
+<link rel="manifest" href="manifest.json">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="KACISTUDIO">
+<meta name="geo.region" content="SG">
+<meta name="geo.placename" content="Singapore">
+<title>About — KACISTUDIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap">
+<link rel="stylesheet" href="assets/tokens.css">
+<style>
+/* Page density overrides — match homepage editorial pacing */
+:root {
+  --pad-section-y: clamp(28px, 4.5vw, 64px);
+  --stack-lg: clamp(24px, 3vw, 40px);
+}
+
+.about-hero {
+  padding: clamp(40px, 5vw, 72px) var(--pad-gutter) clamp(28px, 4vw, 48px);
+  text-align: center;
+}
+.about-hero .eyebrow { margin-bottom: 32px; }
+.about-hero h1 {
+  font-size: clamp(48px, 7vw, 76px);
+  line-height: 1.05;
+  letter-spacing: normal;
+  max-width: 18ch;
+  margin: 0 auto;
+}
+.about-hero h1 em { font-style: italic; color: var(--accent); }
+
+.manifesto {
+  padding: clamp(40px, 5vw, 80px) var(--pad-gutter);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: start;
+  max-width: 1440px;
+  margin: 0 auto;
+  gap: 64px;
+  border-top: 1px solid var(--rule);
+}
+.manifesto .lhs { font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); line-height: 2.1; }
+.manifesto .lhs strong { color: var(--fg); font-weight: 600; }
+.manifesto-body { display: flow-root; }
+.manifesto p {
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.2vw, 17px);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: normal;
+}
+.manifesto p + p { margin-top: 28px; }
+.manifesto em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.manifesto-photo {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .manifesto-photo { max-width: none; }
+}
+.manifesto-photo img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+.manifesto-photo-label {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(15,10,5,0.38);
+  margin-top: 10px;
+}
+
+/* Tape corners on polaroid */
+.tape {
+  position: absolute;
+  width: 38px;
+  height: 12px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,0.028) 0px,
+      rgba(0,0,0,0.028) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    rgba(235, 213, 140, 0.58);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  z-index: 3;
+  pointer-events: none;
+}
+.tape--tl {
+  top: 0; left: 0;
+  transform: translate(-50%, -50%) rotate(-43deg);
+}
+.tape--tr {
+  top: 0; right: 0;
+  transform: translate(50%, -50%) rotate(47deg);
+}
+.tape--bl {
+  bottom: 0; left: 0;
+  transform: translate(-50%, 50%) rotate(43deg);
+}
+.tape--br {
+  bottom: 0; right: 0;
+  transform: translate(50%, 50%) rotate(-47deg);
+}
+
+/* Values as big editorial numbers */
+.values {
+  background: var(--fg);
+  color: var(--cream);
+  padding: var(--pad-section-y) var(--pad-gutter);
+}
+.values-head {
+  max-width: 1440px;
+  margin: 0 auto var(--stack-md);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.values-head h2 { font-size: clamp(34px, 4.5vw, 56px); color: var(--cream); letter-spacing: normal; line-height: 1.08; }
+.values-head h2 em { font-style: normal; color: inherit; }
+.values-head p { color: color-mix(in oklch, var(--cream) 70%, transparent); font-size: 16px; line-height: 1.6; max-width: 420px; }
+
+.values-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  border-left: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+}
+.value {
+  padding: 36px 32px;
+  border-right: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in oklch, var(--fg) 92%, var(--cream) 8%);
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.35),
+    0 8px 28px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.055);
+  transition:
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s ease;
+}
+.value:hover {
+  background: color-mix(in oklch, var(--fg) 86%, var(--cream) 14%);
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.5),
+    0 20px 56px rgba(0,0,0,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.09);
+}
+.value::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.value:hover::before { transform: scaleX(1); }
+.value-num {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.value:hover .value-num { transform: translateY(-4px); }
+/* Value 03 — full width, horizontal layout to signal it's the lead differentiator */
+.value:last-child {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 80px 1fr 1.8fr;
+  gap: clamp(32px, 4vw, 60px);
+  align-items: start;
+  padding: clamp(36px, 4vw, 56px) 32px;
+}
+.value:last-child .value-num { margin-bottom: 0; }
+.value:last-child .value-desc { margin-top: 0; }
+.value-num {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  line-height: 0.9;
+  color: var(--accent);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+.value-title {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 2.6vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.value-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: color-mix(in oklch, var(--cream) 84%, transparent);
+  margin-top: 16px;
+}
+
+/* ─── Values 3D circular carousel ─── */
+.values-3d {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(40px, 5vw, 72px);
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .values-3d { grid-template-columns: 1fr 1fr; gap: 64px; }
+}
+.values-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  max-width: 280px;
+  margin: 0 auto;
+  perspective: 1000px;
+}
+/* Rotated cards translate 22% past the stage — cap stage so they stay in-viewport on phones. */
+@media (max-width: 480px) {
+  .values-stage { max-width: min(240px, 70vw); }
+}
+.value-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: color-mix(in oklch, var(--fg) 88%, var(--cream) 12%);
+  border: 1px solid color-mix(in oklch, var(--cream) 18%, transparent);
+  box-shadow:
+    0 4px 14px rgba(0,0,0,0.4),
+    0 18px 48px rgba(0,0,0,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(28px, 3vw, 40px);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: center;
+  transition: transform 0.8s cubic-bezier(.4,2,.3,1), opacity 0.6s ease;
+  will-change: transform, opacity;
+}
+.value-card.is-active {
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0,0,0) scale(1) rotateY(0deg);
+}
+.value-card.is-left {
+  z-index: 2;
+  opacity: 1;
+  transform: translate3d(-22%, -10%, 0) scale(0.85) rotateY(15deg);
+}
+.value-card.is-right {
+  z-index: 2;
+  opacity: 1;
+  transform: translate3d(22%, -10%, 0) scale(0.85) rotateY(-15deg);
+}
+.value-card-num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: 1;
+  color: var(--accent);
+  display: block;
+}
+.value-card-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.1;
+  letter-spacing: normal;
+  color: var(--cream);
+  display: block;
+}
+
+.values-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px;
+}
+.value-active-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.value-active-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(28px, 2.8vw, 40px);
+  line-height: 1.1;
+  letter-spacing: normal;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+.value-active-desc {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.7;
+  color: color-mix(in oklch, var(--cream) 76%, transparent);
+  max-width: 460px;
+  margin-bottom: 32px;
+}
+.value-active-desc .word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(5px);
+  transition:
+    opacity 0.22s ease-in-out,
+    filter 0.22s ease-in-out,
+    transform 0.22s ease-in-out;
+}
+.value-active-desc .word.is-revealed {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+.values-arrows {
+  display: flex;
+  gap: 14px;
+}
+.values-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--cream) 10%, var(--fg));
+  color: var(--cream);
+  border: 1px solid color-mix(in oklch, var(--cream) 25%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.values-arrow:hover {
+  background: var(--accent);
+  color: var(--fg);
+  transform: scale(1.06);
+}
+.values-arrow:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Team */
+.team {
+  padding: var(--pad-section-y) var(--pad-gutter);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.team-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: var(--stack-lg);
+}
+.team-head h2 { font-size: clamp(34px, 4.5vw, 56px); letter-spacing: normal; line-height: 1.08; }
+.team-head h2 em { font-style: normal; color: inherit; }
+.team-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.member--split {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+.member-photo-col {
+  position: sticky;
+  top: 100px;
+}
+.member-photo-col .ph {
+  border-radius: 4px;
+  overflow: hidden;
+}
+.member-text-col {
+  padding-top: 8px;
+  border-left: 1px solid var(--rule);
+  padding-left: clamp(32px, 4vw, 64px);
+}
+@media (max-width: 768px) {
+  .member--split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .member-photo-col {
+    position: static;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .member-text-col {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--rule);
+    padding-top: 32px;
+  }
+}
+.member-bio-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 16px;
+  text-align: left;
+}
+.member-bio { margin-left: auto; margin-right: auto; }
+.member-bio-full {
+  margin-top: 28px;
+}
+.member-bio-full p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--fg-muted);
+  margin-top: 20px;
+}
+.member-bio-full p:first-child { margin-top: 0; }
+.member-bio-full .bio-lead {
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--fg);
+  font-weight: 400;
+}
+.member .ph {
+  aspect-ratio: 4/5;
+  margin-bottom: 20px;
+}
+.member-name {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.member-name em { font-style: italic; color: var(--accent); }
+.member-role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 6px;
+  font-weight: 700;
+}
+.member-bio {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin-top: 16px;
+  max-width: 320px;
+}
+.founder-tag {
+  position: absolute;
+  top: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.founder-tag--left  { left: 28%; }
+.founder-tag--right { right: 30%; }
+.founder-tag-name {
+  font-family: var(--font-script);
+  font-size: 30px;
+  color: rgba(248,246,218,0.92);
+  line-height: 1;
+  white-space: nowrap;
+}
+.founder-tag svg { display: block; }
+
+/* Future team placeholders — designed to look intentional, not broken */
+.team-future {
+  margin-top: clamp(40px, 5vw, 72px);
+  border-top: 1px solid var(--rule);
+  padding-top: clamp(40px, 5vw, 64px);
+}
+.team-future-head {
+  text-align: center;
+  margin-bottom: clamp(28px, 3vw, 44px);
+}
+.team-future-head p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 420px;
+  margin: 0 auto;
+}
+.team-future-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  margin: 0 auto;
+  align-items: start;
+}
+.team-member-card {
+  display: flex;
+  flex-direction: column;
+}
+.team-member-photo {
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  border: 1px solid var(--rule);
+}
+.team-member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.team-member-card:hover .team-member-photo img {
+  transform: scale(1.04);
+}
+.team-member-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--fg);
+}
+.team-member-role {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+.team-member-bio {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+  opacity: 0;
+  padding-top: 0;
+}
+.team-member-card.is-open .team-member-bio {
+  max-height: 300px;
+  opacity: 1;
+  padding-top: 12px;
+}
+.team-member-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+.team-member-toggle:hover { color: var(--accent); }
+.team-member-toggle .toggle-arrow {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.team-member-card.is-open .team-member-toggle .toggle-arrow {
+  transform: rotate(180deg);
+}
+@media (max-width: 1024px) {
+  .team-future-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .team-future-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.team-placeholder { text-align: center; }
+.placeholder-photo {
+  position: relative;
+  aspect-ratio: 4/5;
+  border: 1px dashed color-mix(in oklch, var(--fg) 22%, transparent);
+  border-radius: 4px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg,
+      color-mix(in oklch, var(--olive) 12%, var(--bg-alt)),
+      color-mix(in oklch, var(--olive) 24%, var(--bg-alt))
+    );
+}
+.placeholder-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0,
+    transparent 10px,
+    color-mix(in oklch, var(--fg) 4%, transparent) 10px,
+    color-mix(in oklch, var(--fg) 4%, transparent) 11px
+  );
+  pointer-events: none;
+}
+.placeholder-photo::after {
+  content: "+";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 36px;
+  color: var(--fg-muted);
+  opacity: 0.45;
+  font-weight: 300;
+}
+.placeholder-name {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--fg-muted);
+}
+.placeholder-role {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+/* Bg alt section — place/kit/toolkit */
+.kit {
+  background: var(--bg-alt);
+  padding: var(--pad-section-y) var(--pad-gutter);
+}
+.kit-inner { max-width: 1440px; margin: 0 auto; }
+.kit-head { margin-bottom: var(--stack-md); }
+.kit-head h2 em { font-style: italic; color: var(--accent); }
+.kit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.kit-card {
+  padding: 32px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* Toolkit card — full width, horizontal interior */
+.kit-card:first-child {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: clamp(40px, 5vw, 72px);
+  align-items: start;
+}
+.kit-card:first-child .items { margin-top: 0; }
+.kit-card h3 { font-size: 32px; }
+.kit-card h3 em { font-style: italic; color: var(--accent); }
+.kit-card .items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-top: 0;
+  align-content: start;
+}
+.kit-item {
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 1.4vw, 20px);
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  padding: 11px 0;
+  border-bottom: 1px solid var(--rule);
+  transition: color 0.25s ease,
+              transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: default;
+}
+.kit-item::before {
+  content: '–';
+  color: var(--accent);
+  margin-right: 10px;
+  display: inline-block;
+  font-style: normal;
+  opacity: 0.85;
+}
+.kit-item:hover {
+  color: var(--accent);
+  transform: translateX(6px);
+}
+.kit-item:hover::before {
+  opacity: 1;
+}
+.kit-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  max-width: 360px;
+}
+
+/* Closing CTA — matches homepage closing pattern */
+.closing-cta {
+  padding: var(--pad-section-y) var(--pad-gutter);
+}
+.closing-cta-h2 {
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.08;
+  letter-spacing: normal;
+  margin-bottom: 32px;
+}
+.closing-cta-h2 em { font-style: italic; color: var(--accent); }
+.closing-cta-desc {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 560px;
+  margin: 0 auto 40px;
+}
+.closing-cta-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Name story callout */
+.name-story {
+  padding: clamp(40px, 5vw, 80px) var(--pad-gutter);
+  border-bottom: 1px solid var(--rule);
+}
+.name-story-inner { max-width: 1440px; margin: 0 auto; }
+.name-story-copy {
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  max-width: 860px;
+  margin-top: 20px;
+}
+.name-story-copy em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+
+/* ══════════════════════════════════
+   FOLLOW ALONG — Dual Embed Layout
+   ══════════════════════════════════ */
+
+.follow-section {
+  padding: var(--pad-section-y) var(--pad-gutter);
+  background: var(--bg-alt);
+  border-top: .5px solid var(--rule);
+}
+
+.follow-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Top row */
+.follow-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.follow-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 12px;
+}
+
+.follow-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4.5vw, 56px);
+  color: var(--fg);
+  line-height: 1.08;
+  letter-spacing: normal;
+}
+.follow-heading em {
+  font-style: normal;
+  color: inherit;
+}
+
+.follow-subtext {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  max-width: 300px;
+  text-align: right;
+}
+
+/* Main row: embed | stats | embed */
+.follow-main {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Bottom row */
+.follow-bottom {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  padding-top: 8px;
+  border-top: .5px solid var(--rule);
+}
+
+/* Embed column */
+.embed-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.embed-col-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* The card itself */
+.embed-card-wrap {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 24px rgba(88,71,56,.10),
+    0 1px 4px  rgba(88,71,56,.06);
+  transition: opacity .4s ease;
+  min-height: 320px;
+}
+
+@keyframes kaci-shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+.embed-card-wrap:empty::before {
+  content: '';
+  display: block;
+  min-height: 320px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-alt) 0%,
+    color-mix(in oklch, var(--bg) 85%, var(--accent) 15%) 50%,
+    var(--bg-alt) 100%
+  );
+  background-size: 600px 100%;
+  animation: kaci-shimmer 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .embed-card-wrap:empty::before {
+    animation: none;
+    background: var(--bg-alt);
+  }
+}
+
+.embed-card-wrap.switching {
+  opacity: 0;
+}
+
+/* Embed sizing */
+.embed-card-wrap .instagram-media {
+  width: 100% !important;
+  margin: 0 !important;
+}
+.embed-card-wrap .tiktok-embed {
+  width: 100% !important;
+  min-width: unset !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+/* Switcher row: prev arrow · dots · next arrow */
+.embed-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.embed-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: .5px solid var(--rule);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--fg);
+  transition: background .2s, border-color .2s;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.embed-arrow:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+.embed-arrow:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.embed-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.embed-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--fg);
+  opacity: .18;
+  cursor: pointer;
+  transition: opacity .25s, background .25s;
+  flex-shrink: 0;
+}
+
+.embed-dot.active {
+  opacity: 1;
+  background: var(--accent);
+  width: 18px;
+  border-radius: 999px;
+}
+
+/* Stats centre column */
+.stats-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-item { text-align: center; }
+
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 46px);
+  font-style: italic;
+  color: var(--fg);
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.stat-rule {
+  width: 32px;
+  height: .5px;
+  background: var(--rule);
+}
+
+.follow-cta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: .5px solid var(--accent);
+  padding-bottom: 2px;
+  transition: opacity .2s;
+}
+
+.follow-cta:hover { opacity: .6; }
+
+/* ── Responsive ── */
+@media (max-width: 899px) {
+  .follow-top { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .follow-subtext { text-align: left; max-width: 100%; }
+  .follow-main { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+  .stats-col { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 16px 28px; }
+  .stat-rule { display: none; }
+}
+
+@media (max-width: 599px) {
+  .follow-bottom { flex-direction: column; align-items: center; gap: 14px; }
+  .embed-arrow { width: 24px; height: 24px; font-size: 10px; }
+}
+
+@media (min-width: 1200px) {
+  .follow-main { grid-template-columns: 1fr 140px 1fr; gap: 32px; }
+}
+
+/* Social links */
+.social-links {
+  padding: var(--pad-section-y) var(--pad-gutter);
+  border-top: 1px solid var(--rule);
+}
+.social-links-inner { max-width: 1440px; margin: 0 auto; }
+.social-rows { display: flex; flex-direction: column; }
+.social-row {
+  display: grid;
+  grid-template-columns: auto 1fr 48px;
+  align-items: center;
+  gap: 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.social-row:first-child { border-top: 1px solid var(--rule); }
+.social-platform {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4.5vw, 68px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  transition: color 0.3s ease;
+}
+.social-handle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  transition: color 0.3s ease;
+}
+.social-tagline {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85em;
+  opacity: 0.65;
+  margin-top: 2px;
+  letter-spacing: 0;
+}
+.social-arrow {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.social-row::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.social-row:hover .social-platform { color: var(--accent); }
+.social-row:hover .social-handle { color: var(--fg); }
+.social-row:hover .social-arrow { opacity: 1; transform: translateX(0); }
+.social-row:hover::after { transform: scaleX(1); }
+
+@media (max-width: 900px) {
+  .manifesto, .values-head, .team-head, .team-grid, .values-grid, .kit-grid {
+    grid-template-columns: 1fr;
+  }
+  .values-head { gap: 16px; }
+  .team-head { gap: 16px; }
+  .manifesto-photo { float: none; width: 100%; max-width: 300px; margin: 24px auto 32px; display: block; transform: rotate(-2deg); }
+  .values-grid { grid-template-columns: 1fr; }
+  .value:last-child { grid-template-columns: 60px 1fr; gap: 24px; }
+  .value:last-child .value-desc { grid-column: 2; }
+  .social-row { grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+  .social-arrow { display: none; }
+}
+
+@media (max-width: 768px) {
+  .manifesto { grid-template-columns: 1fr; }
+  .kit-grid { grid-template-columns: 1fr 1fr; }
+  .kit-card:first-child { grid-template-columns: 1fr; gap: 24px; }
+  .kit-card:last-child { grid-column: 1 / -1; max-width: calc(50% - 12px); margin: 0 auto; }
+}
+
+@media (max-width: 600px) {
+  .member-bio-split { grid-template-columns: 1fr; gap: 16px; }
+  .team-grid { max-width: 100%; }
+  .founder-tag--left  { left: 26%; }
+  .founder-tag--right { right: 28%; }
+  .founder-tag-name { font-size: 20px; }
+}
+
+@media (max-width: 430px) {
+  .manifesto p { font-size: clamp(13px, 3.5vw, 16px); }
+  .member-name { font-size: 20px; }
+  .kit-grid { grid-template-columns: 1fr; }
+  .kit-card:first-child { grid-column: auto; grid-template-columns: 1fr; gap: 20px; }
+  .name-story-copy { font-size: clamp(14px, 4vw, 18px); }
+  .social-platform { font-size: clamp(20px, 5vw, 32px); }
+  .social-handle { font-size: 11px; }
+  .follow-bottom { flex-direction: column; align-items: center; gap: 14px; }
+  .about-cta .btns { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .about-cta .btns .btn { justify-content: center; white-space: normal; text-align: center; width: 100%; }
+  .member-bio-split { grid-template-columns: 1fr; }
+  .founder-tag--left  { left: 24%; }
+  .founder-tag--right { right: 26%; }
+  .founder-tag-name { font-size: 16px; }
+}
+
+/* ── Founder name tags: hide only on very narrow phones where they'd collide ── */
+@media (max-width: 340px) {
+  .founder-tag { display: none; }
+}
+
+/* ── Touch devices: prevent stuck hover states ── */
+@media (hover: none) {
+  .value:hover { background: color-mix(in oklch, var(--fg) 92%, var(--cream) 8%); box-shadow: 0 2px 8px rgba(0,0,0,0.35), 0 8px 28px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.055); }
+  .value:hover::before { transform: scaleX(0); }
+  .value:hover .value-num { transform: none; }
+  .social-row:hover .social-platform { color: inherit; }
+  .social-row:hover .social-handle { color: var(--fg-muted); }
+  .social-row:hover .social-arrow { opacity: 0; transform: translateX(-8px); }
+  .social-row:hover::after { transform: scaleX(0); }
+  .kit-item:hover { color: var(--fg); transform: none; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "name": "About — KACISTUDIO",
+      "url": "https://kacistudio.co/about.html",
+      "description": "The story behind KACISTUDIO — a Gen Z social media agency founded by Angeline Khor and Jovinna Chow, based in Singapore since 2025.",
+      "mainEntity": { "@id": "https://kacistudio.co/#organization" },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kacistudio.co/index.html" },
+          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://kacistudio.co/about.html" }
+        ]
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://kacistudio.co/#angeline-khor",
+      "name": "Angeline Khor",
+      "jobTitle": "Co-Founder",
+      "worksFor": { "@id": "https://kacistudio.co/#organization" },
+      "description": "Angeline leads content ideation and aesthetic curation at KACISTUDIO, crafting assets that align seamlessly with a brand's voice. She is the creative mind behind KACISTUDIO's signature style: relatable and engaging, with a visual appeal that feels both authentic and elevated."
+    },
+    {
+      "@type": "Person",
+      "@id": "https://kacistudio.co/#jovinna-chow",
+      "name": "Jovinna Chow",
+      "jobTitle": "Co-Founder",
+      "worksFor": { "@id": "https://kacistudio.co/#organization" },
+      "description": "Jovinna manages end-to-end shoot and production campaigns at KACISTUDIO. From visual planning and logistics to on-site content creation, she makes sure every concept comes to life cohesively — strategy to storyboard to final output."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="nav-slot"></div>
+
+<section class="about-hero">
+  <div class="eyebrow">◎ ABOUT · Singapore, est. 2025</div>
+  <h1>A small studio,<br>shaped by <em>stories.</em></h1>
+</section>
+
+<section class="manifesto">
+  <div class="manifesto-body">
+    <p>At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We understand what today's audiences <em>stop scrolling for</em>, and we make the kind of content that earns it.</p>
+    <p>We help brands show up online in a way that feels unmistakably like them. Whether you're starting out or scaling up, we work as an <em>extension of your team</em>. Strategy on the back end. Story on the feed.</p>
+    <p>We don't chase volume, algorithms, or trends. We chase the feeling that makes someone stop, save, and send it to a friend.</p>
+  </div>
+  <div class="manifesto-photo">
+    <img src="media/For ABOUT Page/About _ First Picture.jpg" alt="The KACISTUDIO team" style="object-position:center top;" loading="lazy">
+  </div>
+</section>
+
+<section class="values">
+  <div class="values-head reveal">
+    <div>
+      <div class="eyebrow" style="color: color-mix(in oklch, var(--cream) 60%, transparent); margin-bottom: 20px;">◎ WHAT WE BELIEVE · 01</div>
+      <h2>Three values we carry<br>into every story.</h2>
+    </div>
+    <p>They guide the people we work with, the stories we shape, and the way we show up.</p>
+  </div>
+
+  <div class="values-3d reveal" id="valuesCarousel">
+    <div class="values-stage" id="valuesStage" aria-hidden="true">
+      <div class="value-card" data-idx="0">
+        <span class="value-card-num">01</span>
+        <span class="value-card-title">Strategy before<br>aesthetics.</span>
+      </div>
+      <div class="value-card" data-idx="1">
+        <span class="value-card-num">02</span>
+        <span class="value-card-title">Presence over<br>posting.</span>
+      </div>
+      <div class="value-card" data-idx="2">
+        <span class="value-card-num">03</span>
+        <span class="value-card-title">Details make<br>the difference.</span>
+      </div>
+    </div>
+
+    <div class="values-content">
+      <div class="value-active-num" id="valActiveNum">01</div>
+      <div class="value-active-title" id="valActiveTitle">Strategy before aesthetics.</div>
+      <p class="value-active-desc" id="valActiveDesc"></p>
+      <div class="values-arrows">
+        <button class="values-arrow" type="button" id="valuesPrev" aria-label="Previous value">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="values-arrow" type="button" id="valuesNext" aria-label="Next value">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team">
+  <div class="team-head reveal">
+    <div>
+      <div class="eyebrow" style="margin-bottom: 20px;">◎ THE AGENCY · 02</div>
+      <h2>Co-Founders</h2>
+    </div>
+    <p style="max-width: 440px; font-size: 16px; line-height: 1.6; color: var(--fg-muted);">
+      Meet the team behind KACISTUDIO
+    </p>
+  </div>
+
+  <div class="team-grid reveal">
+    <div class="member member--split">
+
+      <!-- Left: photo -->
+      <div class="member-photo-col">
+        <div class="ph" style="aspect-ratio:4/5; position:relative;">
+          <img src="media/For ABOUT Page/About _ Co founders.jpg" alt="Angeline Khor and Jovinna Chow, Co-Founders of KACISTUDIO" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;" loading="lazy">
+          <div class="founder-tag founder-tag--left">
+            <span class="founder-tag-name">Jovinna</span>
+          </div>
+          <div class="founder-tag founder-tag--right">
+            <span class="founder-tag-name">Angeline</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: text -->
+      <div class="member-text-col">
+        <div class="member-role">Co-Founders · KACISTUDIO</div>
+        <div class="member-bio-full">
+          <p class="bio-lead">KACISTUDIO started from a genuine passion for creating content and helping brands tell their stories better.</p>
+          <p>Before having this space, we were both creating for different brands in our own ways and understanding what makes a brand feel present online. The more we worked in this space, the more we realised how much we loved the process behind it: the ideas, the visuals, the storytelling, and the little details that help a brand feel more like itself.</p>
+          <p>Over time, we saw how our strengths naturally came together. Angeline brings the creative instinct, visual direction, and ideas, while Jovinna brings the structure, planning, and attention to detail needed to bring those ideas to life. What started as something we simply enjoyed slowly became something we wanted to build with more intention.</p>
+          <p>Our heart behind KACI has always been simple, to support brands that want to show up better, but may not always know where to begin. We know how overwhelming content can feel when you are running a business, and we wanted to create a studio that could make the process feel clearer, more thoughtful, and more aligned.</p>
+          <p>Today, KACISTUDIO is our way of bringing that passion to life, helping brands create with purpose, show up with consistency, and tell their stories in a way that feels true to them.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="team-future reveal">
+    <div class="team-future-head">
+      <div class="eyebrow" style="margin-bottom: 12px;">◎ THE TEAM IS GROWING</div>
+    </div>
+    <div class="team-future-grid">
+
+      <div class="team-member-card">
+        <div class="team-member-photo">
+          <img src="media/For ABOUT Page/About _ Team/Angeline.jpg" alt="Angeline, Creative Director at KACISTUDIO" loading="lazy">
+        </div>
+        <div class="team-member-name">Angeline</div>
+        <div class="team-member-role">Creative Director</div>
+        <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
+        <p class="team-member-bio">Angeline leads the creative direction at KACISTUDIO, bringing ideas, aesthetics, and storytelling together in a way that feels intentional and on-brand. With a strong eye for content ideation and visual curation, she shapes concepts that are relatable, engaging, and aligned with each brand's voice. Her spontaneous and creative nature brings a fresh perspective to every project, forming the heart of KACI's visual style.</p>
+      </div>
+
+      <div class="team-member-card">
+        <div class="team-member-photo">
+          <img src="media/For ABOUT Page/About _ Team/Jovinna.jpg" alt="Jovinna, Production & Account Director at KACISTUDIO" loading="lazy">
+        </div>
+        <div class="team-member-name">Jovinna</div>
+        <div class="team-member-role">Production & Account Director</div>
+        <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
+        <p class="team-member-bio">Jovinna oversees the production and client-facing side of KACISTUDIO, ensuring each project runs smoothly from planning to execution. She manages shoot logistics, visual planning, on-site content creation, and account coordination with a detail-oriented approach. Her strength lies in turning ideas into clear, well-executed campaigns while keeping both the team and clients aligned throughout the process.</p>
+      </div>
+
+      <div class="team-member-card">
+        <div class="team-member-photo">
+          <img src="media/For ABOUT Page/About _ Team/Xiao Ning.jpg" alt="Xiao Ning, Events & Content Marketing Lead at KACISTUDIO" loading="lazy">
+        </div>
+        <div class="team-member-name">Xiao Ning</div>
+        <div class="team-member-role">Events & Content Marketing Lead</div>
+        <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
+        <p class="team-member-bio">Xiao Ning leads in Gen Z-focused content and event marketing direction, bringing a strong understanding of trends, youth culture, and lifestyle-led storytelling. She supports the team in creating social-first content that feels current, engaging, and aligned with each brand's audience. From content creation to on-site production, she plays a key role in bringing ideas to life across both digital campaigns and event-led projects.</p>
+      </div>
+
+      <div class="team-member-card">
+        <div class="team-member-photo">
+          <img src="media/For ABOUT Page/About _ Team/Joey.jpg" alt="Joey, Content & Social Media Analyst at KACISTUDIO" loading="lazy">
+        </div>
+        <div class="team-member-name">Joey</div>
+        <div class="team-member-role">Content & Social Media Analyst</div>
+        <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
+        <p class="team-member-bio">Joey supports KACISTUDIO through content performance analysis, social media insights, and structured content development. With a strong eye for data and detail, she helps review how content performs and identifies key takeaways that guide future content decisions. She also supports carousel and infographic-style content, translating information into clear, digestible, and brand-aligned social media assets.</p>
+      </div>
+
+      <div class="team-member-card">
+        <div class="team-member-photo">
+          <img src="media/For ABOUT Page/About _ Team/Denise.jpg" alt="Denise, Graphic Designer at KACISTUDIO" loading="lazy">
+        </div>
+        <div class="team-member-name">Denise</div>
+        <div class="team-member-role">Graphic Designer</div>
+        <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
+        <p class="team-member-bio">Denise brings campaigns to life through thoughtful visuals, illustrations, and design. With a strong eye for detail and a natural strength in drawing and creative design, she helps shape brand assets that feel polished, intentional, and visually memorable. Her work adds depth and character to each project, turning ideas into visuals that feel uniquely aligned with the brand.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="follow-section">
+  <div class="follow-wrap">
+
+    <!-- TOP ROW -->
+    <div class="follow-top reveal">
+      <div>
+        <div class="follow-eyebrow">◎ FOLLOW ALONG · 03</div>
+        <h2 class="follow-heading">Behind every post.</h2>
+      </div>
+      <p class="follow-subtext">Follow along for a quiet look into the shoots, strategy, ideas, and little details that shape the content we create.</p>
+    </div>
+
+    <!-- MAIN ROW -->
+    <div class="follow-main">
+
+      <!-- Instagram embed col -->
+      <div class="embed-col">
+        <div class="embed-col-label">Instagram · @kacistudio.co</div>
+        <div class="embed-card-wrap" id="ig-card"></div>
+        <div class="embed-switcher">
+          <button class="embed-arrow" onclick="igSwitch(-1)" aria-label="Previous">←</button>
+          <div class="embed-dots" id="ig-dots"></div>
+          <button class="embed-arrow" onclick="igSwitch(1)" aria-label="Next">→</button>
+        </div>
+      </div>
+
+      <!-- Stats centre -->
+      <div class="stats-col">
+        <div class="stat-item">
+          <div class="stat-num">5</div>
+          <div class="stat-lbl">Active<br>clients</div>
+        </div>
+        <div class="stat-rule"></div>
+        <div class="stat-item">
+          <div class="stat-num">3.2M+</div>
+          <div class="stat-lbl">Views<br>generated</div>
+        </div>
+        <div class="stat-rule"></div>
+        <div class="stat-item">
+          <div class="stat-num">500%+</div>
+          <div class="stat-lbl">TikTok<br>growth</div>
+        </div>
+      </div>
+
+      <!-- TikTok embed col -->
+      <div class="embed-col">
+        <div class="embed-col-label">TikTok · @kacistudio.co</div>
+        <div class="embed-card-wrap" id="tt-card"></div>
+        <div class="embed-switcher">
+          <button class="embed-arrow" onclick="ttSwitch(-1)" aria-label="Previous">←</button>
+          <div class="embed-dots" id="tt-dots"></div>
+          <button class="embed-arrow" onclick="ttSwitch(1)" aria-label="Next">→</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============= Closing CTA ============= -->
+<section class="section closing-cta">
+  <div class="wrap" style="text-align: center; max-width: 760px;">
+    <div class="reveal">
+      <div class="eyebrow" style="margin-bottom: 28px;">◎ READY?</div>
+      <h2 class="closing-cta-h2">Where your story<br><em>starts.</em></h2>
+      <p class="closing-cta-desc">Tell us a bit about your brand. We read every form, reply within a couple of days, and only take on a few new brands a quarter.</p>
+      <div class="closing-cta-btns">
+        <a href="contact.html" class="btn btn-primary">Start your project <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+<script>
+(function () {
+  document.querySelectorAll('.team-member-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.team-member-card');
+      var isOpen = card.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', isOpen);
+      btn.childNodes[0].textContent = isOpen ? 'View less ' : 'View more ';
+    });
+  });
+})();
+</script>
+<script src="assets/chrome.js"></script>
+<script>KaciChrome.nav("about"); KaciChrome.footer();</script>
+<script src="assets/tweaks.js"></script>
+
+<script>
+/* Values 3D carousel — auto-rotate, prev/next, word-by-word desc reveal */
+(function () {
+  var root = document.getElementById('valuesCarousel');
+  if (!root) return;
+  var stage = document.getElementById('valuesStage');
+  var cards = stage ? stage.querySelectorAll('.value-card') : null;
+  var prevBtn = document.getElementById('valuesPrev');
+  var nextBtn = document.getElementById('valuesNext');
+  var numEl = document.getElementById('valActiveNum');
+  var titleEl = document.getElementById('valActiveTitle');
+  var descEl = document.getElementById('valActiveDesc');
+  if (!stage || !cards || !cards.length || !prevBtn || !nextBtn || !numEl || !titleEl || !descEl) return;
+
+  var data = [
+    { num: "01", title: "Strategy before aesthetics.", desc: "Beautiful content matters, but direction is what gives it meaning. We begin by understanding what your brand needs to say, who it needs to reach, and how it should be remembered." },
+    { num: "02", title: "Presence over posting.", desc: "We do not believe in posting just to stay active. We help brands build a presence that feels consistent, recognisable, and rooted in a bigger story." },
+    { num: "03", title: "Details make the difference.", desc: "A caption, a hook, a transition, a content pillar, a posting rhythm, every small choice shapes how your brand is experienced." }
+  ];
+  var total = data.length;
+  var index = 0;
+  var AUTO_MS = 5000;
+  var timer = null;
+
+  function paint() {
+    /* Card 3D positions: active centred, others to left/right */
+    cards.forEach(function (card, i) {
+      card.classList.remove('is-active', 'is-left', 'is-right');
+      var offset = (i - index + total) % total;
+      if (offset === 0) card.classList.add('is-active');
+      else if (offset === total - 1) card.classList.add('is-left');
+      else if (offset === 1) card.classList.add('is-right');
+    });
+
+    /* Update content */
+    var active = data[index];
+    numEl.textContent = '0' + (index + 1);
+    titleEl.textContent = active.title;
+
+    /* Word-by-word reveal on desc — clear then append safely.
+       Spaces go BETWEEN spans as text nodes; trailing whitespace inside
+       an inline-block gets collapsed by the browser. */
+    while (descEl.firstChild) descEl.removeChild(descEl.firstChild);
+    var words = active.desc.split(' ');
+    words.forEach(function (word, i) {
+      var span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = word;
+      descEl.appendChild(span);
+      if (i < words.length - 1) {
+        descEl.appendChild(document.createTextNode(' '));
+      }
+      setTimeout(function () { span.classList.add('is-revealed'); }, 25 * i);
+    });
+  }
+
+  function go(delta) {
+    index = (index + delta + total) % total;
+    paint();
+    restartAuto();
+  }
+
+  function startAuto() {
+    stopAuto();
+    timer = setInterval(function () {
+      index = (index + 1) % total;
+      paint();
+    }, AUTO_MS);
+  }
+  function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+  function restartAuto() { startAuto(); }
+
+  prevBtn.addEventListener('click', function () { go(-1); });
+  nextBtn.addEventListener('click', function () { go(1); });
+
+  /* Keyboard support */
+  root.tabIndex = 0;
+  root.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+  });
+
+  /* Pause on hover */
+  root.addEventListener('mouseenter', stopAuto);
+  root.addEventListener('mouseleave', startAuto);
+
+  /* Click side card to bring forward */
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      if (card.classList.contains('is-left')) go(-1);
+      else if (card.classList.contains('is-right')) go(1);
+    });
+  });
+
+  paint();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(startAuto);
+  } else {
+    startAuto();
+  }
+})();
+</script>
+<script>
+/* ══════════════════════════════════════
+   KACISTUDIO — Dual embed switcher
+   Loads IG and TikTok scripts ONCE,
+   reuses them for all switches.
+   ══════════════════════════════════════ */
+
+const IG_REELS = [
+  'https://www.instagram.com/p/DXT7IMigTPe/',
+  'https://www.instagram.com/p/DXOPjP0AdCx/',
+  'https://www.instagram.com/p/DXJl30jBR3B/',
+];
+
+const TT_VIDEOS = [
+  { id: '7587347424591564053', cite: 'https://www.tiktok.com/@kacistudio.co/video/7587347424591564053' },
+  { id: '7528716815854259463', cite: 'https://www.tiktok.com/@kacistudio.co/video/7528716815854259463' },
+  { id: '7529087101048982802', cite: 'https://www.tiktok.com/@kacistudio.co/video/7529087101048982802' },
+];
+
+/* ── Load each platform script EXACTLY ONCE ── */
+
+function loadScriptOnce(src, id) {
+  return new Promise((resolve) => {
+    if (document.getElementById(id)) {
+      resolve();
+      return;
+    }
+    const s = document.createElement('script');
+    s.id = id;
+    s.src = src;
+    s.async = true;
+    s.onload = () => resolve();
+    document.head.appendChild(s);
+  });
+}
+
+/* ── Render an Instagram embed ── */
+async function renderIG(card, url) {
+  await loadScriptOnce('https://www.instagram.com/embed.js', 'ig-embed-script');
+  card.textContent = '';
+  const bq = document.createElement('blockquote');
+  bq.className = 'instagram-media';
+  bq.setAttribute('data-instgrm-permalink', url);
+  bq.setAttribute('data-instgrm-version', '14');
+  bq.setAttribute('data-instgrm-captioned', '');
+  bq.style.cssText = 'background:#FFF;border:0;margin:0;padding:0;width:100%';
+  card.appendChild(bq);
+  if (window.instgrm && window.instgrm.Embeds) {
+    window.instgrm.Embeds.process();
+  }
+}
+
+/* ── Render a TikTok embed ── */
+async function renderTT(card, video) {
+  card.textContent = '';
+  const bq = document.createElement('blockquote');
+  bq.className = 'tiktok-embed';
+  bq.setAttribute('cite', video.cite);
+  bq.setAttribute('data-video-id', video.id);
+  bq.setAttribute('data-unique-id', 'kacistudio.co');
+  bq.style.cssText = 'border:none;margin:0;width:100%';
+  bq.appendChild(document.createElement('section'));
+  card.appendChild(bq);
+
+  /* Always remove and reload TikTok's script with a cache-bust so it
+     re-scans the DOM and picks up the freshly injected blockquote.
+     This is the only approach that works reliably across all videos. */
+  const old = document.getElementById('tt-embed-script');
+  if (old) old.remove();
+  await loadScriptOnce('https://www.tiktok.com/embed.js?t=' + Date.now(), 'tt-embed-script');
+}
+
+/* ── Switcher factory ── */
+function makeSwitcher({ items, cardId, dotsId, render }) {
+  const card = document.getElementById(cardId);
+  const dotsWrap = document.getElementById(dotsId);
+  if (!card || !dotsWrap || items.length === 0) return { go: () => {} };
+
+  let current = 0;
+
+  items.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'embed-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function setDots(i) {
+    dotsWrap.querySelectorAll('.embed-dot').forEach((d, idx) => {
+      d.classList.toggle('active', idx === i);
+    });
+  }
+
+  async function goTo(index) {
+    if (index === current) return;
+    current = ((index % items.length) + items.length) % items.length;
+    card.classList.add('switching');
+    await new Promise(r => setTimeout(r, 250));
+    await render(card, items[current]);
+    setDots(current);
+    requestAnimationFrame(() => card.classList.remove('switching'));
+  }
+
+  return { go: (dir) => goTo(current + dir) };
+}
+
+/* ── Initialise both switchers ── */
+const igSwitcher = makeSwitcher({
+  items: IG_REELS,
+  cardId: 'ig-card',
+  dotsId: 'ig-dots',
+  render: (card, url) => renderIG(card, url),
+});
+
+const ttSwitcher = makeSwitcher({
+  items: TT_VIDEOS,
+  cardId: 'tt-card',
+  dotsId: 'tt-dots',
+  render: (card, video) => renderTT(card, video),
+});
+
+/* Arrow handlers */
+function igSwitch(dir) { igSwitcher.go(dir); }
+function ttSwitch(dir) { ttSwitcher.go(dir); }
+
+/* ── Initial render — load both first items on page load ── */
+window.addEventListener('load', () => {
+  const igCard = document.getElementById('ig-card');
+  const ttCard = document.getElementById('tt-card');
+  if (igCard) renderIG(igCard, IG_REELS[0]);
+
+  /* Pre-load TikTok's script, then wait 400ms for its environment to
+     settle before rendering — same breathing room the switcher gives
+     videos 2 and 3 via its 250ms animation delay. */
+  loadScriptOnce('https://www.tiktok.com/embed.js', 'tt-embed-script').then(() => {
+    setTimeout(() => {
+      if (ttCard) renderTT(ttCard, TT_VIDEOS[0]);
+    }, 400);
+  });
+});
+
+</script>
+</body>
+</html>

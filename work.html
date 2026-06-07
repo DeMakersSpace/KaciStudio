@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="en" data-theme="sand" data-density="normal" data-grain="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Selected work from KACISTUDIO — case studies across beauty, lifestyle, fashion, F&B, and education. Brixx Derma: +1,700% TikTok likes growth. Melissa Shoes: +900% interaction.">
+<meta name="keywords" content="social media case studies Singapore, TikTok growth agency, Brixx Derma case study, Melissa Shoes social media, lifestyle brand content creation, beauty brand Instagram">
+<meta property="og:title" content="Our Work — KACISTUDIO">
+<meta property="og:description" content="Case studies from KACISTUDIO — Brixx Derma, Flyco, Melissa Shoes, Coffeeman@NYP, Resurrack × LittleMissMarket, Happy Rei, and Luminance Learning. Real results from a story-first agency.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kacistudio.co/work.html">
+<meta property="og:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<meta property="og:site_name" content="KACISTUDIO">
+<meta property="og:locale" content="en_SG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Our Work — KACISTUDIO">
+<meta name="twitter:description" content="Case studies from KACISTUDIO — Brixx Derma, Flyco, Melissa Shoes, Coffeeman@NYP, Resurrack × LittleMissMarket, Happy Rei, and Luminance Learning. Real results from a story-first agency.">
+<meta name="twitter:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
+<link rel="canonical" href="https://kacistudio.co/work.html">
+<link rel="manifest" href="manifest.json">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="KACISTUDIO">
+<meta name="geo.region" content="SG">
+<meta name="geo.placename" content="Singapore">
+<title>Our Work — KACISTUDIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap">
+<link rel="stylesheet" href="assets/tokens.css">
+<style>
+/* ── Hero ── */
+.work-hero {
+  padding: clamp(40px, 5vw, 72px) var(--pad-gutter) clamp(12px, 2vw, 20px);
+  max-width: 1320px;
+  margin: 0 auto;
+  text-align: center;
+}
+.work-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 40px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+.work-hero h1 {
+  font-size: clamp(48px, 7vw, 76px);
+  line-height: 1.05;
+  letter-spacing: normal;
+  margin: clamp(28px, 3vw, 44px) auto 0;
+  max-width: 18ch;
+}
+.work-hero h1 em { font-style: italic; color: var(--accent); }
+
+/* ── Intro ── */
+.work-intro {
+  padding: clamp(20px, 2.5vw, 32px) var(--pad-gutter) 0;
+  border-top: 1px solid var(--rule);
+  margin-top: clamp(20px, 2.5vw, 32px);
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.work-intro p { font-size: 16px; line-height: 1.6; max-width: 480px; color: var(--fg-muted); margin: 0 auto; text-align: center; }
+
+/* ── Client bar ── */
+.client-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1200px;
+  margin: clamp(28px, 3.5vw, 48px) auto 0;
+  padding: clamp(14px, 1.8vw, 22px) var(--pad-gutter);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.client-tabs {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 1;
+  min-width: 0;
+  padding-bottom: 1px;
+}
+.client-tabs::-webkit-scrollbar { display: none; }
+
+.client-tab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: .5px solid var(--rule);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.client-tab:hover { color: var(--fg); border-color: var(--fg); }
+.client-tab.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+.client-counter {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.client-counter-cur { color: var(--fg); font-weight: 500; }
+
+/* ── Showcase ── */
+.showcase {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(28px, 3.5vw, 52px) var(--pad-gutter) 0;
+}
+
+/* ── Case panel: two-column (video | info), expand spans both ── */
+.case {
+  display: none;
+  grid-template-columns: clamp(320px, 38vw, 480px) 1fr;
+  grid-template-areas:
+    "video info"
+    "video expand";
+  column-gap: clamp(32px, 5vw, 72px);
+  row-gap: 0;
+  align-items: start;
+}
+.case.is-active { display: grid; }
+
+/* ── Portrait video container ── */
+.case-video-wrap {
+  grid-area: video;
+  align-self: start;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-alt);
+  position: relative;
+}
+
+/* Single video */
+.case-video-wrap > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Multi-video: swipeable strip */
+.case-strip {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+.case-strip::-webkit-scrollbar { display: none; }
+.case-strip video {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  scroll-snap-align: start;
+}
+
+/* Arrow navigation */
+.vid-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  transition: background 0.18s ease, opacity 0.18s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.vid-nav:hover { background: rgba(0, 0, 0, 0.7); }
+.vid-nav-prev { left: 8px; }
+.vid-nav-next { right: 8px; }
+
+/* Dot indicators */
+.vid-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 3;
+  pointer-events: none;
+}
+.vid-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.vid-dot.active {
+  background: #fff;
+  transform: scale(1.5);
+}
+
+/* No-video placeholder */
+.case-no-video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+}
+
+/* ── Card info ── */
+.case-info {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}
+
+.case-info .eyebrow {
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.case-info h2 {
+  font-size: clamp(22px, 2.4vw, 34px);
+  line-height: 1.18;
+  letter-spacing: normal;
+  margin-bottom: 16px;
+}
+.case-info h2 em { font-style: italic; color: var(--accent); }
+
+/* Chips */
+.case-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 22px;
+}
+.case-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: .5px solid var(--rule);
+  border-radius: 999px;
+  color: var(--fg-muted);
+}
+
+/* ── Case details (always visible below info) ── */
+.case-expand {
+  grid-area: expand;
+}
+.case-expand-body {
+  padding: 20px 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Deck inside expand */
+.case-deck {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--fg-muted);
+  margin-bottom: 16px;
+  max-width: 72ch;
+}
+.case-deck strong { color: var(--fg); font-weight: 500; }
+
+/* Stats inside expand */
+.case-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 32px;
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.case-stat .n {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-style: italic;
+  color: var(--fg);
+  line-height: 1;
+}
+.case-stat .n em { color: var(--accent); }
+.case-stat .l {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* Follow links inside expand */
+.case-follow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 9px;
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.case-follow-label { color: var(--fg-muted); opacity: 0.75; }
+.case-follow-link {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.case-follow-link:hover,
+.case-follow-link:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+.case-follow-sep { color: var(--fg-muted); opacity: 0.4; }
+
+/* Case study sections inside expand */
+.case-expand-section {
+  padding: 14px 0;
+}
+.case-expand-section:last-child { padding-bottom: 4px; }
+.case-expand-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg);
+  display: block;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  background: rgba(147, 169, 210, 0.18);
+  border: 0.5px solid rgba(147, 169, 210, 0.42);
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.case-expand-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 72ch;
+}
+.case-expand-text strong { color: var(--fg); font-weight: 500; }
+
+/* ── Play overlay ── */
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+.play-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s ease;
+}
+.play-icon::after {
+  content: '';
+  border-left: 18px solid #111;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  margin-left: 4px;
+}
+.case-video-wrap:hover .play-icon { transform: scale(1.08); }
+.case-video-wrap.is-playing .play-overlay { opacity: 0; }
+@media (hover: hover) { .play-overlay { opacity: 0; } .case-video-wrap:hover .play-overlay { opacity: 1; } }
+@media (hover: none)  { .play-overlay { opacity: 1; } }
+
+/* ── Showcase controls: prev / next ── */
+.showcase-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(20px, 2.5vw, 32px) var(--pad-gutter) clamp(48px, 6vw, 80px);
+}
+.showcase-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--fg);
+  padding: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.showcase-btn:disabled { opacity: 0.25; cursor: default; }
+.showcase-btn:not(:disabled):hover { opacity: 0.7; }
+.showcase-prev:not(:disabled):hover { transform: translateX(-4px); }
+.showcase-next:not(:disabled):hover { transform: translateX(4px); }
+.showcase-btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: .5px solid var(--rule);
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.showcase-btn:not(:disabled):hover .showcase-btn-arrow {
+  border-color: var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* ── Future ── */
+.future {
+  padding: clamp(48px, 6vw, 96px) var(--pad-gutter);
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-top: 1px solid var(--rule);
+}
+.future h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1.08; letter-spacing: normal; }
+.future h2 em { font-style: italic; color: var(--accent); }
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .case {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "video"
+      "info"
+      "expand";
+  }
+  .case-video-wrap { width: clamp(200px, 60%, 280px); margin: 0 auto; }
+  .case-info { padding: 18px 0 0; }
+}
+
+@media (max-width: 430px) {
+  .work-hero h1 { font-size: clamp(40px, 9vw, 56px); }
+  .client-bar { flex-wrap: wrap; gap: 10px; }
+  .client-counter { order: -1; }
+  .future h2 { font-size: clamp(30px, 8vw, 44px); }
+  .future .btn { width: 100%; justify-content: center; }
+  .case-video-wrap { width: 70%; }
+  .showcase-controls { padding-bottom: clamp(32px, 5vw, 56px); }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Selected Work — KACISTUDIO",
+      "url": "https://kacistudio.co/work.html",
+      "description": "Case studies from KACISTUDIO — Brixx Derma, Flyco, Melissa Shoes, Coffeeman@NYP, Resurrack × LittleMissMarket, Happy Rei, and Luminance Learning. Seven brands, real results.",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kacistudio.co/index.html" },
+          { "@type": "ListItem", "position": 2, "name": "Our Work", "item": "https://kacistudio.co/work.html" }
+        ]
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": 7,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "item": { "@id": "https://kacistudio.co/work.html#case-resurrack" } },
+          { "@type": "ListItem", "position": 2, "item": { "@id": "https://kacistudio.co/work.html#case-flyco" } },
+          { "@type": "ListItem", "position": 3, "item": { "@id": "https://kacistudio.co/work.html#case-brixx" } },
+          { "@type": "ListItem", "position": 4, "item": { "@id": "https://kacistudio.co/work.html#case-melissa" } },
+          { "@type": "ListItem", "position": 5, "item": { "@id": "https://kacistudio.co/work.html#case-coffeeman" } },
+          { "@type": "ListItem", "position": 6, "item": { "@id": "https://kacistudio.co/work.html#case-happyrei" } },
+          { "@type": "ListItem", "position": 7, "item": { "@id": "https://kacistudio.co/work.html#case-luminance" } }
+        ]
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="nav-slot"></div>
+
+<section class="work-hero">
+  <div class="work-hero-top">
+    <div class="eyebrow">◎ SELECTED WORK · 2025–2026</div>
+    <div class="eyebrow">CLIENTS <span style="color: var(--accent);">●</span> 07</div>
+  </div>
+  <h1>Brands we've<br><em>grown</em> with.</h1>
+</section>
+
+<section class="work-intro">
+  <p>A small collection of brands we've worked with, created with, and learned from along the way.</p>
+</section>
+
+<!-- Client selector bar -->
+<div class="client-bar">
+  <div class="client-tabs" role="tablist" aria-label="Select client">
+    <button class="client-tab is-active" role="tab" data-idx="0" aria-selected="true">Resurrack × LMM</button>
+    <button class="client-tab" role="tab" data-idx="1" aria-selected="false">Flyco</button>
+    <button class="client-tab" role="tab" data-idx="2" aria-selected="false">Brixx Derma</button>
+    <button class="client-tab" role="tab" data-idx="3" aria-selected="false">Melissa Shoes</button>
+    <button class="client-tab" role="tab" data-idx="4" aria-selected="false">Coffeeman@NYP</button>
+    <button class="client-tab" role="tab" data-idx="5" aria-selected="false">Happy Rei</button>
+    <button class="client-tab" role="tab" data-idx="6" aria-selected="false">Luminance Learning</button>
+  </div>
+  <div class="client-counter" aria-live="polite">
+    <span class="client-counter-cur">01</span> / <span class="client-counter-tot">07</span>
+  </div>
+</div>
+
+<!-- One-at-a-time showcase -->
+<section class="showcase">
+
+  <!-- Case 01 · Resurrack × LMM -->
+  <article class="case is-active" id="case-resurrack">
+    <div class="case-video-wrap">
+      <div class="case-strip">
+        <video src="media/For%20WORK%20Page/Resurrack%20X%20LMM/LMM%20TEASER%20VIDEO.mp4" poster="media/posters/resurrack-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Resurrack × LittleMissMarket teaser video"></video>
+        <video src="media/For%20WORK%20Page/Resurrack%20X%20LMM/Vendor%20recruitment%20video.MOV" poster="media/posters/resurrack-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Resurrack × LittleMissMarket vendor recruitment video"></video>
+        <video src="media/For%20WORK%20Page/Resurrack%20X%20LMM/_What%20do%20you%20want%20to%20say%20to%20the%20next%20person_%20Trend.mov" poster="media/posters/resurrack-3.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Resurrack × LittleMissMarket trend video"></video>
+      </div>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 001 · Resurrack × LittleMissMarket</div>
+      <h2>A co-branded drop, told as a <em>shared ritual.</em></h2>
+      <div class="case-chips">
+        <span class="case-chip">Strategy</span>
+        <span class="case-chip">Shoot day</span>
+        <span class="case-chip">TikTok</span>
+        <span class="case-chip">Instagram</span>
+        <span class="case-chip">Community</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+          <p class="case-deck"><strong>Resurrack</strong> and <strong>LittleMissMarket</strong> came to us ahead of a co-branded drop — two lifestyle audiences, one story to tell. We built the narrative arc across eight TikToks and a co-hosted IG shoot day, framing the collab as a "weekend in, weekend out" ritual.</p>
+          <div style="padding-top: 16px; border-top: 1px solid var(--rule); margin-bottom: 16px;">
+            <p style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted);">Results updating — check back soon</p>
+          </div>
+          <div class="case-follow">
+            <span class="case-follow-label">Find them on</span>
+            <a class="case-follow-link" href="https://www.instagram.com/resurrack/" target="_blank" rel="noopener noreferrer">@resurrack</a>
+            <span class="case-follow-sep">·</span>
+            <a class="case-follow-link" href="https://www.instagram.com/littlemissmrkt/" target="_blank" rel="noopener noreferrer">@littlemissmrkt</a>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Two distinct communities, both leaning into the same slow, intentional living aesthetic. The ask: make the collab feel organic, not promotional.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">Rather than announcing the drop, we let it unfold — framing it as a <strong>"weekend in, weekend out"</strong> ritual. Content lived in the everyday: Sunday markets, slow mornings. Captions led with feeling, not SKUs.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text">Content that felt brand-native, not agency-made. Audience overlap between both brands amplified reach without paid spend.</p>
+          </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Case 02 · Flyco -->
+  <article class="case" id="case-flyco">
+    <div class="case-video-wrap">
+      <div class="case-strip">
+        <video src="media/For%20WORK%20Page/Flyco/IMG_9574.mov" poster="media/posters/flyco-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Flyco campaign video 1"></video>
+        <video src="media/For%20WORK%20Page/Flyco/IMG_9575.mov" poster="media/posters/flyco-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Flyco campaign video 2"></video>
+      </div>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 002 · Flyco</div>
+      <h2>A concert campaign for <em>customisable</em> luggage.</h2>
+      <div class="case-chips">
+        <span class="case-chip">Campaign Strategy</span>
+        <span class="case-chip">Video Production</span>
+        <span class="case-chip">Shoot Day</span>
+        <span class="case-chip">Editing</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+          <p class="case-deck"><strong>Flyco</strong> brought us their Blackpink concert campaign — a moment to put their customisable luggage in front of fans who live for bold self-expression.</p>
+          <div class="case-stats">
+            <div class="case-stat">
+              <div class="n"><em>23K+</em></div>
+              <div class="l">Campaign video views</div>
+            </div>
+          </div>
+          <div class="case-follow">
+            <span class="case-follow-label">Find them on</span>
+            <a class="case-follow-link" href="https://www.instagram.com/flycotravel/" target="_blank" rel="noopener noreferrer">@flycotravel</a>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">The Blackpink Singapore concert was weeks away — they needed content that spoke directly to the BLINK fanbase. The product: customisable luggage. The audience: fans who see travel as identity.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">Not luggage ads, but BLINK-coded content that happened to feature Flyco. High-energy edits, trend-aware pacing, visuals that matched the concert aesthetic.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>23K+</strong> views. Outperformed typical product posts and reached an audience who engaged because they wanted to.</p>
+          </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Case 03 · Brixx Derma -->
+  <article class="case" id="case-brixx">
+    <div class="case-video-wrap">
+      <video src="media/For%20WORK%20Page/Brixx%20Derma/IMG_8332.MOV" poster="media/posters/brixx.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Brixx Derma skincare content video"></video>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 003 · Brixx Derma</div>
+      <h2>Rebuilding voice for a <em>derm-led</em> skincare line.</h2>
+      <div class="case-chips">
+        <span class="case-chip">Brand voice</span>
+        <span class="case-chip">Strategy</span>
+        <span class="case-chip">Education</span>
+        <span class="case-chip">Community</span>
+        <span class="case-chip">Telegram</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+          <p class="case-deck"><strong>Brixx Derma</strong> is a derm-led skincare line — rigorous formulas, but a story that kept getting lost in jargon. We rebuilt their social around <em>"bedtime, not breakthrough"</em>.</p>
+          <div class="case-stats">
+            <div class="case-stat">
+              <div class="n"><em>30K+</em></div>
+              <div class="l">Instagram views (73% new)</div>
+            </div>
+            <div class="case-stat">
+              <div class="n"><em>+500%</em></div>
+              <div class="l">TikTok view growth</div>
+            </div>
+            <div class="case-stat">
+              <div class="n"><em>+1,700%</em></div>
+              <div class="l">TikTok likes growth</div>
+            </div>
+          </div>
+          <div class="case-follow">
+            <span class="case-follow-label">Find them on</span>
+            <a class="case-follow-link" href="https://www.instagram.com/brixxderma/" target="_blank" rel="noopener noreferrer">@brixxderma</a>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Rigorous formulas with a credibility problem on social. Their content leaned too clinical — it educated without connecting. They needed a voice that felt like a trusted friend.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">Nightly routine TikToks, ingredient storytelling that felt conversational, and Telegram community drops. Brand voice, strategy, education, community, and product drops — all from one team.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>30K+</strong> Instagram views, <strong>+500%</strong> TikTok view growth, <strong>+1,700%</strong> TikTok likes growth. A community that replies, shares, and waits for the next drop.</p>
+          </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Case 04 · Melissa Shoes -->
+  <article class="case" id="case-melissa">
+    <div class="case-video-wrap">
+      <div class="case-no-video">Video coming soon</div>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 004 · Melissa Shoes</div>
+      <h2>Repositioning a heritage footwear label for <em>Gen Z.</em></h2>
+      <div class="case-chips">
+        <span class="case-chip">Content Creation</span>
+        <span class="case-chip">Brand Voice</span>
+        <span class="case-chip">Strategy</span>
+        <span class="case-chip">Motion Video</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+          <p class="case-deck"><strong>Melissa Shoes</strong> needed a shift from static product visuals to story-driven, motion-first content connecting Gen Z and millennials.</p>
+          <div class="case-stats">
+            <div class="case-stat">
+              <div class="n"><em>10K+</em></div>
+              <div class="l">Views across campaigns</div>
+            </div>
+            <div class="case-stat">
+              <div class="n"><em>900%+</em></div>
+              <div class="l">Audience interaction uplift</div>
+            </div>
+          </div>
+          <div class="case-follow">
+            <span class="case-follow-label">Find them on</span>
+            <a class="case-follow-link" href="https://www.instagram.com/melissashoessg/" target="_blank" rel="noopener noreferrer">@melissashoessg</a>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">A brand with real heritage and a clear Gen Z opportunity — needing motion-first content to shift their positioning from legacy label to future-facing fashion brand.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">Trend-led, movement-heavy content styled to speak to both Gen Z and millennials. Every video started with the culture, not the product.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>10K+</strong> views across campaigns. <strong>900%+</strong> audience interaction uplift. Consistently outperformed their baseline.</p>
+          </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Case 05 · Coffeeman@NYP -->
+  <article class="case" id="case-coffeeman">
+    <div class="case-video-wrap">
+      <video src="media/For%20WORK%20Page/Coffeeman/COFFEEMAN.mov" poster="media/posters/coffeeman.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Coffeeman@NYP menu launch campaign video"></video>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 005 · Coffeeman@NYP</div>
+      <h2>A menu launch for a <em>campus</em> coffee bar.</h2>
+      <div class="case-chips">
+        <span class="case-chip">Content Creation</span>
+        <span class="case-chip">Food &amp; Beverage</span>
+        <span class="case-chip">Launch Campaign</span>
+        <span class="case-chip">Community</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+          <p class="case-deck"><strong>Coffeeman@NYP</strong> needed buzz for their new menu and content that let the craft speak — intimate, warm, and intentional.</p>
+          <div class="case-stats">
+            <div class="case-stat">
+              <div class="n"><em>1K+</em></div>
+              <div class="l">Views per video</div>
+            </div>
+            <div class="case-stat">
+              <div class="n"><em>92%</em></div>
+              <div class="l">New audiences reached</div>
+            </div>
+            <div class="case-stat">
+              <div class="n"><em>100s</em></div>
+              <div class="l">Of interactions</div>
+            </div>
+          </div>
+          <div class="case-follow">
+            <span class="case-follow-label">Find them on</span>
+            <a class="case-follow-link" href="https://www.instagram.com/coffeeman_nyp/" target="_blank" rel="noopener noreferrer">@coffeeman_nyp</a>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">A new menu and a story worth telling — craft coffee and thoughtful food in a campus setting. Content that communicated quality without pretension.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">Close-up sequences, craft-in-motion storytelling, honest tone. No lifestyle inflation. Just good food, made well, shown properly.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text"><strong>1K+</strong> views per video. <strong>92%</strong> new audiences. Hundreds of genuine interactions from people who made the trip in person.</p>
+          </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Case 06 · Happy Rei -->
+  <article class="case" id="case-happyrei">
+    <div class="case-video-wrap">
+      <div class="case-strip">
+        <video src="media/For%20WORK%20Page/Happy%20Rei/18%20April%20-%20Kids%20Rate%20Happy%20Rei.mov" poster="media/posters/happyrei-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Happy Rei — Kids Rate Happy Rei video"></video>
+        <video src="media/For%20WORK%20Page/Happy%20Rei/IMG_3192.MOV" poster="media/posters/happyrei-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Happy Rei video 2"></video>
+      </div>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 006 · Happy Rei</div>
+      <h2><em>Happy Rei</em></h2>
+      <p style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-muted); margin: 0;">Case study coming soon</p>
+    </div>
+  </article>
+
+  <!-- Case 07 · Luminance Learning -->
+  <article class="case" id="case-luminance">
+    <div class="case-video-wrap">
+      <div class="case-strip">
+        <video src="media/For%20WORK%20Page/Luminance%20Learning/DRAFT%203_60%20SECONDS.mov" poster="media/posters/luminance-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Luminance Learning — 60 second brand video"></video>
+        <video src="media/For%20WORK%20Page/Luminance%20Learning/DRAFT%203_Luminance%20Learning%20Introduction.MOV" poster="media/posters/luminance-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Luminance Learning introduction video"></video>
+      </div>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 007 · Luminance Learning</div>
+      <h2><em>Luminance Learning</em></h2>
+      <p style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-muted); margin: 0;">Case study coming soon</p>
+    </div>
+  </article>
+
+</section>
+
+<!-- Prev / Next client controls -->
+<div class="showcase-controls">
+  <button class="showcase-btn showcase-prev" aria-label="Previous client" disabled>
+    <span class="showcase-btn-arrow">←</span>
+    <span>Prev</span>
+  </button>
+  <button class="showcase-btn showcase-next" aria-label="Next client">
+    <span>Next</span>
+    <span class="showcase-btn-arrow">→</span>
+  </button>
+</div>
+
+<section class="future">
+  <div class="eyebrow" style="margin-bottom: 24px;">◎ NOW OPEN · Q3 2026</div>
+  <h2>We're taking on <em>two</em> new brands this quarter.</h2>
+  <p style="margin: 28px auto 36px; max-width: 600px; color: var(--fg-muted); line-height: 1.6;">
+    We keep the roster small so the work stays sharp. If you're a lifestyle, beauty, or wellness brand with a story worth telling — let's talk.
+  </p>
+  <a href="contact.html" class="btn btn-primary">Apply to work with us <span class="arrow">→</span></a>
+</section>
+
+<div id="footer-slot"></div>
+<script>
+(function () {
+
+  var cases   = Array.from(document.querySelectorAll('.case'));
+  var tabs    = Array.from(document.querySelectorAll('.client-tab'));
+  var curEl   = document.querySelector('.client-counter-cur');
+  var prevBtn = document.querySelector('.showcase-prev');
+  var nextBtn = document.querySelector('.showcase-next');
+  var current = 0;
+
+  function goTo(i) {
+    cases[current].classList.remove('is-active');
+    tabs[current].classList.remove('is-active');
+    tabs[current].setAttribute('aria-selected', 'false');
+
+    current = i;
+
+    cases[current].classList.add('is-active');
+    tabs[current].classList.add('is-active');
+    tabs[current].setAttribute('aria-selected', 'true');
+
+    /* scroll tab into view */
+    tabs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+    /* update counter */
+    if (curEl) curEl.textContent = String(current + 1).padStart(2, '0');
+
+    /* update prev/next disabled state */
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === cases.length - 1;
+
+    /* scroll page to top of showcase bar */
+    document.querySelector('.client-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      goTo(parseInt(tab.dataset.idx, 10));
+    });
+  });
+
+  prevBtn.addEventListener('click', function () { if (current > 0) goTo(current - 1); });
+  nextBtn.addEventListener('click', function () { if (current < cases.length - 1) goTo(current + 1); });
+
+  /* ── Video strip navigation ── */
+  document.querySelectorAll('.case-strip').forEach(function (strip) {
+    var vids = strip.querySelectorAll('video');
+    if (vids.length < 2) return;
+
+    var wrap    = strip.closest('.case-video-wrap');
+    var vidIdx  = 0;
+
+    var prev = document.createElement('button');
+    prev.className = 'vid-nav vid-nav-prev';
+    prev.setAttribute('aria-label', 'Previous video');
+    prev.textContent = '‹';
+
+    var next = document.createElement('button');
+    next.className = 'vid-nav vid-nav-next';
+    next.setAttribute('aria-label', 'Next video');
+    next.textContent = '›';
+
+    var dotsEl = document.createElement('div');
+    dotsEl.className = 'vid-dots';
+    vids.forEach(function (_, i) {
+      var d = document.createElement('span');
+      d.className = 'vid-dot' + (i === 0 ? ' active' : '');
+      dotsEl.appendChild(d);
+    });
+
+    wrap.appendChild(prev);
+    wrap.appendChild(next);
+    wrap.appendChild(dotsEl);
+
+    function sync() {
+      prev.style.opacity       = vidIdx === 0               ? '0' : '1';
+      prev.style.pointerEvents = vidIdx === 0               ? 'none' : 'auto';
+      next.style.opacity       = vidIdx === vids.length - 1 ? '0' : '1';
+      next.style.pointerEvents = vidIdx === vids.length - 1 ? 'none' : 'auto';
+      dotsEl.querySelectorAll('.vid-dot').forEach(function (d, i) {
+        d.classList.toggle('active', i === vidIdx);
+      });
+    }
+
+    function vidGoTo(i) {
+      vidIdx = Math.max(0, Math.min(i, vids.length - 1));
+      strip.scrollTo({ left: strip.offsetWidth * vidIdx, behavior: 'smooth' });
+      sync();
+    }
+
+    prev.addEventListener('click', function () { vidGoTo(vidIdx - 1); });
+    next.addEventListener('click', function () { vidGoTo(vidIdx + 1); });
+
+    strip.addEventListener('scroll', function () {
+      vidIdx = Math.round(strip.scrollLeft / strip.offsetWidth);
+      sync();
+    }, { passive: true });
+
+    sync();
+  });
+
+  /* ── Play overlay ── */
+  document.querySelectorAll('.case-video-wrap').forEach(function (wrap) {
+    var overlay = document.createElement('div');
+    overlay.className = 'play-overlay';
+    var icon = document.createElement('div');
+    icon.className = 'play-icon';
+    overlay.appendChild(icon);
+    wrap.insertBefore(overlay, wrap.firstChild);
+    wrap.querySelectorAll('video').forEach(function (vid) {
+      vid.addEventListener('play',  function () { wrap.classList.add('is-playing'); });
+      vid.addEventListener('pause', function () { wrap.classList.remove('is-playing'); });
+      vid.addEventListener('ended', function () { wrap.classList.remove('is-playing'); });
+    });
+  });
+
+})();
+</script>
+<script src="assets/chrome.js"></script>
+<script>KaciChrome.nav("work"); KaciChrome.footer();</script>
+<script src="assets/tweaks.js"></script>
+</body>
+</html>

@@ -1,0 +1,940 @@
+/* ═══════════════════════════════════════════════
+   KACISTUDIO — Design Tokens & Shared Styles
+   Sand theme · Warm editorial aesthetic
+═══════════════════════════════════════════════ */
+
+/* ── Brand Fonts ── */
+
+/* Perandory — display / headings */
+@font-face {
+  font-family: 'Perandory';
+  src: url('../Brand fonts/Perandory/Perandory-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Perandory';
+  src: url('../Brand fonts/Perandory/Perandory-Semi-Condensed.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Perandory';
+  src: url('../Brand fonts/Perandory/Perandory-Condensed.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Gordita — body / sans / labels */
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-RegularItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-BoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gordita';
+  src: url('../Brand fonts/Gordita/Gordita-BlackItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Sloop Script — flowing italic accents on em elements */
+@font-face {
+  font-family: 'Sloop Script';
+  src: url('../Brand fonts/Sloop Script Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* BootzyTM — brand card / special display */
+@font-face {
+  font-family: 'BootzyTM';
+  src: url('../Brand fonts/BootzyTM.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── 1. Custom Properties ── */
+:root {
+  /*
+   * COLOUR HIERARCHY
+   * --bg / --bg-alt    → page surfaces (Coconut Cream / Merino)
+   * --fg               → primary dark tone (Judge Gray #584738) — use for dark sections
+   * --accent           → highlight colour (Polo Blue #93A9D2)
+   * --espresso         → sub-colour only (Midnight Blue #00145D) — banner, mobile menu, submit btn ONLY
+   * --olive            → warm mid-tone (Mongoose #B59E7D)
+   */
+  /* Palette — coconut cream / midnight blue / polo blue */
+  --bg:           #F8F6DA;
+  --bg-alt:       #F1EADA;
+  --fg:           #584738;
+  --fg-muted:     rgba(88, 71, 56, 0.6);
+  --accent:       #93A9D2;
+  --espresso:     #584738;
+  --cream:        #F8F6DA;
+  --olive:        #B59E7D;
+  --rule:         rgba(88, 71, 56, 0.15);
+  --nav-bg:       #4a3b2c;
+  --nav-border:   rgba(248, 246, 218, 0.28);
+  --nav-glow:     rgba(147, 169, 210, 0.14);
+
+  /* Typography */
+  --font-serif:   'Perandory', Georgia, serif;
+  --font-sans:    'Gordita', system-ui, sans-serif;
+  --font-mono:    'Gordita', system-ui, sans-serif;
+  --font-script:  'Sloop Script', cursive;
+  --font-display: 'BootzyTM', cursive;
+
+  /* Layout */
+  --pad-gutter:    clamp(16px, 4vw, 72px);
+  --pad-section-y: clamp(40px, 8vw, 120px);
+  --stack-lg:      clamp(48px, 6vw, 80px);
+  --stack-md:      clamp(32px, 4vw, 56px);
+}
+
+
+@supports (color: color-mix(in oklch, red, blue)) {
+  :root {
+    --fg-muted: color-mix(in oklch, #584738 60%, transparent);
+    --rule:     color-mix(in oklch, #584738 15%, transparent);
+    --nav-bg:   color-mix(in oklch, #584738 68%, #F8F6DA);
+    --nav-border: color-mix(in oklch, #F8F6DA 28%, transparent);
+    --nav-glow:   color-mix(in oklch, #93A9D2 14%, transparent);
+  }
+}
+
+/* ── 2. Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* bottom space for fixed pill nav */
+  padding-bottom: 5rem;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+video, iframe, blockquote { max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; background: none; border: none; }
+ul, ol { list-style: none; }
+
+
+/* ── 3. Grain overlay ── */
+html[data-grain="on"]::after {
+  content: '';
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+
+/* ── 4. Typography helpers ── */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Perandory Condensed — hero & page headlines */
+h1 {
+  font-weight: 700;
+}
+
+/* Perandory Semi-Condensed — section headings */
+h2 {
+  font-weight: 600;
+  font-size: clamp(56px, 8vw, 120px);
+}
+
+/* Perandory Regular — sub-headings, supporting labels */
+h3 {
+  font-weight: 400;
+  font-size: clamp(22px, 2.8vw, 40px);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+h4 {
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 26px);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Body paragraphs — Gordita Regular for readability (not inherited Light) */
+p {
+  font-weight: 400;
+}
+
+/* Bold inline text — Gordita Medium, not Black */
+strong, b {
+  font-weight: 500;
+}
+
+/* Lead paragraph — Gordita Medium for intro copy under headings */
+.lead {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(17px, 1.25vw, 20px);
+  line-height: 1.65;
+  color: var(--fg);
+}
+
+/* Sloop Script italic accents — h1 hero only + named display classes */
+/* h2/h3/h4 em deliberately excluded: script font at section-heading size harms readability */
+h1 em,
+.split-headline em,
+.type-hero-word em,
+blockquote em,
+.follow-heading em,
+.stat-num em,
+.process-title em {
+  font-family: var(--font-script) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+}
+
+.manifesto-body em,
+.name-story-copy em {
+  font-family: var(--font-serif) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+}
+
+/* BootzyTM — hero polaroid brand card + footer wordmark */
+.hsc-brand-name {
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.06em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+
+/* ── 5. Layout primitives ── */
+.section {
+  padding: var(--pad-section-y) 0;
+}
+
+.wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--pad-gutter);
+}
+
+/* Prose line-length cap — apply to any long-copy container */
+.prose p {
+  max-width: 65ch;
+}
+
+hr.rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+}
+
+
+/* ── 6. Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  line-height: 1;
+  white-space: nowrap;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--cream);
+  border-color: var(--accent);
+}
+.btn-primary:hover { opacity: 0.88; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+  border-color: rgba(88, 71, 56, 0.28);
+}
+.btn-ghost:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.arrow { display: inline-block; }
+
+
+/* ── 7. Placeholder image cards ── */
+.ph {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+
+/* Colour variants */
+.ph-terra {
+  background: var(--olive);
+}
+.ph-olive {
+  background: #d4c3a8;
+}
+.ph-espresso {
+  background: var(--espresso);
+}
+.ph-stripe {
+  background: var(--espresso);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent 12px,
+    rgba(255,255,255,0.04) 12px,
+    rgba(255,255,255,0.04) 24px
+  );
+}
+
+/* Labels */
+.ph-label {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  z-index: 2;
+}
+/* Warm placeholder surfaces need dark labels for contrast */
+.ph-terra .ph-label,
+.ph-olive .ph-label {
+  color: var(--fg);
+  opacity: 0.6;
+}
+
+.ph-label-br {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  top: auto;
+  left: auto;
+}
+
+/* Dot separator (used inside marquee and labels) */
+.dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+
+/* ── 8. Marquee / ticker ── */
+.marquee {
+  overflow: hidden;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 18px 0;
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: kaci-marquee 40s linear infinite;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.marquee-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  padding-right: 20px;
+}
+
+.marquee-track em {
+  font-style: italic;
+  font-family: var(--font-serif);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+@keyframes kaci-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+
+/* ── 9. Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transform: none; transition: opacity 0.4s ease; }
+}
+
+
+/* ── 10. Pill Navigation ── */
+.kaci-nav {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  border-radius: 9999px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1.5px solid var(--nav-border);
+  box-shadow:
+    0 0 0 4px var(--nav-glow),
+    0 16px 56px rgba(0, 0, 0, 0.55),
+    0 4px 14px  rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  white-space: nowrap;
+}
+
+/* Logo mark */
+.kaci-nav-logo {
+  display: flex;
+  align-items: center;
+  padding: 0 0.7rem 0 0.75rem;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+/* Thin separator after logo */
+.kaci-nav-logo::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  margin-left: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Link row */
+.kaci-nav-links {
+  display: flex;
+  align-items: center;
+  padding: 0 0.25rem;
+}
+.kaci-nav-link {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(251, 249, 245, 0.50);
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+.kaci-nav-link:hover {
+  color: rgba(251, 249, 245, 0.85);
+}
+.kaci-nav-link.is-active {
+  color: var(--cream);
+}
+.kaci-nav-link.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Contact CTA link */
+.kaci-nav-cta {
+  margin-left: 6px;
+  margin-right: 4px;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  transition: opacity 0.2s ease !important;
+}
+.kaci-nav-cta::after { display: none !important; }
+.kaci-nav-cta:hover { opacity: 0.88; background: var(--accent) !important; }
+
+/* Hamburger */
+.kaci-nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4.5px;
+  padding: 0.5rem 0.9rem;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.kaci-nav-hamburger span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--cream);
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Mobile overlay */
+.kaci-mobile-menu {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  inset: 0;
+  z-index: 999;
+  background: var(--espresso);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.kaci-mobile-menu.is-open {
+  transform: translateX(0);
+}
+.kaci-mobile-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  font-size: 1.75rem;
+  color: var(--cream);
+  line-height: 1;
+  cursor: pointer;
+  background: none;
+  border: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.kaci-mobile-close:hover { opacity: 1; }
+
+.kaci-mobile-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.kaci-mobile-link {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(251, 249, 245, 0.65);
+  letter-spacing: -0.02em;
+  transition: color 0.2s ease;
+}
+.kaci-mobile-link:hover,
+.kaci-mobile-link.is-active {
+  color: var(--cream);
+}
+.kaci-mobile-link.is-active { color: var(--accent); }
+
+body.nav-locked { overflow: hidden; }
+
+@media (max-width: 768px) {
+  /* iOS home indicator safe-area + reduced height */
+  .kaci-nav             { bottom: max(1.5rem, calc(env(safe-area-inset-bottom) + 0.75rem)); height: 48px; }
+  .kaci-nav-links       { display: none; }
+  .kaci-nav-hamburger   { display: flex; }
+  /* Full dynamic-viewport height so iOS Safari's address bar doesn't clip the last link */
+  .kaci-mobile-menu     { height: 100vh; min-height: 100vh; height: 100dvh; min-height: 100dvh; }
+}
+
+@media (max-width: 430px) {
+  .kaci-nav { width: auto; gap: 4px; }
+  .kaci-nav-logo { padding: 0 0.5rem; }
+  .kaci-nav-logo::after { display: none; }
+  .kaci-nav-hamburger { padding: 0.5rem 0.7rem; }
+  .kaci-nav-logo-text { display: none; }
+  /* Prevent iOS auto-zoom on form inputs */
+  input, textarea, select { font-size: 16px; }
+}
+
+
+/* ── 11. Footer ── */
+.kaci-footer {
+  border-top: 1px solid var(--rule);
+  background: var(--bg);
+  padding: clamp(40px, 5vw, 64px) var(--pad-gutter);
+}
+
+.kaci-footer-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+
+.kaci-footer-brand {
+  width: clamp(60px, 7vw, 90px);
+  height: clamp(60px, 7vw, 90px);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kaci-footer-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.kaci-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: clamp(24px, 3vw, 32px);
+  border-top: 1px solid var(--rule);
+}
+
+.kaci-footer-copy {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.kaci-footer-credit {
+  font-size: 0.75rem;
+  color: rgba(88, 71, 56, 0.36);
+  text-align: right;
+}
+.kaci-footer-credit a {
+  color: var(--fg-muted);
+  transition: color 0.2s ease;
+}
+.kaci-footer-credit a:hover { color: var(--fg); }
+
+@media (max-width: 768px) {
+  .kaci-footer-top       { flex-direction: column; align-items: center; text-align: center; gap: 24px; }
+  .kaci-footer-brand-wrap { align-items: center; }
+  .kaci-footer-social    { justify-content: center; gap: 10px 14px; }
+  .kaci-footer-tagline   { text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .kaci-footer-bottom { flex-direction: column; align-items: center; }
+  .kaci-footer-credit { text-align: center; }
+  .kaci-footer-copy   { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+
+/* ── 12. Availability Banner ── */
+@keyframes kaci-banner-in {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes kaci-live-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.6); }
+}
+@keyframes kaci-banner-flow {
+  from { background-position: 0% 0; }
+  to   { background-position: 100% 0; }
+}
+
+.kaci-banner {
+  background: var(--espresso);
+  color: var(--cream);
+  padding: 12px var(--pad-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 200;
+  overflow: hidden;
+  animation: kaci-banner-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+.kaci-banner::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #39ff14;
+  flex-shrink: 0;
+  margin-right: 12px;
+  position: relative;
+  z-index: 1;
+  animation: kaci-live-pulse 2.2s ease-in-out infinite;
+}
+
+/* Rainbow flowing gradient overlay */
+.kaci-banner-rainbow {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(248, 220, 160, 0.28) 6%,
+    transparent 14%,
+    rgba(230, 195, 130, 0.2) 22%,
+    transparent 30%,
+    rgba(248, 236, 190, 0.22) 38%,
+    transparent 48%,
+    transparent 50%
+  );
+  background-size: 200% 100%;
+  animation: kaci-banner-flow 18s linear infinite;
+  filter: saturate(1.4) brightness(1.1);
+}
+
+/* Text sits above the rainbow overlay */
+.kaci-banner-text {
+  position: relative;
+  z-index: 1;
+}
+
+.kaci-banner a {
+  color: var(--cream);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: opacity 0.2s ease;
+}
+.kaci-banner a:hover { text-decoration: underline; opacity: 0.85; }
+.kaci-banner-close {
+  position: absolute;
+  right: var(--pad-gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(248, 246, 218, 0.55);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  z-index: 1;
+  transition: color 0.2s ease;
+  font-family: var(--font-sans);
+}
+.kaci-banner-close:hover { color: var(--cream); }
+@media (prefers-reduced-motion: reduce) {
+  .kaci-banner { animation: none; }
+  .kaci-banner::before { animation: none; }
+  .kaci-banner-rainbow { animation: none; }
+}
+
+@media (max-width: 430px) {
+  .kaci-banner { font-size: 10px; padding: 6px 12px; }
+}
+
+
+/* ── 13. Footer enhancements ── */
+.kaci-footer-brand-wrap { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+
+.kaci-footer-brand-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-align: center;
+  margin-right: -0.18em;
+}
+
+.kaci-footer-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: clamp(16px, 2vw, 22px) 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 0;
+}
+
+.kaci-footer-social-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: color 0.2s ease;
+}
+.kaci-footer-social-link:hover { color: var(--accent); }
+
+.kaci-footer-social-sep {
+  color: var(--rule);
+  font-size: 16px;
+  user-select: none;
+}
+
+.kaci-footer-tagline {
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--fg-muted);
+  padding: clamp(18px, 2.5vw, 28px) 0;
+  text-align: center;
+}

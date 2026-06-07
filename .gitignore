@@ -1,0 +1,20 @@
+# Claude Code internal files
+.claude/
+.superpowers/
+docs/superpowers/
+
+# Raw camera files (large, not needed for the site)
+*.CR2
+*.cr2
+*.RAW
+*.raw
+*.ARW
+*.arw
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
