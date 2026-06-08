@@ -1515,40 +1515,34 @@
 /* ── Responsive ── */
 @media (max-width: 899px) {
   .svc-cats {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    overflow-x: hidden;
   }
-  .svc-cats::-webkit-scrollbar { display: none; }
   .svc-cats-head {
-    grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
-    gap: clamp(28px, 6vw, 96px);
-    min-width: 760px;
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
   .svc-cats h1 {
-    grid-column: 1;
-    max-width: 12ch;
+    grid-column: auto;
+    max-width: 11ch;
   }
   .svc-cats-sub {
-    grid-column: 2;
-    margin: 0 0 0 auto;
+    grid-column: auto;
+    margin: 0;
   }
   .svc-split {
-    grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
-    gap: clamp(28px, 5vw, 76px);
-    min-width: 760px;
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
   .svc-cats[data-active-cat="content"] .svc-split,
   .svc-cats[data-active-cat="branding"] .svc-split {
-    grid-template-columns: minmax(220px, 0.52fr) minmax(0, 1.48fr);
+    grid-template-columns: 1fr;
   }
   .svc-split-left {
     width: 100%;
   }
   .svc-cat-selector {
-    position: sticky;
-    top: 96px;
+    position: relative;
+    top: auto;
     display: flex;
     flex-direction: column;
     overflow: visible;
@@ -1560,27 +1554,27 @@
   }
   .svc-cats[data-active-cat="smm"] .svc-cat-under-img {
     display: block;
-    width: clamp(178px, 21vw, 318px);
-    align-self: flex-end;
-    margin: clamp(34px, 5.5vw, 84px) clamp(14px, 3vw, 46px) 0 0;
-    transform: rotate(6deg);
-    opacity: 0.76;
+    width: clamp(126px, 34vw, 178px);
+    align-self: flex-start;
+    margin: 22px 0 0 clamp(48px, 15vw, 88px);
+    transform: rotate(-5deg);
+    opacity: 0.66;
   }
-  .svc-pkg-panel { min-height: 440px; }
+  .svc-pkg-panel { min-height: auto; }
   .svc-pkg-row {
-    grid-template-columns: minmax(88px, 0.22fr) minmax(150px, 0.34fr) minmax(0, 1fr);
-    gap: clamp(16px, 2.8vw, 40px);
+    grid-template-columns: minmax(88px, auto) minmax(0, 1fr);
+    gap: 12px 18px;
   }
-  .svc-pkg-body { grid-column: auto; }
+  .svc-pkg-body { grid-column: 2; }
 }
 @media (max-width: 559px) {
   .svc-pkg-image {
-    width: clamp(178px, 21vw, 318px);
-    margin: clamp(20px, 2.8vw, 34px) auto 0;
+    width: clamp(104px, 30vw, 144px);
+    margin: 18px auto 0;
   }
   .svc-cats[data-active-cat="smm"] .svc-cat-under-img {
-    width: clamp(178px, 21vw, 318px);
-    margin: clamp(34px, 5.5vw, 84px) clamp(14px, 3vw, 46px) 0 0;
+    width: clamp(104px, 30vw, 144px);
+    margin: 18px 0 0 clamp(24px, 10vw, 48px);
   }
 }
 

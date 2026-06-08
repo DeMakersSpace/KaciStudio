@@ -413,10 +413,24 @@
 .member-photo-col {
   position: sticky;
   top: 100px;
+  width: 100%;
 }
 .member-photo-col .ph {
   border-radius: 4px;
   overflow: hidden;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: color-mix(in oklch, var(--fg) 10%, var(--bg));
+}
+.member-photo-col .ph img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center top;
 }
 .member-text-col {
   padding-top: 8px;
@@ -430,6 +444,7 @@
   }
   .member-photo-col {
     position: static;
+    width: min(100%, 400px);
     max-width: 400px;
     margin: 0 auto;
   }
@@ -1308,8 +1323,8 @@
 
       <!-- Left: photo -->
       <div class="member-photo-col">
-        <div class="ph" style="aspect-ratio:4/5; position:relative;">
-          <img src="media/For ABOUT Page/About _ Co founders.jpg" alt="Angeline Khor and Jovinna Chow, Co-Founders of KACISTUDIO" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;" loading="lazy">
+        <div class="ph">
+          <img src="media/For ABOUT Page/About _ Co founders.jpg" alt="Angeline Khor and Jovinna Chow, Co-Founders of KACISTUDIO" loading="lazy">
           <div class="founder-tag founder-tag--left">
             <span class="founder-tag-name">Jovinna</span>
           </div>
