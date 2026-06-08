@@ -141,10 +141,39 @@
   grid-area: video;
   align-self: start;
   aspect-ratio: 9 / 16;
-  border-radius: 12px;
+  border-radius: 40px;
   overflow: hidden;
   background: var(--bg-alt);
   position: relative;
+  border: 2px solid var(--rule);
+}
+/* Dynamic island */
+.case-video-wrap::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28%;
+  height: 10px;
+  background: rgba(10, 10, 10, 0.88);
+  border-radius: 99px;
+  z-index: 10;
+  pointer-events: none;
+}
+/* Home indicator */
+.case-video-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 99px;
+  z-index: 10;
+  pointer-events: none;
 }
 
 /* Single video */
@@ -226,7 +255,6 @@
 }
 
 /* No-video placeholder */
-/* Phone placeholder */
 .case-no-video {
   width: 100%;
   height: 100%;
@@ -234,52 +262,15 @@
   align-items: center;
   justify-content: center;
 }
-.phone-frame {
-  width: 62%;
-  aspect-ratio: 9 / 19.5;
-  border: 2px solid var(--rule);
-  border-radius: 36px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: var(--bg);
-}
-/* Dynamic island */
-.phone-frame::before {
-  content: '';
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 28%;
-  height: 10px;
-  background: var(--rule);
-  border-radius: 99px;
-}
-/* Home indicator */
-.phone-frame::after {
-  content: '';
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30%;
-  height: 4px;
-  background: var(--rule);
-  border-radius: 99px;
-}
 .phone-frame-label {
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-muted);
-  opacity: 0.6;
+  opacity: 0.55;
   text-align: center;
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
 /* ── Card info ── */
@@ -764,9 +755,7 @@
   <article class="case" id="case-melissa">
     <div class="case-video-wrap">
       <div class="case-no-video">
-        <div class="phone-frame">
-          <span class="phone-frame-label">Video<br>coming soon</span>
-        </div>
+        <span class="phone-frame-label">Video<br>coming soon</span>
       </div>
     </div>
     <div class="case-info">
