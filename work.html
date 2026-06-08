@@ -141,36 +141,42 @@
   grid-area: video;
   align-self: start;
   aspect-ratio: 9 / 16;
-  border-radius: 40px;
+  border-radius: 48px;
   overflow: hidden;
-  background: var(--bg-alt);
+  background: #0a0a0a;
   position: relative;
-  border: 2px solid var(--rule);
+  /* iPhone-style thick titanium frame */
+  border: 9px solid #1c1c1e;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    0 28px 72px rgba(0,0,0,0.28);
 }
 /* Dynamic island */
 .case-video-wrap::before {
   content: '';
   position: absolute;
-  top: 14px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 28%;
-  height: 10px;
-  background: rgba(10, 10, 10, 0.88);
+  width: 32%;
+  height: 11px;
+  background: #000;
   border-radius: 99px;
   z-index: 10;
   pointer-events: none;
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,0.06);
 }
 /* Home indicator */
 .case-video-wrap::after {
   content: '';
   position: absolute;
-  bottom: 10px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 30%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.45);
+  width: 34%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.55);
   border-radius: 99px;
   z-index: 10;
   pointer-events: none;
