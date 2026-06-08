@@ -56,14 +56,14 @@
 
 /* ── Intro ── */
 .work-intro {
-  padding: clamp(20px, 2.5vw, 32px) var(--pad-gutter) 0;
+  padding: clamp(12px, 1.5vw, 20px) var(--pad-gutter) 0;
   border-top: 1px solid var(--rule);
-  margin-top: clamp(20px, 2.5vw, 32px);
+  margin-top: clamp(12px, 1.5vw, 20px);
   max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
 }
-.work-intro p { font-size: 16px; line-height: 1.6; max-width: 480px; color: var(--fg-muted); margin: 0 auto; text-align: center; }
+.work-intro p { font-size: 15px; line-height: 1.6; max-width: 520px; color: var(--fg-muted); margin: 0 auto; text-align: center; }
 
 /* ── Client bar ── */
 .client-bar {
@@ -72,8 +72,8 @@
   justify-content: space-between;
   gap: 16px;
   max-width: 1200px;
-  margin: clamp(28px, 3.5vw, 48px) auto 0;
-  padding: clamp(14px, 1.8vw, 22px) var(--pad-gutter);
+  margin: clamp(16px, 2vw, 28px) auto 0;
+  padding: clamp(10px, 1.4vw, 16px) var(--pad-gutter);
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
 }
@@ -104,17 +104,24 @@
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .client-tab:hover { color: var(--fg); border-color: var(--fg); }
-.client-tab.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.client-tab.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 600; }
 
-.client-counter {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  color: var(--fg-muted);
-  white-space: nowrap;
+.client-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   flex-shrink: 0;
 }
-.client-counter-cur { color: var(--fg); font-weight: 500; }
+.client-counter {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  min-width: 44px;
+  text-align: center;
+}
+.client-counter-cur { color: var(--fg); font-weight: 700; font-size: 15px; }
 
 /* ── Showcase ── */
 .showcase {
@@ -294,7 +301,7 @@
 }
 
 .case-info h2 {
-  font-size: clamp(22px, 2.4vw, 34px);
+  font-size: clamp(28px, 3.4vw, 48px);
   line-height: 1.18;
   letter-spacing: normal;
   margin-bottom: 16px;
@@ -460,15 +467,8 @@
 @media (hover: hover) { .play-overlay { opacity: 0; } .case-video-wrap:hover .play-overlay { opacity: 1; } }
 @media (hover: none)  { .play-overlay { opacity: 1; } }
 
-/* ── Showcase controls: prev / next ── */
-.showcase-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: clamp(20px, 2.5vw, 32px) var(--pad-gutter) clamp(48px, 6vw, 80px);
-}
+/* ── Showcase controls: prev / next (now inside client-bar) ── */
+.showcase-controls { display: none; }
 .showcase-btn {
   display: flex;
   align-items: center;
@@ -492,11 +492,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: .5px solid var(--rule);
-  font-size: 16px;
+  font-size: 14px;
   flex-shrink: 0;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
@@ -587,7 +587,7 @@
 </section>
 
 <section class="work-intro">
-  <p>A small collection of brands we've worked with, created with, and learned from along the way.</p>
+  <p>Select a client to explore the story, the strategy, and the results.</p>
 </section>
 
 <!-- Client selector bar -->
@@ -601,8 +601,16 @@
     <button class="client-tab" role="tab" data-idx="5" aria-selected="false">Happy Rei</button>
     <button class="client-tab" role="tab" data-idx="6" aria-selected="false">Luminance Learning</button>
   </div>
-  <div class="client-counter" aria-live="polite">
-    <span class="client-counter-cur">01</span> / <span class="client-counter-tot">07</span>
+  <div class="client-nav">
+    <button class="showcase-btn showcase-prev" aria-label="Previous client" disabled>
+      <span class="showcase-btn-arrow">←</span>
+    </button>
+    <div class="client-counter" aria-live="polite">
+      <span class="client-counter-cur">01</span> / <span class="client-counter-tot">07</span>
+    </div>
+    <button class="showcase-btn showcase-next" aria-label="Next client">
+      <span class="showcase-btn-arrow">→</span>
+    </button>
   </div>
 </div>
 
