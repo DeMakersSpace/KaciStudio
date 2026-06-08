@@ -1553,12 +1553,16 @@
     min-width: 0;
   }
   .svc-cats[data-active-cat="smm"] .svc-cat-under-img {
-    display: block;
-    width: clamp(126px, 34vw, 178px);
+    display: none;
+    width: min(46vw, 280px);
     align-self: flex-start;
     margin: 22px 0 0 clamp(48px, 15vw, 88px);
     transform: rotate(-5deg);
     opacity: 0.66;
+  }
+  .svc-pkg-image {
+    display: none;
+    width: min(46vw, 280px);
   }
   .svc-pkg-panel { min-height: auto; }
   .svc-pkg-row {
@@ -1569,12 +1573,10 @@
 }
 @media (max-width: 559px) {
   .svc-pkg-image {
-    width: clamp(104px, 30vw, 144px);
-    margin: 18px auto 0;
+    display: none;
   }
   .svc-cats[data-active-cat="smm"] .svc-cat-under-img {
-    width: clamp(104px, 30vw, 144px);
-    margin: 18px 0 0 clamp(24px, 10vw, 48px);
+    display: none;
   }
 }
 
