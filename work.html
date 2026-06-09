@@ -499,7 +499,9 @@
   padding: 0;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.showcase-btn:disabled { opacity: 0.25; cursor: default; }
+.showcase-btn { opacity: 0; }
+.client-bar:hover .showcase-btn { opacity: 1; }
+.client-bar:hover .showcase-btn:disabled { opacity: 0.25; cursor: default; }
 .showcase-btn:not(:disabled):hover { opacity: 0.7; }
 .showcase-prev:not(:disabled):hover { transform: translateX(-4px); }
 .showcase-next:not(:disabled):hover { transform: translateX(4px); }
