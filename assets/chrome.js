@@ -179,16 +179,21 @@ const KaciChrome = (() => {
   function _initMobileMenu(hamburger, menu, closeBtn) {
     function openMenu() {
       menu.classList.add('is-open');
+      hamburger.classList.add('is-open');
       document.body.classList.add('nav-locked');
       hamburger.setAttribute('aria-expanded', 'true');
     }
     function closeMenu() {
       menu.classList.remove('is-open');
+      hamburger.classList.remove('is-open');
       document.body.classList.remove('nav-locked');
       hamburger.setAttribute('aria-expanded', 'false');
     }
     hamburger.addEventListener('click', openMenu);
     closeBtn.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
     menu.addEventListener('click', e => { if (e.target === menu) closeMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
   }

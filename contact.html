@@ -102,10 +102,13 @@
   grid-template-columns: 240px 1fr;
   gap: 40px;
   padding: 24px 0;
+  border: 0;
   border-bottom: 1px solid var(--rule);
   align-items: start;
 }
-.field label {
+.field label,
+.field legend,
+.field-label {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.16em;
@@ -113,7 +116,26 @@
   color: var(--fg-muted);
   padding-top: 14px;
 }
-.field label .req { color: var(--accent); }
+.field legend,
+.field-label {
+  border: 0;
+  margin: 0;
+}
+.field label .req,
+.field legend .req,
+.field-label .req { color: var(--accent); }
+.field-control {
+  min-width: 0;
+  width: 100%;
+}
+.field-hint {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0 0 12px;
+  max-width: 58ch;
+}
 .field input, .field textarea {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(22px, 2.4vw, 32px);
@@ -138,16 +160,46 @@
 }
 
 /* Chips for goals */
-.chips {
+.chip-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+  padding: 4px 0 0;
+  max-width: 680px;
+}
+.chip-group {
+  min-width: 0;
+}
+.chip-group-title {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.chip-options {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 14px 0;
+  align-items: flex-start;
 }
 .chip {
+  position: relative;
+  display: inline-flex;
+  padding: 0;
+}
+.chip-check {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.chip-text {
   font-family: var(--font-sans);
   font-size: 13px;
-  padding: 10px 18px;
+  line-height: 1.35;
+  padding: 10px 16px;
   border: 1px solid var(--rule);
   border-radius: 999px;
   cursor: pointer;
@@ -155,15 +207,24 @@
   transition: background 0.2s ease, color 0.2s ease, border 0.2s ease;
   background: transparent;
   color: var(--fg);
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
 }
-.chip.on {
+.chip-check:checked + .chip-text {
   background: var(--fg);
   color: var(--cream);
   border-color: var(--fg);
 }
-.chip:focus-visible {
+.chip-check:focus-visible + .chip-text {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+.chip-check:disabled + .chip-text {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .form-submit {
@@ -285,6 +346,9 @@
 }
 
 @media (max-width: 600px) {
+  .chip-groups {
+    grid-template-columns: 1fr;
+  }
   /* Stack legal text above submit button, button goes full-width */
   .form-submit {
     flex-direction: column;
@@ -392,45 +456,92 @@
     <input type="hidden" name="services" id="selected-services" value="">
     <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
     <div class="field">
-      <label>Your name <span class="req">*</span></label>
-      <input type="text" name="name" placeholder="First and last" required>
+      <label for="brief-name">Your name <span class="req">*</span></label>
+      <input id="brief-name" type="text" name="name" placeholder="First and last" autocomplete="name" maxlength="120" required>
     </div>
     <div class="field">
-      <label>Brand / Company <span class="req">*</span></label>
-      <input type="text" name="brand_company" placeholder="What's it called?" required>
+      <label for="brief-brand">Brand / Company <span class="req">*</span></label>
+      <input id="brief-brand" type="text" name="brand_company" placeholder="What's it called?" autocomplete="organization" maxlength="140" required>
     </div>
     <div class="field">
-      <label>Email <span class="req">*</span></label>
-      <input type="email" name="email" placeholder="you@brand.co" required>
+      <label for="brief-email">Email <span class="req">*</span></label>
+      <input id="brief-email" type="email" name="email" placeholder="you@brand.co" autocomplete="email" maxlength="160" required>
     </div>
     <div class="field">
-      <label>Instagram / TikTok</label>
-      <input type="text" name="social_handles" placeholder="@yourhandle (both is great)">
+      <label for="brief-socials">Instagram / TikTok</label>
+      <input id="brief-socials" type="text" name="social_handles" placeholder="@yourhandle (both is great)" inputmode="text" maxlength="180">
     </div>
-    <div class="field">
-      <label>What do you need help with?</label>
-      <div class="chips" id="chips">
-        <div class="chip">Full social management</div>
-        <div class="chip">Content shoot day</div>
-        <div class="chip">Strategy &amp; calendar</div>
-        <div class="chip">TikTok growth</div>
-        <div class="chip">IG rebrand</div>
-        <div class="chip">Community &amp; DMs</div>
-        <div class="chip">Launch campaign</div>
-        <div class="chip">Not sure yet</div>
+    <div class="field field-services">
+      <div class="field-label" id="services-legend">What do you need help with?</div>
+      <div class="field-control" role="group" aria-labelledby="services-legend" aria-describedby="services-hint">
+        <p class="field-hint" id="services-hint">Choose any that feel close. If you are unsure, pick "Not sure yet" and tell us the context below.</p>
+        <div class="chip-groups" id="chips">
+          <div class="chip-group">
+            <span class="chip-group-title">Ongoing</span>
+            <div class="chip-options">
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="Full social management">
+                <span class="chip-text">Full social management</span>
+              </label>
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="Community & DMs">
+                <span class="chip-text">Community &amp; DMs</span>
+              </label>
+            </div>
+          </div>
+          <div class="chip-group">
+            <span class="chip-group-title">Content</span>
+            <div class="chip-options">
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="Content shoot day">
+                <span class="chip-text">Content shoot day</span>
+              </label>
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="TikTok growth">
+                <span class="chip-text">TikTok growth</span>
+              </label>
+            </div>
+          </div>
+          <div class="chip-group">
+            <span class="chip-group-title">Direction</span>
+            <div class="chip-options">
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="Strategy & calendar">
+                <span class="chip-text">Strategy &amp; calendar</span>
+              </label>
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="IG rebrand">
+                <span class="chip-text">IG rebrand</span>
+              </label>
+            </div>
+          </div>
+          <div class="chip-group">
+            <span class="chip-group-title">Launch</span>
+            <div class="chip-options">
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="Launch campaign">
+                <span class="chip-text">Launch campaign</span>
+              </label>
+              <label class="chip">
+                <input class="chip-check" type="checkbox" name="service_options" value="Not sure yet">
+                <span class="chip-text">Not sure yet</span>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="field">
-      <label>Tell us the story <span class="req">*</span></label>
-      <textarea name="message" placeholder="What's your brand about? Who's it for? What makes it feel like yours? Don't polish it — we prefer it raw." required></textarea>
+      <label for="brief-message">Tell us the story <span class="req">*</span></label>
+      <textarea id="brief-message" name="message" placeholder="What's your brand about? Who's it for? What makes it feel like yours? Don't polish it — we prefer it raw." maxlength="3000" required></textarea>
     </div>
     <div class="field">
-      <label>Monthly budget</label>
-      <input type="text" name="monthly_budget" placeholder="Range is fine — e.g. SGD $3k–$5k / month">
+      <label for="brief-budget">Monthly budget</label>
+      <input id="brief-budget" type="text" name="monthly_budget" placeholder="Range is fine — e.g. SGD $3k–$5k / month" inputmode="text" maxlength="80">
     </div>
     <div class="field">
-      <label>When do you want to start?</label>
-      <input type="text" name="start_timeline" placeholder="This quarter? Next? 'Yesterday' is a valid answer.">
+      <label for="brief-timeline">When do you want to start?</label>
+      <input id="brief-timeline" type="text" name="start_timeline" placeholder="This quarter? Next? 'Yesterday' is a valid answer." maxlength="120">
     </div>
 
     <div class="form-submit">
@@ -456,19 +567,14 @@
   KaciChrome.nav("contact");
   KaciChrome.footer();
 
-  // Chips (multi-select)
-  document.querySelectorAll("#chips .chip").forEach(c => {
-    c.addEventListener("click", () => c.classList.toggle("on"));
-  });
-
   const briefForm = document.getElementById("brief");
   const formStatus = document.getElementById("form-status");
   const submitButton = document.getElementById("submit-button");
   const selectedServices = document.getElementById("selected-services");
 
   function updateSelectedServices() {
-    selectedServices.value = [...document.querySelectorAll("#chips .chip.on")]
-      .map(chip => chip.textContent.trim())
+    selectedServices.value = [...document.querySelectorAll('#chips input[name="service_options"]:checked')]
+      .map(input => input.value)
       .join(", ");
   }
 
@@ -492,7 +598,7 @@
       }
 
       briefForm.reset();
-      document.querySelectorAll("#chips .chip.on").forEach(chip => chip.classList.remove("on"));
+      updateSelectedServices();
       briefForm.style.display = "none";
       document.getElementById("success").classList.add("on");
       window.scrollTo({ top: document.getElementById("success").offsetTop - 120, behavior: "smooth" });
