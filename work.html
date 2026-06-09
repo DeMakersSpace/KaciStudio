@@ -230,10 +230,12 @@
   justify-content: center;
   font-size: 16px;
   line-height: 1;
-  transition: background 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+  opacity: 0;
+  transition: background 0.18s ease, opacity 0.22s ease, transform 0.18s ease;
   user-select: none;
   -webkit-user-select: none;
 }
+.case-video-wrap:hover .vid-nav { opacity: 1; }
 .vid-nav:hover { background: var(--cream); }
 .vid-nav:active { transform: translateY(-50%) scale(0.96); }
 .vid-nav-prev { left: 14px; }
@@ -465,9 +467,20 @@
   margin-left: 4px;
 }
 .case-video-wrap:hover .play-icon { transform: scale(1.06); background: var(--cream); }
-.case-video-wrap.is-playing .play-overlay { opacity: 0; }
-@media (hover: hover) { .play-overlay { opacity: 0; } .case-video-wrap:hover .play-overlay { opacity: 1; } }
-@media (hover: none)  { .play-overlay { opacity: 1; } }
+.case-video-wrap.is-playing .play-overlay { opacity: 0; pointer-events: none; }
+@media (hover: hover) {
+  .play-overlay { opacity: 0; }
+  .case-video-wrap:hover .play-overlay { opacity: 1; }
+}
+@media (hover: none) {
+  /* play button: shrink to a small bottom-right badge so it doesn't cover the video */
+  .play-overlay { align-items: flex-end; justify-content: flex-end; padding: 14px; }
+  .play-icon { width: 36px; height: 36px; box-shadow: 0 4px 14px rgba(18,14,10,0.28); }
+  .play-icon::after { border-left-width: 11px; border-top-width: 7px; border-bottom-width: 7px; margin-left: 3px; }
+
+  /* nav arrows: hidden on touch — strip is swipeable, dots show progress */
+  .vid-nav { display: none; }
+}
 
 /* ── Showcase controls: prev / next (now inside client-bar) ── */
 .showcase-controls { display: none; }
@@ -933,7 +946,7 @@
   var nextBtn = document.querySelector('.showcase-next');
   var current = 0;
 
-  function goTo(i) {
+  function goTo(i, pushHash) {
     cases[current].classList.remove('is-active');
     tabs[current].classList.remove('is-active');
     tabs[current].setAttribute('aria-selected', 'false');
@@ -943,6 +956,11 @@
     cases[current].classList.add('is-active');
     tabs[current].classList.add('is-active');
     tabs[current].setAttribute('aria-selected', 'true');
+
+    /* update URL hash without triggering a scroll */
+    if (pushHash !== false) {
+      history.replaceState(null, '', '#' + cases[current].id);
+    }
 
     /* scroll tab into view */
     tabs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -957,6 +975,14 @@
     /* scroll page to top of showcase bar */
     document.querySelector('.client-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  /* navigate to hash on load */
+  (function () {
+    var hash = window.location.hash.replace('#', '');
+    if (!hash) return;
+    var idx = cases.findIndex(function (c) { return c.id === hash; });
+    if (idx > 0) goTo(idx, false);
+  })();
 
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
