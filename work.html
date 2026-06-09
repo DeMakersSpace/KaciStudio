@@ -949,6 +949,15 @@
   var current = 0;
 
   function goTo(i, pushHash) {
+    /* pause all videos in the outgoing case */
+    cases[current].querySelectorAll('video').forEach(function (v) {
+      v.pause();
+      v.currentTime = 0;
+    });
+    cases[current].querySelectorAll('.case-video-wrap').forEach(function (w) {
+      w.classList.remove('is-playing');
+    });
+
     cases[current].classList.remove('is-active');
     tabs[current].classList.remove('is-active');
     tabs[current].setAttribute('aria-selected', 'false');
