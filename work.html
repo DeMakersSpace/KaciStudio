@@ -1044,8 +1044,15 @@
       });
     }
 
+    function pauseOthers(activeIdx) {
+      vids.forEach(function (v, i) {
+        if (i !== activeIdx) { v.pause(); v.currentTime = 0; }
+      });
+    }
+
     function vidGoTo(i) {
       vidIdx = Math.max(0, Math.min(i, vids.length - 1));
+      pauseOthers(vidIdx);
       strip.scrollTo({ left: strip.offsetWidth * vidIdx, behavior: 'smooth' });
       sync();
     }
@@ -1054,8 +1061,12 @@
     next.addEventListener('click', function () { vidGoTo(vidIdx + 1); });
 
     strip.addEventListener('scroll', function () {
-      vidIdx = Math.round(strip.scrollLeft / strip.offsetWidth);
-      sync();
+      var newIdx = Math.round(strip.scrollLeft / strip.offsetWidth);
+      if (newIdx !== vidIdx) {
+        vidIdx = newIdx;
+        pauseOthers(vidIdx);
+        sync();
+      }
     }, { passive: true });
 
     sync();
