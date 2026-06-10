@@ -125,16 +125,18 @@
    * --bg / --bg-alt    → page surfaces (Coconut Cream / Merino)
    * --fg               → primary dark tone (Judge Gray #584738) — use for dark sections
    * --accent           → highlight colour (Polo Blue #93A9D2)
-   * --espresso         → sub-colour only (Midnight Blue #00145D) — banner, mobile menu, submit btn ONLY
+   * --espresso         → sub-colour only (#584738) — banner, mobile menu, submit btn ONLY
+   * --mahogany         → deep anchor (#4E342E) — dark section backgrounds, dramatic moments
    * --olive            → warm mid-tone (Mongoose #B59E7D)
    */
   /* Palette — coconut cream / midnight blue / polo blue */
   --bg:           #F8F6DA;
   --bg-alt:       #F1EADA;
   --fg:           #584738;
-  --fg-muted:     rgba(88, 71, 56, 0.6);
+  --fg-muted:     #7A6553;
   --accent:       #93A9D2;
-  --espresso:     #584738;
+  --espresso:     var(--mahogany);
+  --mahogany:     #4E342E;
   --cream:        #F8F6DA;
   --olive:        #B59E7D;
   --rule:         rgba(88, 71, 56, 0.15);
@@ -159,7 +161,6 @@
 
 @supports (color: color-mix(in oklch, red, blue)) {
   :root {
-    --fg-muted: color-mix(in oklch, #584738 60%, transparent);
     --rule:     color-mix(in oklch, #584738 15%, transparent);
     --nav-bg:   color-mix(in oklch, #584738 68%, #F8F6DA);
     --nav-border: color-mix(in oklch, #F8F6DA 28%, transparent);
@@ -185,7 +186,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -218,7 +219,7 @@ html[data-grain="on"]::after {
   inset: 0;
   z-index: 99998;
   pointer-events: none;
-  opacity: 0.028;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
 }
@@ -257,9 +258,10 @@ h4 {
   line-height: 1.2;
 }
 
-/* Body paragraphs — Gordita Regular for readability (not inherited Light) */
+/* Body paragraphs — Gordita Regular */
 p {
   font-weight: 400;
+  line-height: 1.75;
 }
 
 /* Bold inline text — Gordita Medium, not Black */
@@ -295,6 +297,12 @@ blockquote em,
   font-family: var(--font-serif) !important;
   font-style: italic !important;
   font-weight: 600 !important;
+}
+
+h2 em, h3 em, h4 em,
+p em, .lead em,
+.eyebrow-accent {
+  color: var(--fg);
 }
 
 /* BootzyTM — hero polaroid brand card + footer wordmark */
@@ -582,7 +590,7 @@ hr.rule {
   font-weight: 400;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: rgba(251, 249, 245, 0.50);
+  color: rgba(248, 246, 218, 0.50);
   padding: 0.4rem 0.85rem;
   border-radius: 9999px;
   text-decoration: none;
@@ -593,7 +601,7 @@ hr.rule {
     transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .kaci-nav-link:hover {
-  color: rgba(251, 249, 245, 0.85);
+  color: rgba(248, 246, 218, 0.85);
   background: rgba(248, 246, 218, 0.08);
   transform: translateY(-1px);
 }
@@ -706,7 +714,7 @@ hr.rule {
   font-size: 2.25rem;
   font-style: italic;
   font-weight: 300;
-  color: rgba(251, 249, 245, 0.65);
+  color: rgba(248, 246, 218, 0.65);
   letter-spacing: -0.02em;
   opacity: 0;
   transform: translateY(14px);
@@ -734,6 +742,16 @@ body.nav-locked { overflow: hidden; }
 @keyframes kaci-nav-rise {
   from { opacity: 0; transform: translateX(-50%) translateY(18px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Mobile typography breathing ── */
+/* 1.05–1.08 line-height is right for large desktop headings that rarely wrap.
+   On mobile, h2–h4 often wrap to 3+ lines — !important overrides the per-section
+   specificity wins so all wrapped headings breathe. h1 (hero) keeps its own rule. */
+@media (max-width: 768px) {
+  h2 { line-height: 1.15 !important; letter-spacing: -0.01em !important; }
+  h3 { line-height: 1.2  !important; }
+  h4 { line-height: 1.25 !important; }
 }
 
 @media (max-width: 768px) {
@@ -977,7 +995,7 @@ body.nav-locked { overflow: hidden; }
 }
 
 @media (max-width: 430px) {
-  .kaci-banner { font-size: 10px; padding: 6px 12px; }
+  .kaci-banner { font-size: 12px; padding: 6px 12px; }
 }
 
 

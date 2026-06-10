@@ -25,9 +25,6 @@
 <meta name="geo.region" content="SG">
 <meta name="geo.placename" content="Singapore">
 <title>About — KACISTUDIO</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap">
 <link rel="stylesheet" href="assets/tokens.css">
 <style>
 /* Page density overrides — match homepage editorial pacing */
@@ -150,7 +147,7 @@
 }
 .values-head h2 { font-size: clamp(34px, 4.5vw, 56px); color: var(--cream); letter-spacing: normal; line-height: 1.08; }
 .values-head h2 em { font-style: normal; color: inherit; }
-.values-head p { color: color-mix(in oklch, var(--cream) 70%, transparent); font-size: 16px; line-height: 1.6; max-width: 420px; }
+.values-head p { color: color-mix(in oklch, var(--cream) 88%, transparent); font-size: 16px; line-height: 1.6; max-width: 420px; }
 
 .values-grid {
   max-width: 1440px;
@@ -228,7 +225,7 @@
 .value-desc {
   font-size: 14px;
   line-height: 1.6;
-  color: color-mix(in oklch, var(--cream) 84%, transparent);
+  color: color-mix(in oklch, var(--cream) 92%, transparent);
   margin-top: 16px;
 }
 
@@ -325,21 +322,21 @@
   margin-bottom: 12px;
 }
 .value-active-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-style: italic;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(28px, 2.8vw, 40px);
   line-height: 1.1;
-  letter-spacing: normal;
+  letter-spacing: -0.02em;
   color: var(--cream);
   margin-bottom: 20px;
 }
 .value-active-desc {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.7;
-  color: color-mix(in oklch, var(--cream) 76%, transparent);
+  color: color-mix(in oklch, var(--cream) 90%, transparent);
   max-width: 460px;
   margin-bottom: 32px;
 }
@@ -672,8 +669,8 @@
   font-family: var(--font-serif);
   font-size: 36px;
   color: var(--fg-muted);
-  opacity: 0.45;
-  font-weight: 300;
+  opacity: 0.6;
+  font-weight: 400;
 }
 .placeholder-name {
   font-family: var(--font-serif);
@@ -1164,6 +1161,8 @@
   .kit-grid { grid-template-columns: 1fr 1fr; }
   .kit-card:first-child { grid-template-columns: 1fr; gap: 24px; }
   .kit-card:last-child { grid-column: 1 / -1; max-width: calc(50% - 12px); margin: 0 auto; }
+  .values-head h2 { line-height: 1.15; }
+  .manifesto-body h2 { line-height: 1.15; }
 }
 
 @media (max-width: 600px) {
@@ -1175,7 +1174,7 @@
 }
 
 @media (max-width: 430px) {
-  .manifesto p { font-size: clamp(13px, 3.5vw, 16px); }
+  .manifesto p { font-size: clamp(15px, 4vw, 17px); }
   .member-name { font-size: 20px; }
   .kit-grid { grid-template-columns: 1fr; }
   .kit-card:first-child { grid-column: auto; grid-template-columns: 1fr; gap: 20px; }

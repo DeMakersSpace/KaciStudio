@@ -25,9 +25,6 @@
 <meta name="geo.region" content="SG">
 <meta name="geo.placename" content="Singapore">
 <title>KACISTUDIO — Where your story meets socials.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap">
 <link rel="stylesheet" href="assets/tokens.css">
 <style>
 /* ---------------- Home density overrides ---------------- */
@@ -595,8 +592,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   color: var(--fg-muted);
 }
 .svc-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
+  font-family: var(--font-serif);
+  font-weight: 600;
   font-size: clamp(28px, 3.2vw, 48px);
   line-height: 1.05;
   letter-spacing: -0.01em;
@@ -659,7 +656,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 }
 .process-head-text h2 { margin-bottom: clamp(8px, 1vw, 12px); }
 .process-head p {
-  color: color-mix(in oklch, var(--cream) 75%, transparent);
+  color: color-mix(in oklch, var(--cream) 88%, transparent);
   max-width: 440px;
   font-size: 16px;
   line-height: 1.6;
@@ -751,7 +748,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   text-align: center;
   font-family: var(--font-mono);
   font-size: 9px;
-  color: color-mix(in oklch, var(--cream) 50%, transparent);
+  color: color-mix(in oklch, var(--cream) 68%, transparent);
   background: color-mix(in oklch, var(--cream) 8%, var(--fg));
   border: 1px solid color-mix(in oklch, var(--cream) 20%, transparent);
   border-radius: 50%;
@@ -764,7 +761,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: color-mix(in oklch, var(--cream) 35%, transparent);
+  color: color-mix(in oklch, var(--cream) 72%, transparent);
   display: block;
   margin-bottom: 10px;
 }
@@ -802,7 +799,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   font-family: var(--font-sans);
   font-size: 13px;
   line-height: 1.65;
-  color: color-mix(in oklch, var(--cream) 62%, transparent);
+  color: color-mix(in oklch, var(--cream) 80%, transparent);
   margin-top: auto;
 }
 
@@ -1133,20 +1130,42 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   margin-bottom: 16px;
   display: block;
 }
-.love-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+/* Marquee wrapper — bleeds edge-to-edge, fades sides */
+.love-marquee {
+  overflow: hidden;
+  margin: 0 calc(-1 * var(--pad-gutter));
+  mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+}
+.love-marquee-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding: 4px 0 8px;
+  animation: love-scroll 60s linear infinite;
+  will-change: transform;
+}
+.love-marquee:hover .love-marquee-track {
+  animation-play-state: paused;
+}
+@keyframes love-scroll {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .love-marquee-track { animation: none; }
 }
 .love-card {
+  width: clamp(260px, 35vw, 380px);
+  flex-shrink: 0;
   border: 1px solid color-mix(in oklch, var(--fg) 14%, transparent);
   border-radius: 4px;
-  padding: 40px 36px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
   background: var(--bg);
-  min-height: 340px;
+  min-height: 0;
   transition:
     border-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -1189,9 +1208,9 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   gap: 6px;
 }
 .love-name {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.01em;
 }
 .love-brand {
@@ -1200,31 +1219,6 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--fg-muted);
-}
-.love-pagination {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: clamp(28px, 3vw, 40px);
-}
-.love-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--fg);
-  opacity: 0.32;
-  cursor: pointer;
-  transition:
-    opacity 180ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.love-dot.is-active {
-  opacity: 1;
-  transform: scale(1.25);
-}
-.love-dot:hover {
-  opacity: 0.75;
-  transform: scale(1.15);
 }
 
 /* ── Ruler Carousel (HOW WE WORK) ── */
@@ -1367,7 +1361,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.18em;
-  color: color-mix(in oklch, var(--cream) 28%, transparent);
+  color: color-mix(in oklch, var(--cream) 70%, transparent);
   padding: 8px 12px;
   position: relative;
   transition: color 0.25s ease;
@@ -1537,67 +1531,6 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   .stat { border-right: 0; border-bottom: 1px solid var(--rule); }
   .type-hero-grid { grid-template-columns: 1fr; gap: 20px; }
   .love-head { grid-template-columns: 1fr; }
-  /* Horizontal swipe carousel on mobile/tablet — keeps the section short */
-  .love-carousel { position: relative; }
-  .love-grid {
-    display: flex;
-    grid-template-columns: none;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--pad-gutter);
-    gap: 16px;
-    margin-inline: calc(-1 * var(--pad-gutter));
-    padding: 4px var(--pad-gutter) 24px;
-    scrollbar-width: none;
-  }
-  .love-grid::-webkit-scrollbar { display: none; }
-  .love-card {
-    flex: 0 0 86%;
-    min-width: 0;
-    scroll-snap-align: center;
-    min-height: auto;
-  }
-  .love-nav {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    margin-top: clamp(20px, 3vw, 28px);
-  }
-  .love-nav-btn {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    border: 1px solid color-mix(in oklch, var(--fg) 30%, transparent);
-    background: transparent;
-    color: var(--fg);
-    font-size: 18px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      background 180ms cubic-bezier(0.16, 1, 0.3, 1),
-      color 180ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .love-nav-btn:hover,
-  .love-nav-btn:focus-visible {
-    background: var(--fg);
-    color: var(--bg);
-    border-color: var(--fg);
-    outline: none;
-    transform: translateY(-2px);
-  }
-  .love-nav-btn:active {
-    transform: translateY(1px);
-  }
-  .love-dot { cursor: pointer; }
-}
-@media (min-width: 901px) {
-  .love-nav { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -1617,8 +1550,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   .stats { grid-template-columns: 1fr; }
   .stat:nth-child(odd) { border-right: 0; }
   .process-num { font-size: 10px; }
-  .pull blockquote { font-size: clamp(56px, 8vw, 120px); }
-  .love-card { padding: 20px; }
+  .pull blockquote { font-size: clamp(36px, 9vw, 56px); letter-spacing: -0.03em; }
   .type-hero-word { font-size: clamp(40px, 10vw, 60px); }
 }
 
@@ -1676,8 +1608,6 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   .work-card .ph::after,
   .work-meta-arrow,
   .love-card,
-  .love-dot,
-  .love-nav-btn,
   .ruler-track,
   .detail-track,
   .detail-panel,
@@ -1689,10 +1619,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
   .process-nav-btn:hover:not(:disabled),
   .process-nav-btn:active:not(:disabled),
-  .love-card:hover,
-  .love-nav-btn:hover,
-  .love-nav-btn:focus-visible,
-  .love-nav-btn:active {
+  .love-card:hover {
     transform: none !important;
   }
 }
@@ -1982,8 +1909,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
         <h2>Client love<br>letters.</h2>
       </div>
     </div>
-    <div class="love-carousel">
-      <div class="love-grid reveal" id="loveTrack">
+    <div class="love-marquee">
+      <div class="love-marquee-track" id="loveTrack">
         <div class="love-card">
           <p class="love-quote">They don't just post. They think. Every piece of content felt like it came from us, not an agency checklist.</p>
           <div class="love-client">
@@ -2005,15 +1932,41 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
             <div class="love-brand">Coffeeman@NYP &middot; F&amp;B</div>
           </div>
         </div>
-      </div>
-      <div class="love-pagination" role="tablist" aria-label="Testimonials">
-        <button class="love-dot is-active" type="button" role="tab" aria-selected="true" aria-label="Testimonial 1" data-idx="0"></button>
-        <button class="love-dot" type="button" role="tab" aria-selected="false" aria-label="Testimonial 2" data-idx="1"></button>
-        <button class="love-dot" type="button" role="tab" aria-selected="false" aria-label="Testimonial 3" data-idx="2"></button>
-      </div>
-      <div class="love-nav">
-        <button class="love-nav-btn" type="button" data-dir="-1" aria-label="Previous testimonial">←</button>
-        <button class="love-nav-btn" type="button" data-dir="1" aria-label="Next testimonial">→</button>
+        <div class="love-card">
+          <p class="love-quote">KACISTUDIO took a collab between two brands and made it feel like one single, intentional story. The content didn't just perform. It felt like ours, fully.</p>
+          <div class="love-client">
+            <div class="love-name">Resurrack</div>
+            <div class="love-brand">Resurrack &middot; Lifestyle &amp; Fashion</div>
+          </div>
+        </div>
+        <div class="love-card">
+          <p class="love-quote">They didn't make luggage ads. They made content that belonged in the moment and happened to feature our bags. That distinction made all the difference.</p>
+          <div class="love-client">
+            <div class="love-name">Flyco</div>
+            <div class="love-brand">Flyco &middot; Travel &amp; Lifestyle</div>
+          </div>
+        </div>
+        <div class="love-card">
+          <p class="love-quote">We had the formulas. KACISTUDIO gave us the language. Our audience finally understands what we do, and they genuinely care about it now.</p>
+          <div class="love-client">
+            <div class="love-name">Brixx Derma</div>
+            <div class="love-brand">Brixx Derma &middot; Skincare &amp; Wellness</div>
+          </div>
+        </div>
+        <div class="love-card">
+          <p class="love-quote">They understood our audience before we finished briefing them. The warmth in every piece matched exactly what Happy Rei is supposed to feel like.</p>
+          <div class="love-client">
+            <div class="love-name">Happy Rei</div>
+            <div class="love-brand">Happy Rei &middot; Lifestyle</div>
+          </div>
+        </div>
+        <div class="love-card">
+          <p class="love-quote">Making education exciting on social is genuinely hard. KACISTUDIO cracked the brief in a way that surprised us and made us proud to share every single time.</p>
+          <div class="love-client">
+            <div class="love-name">Luminance Learning</div>
+            <div class="love-brand">Luminance Learning &middot; Education</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2190,50 +2143,16 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   KaciChrome.nav("home");
   KaciChrome.footer();
 
-  // Testimonial carousel — arrows + dots scroll the snap-track.
+  // Love marquee — clone cards so the -50% → 0 loop is seamless.
   (function () {
     var track = document.getElementById('loveTrack');
     if (!track) return;
-    var cards = Array.prototype.slice.call(track.querySelectorAll('.love-card'));
-    var dots = Array.prototype.slice.call(document.querySelectorAll('.love-dot'));
-    var arrows = Array.prototype.slice.call(document.querySelectorAll('.love-nav-btn'));
-
-    function activeIndex() {
-      var center = track.scrollLeft + track.clientWidth / 2;
-      var best = 0, bestDist = Infinity;
-      cards.forEach(function (c, i) {
-        var cardCenter = c.offsetLeft + c.offsetWidth / 2;
-        var d = Math.abs(center - cardCenter);
-        if (d < bestDist) { bestDist = d; best = i; }
-      });
-      return best;
-    }
-    function paintDots() {
-      var i = activeIndex();
-      dots.forEach(function (d, j) {
-        var on = j === i;
-        d.classList.toggle('is-active', on);
-        d.setAttribute('aria-selected', String(on));
-      });
-    }
-    function scrollTo(i) {
-      var clamped = Math.max(0, Math.min(cards.length - 1, i));
-      var card = cards[clamped];
-      track.scrollTo({ left: card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2, behavior: 'smooth' });
-    }
-
-    dots.forEach(function (d, i) {
-      d.addEventListener('click', function () { scrollTo(i); });
+    var originals = Array.prototype.slice.call(track.querySelectorAll('.love-card'));
+    originals.forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
     });
-    arrows.forEach(function (a) {
-      a.addEventListener('click', function () {
-        scrollTo(activeIndex() + parseInt(a.getAttribute('data-dir'), 10));
-      });
-    });
-    track.addEventListener('scroll', function () {
-      window.requestAnimationFrame(paintDots);
-    }, { passive: true });
-    paintDots();
   })();
 
   // Seamless infinite brand marquee — fill the track until one set

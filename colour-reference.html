@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" data-grain="on">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colour System — Kaci Studio</title>
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="colour-reference.css" />
+</head>
+<body>
+
+  <div class="cr-page">
+
+    <!-- ── Header ── -->
+    <header class="cr-hero wrap">
+      <p class="eyebrow">Kaci Studio · Design System</p>
+      <h1>Colour <em>System</em></h1>
+      <p class="cr-sub lead">Every palette colour, how they pair, and where each one belongs.</p>
+    </header>
+
+    <!-- ── 01 Full Palette ── -->
+    <section class="cr-section">
+      <div class="wrap">
+        <p class="eyebrow">01 — Full Palette</p>
+        <div class="cr-palette-grid">
+
+          <div class="cr-chip">
+            <div class="cr-chip-color" style="background:var(--bg); border-right:1px solid var(--rule)"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--bg · --cream</span>
+              <span class="cr-chip-hex">#F8F6DA</span>
+              <span class="cr-chip-name">Coconut Cream</span>
+              <span class="cr-chip-role">Page background · text on dark surfaces</span>
+            </div>
+          </div>
+
+          <div class="cr-chip">
+            <div class="cr-chip-color" style="background:var(--bg-alt); border-right:1px solid var(--rule)"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--bg-alt</span>
+              <span class="cr-chip-hex">#F1EADA</span>
+              <span class="cr-chip-name">Merino</span>
+              <span class="cr-chip-role">Alternate section backgrounds</span>
+            </div>
+          </div>
+
+          <div class="cr-chip">
+            <div class="cr-chip-color" style="background:var(--olive)"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--olive</span>
+              <span class="cr-chip-hex">#B59E7D</span>
+              <span class="cr-chip-name">Mongoose</span>
+              <span class="cr-chip-role">Decorative · borders on dark · never body text</span>
+            </div>
+          </div>
+
+          <div class="cr-chip">
+            <div class="cr-chip-color" style="background:var(--fg-muted)"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--fg-muted</span>
+              <span class="cr-chip-hex">#7A6553</span>
+              <span class="cr-chip-name">Spice</span>
+              <span class="cr-chip-role">Secondary text · eyebrows · captions</span>
+            </div>
+          </div>
+
+          <div class="cr-chip">
+            <div class="cr-chip-color" style="background:var(--fg)"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--fg · --espresso</span>
+              <span class="cr-chip-hex">#584738</span>
+              <span class="cr-chip-name">Judge Gray</span>
+              <span class="cr-chip-role">Primary text · banner · mobile menu</span>
+            </div>
+          </div>
+
+          <div class="cr-chip">
+            <div class="cr-chip-color" style="background:#4a3b2c"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--nav-bg</span>
+              <span class="cr-chip-hex">#4A3B2C</span>
+              <span class="cr-chip-name">Walnut</span>
+              <span class="cr-chip-role">Pill navigation only</span>
+            </div>
+          </div>
+
+          <div class="cr-chip cr-chip--new">
+            <div class="cr-chip-color" style="background:var(--mahogany)"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--mahogany</span>
+              <span class="cr-chip-hex">#4E342E</span>
+              <span class="cr-chip-name">Mahogany</span>
+              <span class="cr-chip-role cr-chip-role--new">NEW · Deep anchor · dramatic dark sections</span>
+            </div>
+          </div>
+
+          <div class="cr-chip">
+            <div class="cr-chip-color" style="background:var(--accent)"></div>
+            <div class="cr-chip-info">
+              <span class="cr-chip-var">--accent</span>
+              <span class="cr-chip-hex">#93A9D2</span>
+              <span class="cr-chip-name">Polo Blue</span>
+              <span class="cr-chip-role">CTAs · active indicators · cool tension</span>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 02 Surface Scenes ── -->
+    <section class="cr-section cr-section--flush">
+      <div class="wrap">
+        <p class="eyebrow">02 — Surface Scenes</p>
+        <p class="cr-section-desc">Each surface shown with its best text, button, and accent combinations.</p>
+      </div>
+      <div class="cr-scenes">
+
+        <!-- Scene A: Cream -->
+        <div class="cr-scene cr-scene--a">
+          <span class="cr-scene-label">A · Coconut Cream</span>
+          <h2>Brand <em>Storytelling</em></h2>
+          <p>We craft content that connects your brand to the right audience — thoughtful, intentional, and built to last.</p>
+          <div class="cr-scene-btns">
+            <a class="btn btn-primary" href="#">Work With Us <span class="arrow">→</span></a>
+            <a class="btn btn-ghost" href="#">Our Services</a>
+          </div>
+          <div class="cr-scene-dots">
+            <span class="cr-dot" style="background:var(--bg); border:1.5px solid var(--rule)" title="--bg"></span>
+            <span class="cr-dot" style="background:var(--fg)" title="--fg text"></span>
+            <span class="cr-dot" style="background:var(--accent)" title="--accent CTA"></span>
+            <span class="cr-dot" style="background:var(--olive)" title="--olive decoration"></span>
+          </div>
+          <p class="cr-scene-verdict cr-scene-verdict--pass">Main pages, hero sections, cards — your default surface.</p>
+        </div>
+
+        <!-- Scene B: Bg-Alt -->
+        <div class="cr-scene cr-scene--b">
+          <span class="cr-scene-label">B · Merino</span>
+          <h2>What We <em>Do</em></h2>
+          <p>Social media management, content creation, event branding — all under one roof, built for modern brands.</p>
+          <div class="cr-scene-btns">
+            <a class="btn btn-primary" href="#">View Services <span class="arrow">→</span></a>
+            <a class="btn btn-ghost" href="#">Get in Touch</a>
+          </div>
+          <div class="cr-scene-dots">
+            <span class="cr-dot" style="background:var(--bg-alt); border:1.5px solid var(--rule)" title="--bg-alt"></span>
+            <span class="cr-dot" style="background:var(--fg)" title="--fg text"></span>
+            <span class="cr-dot" style="background:var(--accent)" title="--accent CTA"></span>
+            <span class="cr-dot" style="background:var(--olive)" title="--olive decoration"></span>
+          </div>
+          <p class="cr-scene-verdict cr-scene-verdict--pass">Alternating sections, testimonials, feature blocks. Subtle warmth vs --bg.</p>
+        </div>
+
+        <!-- Scene C: Espresso (fg) -->
+        <div class="cr-scene cr-scene--c">
+          <span class="cr-scene-label cr-scene-label--light">C · Judge Gray</span>
+          <h2>Our <em>Process</em></h2>
+          <p>From discovery to delivery, every step is intentional. We listen first, then build something worth sharing.</p>
+          <div class="cr-scene-btns">
+            <a class="btn btn-primary" href="#">Start a Project <span class="arrow">→</span></a>
+            <a class="btn btn-ghost-light" href="#">Learn More</a>
+          </div>
+          <div class="cr-scene-dots">
+            <span class="cr-dot" style="background:var(--fg)" title="--fg surface"></span>
+            <span class="cr-dot" style="background:var(--cream)" title="--cream text"></span>
+            <span class="cr-dot" style="background:var(--accent)" title="--accent CTA"></span>
+            <span class="cr-dot" style="background:var(--olive)" title="--olive border"></span>
+          </div>
+          <p class="cr-scene-verdict cr-scene-verdict--pass cr-scene-verdict--on-dark">Banner, mobile menu, CTA panels. Warm dark — not cold.</p>
+        </div>
+
+        <!-- Scene D: Mahogany -->
+        <div class="cr-scene cr-scene--d">
+          <span class="cr-scene-label cr-scene-label--light cr-scene-label--new">D · Mahogany — NEW</span>
+          <h2>The <em>Studio</em></h2>
+          <p>A creative space built on storytelling, strategy, and substance. This is where ideas become impact.</p>
+          <div class="cr-scene-btns">
+            <a class="btn btn-primary" href="#">Explore Work <span class="arrow">→</span></a>
+            <a class="btn btn-ghost-light" href="#">About Us</a>
+          </div>
+          <div class="cr-scene-dots">
+            <span class="cr-dot" style="background:var(--mahogany)" title="--mahogany surface"></span>
+            <span class="cr-dot" style="background:var(--cream)" title="--cream text"></span>
+            <span class="cr-dot" style="background:var(--accent)" title="--accent CTA"></span>
+            <span class="cr-dot" style="background:var(--olive); opacity:0.55" title="--olive subtle"></span>
+          </div>
+          <p class="cr-scene-verdict cr-scene-verdict--pass cr-scene-verdict--on-dark">Deep hero sections, full-bleed callouts, dramatic moments.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── 03 Contrast Guide ── -->
+    <section class="cr-section">
+      <div class="wrap">
+        <p class="eyebrow">03 — Text on Backgrounds</p>
+        <p class="cr-section-desc">Which text colours are legible on which surfaces.</p>
+        <div class="cr-contrast-table">
+
+          <div class="cr-ct-row" style="background:var(--bg)">
+            <span class="cr-ct-bg-label" style="color:var(--fg-muted)">--bg #F8F6DA</span>
+            <div class="cr-ct-cells">
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--fg)">--fg · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--fg-muted)">--fg-muted · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--accent)">--accent · Fail ✗</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--olive)">--olive · Fail ✗</span>
+            </div>
+          </div>
+
+          <div class="cr-ct-row" style="background:var(--bg-alt)">
+            <span class="cr-ct-bg-label" style="color:var(--fg-muted)">--bg-alt #F1EADA</span>
+            <div class="cr-ct-cells">
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--fg)">--fg · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--fg-muted)">--fg-muted · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--accent)">--accent · Fail ✗</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--olive)">--olive · Fail ✗</span>
+            </div>
+          </div>
+
+          <div class="cr-ct-row" style="background:var(--fg)">
+            <span class="cr-ct-bg-label" style="color:rgba(248,246,218,0.5)">--fg #584738</span>
+            <div class="cr-ct-cells">
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--cream)">--cream · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--accent)">--accent · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--olive)">--olive · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--fg-muted)">--fg-muted · Fail ✗</span>
+            </div>
+          </div>
+
+          <div class="cr-ct-row" style="background:var(--mahogany)">
+            <span class="cr-ct-bg-label" style="color:rgba(248,246,218,0.5)">--mahogany #4E342E</span>
+            <div class="cr-ct-cells">
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--cream)">--cream · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--accent)">--accent · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-subtle" style="color:var(--olive)">--olive · Subtle ~</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--fg)">--fg · Fail ✗</span>
+            </div>
+          </div>
+
+          <div class="cr-ct-row" style="background:var(--olive)">
+            <span class="cr-ct-bg-label" style="color:var(--fg)">--olive #B59E7D</span>
+            <div class="cr-ct-cells">
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--fg)">--fg · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-pass" style="color:var(--mahogany)">--mahogany · Pass ✓</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--cream)">--cream · Fail ✗</span>
+              <span class="cr-ct-cell cr-ct-fail" style="color:var(--accent)">--accent · Fail ✗</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 04 Recommendations ── -->
+    <section class="cr-section">
+      <div class="wrap">
+        <p class="eyebrow">04 — Usage Recommendations</p>
+        <div class="cr-recs">
+
+          <div class="cr-rec">
+            <span class="cr-rec-n">01</span>
+            <div>
+              <h3>Mahogany for dramatic moments</h3>
+              <p>Use <code>--mahogany</code> for full-bleed dark hero sections or bold callout panels. Pair with <code>--cream</code> text and <code>--accent</code> for buttons — the warm red-brown against Polo Blue creates the strongest contrast in the palette.</p>
+            </div>
+          </div>
+
+          <div class="cr-rec">
+            <span class="cr-rec-n">02</span>
+            <div>
+              <h3>Olive is decoration only</h3>
+              <p><code>--olive</code> (#B59E7D) fails contrast on all light surfaces. Restrict it to borders on dark sections, decorative dividers, or subtle icon fills. Never use it for body text or headings.</p>
+            </div>
+          </div>
+
+          <div class="cr-rec">
+            <span class="cr-rec-n">03</span>
+            <div>
+              <h3>Blue is the only cool tone — protect it</h3>
+              <p><code>--accent</code> (Polo Blue) is intentional tension in a fully warm palette. Use it sparingly — CTAs, active nav dots, highlights. The moment it appears everywhere, it loses its power.</p>
+            </div>
+          </div>
+
+          <div class="cr-rec">
+            <span class="cr-rec-n">04</span>
+            <div>
+              <h3>Consider upgrading --espresso to --mahogany</h3>
+              <p>Currently <code>--espresso</code> and <code>--fg</code> are the same value (#584738). Reassigning <code>--espresso</code> to <code>--mahogany</code> (#4E342E) would give the banner and mobile menu a deeper, more dramatic feel — without touching any other component.</p>
+            </div>
+          </div>
+
+          <div class="cr-rec">
+            <span class="cr-rec-n">05</span>
+            <div>
+              <h3>Dark surface layering order</h3>
+              <p>When stacking dark surfaces, use this order from light to deep: <code>--fg</code> (#584738) → <code>--nav-bg</code> (#4A3B2C) → <code>--mahogany</code> (#4E342E). Note: nav-bg and mahogany are very close — avoid using both in the same view or they'll look like a mistake.</p>
+            </div>
+          </div>
+
+          <div class="cr-rec">
+            <span class="cr-rec-n">06</span>
+            <div>
+              <h3>Alternate sections: bg → bg-alt → back</h3>
+              <p>The two light surfaces (<code>--bg</code> and <code>--bg-alt</code>) are close enough to feel cohesive but distinct enough to visually separate sections without borders or shadows. Use them in alternating sequence.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 05 Colour Combinations at a Glance ── -->
+    <section class="cr-section cr-section--last">
+      <div class="wrap">
+        <p class="eyebrow">05 — Combinations at a Glance</p>
+        <div class="cr-combos">
+
+          <div class="cr-combo" style="background:var(--bg)">
+            <div class="cr-combo-heading" style="color:var(--fg)">Heading Text</div>
+            <div class="cr-combo-body" style="color:var(--fg-muted)">Body copy in muted tone</div>
+            <div class="cr-combo-accent" style="background:var(--accent)">CTA Button</div>
+            <div class="cr-combo-tag">Cream + Espresso + Blue</div>
+          </div>
+
+          <div class="cr-combo" style="background:var(--bg-alt)">
+            <div class="cr-combo-heading" style="color:var(--fg)">Heading Text</div>
+            <div class="cr-combo-body" style="color:var(--fg-muted)">Body copy in muted tone</div>
+            <div class="cr-combo-accent" style="background:var(--accent)">CTA Button</div>
+            <div class="cr-combo-tag">Merino + Espresso + Blue</div>
+          </div>
+
+          <div class="cr-combo" style="background:var(--fg)">
+            <div class="cr-combo-heading" style="color:var(--cream)">Heading Text</div>
+            <div class="cr-combo-body" style="color:rgba(248,246,218,0.6)">Body copy in muted tone</div>
+            <div class="cr-combo-accent" style="background:var(--accent)">CTA Button</div>
+            <div class="cr-combo-tag" style="color:rgba(248,246,218,0.4)">Judge Gray + Cream + Blue</div>
+          </div>
+
+          <div class="cr-combo" style="background:var(--mahogany)">
+            <div class="cr-combo-heading" style="color:var(--cream)">Heading Text</div>
+            <div class="cr-combo-body" style="color:rgba(248,246,218,0.6)">Body copy in muted tone</div>
+            <div class="cr-combo-accent" style="background:var(--accent)">CTA Button</div>
+            <div class="cr-combo-tag" style="color:rgba(248,246,218,0.4)">Mahogany + Cream + Blue ★</div>
+          </div>
+
+          <div class="cr-combo" style="background:var(--bg)">
+            <div class="cr-combo-heading" style="color:var(--fg)">Heading Text</div>
+            <div class="cr-combo-body" style="color:var(--fg-muted)">Body copy in muted tone</div>
+            <div class="cr-combo-accent" style="background:var(--fg)">Dark Button</div>
+            <div class="cr-combo-tag">Cream + Espresso + Dark CTA</div>
+          </div>
+
+          <div class="cr-combo" style="background:var(--mahogany)">
+            <div class="cr-combo-heading" style="color:var(--cream)">Heading Text</div>
+            <div class="cr-combo-body" style="color:var(--olive)">Olive as secondary</div>
+            <div class="cr-combo-accent" style="background:var(--cream); color:var(--mahogany)">Light Button</div>
+            <div class="cr-combo-tag" style="color:rgba(248,246,218,0.4)">Mahogany + Olive + Cream CTA</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

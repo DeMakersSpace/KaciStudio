@@ -1,0 +1,388 @@
+/* ═══════════════════════════════════════════════
+   Kaci Studio — Colour Reference Page Styles
+═══════════════════════════════════════════════ */
+
+.cr-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  padding-bottom: 0;
+}
+
+/* ── Header ── */
+.cr-hero {
+  padding-top: clamp(48px, 7vw, 96px);
+  padding-bottom: clamp(32px, 5vw, 64px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.cr-hero h1 {
+  font-size: clamp(56px, 9vw, 128px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin: 1rem 0 1.25rem;
+}
+
+.cr-sub {
+  color: var(--fg-muted);
+  max-width: 52ch;
+}
+
+/* ── Sections ── */
+.cr-section {
+  border-bottom: 1px solid var(--rule);
+  padding: clamp(40px, 6vw, 80px) 0;
+}
+
+.cr-section--flush {
+  padding-bottom: 0;
+}
+
+.cr-section--last {
+  border-bottom: none;
+}
+
+.cr-section-desc {
+  color: var(--fg-muted);
+  max-width: 52ch;
+  margin-top: 0.25rem;
+  margin-bottom: 2rem;
+}
+
+/* ── 01 Palette Grid ── */
+.cr-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 2rem;
+}
+
+.cr-chip {
+  display: flex;
+  background: var(--bg);
+  min-height: 88px;
+}
+
+.cr-chip--new {
+  outline: 1.5px solid var(--accent);
+  outline-offset: -1.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.cr-chip-color {
+  width: 72px;
+  flex-shrink: 0;
+}
+
+.cr-chip-info {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cr-chip-var {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--fg);
+}
+
+.cr-chip-hex {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+
+.cr-chip-name {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--fg);
+  margin-top: 3px;
+}
+
+.cr-chip-role {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.cr-chip-role--new {
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+/* ── 02 Surface Scenes ── */
+.cr-scenes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border-top: 1px solid var(--rule);
+  margin-top: 2rem;
+}
+
+.cr-scene {
+  padding: clamp(32px, 4vw, 56px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 400px;
+}
+
+.cr-scene h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.08;
+}
+
+.cr-scene p {
+  font-size: 15px;
+  max-width: 42ch;
+  line-height: 1.7;
+}
+
+.cr-scene-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.cr-scene-label--light  { color: var(--cream); }
+.cr-scene-label--new    { color: var(--accent); opacity: 1; }
+
+.cr-scene-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.cr-scene-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: auto;
+}
+
+.cr-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: block;
+  flex-shrink: 0;
+}
+
+.cr-scene-verdict {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  line-height: 1.5;
+  max-width: 40ch;
+}
+
+.cr-scene-verdict--on-dark { color: rgba(248,246,218,0.45); }
+
+/* Scene backgrounds */
+.cr-scene--a { background: var(--bg); color: var(--fg); }
+.cr-scene--b { background: var(--bg-alt); color: var(--fg); }
+.cr-scene--c { background: var(--fg); color: var(--cream); }
+.cr-scene--d { background: var(--mahogany); color: var(--cream); }
+
+.cr-scene--c p, .cr-scene--d p { color: rgba(248,246,218,0.68); }
+
+/* Ghost button variant for dark backgrounds */
+.btn-ghost-light {
+  background: transparent;
+  color: rgba(248,246,218,0.85);
+  border-color: rgba(248,246,218,0.22);
+}
+.btn-ghost-light:hover {
+  background: rgba(248,246,218,0.08);
+  color: var(--cream);
+  border-color: rgba(248,246,218,0.42);
+}
+
+/* ── 03 Contrast Table ── */
+.cr-contrast-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 2rem;
+}
+
+.cr-ct-row {
+  display: flex;
+  align-items: stretch;
+  min-height: 52px;
+}
+
+.cr-ct-bg-label {
+  width: 140px;
+  flex-shrink: 0;
+  padding: 14px 16px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-right: 1px solid rgba(128,128,128,0.15);
+  display: flex;
+  align-items: center;
+}
+
+.cr-ct-cells {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.cr-ct-cell {
+  padding: 14px 20px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-right: 1px solid rgba(128,128,128,0.1);
+  display: flex;
+  align-items: center;
+  min-width: 160px;
+}
+
+.cr-ct-pass   { font-weight: 500; }
+.cr-ct-subtle { opacity: 0.8; }
+.cr-ct-fail   { opacity: 0.4; text-decoration: line-through; }
+
+/* ── 04 Recommendations ── */
+.cr-recs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 2rem;
+}
+
+.cr-rec {
+  background: var(--bg);
+  padding: 28px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.cr-rec-n {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  flex-shrink: 0;
+  padding-top: 4px;
+  min-width: 24px;
+}
+
+.cr-rec h3 {
+  font-size: clamp(16px, 1.5vw, 20px);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.cr-rec p {
+  font-size: 13.5px;
+  color: var(--fg-muted);
+  line-height: 1.65;
+}
+
+.cr-rec code {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--fg);
+}
+
+/* ── 05 Combinations ── */
+.cr-combos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 2rem;
+}
+
+.cr-combo {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 180px;
+}
+
+.cr-combo-heading {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.cr-combo-body {
+  font-size: 13px;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.cr-combo-accent {
+  display: inline-block;
+  padding: 8px 16px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream);
+  border-radius: 2px;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.cr-combo-tag {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 8px;
+  opacity: 0.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .cr-scenes  { grid-template-columns: 1fr; }
+  .cr-combos  { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .cr-combos       { grid-template-columns: 1fr; }
+  .cr-ct-bg-label  { width: 100px; font-size: 9px; padding: 10px 10px; }
+  .cr-ct-cell      { padding: 10px 12px; font-size: 10px; min-width: 120px; }
+  .cr-palette-grid { grid-template-columns: 1fr; }
+}

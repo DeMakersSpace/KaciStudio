@@ -118,9 +118,30 @@ Added to each:
 
 ---
 
+---
+
+### `assets/tokens.css` — 2026-06-10 Colour Palette Exploration (Reverted)
+
+A palette redesign pass was explored — testing deeper Brown Material scale values for foreground tokens and a Terracotta accent — but all changes were reverted. The original palette is fully restored.
+
+**Original palette (current):**
+
+| Token | Value | Name |
+|---|---|---|
+| `--bg` | `#F8F6DA` | Coconut Cream |
+| `--bg-alt` | `#F1EADA` | Merino |
+| `--cream` | `#F8F6DA` | Coconut Cream |
+| `--fg` | `#584738` | Judge Gray |
+| `--fg-muted` | `#7A6553` | Spice |
+| `--accent` | `#93A9D2` | Polo Blue |
+| `--olive` | `#B59E7D` | Mongoose |
+| `--mahogany` | `#4E342E` | Mahogany |
+| `--nav-bg` | `#4A3B2C` | Walnut |
+
+---
+
 ## No Changes Made To
 - `services.html` — No issues found beyond the already-guarded parkAfter call
-- `assets/tokens.css` — No issues
 - `assets/chrome.js` — No issues
 - `assets/tweaks.js` — No issues
 
