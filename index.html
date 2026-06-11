@@ -26,6 +26,7 @@
 <meta name="geo.placename" content="Singapore">
 <title>KACISTUDIO — Where your story meets socials.</title>
 <link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/hero-draw.css">
 <style>
 /* ---------------- Home density overrides ---------------- */
 /* Tighter vertical pacing — scoped to this page only */
@@ -154,15 +155,31 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 }
 .split-right {
   background: var(--fg);
-  background-image: url('media/For HOME page/Home _ Cover Pic (Polaroid Background).jpg');
-  background-size: cover;
-  background-position: center;
   position: relative;
   overflow: hidden;
   min-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.split-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('media/For HOME page/Home _ Cover Pic (Polaroid Background).jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  opacity: 0;
+}
+#hero-split.hero-ready .split-right::before {
+  animation: heroImageFadeIn 1400ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;
+}
+
+@keyframes heroImageFadeIn {
+  from { opacity: 0; transform: scale(1.08); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 #hero-split .split-headline,
@@ -180,11 +197,14 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
     linear-gradient(90deg, color-mix(in oklch, var(--fg) 20%, transparent), transparent 38%),
     linear-gradient(180deg, transparent 62%, color-mix(in oklch, var(--fg) 24%, transparent));
   opacity: 0;
   pointer-events: none;
+}
+#hero-split.hero-ready .split-right::after {
   animation: heroImageTone 900ms cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
 }
 
@@ -205,6 +225,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 /* ── Hero Card Cluster — polaroid scatter ── */
 .hero-star {
   position: relative;
+  z-index: 2;
   width: 560px;
   height: 660px;
   flex-shrink: 0;
@@ -237,9 +258,19 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     0 2px 6px rgba(0,0,0,0.28),
     0 10px 32px rgba(0,0,0,0.22),
     0 1px 2px rgba(0,0,0,0.14);
-  animation: hsc-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  animation-delay: var(--drop-delay);
+  opacity: 0;
   overflow: hidden;
+}
+#hero-split.hero-ready .hsc {
+  animation: hsc-drop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--drop-delay);
+}
+#hero-split.hero-ready .hsc:not(.hsc-brand) {
+  animation: none;
+  transform: translate(var(--fly-x, 0px), var(--fly-y, 0px))
+             rotate(var(--rot))
+             scale(0.4);
+  opacity: 0;
 }
 
 .hsc:hover {
@@ -313,11 +344,19 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   transition-delay: var(--fly-delay, 0ms);
 }
 
-/* .is-expanded toggled by JS on each brand-card mouseenter */
+/* .is-expanded is controlled by JS so the stack can fan out and collapse deliberately */
 .hero-star.is-expanded .hsc:not(.hsc-brand) {
   transform: rotate(var(--rot));
   opacity: 1;
   pointer-events: auto;
+}
+#hero-split.hero-ready .hero-star.is-expanded .hsc:not(.hsc-brand) {
+  transform: rotate(var(--rot));
+  opacity: 1;
+  pointer-events: auto;
+}
+#hero-split.hero-ready .hero-star.is-expanded .hsc:not(.hsc-brand):hover {
+  transform: rotate(calc(var(--rot) * 0.15)) translateY(-18px) scale(1.07);
 }
 
 .hero-star.is-expanded .hsc-brand {
@@ -372,7 +411,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hsc { transition: none; animation: none; }
+  .hsc { transition: none; animation: none; opacity: 1; }
   .hsc:not(.hsc-brand) { transition: none; }
   .hsc-brand { animation: none; }
   .hsc-brand::after { animation: none; opacity: 0.55; }
@@ -1595,6 +1634,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   #hero-split .split-headline,
   #hero-split .hero-desc,
   #hero-split .hero-btns,
+  .split-right::before,
   .split-right::after {
     animation: none !important;
     opacity: 1;
@@ -1624,7 +1664,25 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   }
 }
 
+/* ── Section blend dividers ── */
+.sec-blend {
+  display: block;
+  height: clamp(60px, 8vw, 120px);
+  pointer-events: none;
+}
+.blend-fg-to-bg     { background: linear-gradient(to bottom, var(--fg),     var(--bg)); }
+.blend-bgalt-to-olive { background: linear-gradient(to bottom, var(--bg-alt), var(--olive)); }
+.blend-olive-to-bg  { background: linear-gradient(to bottom, var(--olive),  var(--bg)); }
+
+/* Restore section backgrounds to solid colours */
+#section-work { background: var(--bg-alt); }
+.love         { background: var(--olive); }
+.closing-cta  { background: var(--bg); }
+
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" defer></script>
+<script src="assets/hero-draw.js" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1720,12 +1778,16 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 <div id="nav-slot"></div>
 
 <!-- ============= HERO: SPLIT ============= -->
-<section id="hero-split" class="section">
+<section id="hero-split" class="section hero-ready">
   <div class="split-left">
     <h1 class="split-headline">
       Where your story<br>meets <em>socials.</em>
     </h1>
-    <p class="hero-desc">A boutique social media agency in Singapore, helping brands show up online with clarity, intention, and a presence that feels like their own.</p>
+    <p class="hero-desc">
+      <span class="desc-line">A boutique social media agency in Singapore,</span>
+      <span class="desc-line">helping brands show up online with clarity, intention,</span>
+      <span class="desc-line">and a presence that feels like their own.</span>
+    </p>
     <div class="hero-btns">
       <a href="contact.html" class="btn btn-primary">Start your project <span class="arrow">→</span></a>
     </div>
@@ -1793,14 +1855,16 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 </section>
 
 <!-- ============= Client ticker (logo marquee) ============= -->
-<div class="client-bar">
+<div class="client-bar reveal">
   <div class="logo-marquee" aria-label="Selected brands">
     <div class="logo-marquee-track" id="logo-marquee-track"></div>
   </div>
 </div>
 
+<div class="sec-blend blend-fg-to-bg" aria-hidden="true"></div>
+
 <!-- ============= Services ============= -->
-<section class="section">
+<section id="section-services" class="section">
   <div class="wrap">
     <div class="services-head reveal">
       <div>
@@ -1836,7 +1900,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 </section>
 
 <!-- ============= Work preview ============= -->
-<section class="section" style="background: var(--bg-alt);">
+<section id="section-work" class="section">
   <div class="wrap">
     <div class="work-head reveal">
       <div>
@@ -1900,6 +1964,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 </section>
 
 
+<div class="sec-blend blend-bgalt-to-olive" aria-hidden="true"></div>
+
 <!-- ============= Client Love Letters ============= -->
 <section class="love">
   <div class="love-inner">
@@ -1909,7 +1975,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
         <h2>Client love<br>letters.</h2>
       </div>
     </div>
-    <div class="love-marquee">
+    <div class="love-marquee reveal" style="--reveal-delay:100ms;">
       <div class="love-marquee-track" id="loveTrack">
         <div class="love-card">
           <p class="love-quote">They don't just post. They think. Every piece of content felt like it came from us, not an agency checklist.</p>
@@ -1972,6 +2038,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   </div>
 </section>
 
+<div class="sec-blend blend-olive-to-bg" aria-hidden="true"></div>
+
 <!-- ============= Closing CTA ============= -->
 <section class="section closing-cta">
   <div class="wrap" style="text-align: center; max-width: 760px;">
@@ -1992,9 +2060,45 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 (function () {
   var star = document.querySelector('.hero-star');
   var brand = document.querySelector('.hsc-brand');
+  var firstFlyoutCard = document.querySelector('.hsc-pa');
   if (!star || !brand) return;
-  brand.addEventListener('mouseenter', function () {
-    star.classList.toggle('is-expanded');
+
+  var expanded = false;
+  var brandCanCollapse = false;
+
+  function setExpanded(next) {
+    expanded = next;
+    star.classList.toggle('is-expanded', expanded);
+    brandCanCollapse = false;
+  }
+
+  brand.addEventListener('pointerenter', function () {
+    if (expanded && brandCanCollapse) {
+      setExpanded(false);
+      return;
+    }
+    if (!expanded) setExpanded(true);
+  });
+
+  brand.addEventListener('pointerleave', function () {
+    if (expanded) brandCanCollapse = true;
+  });
+
+  star.addEventListener('pointermove', function (event) {
+    if (!expanded || !brandCanCollapse) return;
+    if (event.target.closest && event.target.closest('.hsc-brand')) {
+      setExpanded(false);
+    }
+  });
+
+  if (firstFlyoutCard) {
+    firstFlyoutCard.addEventListener('pointerenter', function () {
+      if (expanded) setExpanded(false);
+    });
+  }
+
+  star.addEventListener('pointerleave', function () {
+    if (expanded) setExpanded(false);
   });
 })();
 </script>

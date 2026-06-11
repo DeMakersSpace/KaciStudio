@@ -1,0 +1,162 @@
+/* ── Hero self-drawing SVG headline ── */
+
+/* Visually hidden but readable by screen readers */
+.split-headline-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* SVG container — mirrors .split-headline layout */
+.hero-svg-headline {
+  display: block;
+  width: 100%;
+  max-width: 540px;
+  overflow: visible;
+}
+
+/* Stroke traces the letter outlines; fill transparent until draw completes */
+.letter-path {
+  fill: transparent;
+  stroke: var(--fg, #584738);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.letter-accent {
+  stroke: var(--accent, #93A9D2);
+}
+
+/* Hide h1 from the start — SVG takes over once fonts load. Prevents FOUT. */
+#hero-split .split-left .split-headline {
+  animation: none;
+  opacity: 0;
+  transform: none;
+}
+
+/* Vivus callback adds .fill-done — transitions from outline to filled letterform */
+.letter-path.fill-done {
+  fill: var(--fg, #584738);
+  stroke: transparent;
+  transition: fill 480ms cubic-bezier(0.16, 1, 0.3, 1),
+              stroke 480ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.letter-accent.fill-done {
+  fill: var(--accent, #93A9D2);
+}
+
+/* ── Hero description: line-by-line slide-up ── */
+@keyframes descLineUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/*
+ * Specificity 1-2-0 beats the inline style's 1-1-0 grouped rule.
+ * Disables heroCopyIn on the paragraph so the spans handle the reveal.
+ */
+#hero-split .split-left .hero-desc {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Hero CTA button: fade in after description lines settle ── */
+@keyframes btnFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Disable heroCopyIn on the container (specificity 1-2-0 > inline 1-1-0) */
+#hero-split .split-left .hero-btns {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* Button itself hidden until .btns-ready is added by JS */
+.hero-btns .btn {
+  opacity: 0;
+}
+
+.hero-btns.btns-ready .btn {
+  animation: btnFadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Arrow nudge: flicks right once the button is fully visible, then settles back */
+@keyframes arrowNudge {
+  0%   { transform: translateX(0);   }
+  38%  { transform: translateX(7px); }
+  100% { transform: translateX(0);   }
+}
+
+.hero-btns.btns-ready .btn .arrow {
+  animation: arrowNudge 700ms cubic-bezier(0.16, 1, 0.3, 1) 520ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-btns .btn {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-btns .btn .arrow {
+    animation: none !important;
+  }
+}
+
+/* Hidden until JS adds .desc-ready after the headline draw + fill complete */
+.hero-desc .desc-line {
+  display: block;
+  opacity: 0;
+}
+
+.hero-desc.desc-ready .desc-line {
+  animation: descLineUp 580ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-desc.desc-ready .desc-line:nth-child(1) { animation-delay: 0ms; }
+.hero-desc.desc-ready .desc-line:nth-child(2) { animation-delay: 80ms; }
+.hero-desc.desc-ready .desc-line:nth-child(3) { animation-delay: 160ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced motion or font-load failure: show text immediately */
+  .hero-desc .desc-line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* prefers-reduced-motion: reveal original h1, hide SVG */
+@media (prefers-reduced-motion: reduce) {
+  /* Restore h1 that we hid to prevent FOUT */
+  #hero-split .split-left .split-headline {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .split-headline-hidden {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: initial !important;
+    margin: initial !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: initial !important;
+  }
+  .hero-svg-headline {
+    display: none !important;
+  }
+}

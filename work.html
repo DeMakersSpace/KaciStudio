@@ -62,135 +62,6 @@
 }
 .work-intro p { font-size: 15px; line-height: 1.6; max-width: 520px; color: var(--fg-muted); margin: 0 auto; text-align: center; }
 
-/* Proof highlights */
-.proof-highlights {
-  max-width: 1200px;
-  margin: clamp(24px, 3vw, 44px) auto 0;
-  padding: 0 var(--pad-gutter);
-}
-.proof-highlights-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 28px;
-  margin-bottom: clamp(16px, 2vw, 24px);
-}
-.proof-highlights-title {
-  font-family: var(--font-serif);
-  font-size: clamp(24px, 2.8vw, 38px);
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: normal;
-  color: var(--fg);
-  max-width: 18ch;
-}
-.proof-highlights-note {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  line-height: 1.7;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  max-width: 34ch;
-  text-align: right;
-}
-.proof-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-.proof-card {
-  min-width: 0;
-  text-align: left;
-  color: inherit;
-  border: 0;
-  border-right: 1px solid var(--rule);
-  background: transparent;
-  padding: clamp(18px, 2.4vw, 30px);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(18px, 2vw, 28px);
-  transition:
-    background 220ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 220ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.proof-card:last-child { border-right: 0; }
-.proof-card:hover,
-.proof-card:focus-visible,
-.proof-card.is-active {
-  background: var(--fg);
-  color: var(--cream);
-  outline: none;
-}
-.proof-card:hover,
-.proof-card:focus-visible {
-  transform: translateY(-2px);
-}
-.proof-card-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
-.proof-card:hover .proof-card-meta,
-.proof-card:focus-visible .proof-card-meta,
-.proof-card.is-active .proof-card-meta {
-  color: color-mix(in oklch, var(--cream) 65%, transparent);
-}
-.proof-card-name {
-  font-family: var(--font-serif);
-  font-size: clamp(22px, 2.3vw, 34px);
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1.05;
-  letter-spacing: normal;
-}
-.proof-card-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 22px;
-}
-.proof-stat {
-  min-width: min(150px, 100%);
-}
-.proof-stat strong {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: clamp(30px, 3.4vw, 48px);
-  font-style: italic;
-  font-weight: 400;
-  line-height: 0.95;
-  color: var(--fg);
-}
-.proof-card:hover .proof-stat strong,
-.proof-card:focus-visible .proof-stat strong,
-.proof-card.is-active .proof-stat strong {
-  color: var(--accent);
-}
-.proof-stat span {
-  display: block;
-  margin-top: 7px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  line-height: 1.45;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
-.proof-card:hover .proof-stat span,
-.proof-card:focus-visible .proof-stat span,
-.proof-card.is-active .proof-stat span {
-  color: color-mix(in oklch, var(--cream) 88%, transparent);
-}
-
 /* ── Client bar ── */
 .client-bar {
   display: flex;
@@ -662,24 +533,6 @@
 
 /* ── Responsive ── */
 @media (max-width: 860px) {
-  .proof-highlights-head {
-    align-items: start;
-    flex-direction: column;
-  }
-  .proof-highlights-note {
-    text-align: left;
-    max-width: 48ch;
-  }
-  .proof-grid {
-    grid-template-columns: 1fr;
-  }
-  .proof-card {
-    border-right: 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .proof-card:last-child {
-    border-bottom: 0;
-  }
   .case {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -749,38 +602,6 @@
 
 <section class="work-intro">
   <p>Select a client to explore the story, the strategy, and the results.</p>
-</section>
-
-<section class="proof-highlights" aria-labelledby="proof-title">
-  <div class="proof-highlights-head">
-    <h2 class="proof-highlights-title" id="proof-title">Proof before the full archive.</h2>
-    <p class="proof-highlights-note">Start with the cases that already have clear movement, then browse the full client set.</p>
-  </div>
-  <div class="proof-grid">
-    <button class="proof-card" type="button" data-feature-idx="2" aria-label="View Brixx Derma case study">
-      <span class="proof-card-meta"><span>Beauty</span><span>Case 003</span></span>
-      <span class="proof-card-name">Brixx Derma</span>
-      <span class="proof-card-stats">
-        <span class="proof-stat"><strong>+1,700%</strong><span>TikTok likes growth</span></span>
-        <span class="proof-stat"><strong>30K+</strong><span>Instagram views</span></span>
-      </span>
-    </button>
-    <button class="proof-card" type="button" data-feature-idx="3" aria-label="View Melissa Shoes case study">
-      <span class="proof-card-meta"><span>Fashion</span><span>Case 004</span></span>
-      <span class="proof-card-name">Melissa Shoes</span>
-      <span class="proof-card-stats">
-        <span class="proof-stat"><strong>900%+</strong><span>Audience interaction uplift</span></span>
-        <span class="proof-stat"><strong>10K+</strong><span>Views across campaigns</span></span>
-      </span>
-    </button>
-    <button class="proof-card" type="button" data-feature-idx="1" aria-label="View Flyco case study">
-      <span class="proof-card-meta"><span>Campaign</span><span>Case 002</span></span>
-      <span class="proof-card-name">Flyco</span>
-      <span class="proof-card-stats">
-        <span class="proof-stat"><strong>23K+</strong><span>Campaign video views</span></span>
-      </span>
-    </button>
-  </div>
 </section>
 
 <!-- Client selector bar -->
@@ -1119,7 +940,6 @@
 
   var cases   = Array.from(document.querySelectorAll('.case'));
   var tabs    = Array.from(document.querySelectorAll('.client-tab'));
-  var proofs  = Array.from(document.querySelectorAll('.proof-card'));
   var curEl   = document.querySelector('.client-counter-cur');
   var prevBtn = document.querySelector('.showcase-prev');
   var nextBtn = document.querySelector('.showcase-next');
@@ -1156,10 +976,6 @@
     /* update counter */
     if (curEl) curEl.textContent = String(current + 1).padStart(2, '0');
 
-    proofs.forEach(function (card) {
-      card.classList.toggle('is-active', parseInt(card.dataset.featureIdx, 10) === current);
-    });
-
     /* update prev/next disabled state */
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === cases.length - 1;
@@ -1179,12 +995,6 @@
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
       goTo(parseInt(tab.dataset.idx, 10));
-    });
-  });
-
-  proofs.forEach(function (card) {
-    card.addEventListener('click', function () {
-      goTo(parseInt(card.dataset.featureIdx, 10));
     });
   });
 

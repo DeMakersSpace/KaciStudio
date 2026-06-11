@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMarquee();
 });
 
-/* ── One-shot reveal (.reveal → .is-visible, stops watching after trigger) ── */
+/* ── Reversible reveal (.reveal → .is-visible, resets when scrolled away) ── */
 function initReveal() {
   const items = document.querySelectorAll('.reveal:not(.reveal-scroll)');
   if (!items.length) return;
@@ -22,9 +22,7 @@ function initReveal() {
   const obs = new IntersectionObserver(
     entries => {
       entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        e.target.classList.add('is-visible');
-        obs.unobserve(e.target);
+        e.target.classList.toggle('is-visible', e.isIntersecting);
       });
     },
     { threshold: 0.05, rootMargin: '0px 0px -48px 0px' }
