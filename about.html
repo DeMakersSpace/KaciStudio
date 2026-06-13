@@ -773,7 +773,8 @@
     border: 1px solid var(--rule);
     margin-bottom: 12px;
   }
-  .team-member-photo img { width: 100%; height: 100%; }
+  .team-member-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .team-member-photo::before { display: none; }
   .team-member-info {
     position: static;
     opacity: 1;
@@ -783,36 +784,47 @@
     transition: none;
   }
   .team-member-name { color: var(--fg); font-size: 16px; }
-  .team-member-role { color: var(--accent); margin-top: 4px; margin-bottom: 0; }
+  .team-member-role { color: var(--accent); margin-top: 4px; margin-bottom: 8px; }
   .team-member-bio {
+    display: block;
     font-size: 12px;
     line-height: 1.65;
     color: var(--fg-muted);
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
     opacity: 0;
-    padding-top: 0;
+    transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.35s ease;
     margin-top: 0;
   }
-  .team-member-card.is-open .team-member-bio { max-height: 300px; opacity: 1; padding-top: 12px; }
-  .team-member-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+  .team-member-card.is-open .team-member-bio {
+    max-height: 400px;
+    opacity: 1;
     margin-top: 10px;
+  }
+  .team-member-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 7px 14px;
     font-family: var(--font-mono);
     font-size: 9px;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--fg);
-    cursor: pointer;
     background: none;
-    border: none;
-    padding: 0;
-    transition: color 0.2s ease;
+    border: 1px solid var(--rule);
+    border-radius: 40px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
   }
-  .team-member-toggle:hover { color: var(--accent); }
+  .team-member-toggle:active { color: var(--accent); border-color: var(--accent); }
+  .team-member-toggle .toggle-arrow {
+    display: inline-block;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .team-member-card.is-open .team-member-toggle .toggle-arrow { transform: rotate(180deg); }
   .team-member-toggle .toggle-arrow {
     display: inline-block;
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
