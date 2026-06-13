@@ -3,6 +3,12 @@
 .superpowers/
 docs/superpowers/
 
+# Dev screenshots and reference images
+temporary screenshots/
+screenshot-*.mjs
+error.png
+possible color palettet.jpg
+
 # Raw camera files (large, not needed for the site)
 *.CR2
 *.cr2

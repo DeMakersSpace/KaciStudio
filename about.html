@@ -26,6 +26,7 @@
 <meta name="geo.placename" content="Singapore">
 <title>About — KACISTUDIO</title>
 <link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/hero-draw.css">
 <style>
 /* Page density overrides — match homepage editorial pacing */
 :root {
@@ -55,20 +56,37 @@
   max-width: 1440px;
   margin: 0 auto;
   gap: 64px;
-  border-top: 1px solid var(--rule);
 }
 .manifesto .lhs { font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); line-height: 2.1; }
 .manifesto .lhs strong { color: var(--fg); font-weight: 600; }
 .manifesto-body { display: flow-root; }
 .manifesto p {
   font-family: var(--font-sans);
-  font-size: clamp(15px, 1.2vw, 17px);
-  font-weight: 400;
-  line-height: 1.65;
+  font-size: clamp(16px, 1.35vw, 19px);
+  font-weight: 500;
+  line-height: 1.75;
   letter-spacing: normal;
 }
 .manifesto p + p { margin-top: 28px; }
-.manifesto em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.manifesto em { color: var(--fg); font-family: var(--font-sans); font-style: normal; font-weight: 700; }
+
+.manifesto p.manifesto-lede {
+  font-size: clamp(18px, 1.7vw, 24px);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.manifesto-pullquote {
+  margin: clamp(24px, 3vw, 40px) 0 0;
+  padding: clamp(20px, 2.5vw, 32px) 0 0;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: clamp(22px, 2.2vw, 34px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
 .manifesto-photo {
   width: 100%;
   max-width: 320px;
@@ -133,9 +151,14 @@
 
 /* Values as big editorial numbers */
 .values {
+  --diag: clamp(28px, 3.5vw, 56px);
   background: var(--fg);
   color: var(--cream);
-  padding: var(--pad-section-y) var(--pad-gutter);
+  padding: calc(var(--pad-section-y) + var(--diag)) var(--pad-gutter);
+  position: relative;
+  clip-path: polygon(0 var(--diag), 100% 0, 100% calc(100% - var(--diag)), 0 100%);
+  margin-top: calc(-1 * var(--diag));
+  margin-bottom: calc(-1 * var(--diag));
 }
 .values-head {
   max-width: 1440px;
@@ -148,6 +171,36 @@
 .values-head h2 { font-size: clamp(34px, 4.5vw, 56px); color: var(--cream); letter-spacing: normal; line-height: 1.08; }
 .values-head h2 em { font-style: normal; color: inherit; }
 .values-head p { color: color-mix(in oklch, var(--cream) 88%, transparent); font-size: 16px; line-height: 1.6; max-width: 420px; }
+
+/* Split entrance — bypass the generic reveal on the container, animate children instead */
+.values-head.reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+.values-head > div {
+  opacity: 0;
+  transform: translateX(-52px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
+}
+.values-head > p {
+  opacity: 0;
+  transform: translateX(52px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
+}
+.values-head.is-visible > div,
+.values-head.is-visible > p {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .values-head > div,
+  .values-head > p { opacity: 1; transform: none; transition: none; }
+}
 
 .values-grid {
   max-width: 1440px;
@@ -238,6 +291,8 @@
   gap: clamp(40px, 5vw, 72px);
   align-items: center;
 }
+/* Cards handle their own entrance — bypass the generic section reveal */
+.values-3d.reveal { opacity: 1; transform: none; transition: none; }
 @media (min-width: 768px) {
   .values-3d { grid-template-columns: 1fr 1fr; gap: 64px; }
 }
@@ -312,6 +367,19 @@
   flex-direction: column;
   justify-content: center;
   min-height: 200px;
+}
+.values-content > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.values-content.content-entered > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0ms;   }
+.values-content.content-entered > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 100ms; }
+.values-content.content-entered > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 200ms; }
+.values-content.content-entered > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 300ms; }
+@media (prefers-reduced-motion: reduce) {
+  .values-content > * { opacity: 1; transform: none; transition: none; }
 }
 .value-active-num {
   font-family: var(--font-mono);
@@ -542,96 +610,296 @@
   max-width: 420px;
   margin: 0 auto;
 }
+/* ── Team future: expand-on-hover row ── */
 .team-future-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  display: flex;
+  height: clamp(340px, 44vw, 560px);
+  gap: 6px;
   margin: 0 auto;
-  align-items: start;
+  border-radius: 8px;
+  overflow: hidden;
 }
 .team-member-card {
-  display: flex;
-  flex-direction: column;
-}
-.team-member-photo {
-  aspect-ratio: 3/4;
+  position: relative;
+  flex: 0 0 56px;
   overflow: hidden;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  border: 1px solid var(--rule);
+  border-radius: 6px;
+  cursor: pointer;
+  /* Entrance initial state */
+  opacity: 0;
+  transform: scale(0.96) translateY(20px);
+  transition: flex 0.9s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.team-member-card.is-expanded {
+  flex: 1 0 56px;
+}
+/* Clear stagger delays once entrance is done so expand fires instantly */
+.team-future-grid.entrance-done .team-member-card {
+  transition-delay: 0ms;
+}
+/* Photo fills card absolutely */
+.team-member-photo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0;
+  border: none;
+  margin-bottom: 0;
+  background-size: cover;
+  background-position: center 20%;
+}
+/* Blurred copy of the same image fills any gaps left by contain */
+.team-member-photo::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  background: inherit;
+  background-size: cover;
+  background-position: center 20%;
+  filter: blur(18px) saturate(0.75) brightness(0.8);
+  z-index: 0;
 }
 .team-member-photo img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center center;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.team-member-card:hover .team-member-photo img {
-  transform: scale(1.04);
+/* Gradient scrim — fades in when expanded */
+.team-member-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(40, 28, 20, 0.78) 0%,
+    rgba(40, 28, 20, 0.18) 45%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+.team-member-card.is-expanded::after { opacity: 1; }
+/* Collapsed: first-name rotated label */
+.team-member-label {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) rotate(90deg);
+  transform-origin: center center;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.team-member-card.is-expanded .team-member-label { opacity: 0; }
+/* Expanded: info overlay fades up from bottom */
+.team-member-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 20px;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1) 0.28s,
+              transform 0.55s cubic-bezier(0.25, 1, 0.5, 1) 0.28s;
+}
+.team-member-card.is-expanded .team-member-info {
+  opacity: 1;
+  transform: translateY(0);
 }
 .team-member-name {
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: clamp(17px, 1.5vw, 21px);
   letter-spacing: -0.01em;
   line-height: 1.2;
-  color: var(--fg);
+  color: #fff;
 }
 .team-member-role {
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--accent);
-  margin-top: 4px;
-  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.68);
+  margin-top: 5px;
 }
+/* Desktop: bio shown inside the expanded overlay */
 .team-member-bio {
-  font-size: 12px;
+  display: block;
+  font-size: 11.5px;
   line-height: 1.65;
-  color: var(--fg-muted);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
-  opacity: 0;
-  padding-top: 0;
-}
-.team-member-card.is-open .team-member-bio {
-  max-height: 300px;
-  opacity: 1;
-  padding-top: 12px;
-}
-.team-member-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  color: rgba(255, 255, 255, 0.72);
   margin-top: 10px;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fg);
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  transition: color 0.2s ease;
+  max-width: 480px;
 }
-.team-member-toggle:hover { color: var(--accent); }
-.team-member-toggle .toggle-arrow {
-  display: inline-block;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+.team-member-toggle { display: none; }
+/* Mobile: back to grid, restore normal card layout */
+@media (max-width: 767px) {
+  .team-future-grid {
+    display: grid;
+    height: auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    overflow: visible;
+    border-radius: 0;
+  }
+  .team-member-card {
+    flex: none;
+    cursor: default;
+    border-radius: 4px;
+    overflow: visible;
+  }
+  .team-member-card::after { display: none; }
+  .team-member-label { display: none; }
+  .team-member-photo {
+    position: static;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    margin-bottom: 12px;
+  }
+  .team-member-photo img { width: 100%; height: 100%; }
+  .team-member-info {
+    position: static;
+    opacity: 1;
+    transform: none;
+    padding: 0;
+    pointer-events: auto;
+    transition: none;
+  }
+  .team-member-name { color: var(--fg); font-size: 16px; }
+  .team-member-role { color: var(--accent); margin-top: 4px; margin-bottom: 0; }
+  .team-member-bio {
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--fg-muted);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+    opacity: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .team-member-card.is-open .team-member-bio { max-height: 300px; opacity: 1; padding-top: 12px; }
+  .team-member-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color 0.2s ease;
+  }
+  .team-member-toggle:hover { color: var(--accent); }
+  .team-member-toggle .toggle-arrow {
+    display: inline-block;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .team-member-card.is-open .team-member-toggle .toggle-arrow { transform: rotate(180deg); }
 }
-.team-member-card.is-open .team-member-toggle .toggle-arrow {
-  transform: rotate(180deg);
+/* ── Team section entrance animations ── */
+
+/* 1 · Header split entrance (mirrors values-head) */
+.team-head.reveal { opacity: 1; transform: none; transition: none; }
+.team-head > div {
+  opacity: 0; transform: translateX(-52px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
 }
-@media (max-width: 1024px) {
-  .team-future-grid { grid-template-columns: repeat(3, 1fr); }
+.team-head > p {
+  opacity: 0; transform: translateX(52px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
 }
-@media (max-width: 600px) {
-  .team-future-grid { grid-template-columns: repeat(2, 1fr); }
+.team-head.is-visible > div,
+.team-head.is-visible > p { opacity: 1; transform: translateX(0); }
+
+/* 2 · Co-founders: photo center-split + grayscale bloom + name tags from sides + role */
+.team-grid.reveal { opacity: 1; transform: none; transition: none; }
+.member-photo-col .ph {
+  clip-path: inset(0 50% 0 50% round 4px);
+  filter: saturate(0);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1) 500ms,
+              filter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 800ms;
 }
+.team-grid.is-visible .member-photo-col .ph {
+  clip-path: inset(0 0% 0 0% round 4px);
+  filter: saturate(1);
+}
+.founder-tag {
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.founder-tag--left  { transform: translateX(-40px); transition-delay: 1350ms; }
+.founder-tag--right { transform: translateX( 40px); transition-delay: 1500ms; }
+.team-grid.is-visible .founder-tag { opacity: 1; transform: translateX(0); }
+.member-role {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 700ms;
+}
+.team-grid.is-visible .member-role { opacity: 1; transform: translateY(0); }
+
+/* 3 · Bio paragraphs — alternating left/right, toggled by JS observer */
+.bio-para-anim {
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bio-para-left  { transform: translateX(-32px); }
+.bio-para-right { transform: translateX( 32px); }
+.bio-para-anim.bio-para-in { opacity: 1; transform: translateX(0); }
+
+/* 4 · Growing team cards stagger */
+.team-future.reveal { opacity: 1; transform: none; transition: none; }
+.team-future-head {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.team-future.is-visible .team-future-head { opacity: 1; transform: translateY(0); }
+.team-future.is-visible .team-member-card:nth-child(1) { opacity: 1; transform: none; transition-delay: 0ms;   }
+.team-future.is-visible .team-member-card:nth-child(2) { opacity: 1; transform: none; transition-delay: 120ms; }
+.team-future.is-visible .team-member-card:nth-child(3) { opacity: 1; transform: none; transition-delay: 240ms; }
+.team-future.is-visible .team-member-card:nth-child(4) { opacity: 1; transform: none; transition-delay: 360ms; }
+.team-future.is-visible .team-member-card:nth-child(5) { opacity: 1; transform: none; transition-delay: 480ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .team-head > div, .team-head > p,
+  .member-photo-col .ph, .founder-tag, .member-role,
+  .bio-para-anim, .bio-para-left, .bio-para-right,
+  .team-future-head, .team-member-card {
+    opacity: 1 !important; transform: none !important;
+    clip-path: none !important; filter: none !important; transition: none !important;
+  }
+}
+
 .team-placeholder { text-align: center; }
 .placeholder-photo {
   position: relative;
@@ -812,8 +1080,20 @@
 .follow-section {
   padding: var(--pad-section-y) var(--pad-gutter);
   background: var(--bg-alt);
-  border-top: .5px solid var(--rule);
+  position: relative;
 }
+.follow-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(60px, 8vw, 100px);
+  background: linear-gradient(to bottom, var(--bg), var(--bg-alt));
+  pointer-events: none;
+  z-index: 0;
+}
+.follow-section > * { position: relative; z-index: 1; }
 
 .follow-wrap {
   max-width: 1100px;
@@ -1070,6 +1350,58 @@
   .follow-main { grid-template-columns: 1fr 140px 1fr; gap: 32px; }
 }
 
+/* ── Follow Along entrance animations ── */
+
+/* 1 · Header split (mirrors values-head / team-head) */
+.follow-top.reveal { opacity: 1; transform: none; transition: none; }
+.follow-top > div {
+  opacity: 0; transform: translateX(-52px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
+}
+.follow-top > p {
+  opacity: 0; transform: translateX(52px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
+}
+.follow-top.is-visible > div,
+.follow-top.is-visible > p { opacity: 1; transform: translateX(0); }
+
+/* 2 · Embed columns slide from sides, stats rise from below */
+.follow-main.reveal { opacity: 1; transform: none; transition: none; }
+.follow-main > *:nth-child(1) {
+  opacity: 0; transform: translateX(-48px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
+}
+.follow-main > *:nth-child(2) {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 450ms;
+}
+.follow-main > *:nth-child(3) {
+  opacity: 0; transform: translateX(48px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 300ms;
+}
+.follow-main.is-visible > *:nth-child(1),
+.follow-main.is-visible > *:nth-child(3) { opacity: 1; transform: translateX(0); }
+.follow-main.is-visible > *:nth-child(2) { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .follow-top > div, .follow-top > p,
+  .follow-main > *:nth-child(1),
+  .follow-main > *:nth-child(2),
+  .follow-main > *:nth-child(3) {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+}
+
 /* Social links */
 .social-links {
   padding: var(--pad-section-y) var(--pad-gutter);
@@ -1206,6 +1538,82 @@
   .social-row:hover::after { transform: scaleX(0); }
   .kit-item:hover { color: var(--fg); transform: none; }
 }
+
+/* ── Manifesto word-by-word stagger ── */
+@keyframes manifestoWordUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.manifesto-body .mw {
+  display: inline-block;
+  vertical-align: baseline;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.manifesto-body.mf-revealed .mw {
+  animation: manifestoWordUp 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--wi, 0) * 10ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-body .mw {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* ── Manifesto photo curtain reveal ── */
+@keyframes curtainUp {
+  from { clip-path: inset(100% 0 0 0 round 4px); }
+  to   { clip-path: inset(0%   0 0 0 round 4px); }
+}
+
+.manifesto-photo {
+  clip-path: inset(100% 0 0 0 round 4px);
+}
+
+.manifesto-body.mf-revealed ~ .manifesto-photo {
+  animation: curtainUp 900ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-photo {
+    clip-path: none !important;
+    animation: none !important;
+  }
+}
+
+/* ── About headline draw animation ── */
+.about-hero h1 {
+  opacity: 0;
+}
+.about-headline-hidden {
+  position: absolute !important;
+  width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important;
+  overflow: hidden !important; clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important; border: 0 !important;
+}
+.about-svg-headline {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  overflow: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-hero h1 { opacity: 1 !important; }
+  .about-headline-hidden {
+    position: static !important; width: auto !important; height: auto !important;
+    padding: initial !important; margin: 0 auto !important;
+    overflow: visible !important; clip: auto !important;
+    white-space: normal !important;
+  }
+  .about-svg-headline { display: none !important; }
+}
 </style>
 <script type="application/ld+json">
 {
@@ -1256,9 +1664,10 @@
 
 <section class="manifesto">
   <div class="manifesto-body">
-    <p>At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We understand what today's audiences <em>stop scrolling for</em>, and we make the kind of content that earns it.</p>
+    <p class="manifesto-lede">At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We understand what today's audiences <em>stop scrolling for</em>, and we make the kind of content that earns it.</p>
     <p>We help brands show up online in a way that feels unmistakably like them. Whether you're starting out or scaling up, we work as an <em>extension of your team</em>. Strategy on the back end. Story on the feed.</p>
-    <p>We don't chase volume, algorithms, or trends. We chase the feeling that makes someone stop, save, and send it to a friend.</p>
+    <p>We don't chase volume, algorithms, or trends.</p>
+    <blockquote class="manifesto-pullquote reveal">We chase the feeling that makes someone stop, save, and send it to a friend.</blockquote>
   </div>
   <div class="manifesto-photo">
     <img src="media/For ABOUT Page/About _ First Picture.jpg" alt="The KACISTUDIO team" style="object-position:center top;" loading="lazy">
@@ -1355,53 +1764,68 @@
     <div class="team-future-grid">
 
       <div class="team-member-card">
-        <div class="team-member-photo">
+        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Angeline.jpg')">
           <img src="media/For ABOUT Page/About _ Team/Angeline.jpg" alt="Angeline, Creative Director at KACISTUDIO" loading="lazy">
         </div>
-        <div class="team-member-name">Angeline</div>
-        <div class="team-member-role">Creative Director</div>
+        <span class="team-member-label">Angeline</span>
+        <div class="team-member-info">
+          <div class="team-member-name">Angeline</div>
+          <div class="team-member-role">Creative Director</div>
+          <p class="team-member-bio">Angeline leads the creative direction at KACISTUDIO, bringing ideas, aesthetics, and storytelling together in a way that feels intentional and on-brand. With a strong eye for content ideation and visual curation, she shapes concepts that are relatable, engaging, and aligned with each brand's voice. Her spontaneous and creative nature brings a fresh perspective to every project, forming the heart of KACI's visual style.</p>
+        </div>
         <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
-        <p class="team-member-bio">Angeline leads the creative direction at KACISTUDIO, bringing ideas, aesthetics, and storytelling together in a way that feels intentional and on-brand. With a strong eye for content ideation and visual curation, she shapes concepts that are relatable, engaging, and aligned with each brand's voice. Her spontaneous and creative nature brings a fresh perspective to every project, forming the heart of KACI's visual style.</p>
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo">
+        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Jovinna.jpg')">
           <img src="media/For ABOUT Page/About _ Team/Jovinna.jpg" alt="Jovinna, Production & Account Director at KACISTUDIO" loading="lazy">
         </div>
-        <div class="team-member-name">Jovinna</div>
-        <div class="team-member-role">Production & Account Director</div>
+        <span class="team-member-label">Jovinna</span>
+        <div class="team-member-info">
+          <div class="team-member-name">Jovinna</div>
+          <div class="team-member-role">Production & Account Director</div>
+          <p class="team-member-bio">Jovinna oversees the production and client-facing side of KACISTUDIO, ensuring each project runs smoothly from planning to execution. She manages shoot logistics, visual planning, on-site content creation, and account coordination with a detail-oriented approach. Her strength lies in turning ideas into clear, well-executed campaigns while keeping both the team and clients aligned throughout the process.</p>
+        </div>
         <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
-        <p class="team-member-bio">Jovinna oversees the production and client-facing side of KACISTUDIO, ensuring each project runs smoothly from planning to execution. She manages shoot logistics, visual planning, on-site content creation, and account coordination with a detail-oriented approach. Her strength lies in turning ideas into clear, well-executed campaigns while keeping both the team and clients aligned throughout the process.</p>
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo">
+        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Xiao Ning.jpg')">
           <img src="media/For ABOUT Page/About _ Team/Xiao Ning.jpg" alt="Xiao Ning, Events & Content Marketing Lead at KACISTUDIO" loading="lazy">
         </div>
-        <div class="team-member-name">Xiao Ning</div>
-        <div class="team-member-role">Events & Content Marketing Lead</div>
+        <span class="team-member-label">Xiao Ning</span>
+        <div class="team-member-info">
+          <div class="team-member-name">Xiao Ning</div>
+          <div class="team-member-role">Events & Content Marketing Lead</div>
+          <p class="team-member-bio">Xiao Ning leads in Gen Z-focused content and event marketing direction, bringing a strong understanding of trends, youth culture, and lifestyle-led storytelling. She supports the team in creating social-first content that feels current, engaging, and aligned with each brand's audience. From content creation to on-site production, she plays a key role in bringing ideas to life across both digital campaigns and event-led projects.</p>
+        </div>
         <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
-        <p class="team-member-bio">Xiao Ning leads in Gen Z-focused content and event marketing direction, bringing a strong understanding of trends, youth culture, and lifestyle-led storytelling. She supports the team in creating social-first content that feels current, engaging, and aligned with each brand's audience. From content creation to on-site production, she plays a key role in bringing ideas to life across both digital campaigns and event-led projects.</p>
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo">
+        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Joey.jpg')">
           <img src="media/For ABOUT Page/About _ Team/Joey.jpg" alt="Joey, Content & Social Media Analyst at KACISTUDIO" loading="lazy">
         </div>
-        <div class="team-member-name">Joey</div>
-        <div class="team-member-role">Content & Social Media Analyst</div>
+        <span class="team-member-label">Joey</span>
+        <div class="team-member-info">
+          <div class="team-member-name">Joey</div>
+          <div class="team-member-role">Content & Social Media Analyst</div>
+          <p class="team-member-bio">Joey supports KACISTUDIO through content performance analysis, social media insights, and structured content development. With a strong eye for data and detail, she helps review how content performs and identifies key takeaways that guide future content decisions. She also supports carousel and infographic-style content, translating information into clear, digestible, and brand-aligned social media assets.</p>
+        </div>
         <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
-        <p class="team-member-bio">Joey supports KACISTUDIO through content performance analysis, social media insights, and structured content development. With a strong eye for data and detail, she helps review how content performs and identifies key takeaways that guide future content decisions. She also supports carousel and infographic-style content, translating information into clear, digestible, and brand-aligned social media assets.</p>
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo">
+        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Denise.jpg')">
           <img src="media/For ABOUT Page/About _ Team/Denise.jpg" alt="Denise, Graphic Designer at KACISTUDIO" loading="lazy">
         </div>
-        <div class="team-member-name">Denise</div>
-        <div class="team-member-role">Graphic Designer</div>
+        <span class="team-member-label">Denise</span>
+        <div class="team-member-info">
+          <div class="team-member-name">Denise</div>
+          <div class="team-member-role">Graphic Designer</div>
+          <p class="team-member-bio">Denise brings campaigns to life through thoughtful visuals, illustrations, and design. With a strong eye for detail and a natural strength in drawing and creative design, she helps shape brand assets that feel polished, intentional, and visually memorable. Her work adds depth and character to each project, turning ideas into visuals that feel uniquely aligned with the brand.</p>
+        </div>
         <button class="team-member-toggle" aria-expanded="false">View more <span class="toggle-arrow">↓</span></button>
-        <p class="team-member-bio">Denise brings campaigns to life through thoughtful visuals, illustrations, and design. With a strong eye for detail and a natural strength in drawing and creative design, she helps shape brand assets that feel polished, intentional, and visually memorable. Her work adds depth and character to each project, turning ideas into visuals that feel uniquely aligned with the brand.</p>
       </div>
 
     </div>
@@ -1421,7 +1845,7 @@
     </div>
 
     <!-- MAIN ROW -->
-    <div class="follow-main">
+    <div class="follow-main reveal">
 
       <!-- Instagram embed col -->
       <div class="embed-col">
@@ -1484,10 +1908,70 @@
 
 <div id="footer-slot"></div>
 <script>
+/* ── Team growing: expand-on-hover + mobile bio toggle ── */
 (function () {
-  document.querySelectorAll('.team-member-toggle').forEach(function (btn) {
+  var grid = document.querySelector('.team-future-grid');
+  if (!grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.team-member-card'));
+  if (!cards.length) return;
+
+  var MOBILE_BP = 767;
+  var HOVER_DELAY = 120; /* ms you must dwell before the card switches */
+  var hoverTimer = null;
+
+  function isMobile() { return window.innerWidth <= MOBILE_BP; }
+
+  function setExpanded(card) {
+    cards.forEach(function (c) { c.classList.remove('is-expanded'); });
+    if (card) card.classList.add('is-expanded');
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () {
+      if (isMobile()) return;
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(function () { setExpanded(card); }, HOVER_DELAY);
+    });
+    card.addEventListener('mouseleave', function () {
+      clearTimeout(hoverTimer);
+    });
+  });
+
+  grid.addEventListener('mouseleave', function () {
+    if (isMobile()) return;
+    clearTimeout(hoverTimer);
+    setExpanded(null);
+  });
+
+  /* After entrance stagger completes: clear stagger delays + expand first card */
+  var section = grid.closest('.team-future');
+  if (section && typeof IntersectionObserver !== 'undefined') {
+    var entryTimer = null;
+    var obs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        clearTimeout(entryTimer);
+        /* last card delay (480ms) + animation duration (550ms) + small buffer */
+        entryTimer = setTimeout(function () {
+          if (isMobile()) return;
+          grid.classList.add('entrance-done');
+        }, 1140);
+      } else {
+        clearTimeout(entryTimer);
+        grid.classList.remove('entrance-done');
+        cards.forEach(function (c) { c.classList.remove('is-expanded'); });
+      }
+    }, { threshold: 0.15 });
+    obs.observe(section);
+  } else {
+    grid.classList.add('entrance-done');
+  }
+
+  /* Mobile bio toggle */
+  cards.forEach(function (card) {
+    var btn = card.querySelector('.team-member-toggle');
+    if (!btn) return;
     btn.addEventListener('click', function () {
-      var card = btn.closest('.team-member-card');
+      if (!isMobile()) return;
       var isOpen = card.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', isOpen);
       btn.childNodes[0].textContent = isOpen ? 'View less ' : 'View more ';
@@ -1495,6 +1979,9 @@
   });
 })();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" defer></script>
+<script src="assets/about-draw.js" defer></script>
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("about"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
@@ -1593,11 +2080,64 @@
     });
   });
 
-  paint();
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(startAuto);
+  var contentEl   = root.querySelector('.values-content');
+  var contentTimer = null;
+  var clearTimer   = null;
+  var active       = false;
+
+  function launch() {
+    cards.forEach(function (card) {
+      var idx = parseInt(card.getAttribute('data-idx'), 10) || 0;
+      card.style.transitionDelay = (idx * 280) + 'ms';
+    });
+
+    paint();
+
+    contentTimer = setTimeout(function () {
+      if (contentEl) contentEl.classList.add('content-entered');
+    }, 420);
+
+    var clearAfter = ((cards.length - 1) * 280) + 900;
+    clearTimer = setTimeout(function () {
+      cards.forEach(function (card) { card.style.transitionDelay = ''; });
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(startAuto);
+      } else {
+        startAuto();
+      }
+    }, clearAfter);
+  }
+
+  function reset() {
+    stopAuto();
+    clearTimeout(contentTimer);
+    clearTimeout(clearTimer);
+    contentTimer = null;
+    clearTimer   = null;
+
+    cards.forEach(function (card) {
+      card.style.transitionDelay = '';
+      card.classList.remove('is-active', 'is-left', 'is-right');
+    });
+
+    if (contentEl) contentEl.classList.remove('content-entered');
+    index = 0;
+  }
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    var entryObs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        if (active) return;
+        active = true;
+        launch();
+      } else {
+        active = false;
+        reset();
+      }
+    }, { threshold: 0.2 });
+    entryObs.observe(root);
   } else {
-    startAuto();
+    launch();
   }
 })();
 </script>
