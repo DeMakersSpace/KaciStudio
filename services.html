@@ -1437,11 +1437,59 @@
 }
 .svc-pkg-panel.is-active {
   display: flex;
-  animation: pkgFadeUp 0.42s ease both;
 }
-@keyframes pkgFadeUp {
-  from { opacity: 0; transform: translateY(12px); }
+@keyframes pkgRowIn {
+  from { opacity: 0; transform: translateX(-22px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.svc-pkg-panel:not(.rows-settled) .svc-pkg-eyebrow {
+  opacity: 0;
+}
+.svc-pkg-panel.rows-settled .svc-pkg-row,
+.svc-pkg-panel.rows-settled .svc-pkg-eyebrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Per-column clip-path text reveal ── */
+@keyframes fadeUpIn {
+  from { opacity: 0; transform: translateY(36px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-num,
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-name,
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-body {
+  animation: fadeUpIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(1) .svc-pkg-num  { animation-delay: 300ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(1) .svc-pkg-name { animation-delay: 390ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(1) .svc-pkg-body { animation-delay: 480ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(2) .svc-pkg-num  { animation-delay: 500ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(2) .svc-pkg-name { animation-delay: 590ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(2) .svc-pkg-body { animation-delay: 680ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(3) .svc-pkg-num  { animation-delay: 700ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(3) .svc-pkg-name { animation-delay: 790ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(3) .svc-pkg-body { animation-delay: 880ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(4) .svc-pkg-num  { animation-delay: 900ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(4) .svc-pkg-name { animation-delay: 990ms; }
+.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(4) .svc-pkg-body { animation-delay: 1080ms; }
+.svc-pkg-panel.rows-settled .svc-pkg-num,
+.svc-pkg-panel.rows-settled .svc-pkg-name,
+.svc-pkg-panel.rows-settled .svc-pkg-body {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-pkg-panel:not(.rows-settled) .svc-pkg-eyebrow,
+  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row,
+  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-num,
+  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-name,
+  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-body {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 .svc-pkg-eyebrow {
   font-family: var(--font-serif);
@@ -1602,6 +1650,12 @@
   .svc-cats[data-active-cat="smm"] .svc-cat-under-img {
     display: none;
   }
+}
+
+/* ── §01 → §02 gradient transition bridge ── */
+.svc-to-onboard {
+  height: 140px;
+  background: linear-gradient(to bottom, var(--fg) 0%, var(--bg) 100%);
 }
 
 /* ── Client Onboarding — 5-step path ── */
@@ -2478,6 +2532,29 @@
 .studio-status-cta .arrow { transition: transform 0.3s ease; }
 .studio-status-cta:hover .arrow { transform: translateX(4px); }
 
+/* ── Category button entrance animation ── */
+@keyframes catBtnSlideIn {
+  from { opacity: 0; transform: translateX(-56px) translateY(12px); }
+  to   { opacity: 0.72; transform: translateX(0) translateY(0); }
+}
+.svc-cats:not(.cats-entrance-done) .svc-cat-btn {
+  opacity: 0;
+  transform: translateX(-56px) translateY(12px);
+}
+.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn {
+  animation: catBtnSlideIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(1) { animation-delay: 200ms; }
+.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(2) { animation-delay: 400ms; }
+.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(3) { animation-delay: 600ms; }
+@media (prefers-reduced-motion: reduce) {
+  .svc-cats:not(.cats-entrance-done) .svc-cat-btn {
+    opacity: 0.72 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
 /* ── Services headline draw animation ── */
 .svc-cats h1 { opacity: 0; }
 .svc-headline-hidden {
@@ -2772,6 +2849,7 @@
 
 </section>
 
+<div class="svc-to-onboard" aria-hidden="true"></div>
 
 <!-- ════════ §02 Client Onboarding — 5-step path ════════ -->
 <section class="onboarding reveal">
@@ -3001,19 +3079,76 @@
   var pkgPanels = Array.from(document.querySelectorAll('.svc-pkg-panel'));
   if (!catBtns.length) return;
 
+  function scrambleText(el) {
+    var UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var LOWER = 'abcdefghijklmnopqrstuvwxyz';
+    var original = el.dataset.original || el.textContent.trim();
+    el.dataset.original = original;
+    var DURATION = 1000;
+    var start = null;
+    if (el._sraf) cancelAnimationFrame(el._sraf);
+    el.style.opacity = '1';
+    function randChar(ch) {
+      if (ch >= 'A' && ch <= 'Z') return UPPER[Math.floor(Math.random() * 26)];
+      if (ch >= 'a' && ch <= 'z') return LOWER[Math.floor(Math.random() * 26)];
+      return ch;
+    }
+    function frame(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / DURATION, 1);
+      var lockCount = Math.floor(progress * original.length);
+      var out = '';
+      for (var i = 0; i < original.length; i++) {
+        out += i < lockCount ? original[i] : randChar(original[i]);
+      }
+      el.textContent = out;
+      if (progress < 1) {
+        el._sraf = requestAnimationFrame(frame);
+      } else {
+        el.textContent = original;
+        el._sraf = null;
+      }
+    }
+    el._sraf = requestAnimationFrame(frame);
+  }
+
+  function watchLastRow(panel) {
+    var bodies = Array.from(panel.querySelectorAll('.svc-pkg-body'));
+    var last = bodies[bodies.length - 1];
+    if (!last) return;
+    last.addEventListener('animationend', function () {
+      panel.classList.add('rows-settled');
+    }, { once: true });
+  }
+
   function switchCat(cat) {
     if (section) section.dataset.activeCat = cat;
     catBtns.forEach(function (btn) {
       btn.classList.toggle('is-active', btn.dataset.cat === cat);
     });
     pkgPanels.forEach(function (panel) {
-      panel.classList.toggle('is-active', panel.dataset.cat === cat);
+      var becoming = panel.dataset.cat === cat;
+      if (becoming) panel.classList.remove('rows-settled');
+      panel.classList.toggle('is-active', becoming);
+      if (becoming) {
+        watchLastRow(panel);
+        var eyebrow = panel.querySelector('.svc-pkg-eyebrow');
+        if (eyebrow) scrambleText(eyebrow);
+      }
     });
   }
 
   catBtns.forEach(function (btn) {
     btn.addEventListener('click', function () { switchCat(btn.dataset.cat); });
   });
+
+  /* Animate rows and scramble eyebrow of the initially active panel on page load */
+  var initPanel = document.querySelector('.svc-pkg-panel.is-active');
+  if (initPanel) {
+    watchLastRow(initPanel);
+    var initEyebrow = initPanel.querySelector('.svc-pkg-eyebrow');
+    if (initEyebrow) scrambleText(initEyebrow);
+  }
 })();
 </script>
 
@@ -3083,6 +3218,25 @@
   } else {
     startAuto();
   }
+})();
+</script>
+
+<script>
+/* Category button entrance — mark section done after all animations complete */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var section = document.querySelector('.svc-cats');
+  if (!section) return;
+  var btns = Array.from(section.querySelectorAll('.svc-cat-btn'));
+  if (!btns.length) return;
+  var doneCount = 0;
+  function checkDone() {
+    doneCount++;
+    if (doneCount >= btns.length) section.classList.add('cats-entrance-done');
+  }
+  btns.forEach(function (btn) {
+    btn.addEventListener('animationend', checkDone, { once: true });
+  });
 })();
 </script>
 

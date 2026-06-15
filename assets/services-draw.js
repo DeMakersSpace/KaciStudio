@@ -38,7 +38,7 @@
   }
 
   Promise.all([
-    opentype.load(fontURL('Brand fonts/Perandory/Perandory-Condensed.otf')),
+    opentype.load(fontURL('Brand fonts/Perandory/Perandory-Regular.otf')),
     opentype.load(fontURL('Brand fonts/Sloop Script Regular.ttf'))
   ]).then(function (fonts) {
     buildAndAnimate(fonts[0], fonts[1]);
