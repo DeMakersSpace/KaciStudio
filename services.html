@@ -418,7 +418,7 @@
   border-radius: 12px;
   box-shadow: 0 12px 48px rgba(0,0,0,0.18);
   will-change: transform, opacity;
-  transition: transform 0.8s cubic-bezier(0.4, 2, 0.3, 1), opacity 0.8s cubic-bezier(0.4, 2, 0.3, 1);
+  transition: transform 0.52s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.36s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .why-content-panel { display: flex; flex-direction: column; }
 .why-active-inner { transition: opacity 0.22s ease, transform 0.22s ease; }
@@ -444,11 +444,10 @@
 .why-word {
   display: inline-block;
   opacity: 0;
-  filter: blur(8px);
   transform: translateY(4px);
-  animation: whyWordIn 0.22s ease forwards;
+  animation: whyWordIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-@keyframes whyWordIn { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+@keyframes whyWordIn { to { opacity: 1; transform: translateY(0); } }
 .why-nav { display: flex; gap: 12px; margin-top: 32px; }
 .why-nav-btn {
   width: 46px;
@@ -469,7 +468,7 @@
 .why-nav-btn:active { transform: scale(0.95); }
 @media (prefers-reduced-motion: reduce) {
   .why-img { transition: none; }
-  .why-word { animation: none; opacity: 1; filter: none; transform: none; }
+  .why-word { animation: none; opacity: 1; transform: none; }
   .why-active-inner { transition: none; }
 }
 
@@ -1445,6 +1444,10 @@
 .svc-pkg-panel:not(.rows-settled) .svc-pkg-eyebrow {
   opacity: 0;
 }
+.svc-pkg-panel.is-active:not(.rows-pending) .svc-pkg-eyebrow {
+  opacity: 1;
+  animation: pkgBodyIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 .svc-pkg-panel.rows-settled .svc-pkg-row,
 .svc-pkg-panel.rows-settled .svc-pkg-eyebrow {
   opacity: 1;
@@ -1456,40 +1459,91 @@
   from { opacity: 0; transform: translateY(36px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-num,
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-name,
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-body {
-  animation: fadeUpIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* rows-pending = off-screen, hold hidden, don't animate yet */
+.svc-pkg-panel.rows-pending .svc-pkg-row,
+.svc-pkg-panel.rows-pending .svc-pkg-eyebrow {
+  opacity: 0 !important;
+  animation: none !important;
 }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(1) .svc-pkg-num  { animation-delay: 300ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(1) .svc-pkg-name { animation-delay: 390ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(1) .svc-pkg-body { animation-delay: 480ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(2) .svc-pkg-num  { animation-delay: 500ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(2) .svc-pkg-name { animation-delay: 590ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(2) .svc-pkg-body { animation-delay: 680ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(3) .svc-pkg-num  { animation-delay: 700ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(3) .svc-pkg-name { animation-delay: 790ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(3) .svc-pkg-body { animation-delay: 880ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(4) .svc-pkg-num  { animation-delay: 900ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(4) .svc-pkg-name { animation-delay: 990ms; }
-.svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row:nth-child(4) .svc-pkg-body { animation-delay: 1080ms; }
+/* Clip-path wipe — each row sweeps in left to right */
+@keyframes clipWipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+@keyframes pkgRowFromLeft {
+  from { opacity: 0; transform: translate3d(-34px, 10px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pkgRowFromRight {
+  from { opacity: 0; transform: translate3d(34px, 10px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pkgRowFromBelow {
+  from { opacity: 0; transform: translate3d(0, 34px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pkgRowFromAbove {
+  from { opacity: 0; transform: translate3d(0, -24px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.svc-pkg-panel.is-active:not(.rows-settled):not(.rows-pending) .svc-pkg-row {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.svc-pkg-panel.is-active:not(.rows-settled):not(.rows-pending) .svc-pkg-row.row-in {
+  opacity: 1;
+  transform: none;
+  animation: pkgRowFromLeft 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.svc-pkg-panel.is-active:not(.rows-settled):not(.rows-pending) .svc-pkg-row.row-in:nth-child(2) {
+  animation-name: pkgRowFromRight;
+}
+.svc-pkg-panel.is-active:not(.rows-settled):not(.rows-pending) .svc-pkg-row.row-in:nth-child(3) {
+  animation-name: pkgRowFromBelow;
+}
+.svc-pkg-panel.is-active:not(.rows-settled):not(.rows-pending) .svc-pkg-row.row-in:nth-child(4) {
+  animation-name: pkgRowFromAbove;
+}
+.svc-pkg-panel.rows-settled .svc-pkg-row { clip-path: none; }
 .svc-pkg-panel.rows-settled .svc-pkg-num,
 .svc-pkg-panel.rows-settled .svc-pkg-name,
 .svc-pkg-panel.rows-settled .svc-pkg-body {
   opacity: 1;
   transform: none;
 }
+/* desc + includes: hidden until JS-timed reveal after each row's wipe */
+.svc-pkg-rows .svc-pkg-desc,
+.svc-pkg-rows .svc-pkg-includes {
+  opacity: 0;
+}
+@keyframes pkgBodyIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.svc-pkg-rows .svc-pkg-desc.body-in,
+.svc-pkg-rows .svc-pkg-includes.body-in {
+  animation: pkgBodyIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.svc-pkg-panel.rows-settled .svc-pkg-desc,
+.svc-pkg-panel.rows-settled .svc-pkg-includes {
+  opacity: 1;
+  animation: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .svc-pkg-panel:not(.rows-settled) .svc-pkg-eyebrow,
-  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row,
-  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-num,
-  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-name,
-  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-body {
+  .svc-pkg-panel.is-active:not(.rows-settled) .svc-pkg-row {
     animation: none !important;
     opacity: 1 !important;
-    transform: none !important;
+    clip-path: none !important;
   }
+  .svc-pkg-rows .svc-pkg-desc,
+  .svc-pkg-rows .svc-pkg-includes {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .svc-pkg-panel .svc-pkg-image { opacity: 0.78 !important; animation: none !important; }
+  .svc-cat-under-img { opacity: 0.76 !important; animation: none !important; }
 }
 .svc-pkg-eyebrow {
   font-family: var(--font-serif);
@@ -1581,6 +1635,17 @@
 .svc-pkg-panel[data-cat="smm"] .svc-pkg-image { transform: rotate(4deg); }
 .svc-pkg-panel[data-cat="content"] .svc-pkg-image { transform: rotate(-4deg); }
 .svc-pkg-panel[data-cat="branding"] .svc-pkg-image { transform: rotate(3deg); }
+/* Photo-drop: hidden during animation phase, JS adds img-drop to play */
+.svc-pkg-panel.rows-pending .svc-pkg-image,
+.svc-pkg-panel:not(.rows-settled) .svc-pkg-image { opacity: 0; }
+@keyframes imgDropContent  { from { opacity: 0; transform: rotate(-14deg) translateY(-40px); } to { opacity: 0.78; transform: rotate(-4deg); } }
+@keyframes imgDropBranding { from { opacity: 0; transform: rotate(13deg)  translateY(-40px); } to { opacity: 0.78; transform: rotate(3deg);  } }
+.svc-pkg-panel[data-cat="content"]  .svc-pkg-image.img-drop { animation: imgDropContent  0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.svc-pkg-panel[data-cat="branding"] .svc-pkg-image.img-drop { animation: imgDropBranding 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+/* Under-img (SMM left col) */
+.svc-cat-under-img { opacity: 0; }
+@keyframes imgDropUnder { from { opacity: 0; transform: rotate(16deg) translateY(-40px); } to { opacity: 0.76; transform: rotate(6deg); } }
+.svc-cat-under-img.img-drop { animation: imgDropUnder 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 /* ── Footer strip ── */
 
@@ -1872,8 +1937,8 @@
   pointer-events: none;
   transform-origin: center;
   transition:
-    transform 0.85s cubic-bezier(0.34, 1.4, 0.64, 1),
-    opacity 0.6s ease;
+    transform 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.34s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 .onboard-card.is-active {
@@ -1901,7 +1966,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: filter 0.7s ease;
+  transition: filter 0.28s ease;
   filter: grayscale(1) brightness(0.7) blur(2px);
 }
 .onboard-card.is-active .onboard-card-photo img {
@@ -1916,7 +1981,7 @@
   gap: 8px;
   z-index: 2;
   opacity: 0;
-  transition: opacity 0.4s ease 0.25s;
+  transition: opacity 0.32s ease 0.12s;
 }
 .onboard-card.is-active .onboard-card-meta { opacity: 1; }
 .onboard-live-dot {
@@ -2455,6 +2520,68 @@
   color: var(--fg);
   margin: 14px 0 0;
 }
+/* §03 FAQ — four distinct animation types, one per element kind */
+
+/* 1 · Eyebrow: slide from left */
+.studio-faq-head .eyebrow { opacity: 0; }
+@keyframes faqEyebrow { from { opacity: 0; transform: translateX(-22px); } to { opacity: 1; transform: none; } }
+.studio-faq.faq-in .studio-faq-head .eyebrow { animation: faqEyebrow 0.42s cubic-bezier(0.16,1,0.3,1) both; }
+.studio-faq.faq-done .studio-faq-head .eyebrow { opacity: 1; transform: none; animation: none; }
+
+/* 2 · H2: blur-to-focus — the word "clarity" literally sharpens */
+.studio-faq-head h2 { opacity: 0; }
+@keyframes faqClarity { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.studio-faq.faq-in .studio-faq-head h2 { animation: faqClarity 0.58s cubic-bezier(0.16,1,0.3,1) 90ms both; }
+.studio-faq.faq-done .studio-faq-head h2 { opacity: 1; transform: none; animation: none; }
+
+/* 3 · Summary: top-to-bottom clip reveal (text prints line by line) */
+.studio-faq-head .summary { clip-path: inset(0 0 100% 0); }
+@keyframes faqSummaryPrint { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0% 0); } }
+.studio-faq.faq-in .studio-faq-head .summary { animation: faqSummaryPrint 0.46s cubic-bezier(0.16,1,0.3,1) 240ms both; }
+.studio-faq.faq-done .studio-faq-head .summary { clip-path: none; animation: none; }
+
+/* 4 · Items: bottom rule draws left-to-right, then Q text fades up */
+.studio-faq-item { position: relative; border-bottom-color: transparent; }
+.studio-faq-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--rule);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.studio-faq-item .studio-faq-q { opacity: 0; transform: translateY(14px); }
+
+@keyframes faqRuleDraw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes faqQUp      { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.studio-faq.faq-in .studio-faq-item::after      { animation: faqRuleDraw 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+.studio-faq.faq-in .studio-faq-item .studio-faq-q { animation: faqQUp   0.55s cubic-bezier(0.16,1,0.3,1) both; }
+
+.studio-faq.faq-in .studio-faq-item:nth-child(1)::after         { animation-delay: 360ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(1) .studio-faq-q  { animation-delay: 430ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(2)::after         { animation-delay: 460ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(2) .studio-faq-q  { animation-delay: 530ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(3)::after         { animation-delay: 560ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(3) .studio-faq-q  { animation-delay: 630ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(4)::after         { animation-delay: 660ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(4) .studio-faq-q  { animation-delay: 730ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(5)::after         { animation-delay: 760ms; }
+.studio-faq.faq-in .studio-faq-item:nth-child(5) .studio-faq-q  { animation-delay: 830ms; }
+
+.studio-faq.faq-done .studio-faq-item { border-bottom-color: var(--rule); }
+.studio-faq.faq-done .studio-faq-item::after { transform: scaleX(1); animation: none; }
+.studio-faq.faq-done .studio-faq-item .studio-faq-q { opacity: 1; transform: none; animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-faq-head .eyebrow, .studio-faq-head h2 { opacity: 1 !important; filter: none !important; transform: none !important; animation: none !important; }
+  .studio-faq-head .summary { clip-path: none !important; animation: none !important; }
+  .studio-faq-item { border-bottom-color: var(--rule) !important; }
+  .studio-faq-item::after { transform: scaleX(1) !important; animation: none !important; }
+  .studio-faq-item .studio-faq-q { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
 .studio-faq-a::before {
   content: "A.";
   font-family: var(--font-mono);
@@ -2542,11 +2669,11 @@
   transform: translateX(-56px) translateY(12px);
 }
 .svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn {
-  animation: catBtnSlideIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: catBtnSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(1) { animation-delay: 200ms; }
-.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(2) { animation-delay: 400ms; }
-.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(3) { animation-delay: 600ms; }
+.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(1) { animation-delay: 80ms; }
+.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(2) { animation-delay: 160ms; }
+.svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(3) { animation-delay: 240ms; }
 @media (prefers-reduced-motion: reduce) {
   .svc-cats:not(.cats-entrance-done) .svc-cat-btn {
     opacity: 0.72 !important;
@@ -2584,6 +2711,76 @@
     white-space: normal !important;
   }
   .svc-svg-headline { display: none !important; }
+}
+
+/* ═══ §02 Onboarding — single unified entrance sequence ═══ */
+@keyframes obEyebrow {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes obCollapse {
+  from { opacity: 0; letter-spacing: 0.6em; }
+  to   { opacity: 1; letter-spacing: 0; }
+}
+@keyframes obSummary {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes obChip {
+  from { opacity: 0; transform: translateY(56px); }
+  to   { opacity: 0.7; transform: translateY(0); }
+}
+
+/* Pre-sequence: all hidden */
+.onboarding:not(.seq-done) .onboarding-eyebrow,
+.onboarding:not(.seq-done) h2,
+.onboarding:not(.seq-done) .onboarding-summary { opacity: 0; }
+.onboarding:not(.seq-done) h2 { letter-spacing: 0.6em; }
+.onboarding:not(.seq-done) .onboard-chip { opacity: 0; transform: translateY(56px); }
+
+/* Sequence running — one class drives everything top to bottom */
+.onboarding.seq:not(.seq-done) .onboarding-eyebrow {
+  animation: obEyebrow 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0ms both;
+}
+.onboarding.seq:not(.seq-done) h2 {
+  animation: obCollapse 0.68s cubic-bezier(0.16, 1, 0.3, 1) 60ms both;
+}
+.onboarding.seq:not(.seq-done) .onboarding-summary {
+  animation: obSummary 0.42s cubic-bezier(0.16, 1, 0.3, 1) 260ms both;
+}
+.onboarding.seq:not(.seq-done) .onboard-chip:nth-child(1) { animation: obChip 0.45s cubic-bezier(0.16, 1, 0.3, 1) 320ms both; }
+.onboarding.seq:not(.seq-done) .onboard-chip:nth-child(2) { animation: obChip 0.45s cubic-bezier(0.16, 1, 0.3, 1) 400ms both; }
+.onboarding.seq:not(.seq-done) .onboard-chip:nth-child(3) { animation: obChip 0.45s cubic-bezier(0.16, 1, 0.3, 1) 480ms both; }
+.onboarding.seq:not(.seq-done) .onboard-chip:nth-child(4) { animation: obChip 0.45s cubic-bezier(0.16, 1, 0.3, 1) 560ms both; }
+.onboarding.seq:not(.seq-done) .onboard-chip:nth-child(5) { animation: obChip 0.45s cubic-bezier(0.16, 1, 0.3, 1) 640ms both; }
+
+/* Sequence complete — settled state, no re-trigger */
+.onboarding.seq-done .onboarding-eyebrow,
+.onboarding.seq-done h2,
+.onboarding.seq-done .onboarding-summary { opacity: 1; transform: none; }
+.onboarding.seq-done h2 { letter-spacing: 0; }
+.onboarding.seq-done .onboard-chip { opacity: 0.7; transform: none; }
+.onboarding.seq-done .onboard-chip.is-active { opacity: 1; }
+
+/* Card deal-in */
+.onboard-card.pre-deal {
+  opacity: 0 !important;
+  transform: translateY(80px) scale(0.92) !important;
+  transition: none !important;
+}
+
+/* Card body slide-up */
+.onboard-card-body {
+  transform: translateY(48px);
+  transition: opacity 0.28s ease 0.06s, transform 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.06s;
+}
+.onboard-card.is-active .onboard-card-body { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .onboarding:not(.seq-done) .onboarding-eyebrow,
+  .onboarding:not(.seq-done) h2,
+  .onboarding:not(.seq-done) .onboarding-summary,
+  .onboarding:not(.seq-done) .onboard-chip { opacity: 1 !important; transform: none !important; letter-spacing: normal !important; }
 }
 
 </style>
@@ -2956,7 +3153,7 @@
 
 <!-- ════════ §03 FAQ ════════ -->
 <section id="faq" class="studio-faq">
-  <div class="studio-faq-head reveal">
+  <div class="studio-faq-head">
     <div>
       <div class="eyebrow">◎ FAQ &middot; 03</div>
       <h2>A little <em>clarity.</em></h2>
@@ -2965,7 +3162,7 @@
   </div>
 
   <div class="studio-faq-list">
-    <div class="studio-faq-item reveal">
+    <div class="studio-faq-item">
       <div>
         <button class="studio-faq-q" type="button" aria-expanded="false">
           <span class="studio-faq-q-text">Can I pick and choose deliverables?</span>
@@ -2977,7 +3174,7 @@
       </div>
     </div>
 
-    <div class="studio-faq-item reveal">
+    <div class="studio-faq-item">
       <div>
         <button class="studio-faq-q" type="button" aria-expanded="false">
           <span class="studio-faq-q-text">Do you work with brands outside Singapore?</span>
@@ -2989,7 +3186,7 @@
       </div>
     </div>
 
-    <div class="studio-faq-item reveal">
+    <div class="studio-faq-item">
       <div>
         <button class="studio-faq-q" type="button" aria-expanded="false">
           <span class="studio-faq-q-text">How long is the commitment?</span>
@@ -3001,7 +3198,7 @@
       </div>
     </div>
 
-    <div class="studio-faq-item reveal">
+    <div class="studio-faq-item">
       <div>
         <button class="studio-faq-q" type="button" aria-expanded="false">
           <span class="studio-faq-q-text">Who owns the content we make together?</span>
@@ -3013,7 +3210,7 @@
       </div>
     </div>
 
-    <div class="studio-faq-item reveal">
+    <div class="studio-faq-item">
       <div>
         <button class="studio-faq-q" type="button" aria-expanded="false">
           <span class="studio-faq-q-text">How soon can we start?</span>
@@ -3056,6 +3253,32 @@
 <script src="assets/parallax.js" defer></script>
 
 <script>
+/* §03 FAQ — staggered entrance, resets on scroll away */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var section = document.querySelector('.studio-faq');
+  if (!section) return;
+  var doneTimer = null;
+  var obs = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      section.classList.remove('faq-in', 'faq-done');
+      void section.offsetWidth;
+      section.classList.add('faq-in');
+      if (doneTimer) clearTimeout(doneTimer);
+      doneTimer = setTimeout(function () {
+        section.classList.remove('faq-in');
+        section.classList.add('faq-done');
+      }, 1350);
+      obs.unobserve(section);
+    } else {
+      if (doneTimer) { clearTimeout(doneTimer); doneTimer = null; }
+    }
+  }, { threshold: 0.01, rootMargin: '0px 0px -28% 0px' });
+  obs.observe(section);
+})();
+</script>
+
+<script>
 /* FAQ accordion — click Q to reveal A */
 (function () {
   var items = document.querySelectorAll('.studio-faq-item');
@@ -3084,7 +3307,7 @@
     var LOWER = 'abcdefghijklmnopqrstuvwxyz';
     var original = el.dataset.original || el.textContent.trim();
     el.dataset.original = original;
-    var DURATION = 1000;
+    var DURATION = 520;
     var start = null;
     if (el._sraf) cancelAnimationFrame(el._sraf);
     el.style.opacity = '1';
@@ -3112,13 +3335,82 @@
     el._sraf = requestAnimationFrame(frame);
   }
 
-  function watchLastRow(panel) {
-    var bodies = Array.from(panel.querySelectorAll('.svc-pkg-body'));
-    var last = bodies[bodies.length - 1];
-    if (!last) return;
-    last.addEventListener('animationend', function () {
+  var bodyTimers = [];
+  var rowObserver = null;
+
+  function cancelBodyTimers() {
+    bodyTimers.forEach(clearTimeout);
+    bodyTimers = [];
+    if (rowObserver) {
+      rowObserver.disconnect();
+      rowObserver = null;
+    }
+  }
+
+  function clearBodyIn(panel) {
+    panel.querySelectorAll('.svc-pkg-row').forEach(function (row) {
+      row.classList.remove('row-in');
+    });
+    panel.querySelectorAll('.svc-pkg-desc, .svc-pkg-includes').forEach(function (el) {
+      el.classList.remove('body-in');
+    });
+    var img = panel.querySelector('.svc-pkg-image');
+    if (img) img.classList.remove('img-drop');
+  }
+
+  function startRowBodyIn(panel) {
+    var rows = Array.from(panel.querySelectorAll('.svc-pkg-row'));
+    if (!rows.length) {
       panel.classList.add('rows-settled');
-    }, { once: true });
+      return;
+    }
+
+    function settleIfDone() {
+      if (!rows.every(function (row) { return row.classList.contains('row-in'); })) return;
+      bodyTimers.push(setTimeout(function () {
+        panel.classList.add('rows-settled');
+        var img = panel.querySelector('.svc-pkg-image');
+        if (img) {
+          img.classList.add('img-drop');
+          bodyTimers.push(setTimeout(function () { img.classList.remove('img-drop'); }, 760));
+        }
+      }, 980));
+    }
+
+    function revealRow(row) {
+      if (row.classList.contains('row-in')) return;
+      row.classList.add('row-in');
+      bodyTimers.push(setTimeout(function () {
+        row.querySelectorAll('.svc-pkg-desc').forEach(function (el) { el.classList.add('body-in'); });
+      }, 520));
+      var inc = row.querySelector('.svc-pkg-includes');
+      if (inc) {
+        bodyTimers.push(setTimeout(function () { inc.classList.add('body-in'); }, 1040));
+      }
+      settleIfDone();
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      rows.forEach(revealRow);
+      return;
+    }
+
+    rowObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        revealRow(entry.target);
+        rowObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.01, rootMargin: '0px 0px -28% 0px' });
+
+    rows.forEach(function (row) {
+      var rect = row.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.72 && rect.bottom > 0) {
+        revealRow(row);
+      } else {
+        rowObserver.observe(row);
+      }
+    });
   }
 
   function switchCat(cat) {
@@ -3128,26 +3420,56 @@
     });
     pkgPanels.forEach(function (panel) {
       var becoming = panel.dataset.cat === cat;
-      if (becoming) panel.classList.remove('rows-settled');
       panel.classList.toggle('is-active', becoming);
       if (becoming) {
-        watchLastRow(panel);
+        cancelBodyTimers();
+        clearBodyIn(panel);
+        panel.classList.remove('rows-settled', 'rows-pending');
+        startRowBodyIn(panel);
         var eyebrow = panel.querySelector('.svc-pkg-eyebrow');
         if (eyebrow) scrambleText(eyebrow);
       }
     });
+    /* Under-img (SMM left col): re-drop on switch to SMM, clear otherwise */
+    var underImg = section && section.querySelector('.svc-cat-under-img');
+    if (underImg) {
+      underImg.classList.remove('img-drop');
+      if (cat === 'smm') {
+        bodyTimers.push(setTimeout(function () { underImg.classList.add('img-drop'); }, 520));
+      }
+    }
   }
 
   catBtns.forEach(function (btn) {
     btn.addEventListener('click', function () { switchCat(btn.dataset.cat); });
   });
 
-  /* Animate rows and scramble eyebrow of the initially active panel on page load */
-  var initPanel = document.querySelector('.svc-pkg-panel.is-active');
-  if (initPanel) {
-    watchLastRow(initPanel);
-    var initEyebrow = initPanel.querySelector('.svc-pkg-eyebrow');
-    if (initEyebrow) scrambleText(initEyebrow);
+  /* All panels start pending — animation waits for scroll trigger */
+  pkgPanels.forEach(function (p) { p.classList.add('rows-pending'); });
+
+  /* Scroll-triggered row reveal — resets and replays on each re-entry */
+  if (typeof IntersectionObserver !== 'undefined' && section) {
+    var obs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        var activePanel = document.querySelector('.svc-pkg-panel.is-active');
+        if (activePanel) {
+          cancelBodyTimers();
+          clearBodyIn(activePanel);
+          activePanel.classList.remove('rows-settled', 'rows-pending');
+          startRowBodyIn(activePanel);
+          var eyebrow = activePanel.querySelector('.svc-pkg-eyebrow');
+          if (eyebrow) scrambleText(eyebrow);
+        }
+        /* Under-img always schedules on section entry (CSS hides it if not SMM) */
+        var underImg = section.querySelector('.svc-cat-under-img');
+        if (underImg) {
+          underImg.classList.remove('img-drop');
+          bodyTimers.push(setTimeout(function () { underImg.classList.add('img-drop'); }, 520));
+        }
+        obs.unobserve(section);
+      }
+    }, { threshold: 0.01, rootMargin: '0px 0px -28% 0px' });
+    obs.observe(section);
   }
 })();
 </script>
@@ -3211,6 +3533,8 @@
   });
   root.addEventListener('mouseenter', function () { paused = true; });
   root.addEventListener('mouseleave', function () { paused = false; });
+  root.addEventListener('onboard:pause', function () { paused = true; });
+  root.addEventListener('onboard:resume', function () { paused = false; });
 
   paint();
   if (document.fonts && document.fonts.ready) {
@@ -3222,21 +3546,96 @@
 </script>
 
 <script>
-/* Category button entrance — mark section done after all animations complete */
+/* Category button entrance — resets on scroll away, replays on re-entry */
 (function () {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var section = document.querySelector('.svc-cats');
   if (!section) return;
-  var btns = Array.from(section.querySelectorAll('.svc-cat-btn'));
-  if (!btns.length) return;
-  var doneCount = 0;
-  function checkDone() {
-    doneCount++;
-    if (doneCount >= btns.length) section.classList.add('cats-entrance-done');
+
+  var doneTimer = null;
+
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      /* Reset so animation replays */
+      section.classList.remove('cats-entrance-done');
+      if (doneTimer) clearTimeout(doneTimer);
+      /* Last btn: 600ms delay + ~900ms duration = 1500ms — add done after that */
+      doneTimer = setTimeout(function () {
+        section.classList.add('cats-entrance-done');
+      }, 820);
+      io.unobserve(section);
+    } else {
+      /* Leaving — clear pending timer, strip done so next re-entry starts fresh */
+      if (doneTimer) { clearTimeout(doneTimer); doneTimer = null; }
+      section.classList.remove('cats-entrance-done');
+    }
+  }, { threshold: 0.01, rootMargin: '0px 0px -28% 0px' });
+  io.observe(section);
+})();
+</script>
+
+<script>
+/* §02 Onboarding — unified entrance sequence, resets on scroll away */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var section  = document.querySelector('.onboarding');
+  var carousel = document.getElementById('onboardCarousel');
+  if (!section || !carousel) return;
+
+  var timers = [];
+
+  function clearTimers() {
+    timers.forEach(clearTimeout);
+    timers = [];
   }
-  btns.forEach(function (btn) {
-    btn.addEventListener('animationend', checkDone, { once: true });
-  });
+
+  function reset() {
+    clearTimers();
+    section.classList.remove('seq', 'seq-done');
+    carousel.dispatchEvent(new CustomEvent('onboard:pause'));
+    carousel.querySelectorAll('.onboard-card.pre-deal')
+      .forEach(function (c) { c.classList.remove('pre-deal'); });
+    /* Pre-deal only the cards that are visible for this replay. */
+    carousel.querySelectorAll('.onboard-card.is-active, .onboard-card.is-next, .onboard-card.is-prev')
+      .forEach(function (c) { c.classList.add('pre-deal'); });
+  }
+
+  function play() {
+    /* Double rAF ensures CSS sees the reset before seq is re-added */
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        section.classList.add('seq');
+
+        var active = carousel.querySelector('.onboard-card.is-active');
+        var next   = carousel.querySelector('.onboard-card.is-next');
+        var prev   = carousel.querySelector('.onboard-card.is-prev');
+
+        if (active) timers.push(setTimeout(function () { active.classList.remove('pre-deal'); }, 360));
+        if (next)   timers.push(setTimeout(function () { next.classList.remove('pre-deal'); },  500));
+        if (prev)   timers.push(setTimeout(function () { prev.classList.remove('pre-deal'); },  640));
+        timers.push(setTimeout(function () {
+          carousel.querySelectorAll('.onboard-card.pre-deal')
+            .forEach(function (c) { c.classList.remove('pre-deal'); });
+          section.classList.add('seq-done');
+          carousel.dispatchEvent(new CustomEvent('onboard:resume'));
+        }, 1150));
+      });
+    });
+  }
+
+  /* Initial pre-deal on page load */
+  reset();
+
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      reset();
+      play();
+      io.unobserve(section);
+    } else {
+      reset();
+    }
+  }, { threshold: 0.01, rootMargin: '0px 0px -28% 0px' });
+  io.observe(section);
 })();
 </script>
 

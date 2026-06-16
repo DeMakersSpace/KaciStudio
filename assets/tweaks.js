@@ -22,10 +22,12 @@ function initReveal() {
   const obs = new IntersectionObserver(
     entries => {
       entries.forEach(e => {
-        e.target.classList.toggle('is-visible', e.isIntersecting);
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-visible');
+        obs.unobserve(e.target);
       });
     },
-    { threshold: 0.05, rootMargin: '0px 0px -48px 0px' }
+    { threshold: 0.01, rootMargin: '0px 0px -28% 0px' }
   );
 
   items.forEach(el => obs.observe(el));
@@ -47,7 +49,7 @@ function initScrollReveal() {
         e.target.classList.toggle('is-visible', e.isIntersecting);
       });
     },
-    { threshold: 0.05, rootMargin: '0px 0px -48px 0px' }
+    { threshold: 0.01, rootMargin: '0px 0px -28% 0px' }
   );
 
   items.forEach(el => obs.observe(el));

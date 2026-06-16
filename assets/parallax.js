@@ -6,8 +6,10 @@
 
   var blocks = Array.from(document.querySelectorAll('.parallax-block'));
   if (!blocks.length) return;
+  var ticking = false;
 
   function tick() {
+    ticking = false;
     var vh = window.innerHeight;
     blocks.forEach(function (block) {
       var rect = block.getBoundingClientRect();
@@ -32,7 +34,13 @@
     });
   }
 
-  window.addEventListener('scroll', tick, { passive: true });
-  window.addEventListener('resize', tick);
+  function requestTick() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('scroll', requestTick, { passive: true });
+  window.addEventListener('resize', requestTick);
   tick();
 })();
