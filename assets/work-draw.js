@@ -61,6 +61,12 @@
 
     var W = Math.max(r1.endX, r2b.endX) + PAD;
 
+    /* Center each line within the viewBox */
+    var line1W   = r1.endX  - PAD;
+    var line2W   = r2b.endX - PAD;
+    var offset1  = (W - line1W) / 2 - PAD;
+    var offset2  = (W - line2W) / 2 - PAD;
+
     var NS  = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(NS, 'svg');
     svg.id  = 'work-headline-svg';
@@ -69,18 +75,28 @@
     svg.setAttribute('aria-hidden', 'true');
     svg.setAttribute('focusable',   'false');
 
-    function appendPaths(dArr, isAccent) {
+    function makeGroup(offset) {
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('transform', 'translate(' + offset.toFixed(2) + ',0)');
+      return g;
+    }
+
+    function appendPaths(parent, dArr, isAccent) {
       dArr.forEach(function (d) {
         var el = document.createElementNS(NS, 'path');
         el.setAttribute('d', d);
         el.setAttribute('class', 'letter-path' + (isAccent ? ' letter-accent' : ''));
-        svg.appendChild(el);
+        parent.appendChild(el);
       });
     }
 
-    appendPaths(r1.paths,  false);
-    appendPaths(r2a.paths, true);
-    appendPaths(r2b.paths, false);
+    var g1 = makeGroup(offset1);
+    var g2 = makeGroup(offset2);
+    appendPaths(g1, r1.paths,  false);
+    appendPaths(g2, r2a.paths, true);
+    appendPaths(g2, r2b.paths, false);
+    svg.appendChild(g1);
+    svg.appendChild(g2);
 
     headline.classList.add('work-headline-hidden');
     headline.parentNode.insertBefore(svg, headline);
