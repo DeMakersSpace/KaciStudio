@@ -385,6 +385,31 @@
 }
 .case-deck strong { color: var(--fg); font-weight: 500; }
 
+.case-proof {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.32fr) 1fr;
+  gap: 12px 18px;
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+.case-proof-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.case-proof-text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  line-height: 1.55;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
 /* Stats inside expand */
 .case-stats {
   display: flex;
@@ -472,6 +497,13 @@
 }
 .case-expand-text strong { color: var(--fg); font-weight: 500; }
 
+@media (max-width: 640px) {
+  .case-proof {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
 /* ── Play overlay ── */
 .play-overlay {
   position: absolute;
@@ -521,6 +553,73 @@
 }
 
 /* ── Showcase controls: prev / next (now inside client-bar) ── */
+/* Scroll-led work reveal choreography */
+.work-motion {
+  --motion-from: translate3d(0, 28px, 0);
+  --motion-delay: 0ms;
+  opacity: 0;
+  transform: var(--motion-from);
+  transition:
+    opacity 640ms cubic-bezier(0.16, 1, 0.3, 1) var(--motion-delay),
+    transform 760ms cubic-bezier(0.16, 1, 0.3, 1) var(--motion-delay);
+  will-change: opacity, transform;
+}
+.work-motion.work-motion-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+}
+.motion-rise { --motion-from: translate3d(0, 34px, 0); }
+.motion-left { --motion-from: translate3d(-36px, 18px, 0); }
+.motion-right { --motion-from: translate3d(36px, 18px, 0); }
+.motion-film { --motion-from: translate3d(0, 42px, 0) rotate(-1.2deg) scale(0.965); }
+.motion-tab { --motion-from: translate3d(0, 14px, 0) scale(0.985); }
+.motion-chip { --motion-from: translate3d(0, 14px, 0); }
+.motion-stat { --motion-from: translate3d(0, 22px, 0) scale(0.94); }
+.motion-detail { --motion-from: translate3d(-20px, 10px, 0); }
+.motion-follow { --motion-from: translate3d(20px, 8px, 0); }
+
+.work-motion-line {
+  position: relative;
+}
+.work-motion-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--rule);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1) calc(var(--motion-delay) + 120ms);
+}
+.work-motion-line.work-motion-in::after {
+  transform: scaleX(1);
+}
+.case.is-active .case-info h2.work-motion-in em {
+  animation: workAccentBloom 900ms cubic-bezier(0.16, 1, 0.3, 1) 220ms both;
+}
+@keyframes workAccentBloom {
+  0% { color: var(--fg); }
+  55% { color: color-mix(in oklch, var(--accent) 78%, var(--cream)); }
+  100% { color: var(--accent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-motion {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .work-motion-line::after {
+    transform: scaleX(1) !important;
+    transition: none !important;
+  }
+  .case.is-active .case-info h2.work-motion-in em {
+    animation: none !important;
+  }
+}
+
 .showcase-controls { display: none; }
 .showcase-btn {
   display: flex;
@@ -694,27 +793,30 @@
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
-          <p class="case-deck"><strong>Resurrack</strong> and <strong>LittleMissMarket</strong> came to us ahead of a co-branded drop — two lifestyle audiences, one story to tell. We built the narrative arc across eight TikToks and a co-hosted IG shoot day, framing the collab as a "weekend in, weekend out" ritual.</p>
-          <div style="padding-top: 16px; border-top: 1px solid var(--rule); margin-bottom: 16px;">
-            <p style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted);">Results updating — check back soon</p>
+          <p class="case-deck"><strong>Resurrack</strong> and <strong>LittleMissMarket</strong> needed a collab story that could hold two lifestyle audiences without feeling like a forced partnership. We shaped the launch around a shared weekend ritual: easy to understand, social-first, and made for the girls who already live in that world.</p>
+          <div class="case-proof">
+            <span class="case-proof-kicker">What we made</span>
+            <span class="case-proof-text">Campaign narrative &middot; eight TikToks &middot; co-hosted IG shoot day &middot; teaser reel &middot; vendor recruitment content</span>
           </div>
           <div class="case-follow">
             <span class="case-follow-label">Find them on</span>
             <a class="case-follow-link" href="https://www.instagram.com/resurrack/" target="_blank" rel="noopener noreferrer">@resurrack</a>
             <span class="case-follow-sep">·</span>
             <a class="case-follow-link" href="https://www.instagram.com/littlemissmrkt/" target="_blank" rel="noopener noreferrer">@littlemissmrkt</a>
+            <span class="case-follow-sep">&middot;</span>
+            <a class="case-follow-link" href="https://www.instagram.com/reel/DWQMMTnk6gS/" target="_blank" rel="noopener noreferrer">View reel</a>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Brief</span>
-            <p class="case-expand-text">Two distinct communities, both leaning into the same slow, intentional living aesthetic. The ask: make the collab feel organic, not promotional.</p>
+            <p class="case-expand-text">Two distinct communities, both leaning into the same slow, intentional living aesthetic. The ask was to make the collab feel native to both brands instead of looking like a standard campaign announcement.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">Our Approach</span>
-            <p class="case-expand-text">Rather than announcing the drop, we let it unfold — framing it as a <strong>"weekend in, weekend out"</strong> ritual. Content lived in the everyday: Sunday markets, slow mornings. Captions led with feeling, not SKUs.</p>
+            <p class="case-expand-text">Rather than announcing the drop all at once, we let it unfold through mood, routine, and community cues. The teaser leaned into Little Miss Market's voice while the wider content system gave Resurrack and LMM a common language across TikTok and Instagram.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Result</span>
-            <p class="case-expand-text">Content that felt brand-native, not agency-made. Audience overlap between both brands amplified reach without paid spend.</p>
+            <p class="case-expand-text">The launch gained a clearer pre-event hook: cute brands, cool girls, and a market made for the girls. Instead of treating the reel as a numeric proof point, the case now shows the real value: a branded invitation people could immediately understand and share.</p>
           </div>
       </div>
     </div>
@@ -740,7 +842,11 @@
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
-          <p class="case-deck"><strong>Flyco</strong> brought us their Blackpink concert campaign — a moment to put their customisable luggage in front of fans who live for bold self-expression.</p>
+          <p class="case-deck"><strong>Flyco</strong> brought us a time-sensitive concert campaign with a sharp cultural window: Blackpink in Singapore, BLINKs planning their outfits, and customisable luggage that could become part of the fan identity instead of just the travel kit.</p>
+          <div class="case-proof">
+            <span class="case-proof-kicker">What we made</span>
+            <span class="case-proof-text">Campaign concept &middot; short-form video direction &middot; shoot styling &middot; edit pacing &middot; social-first product framing</span>
+          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>23K+</em></div>
@@ -753,15 +859,15 @@
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Brief</span>
-            <p class="case-expand-text">The Blackpink Singapore concert was weeks away — they needed content that spoke directly to the BLINK fanbase. The product: customisable luggage. The audience: fans who see travel as identity.</p>
+            <p class="case-expand-text">The Blackpink Singapore concert was weeks away, which meant the content had to feel current immediately. The product was customisable luggage, but the real audience behaviour was self-expression, fandom, and the excitement of preparing for the show.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">Our Approach</span>
-            <p class="case-expand-text">Not luggage ads, but BLINK-coded content that happened to feature Flyco. High-energy edits, trend-aware pacing, visuals that matched the concert aesthetic.</p>
+            <p class="case-expand-text">We treated the luggage as part of the concert ritual rather than a standalone product. The edit language, styling, and pacing were built around fan culture first, so the product could enter the story naturally.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Result</span>
-            <p class="case-expand-text"><strong>23K+</strong> views. Outperformed typical product posts and reached an audience who engaged because they wanted to.</p>
+            <p class="case-expand-text"><strong>23K+</strong> campaign video views, with the content reaching beyond a typical product post because it entered a moment the audience already cared about.</p>
           </div>
       </div>
     </div>
@@ -785,7 +891,11 @@
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
-          <p class="case-deck"><strong>Brixx Derma</strong> is a derm-led skincare line — rigorous formulas, but a story that kept getting lost in jargon. We rebuilt their social around <em>"bedtime, not breakthrough"</em>.</p>
+          <p class="case-deck"><strong>Brixx Derma</strong> had the credibility: derm-led formulas, ingredient logic, and real product depth. What they needed was a social voice that made all of that feel calm, understandable, and worth coming back to.</p>
+          <div class="case-proof">
+            <span class="case-proof-kicker">What we made</span>
+            <span class="case-proof-text">Brand voice system &middot; education-led reels &middot; product drop copy &middot; Telegram community rhythm &middot; skincare storytelling</span>
+          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>30K+</em></div>
@@ -806,15 +916,15 @@
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Brief</span>
-            <p class="case-expand-text">Rigorous formulas with a credibility problem on social. Their content leaned too clinical — it educated without connecting. They needed a voice that felt like a trusted friend.</p>
+            <p class="case-expand-text">Their content had useful information, but it leaned too clinical for the way people actually talk about skin. The brief was to preserve trust while making the brand easier to read, save, and recommend.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">Our Approach</span>
-            <p class="case-expand-text">Nightly routine TikToks, ingredient storytelling that felt conversational, and Telegram community drops. Brand voice, strategy, education, community, and product drops — all from one team.</p>
+            <p class="case-expand-text">We rebuilt the voice around routine, reassurance, and clear ingredient storytelling. Night routine TikToks, product-drop copy, and Telegram community updates worked together so education no longer felt separate from desire.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Result</span>
-            <p class="case-expand-text"><strong>30K+</strong> Instagram views, <strong>+500%</strong> TikTok view growth, <strong>+1,700%</strong> TikTok likes growth. A community that replies, shares, and waits for the next drop.</p>
+            <p class="case-expand-text"><strong>30K+</strong> Instagram views with <strong>73%</strong> from new audiences, plus <strong>+500%</strong> TikTok view growth and <strong>+1,700%</strong> TikTok likes growth. The brand became easier to follow because the content finally sounded like care, not a lecture.</p>
           </div>
       </div>
     </div>
@@ -839,7 +949,11 @@
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
-          <p class="case-deck"><strong>Melissa Shoes</strong> needed a shift from static product visuals to story-driven, motion-first content connecting Gen Z and millennials.</p>
+          <p class="case-deck"><strong>Melissa Shoes</strong> already had heritage, recognisable silhouettes, and a strong fashion memory. The opportunity was to make the brand feel current again through motion-first content built for younger audiences.</p>
+          <div class="case-proof">
+            <span class="case-proof-kicker">What we made</span>
+            <span class="case-proof-text">Content strategy &middot; motion-led reels &middot; campaign styling &middot; platform-native edits &middot; brand voice refresh</span>
+          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>10K+</em></div>
@@ -856,15 +970,15 @@
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Brief</span>
-            <p class="case-expand-text">A brand with real heritage and a clear Gen Z opportunity — needing motion-first content to shift their positioning from legacy label to future-facing fashion brand.</p>
+            <p class="case-expand-text">The brand did not need to explain its history. It needed content that translated that history into today: faster, more styled, more social, and more aligned with how Gen Z and millennials discover fashion.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">Our Approach</span>
-            <p class="case-expand-text">Trend-led, movement-heavy content styled to speak to both Gen Z and millennials. Every video started with the culture, not the product.</p>
+            <p class="case-expand-text">We moved away from static product framing and built reels around styling, movement, and cultural context. The product stayed present, but the hook came from the feeling of wearing it.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Result</span>
-            <p class="case-expand-text"><strong>10K+</strong> views across campaigns. <strong>900%+</strong> audience interaction uplift. Consistently outperformed their baseline.</p>
+            <p class="case-expand-text"><strong>10K+</strong> views across campaigns and a <strong>900%+</strong> audience interaction uplift. The content gave a familiar brand a more current rhythm without losing its fashion identity.</p>
           </div>
       </div>
     </div>
@@ -887,7 +1001,11 @@
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
-          <p class="case-deck"><strong>Coffeeman@NYP</strong> needed buzz for their new menu and content that let the craft speak — intimate, warm, and intentional.</p>
+          <p class="case-deck"><strong>Coffeeman@NYP</strong> needed a launch story for a new menu inside a campus environment. The content had to feel appetising and polished without making the cafe feel out of reach for the students walking past it every day.</p>
+          <div class="case-proof">
+            <span class="case-proof-kicker">What we made</span>
+            <span class="case-proof-text">Menu launch reel &middot; food and beverage close-ups &middot; craft-led edit &middot; warm campus storytelling &middot; social captions</span>
+          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>1K+</em></div>
@@ -908,15 +1026,15 @@
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Brief</span>
-            <p class="case-expand-text">A new menu and a story worth telling — craft coffee and thoughtful food in a campus setting. Content that communicated quality without pretension.</p>
+            <p class="case-expand-text">A new menu needed attention, but the tone mattered. The cafe had to look intentional and worth visiting while still feeling familiar to a student audience.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">Our Approach</span>
-            <p class="case-expand-text">Close-up sequences, craft-in-motion storytelling, honest tone. No lifestyle inflation. Just good food, made well, shown properly.</p>
+            <p class="case-expand-text">We used close-up sequences, craft-in-motion shots, and clean food pacing to make the menu feel tangible. The copy stayed warm and direct, keeping the focus on good food made well.</p>
           </div>
           <div class="case-expand-section">
             <span class="case-expand-label">The Result</span>
-            <p class="case-expand-text"><strong>1K+</strong> views per video. <strong>92%</strong> new audiences. Hundreds of genuine interactions from people who made the trip in person.</p>
+            <p class="case-expand-text"><strong>1K+</strong> views per video, <strong>92%</strong> new audiences reached, and hundreds of interactions. The launch content did its job by turning a menu update into a reason to stop by.</p>
           </div>
       </div>
     </div>
@@ -932,8 +1050,41 @@
     </div>
     <div class="case-info">
       <div class="eyebrow">CASE 006 · Happy Rei</div>
-      <h2><em>Happy Rei</em></h2>
-      <p style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-muted); margin: 0;">Case study coming soon</p>
+      <h2>Letting tiny reviewers make the case for <em>comfort.</em></h2>
+      <div class="case-chips">
+        <span class="case-chip">Content Creation</span>
+        <span class="case-chip">Kids-led Reels</span>
+        <span class="case-chip">Product Storytelling</span>
+        <span class="case-chip">Lifestyle</span>
+        <span class="case-chip">Community</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+          <p class="case-deck"><strong>Happy Rei</strong> needed content that could show softness, usefulness, and parent trust without sounding like a catalogue. We built the reel around the brand's most honest proof point: children choosing and rating their own favourites.</p>
+          <div class="case-proof">
+            <span class="case-proof-kicker">What we made</span>
+            <span class="case-proof-text">Kids-led reel &middot; product review concept &middot; lifestyle framing &middot; parent-friendly caption &middot; comfort-led storytelling</span>
+          </div>
+          <div class="case-follow">
+            <span class="case-follow-label">Find them on</span>
+            <a class="case-follow-link" href="https://www.instagram.com/happyrei.sg/" target="_blank" rel="noopener noreferrer">@happyrei.sg</a>
+            <span class="case-follow-sep">&middot;</span>
+            <a class="case-follow-link" href="https://www.instagram.com/reel/DXRGdD8TDvw/" target="_blank" rel="noopener noreferrer">View reel</a>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Happy Rei sells pieces parents choose with care, but the strongest proof was already happening at home: children reaching for the same favourites again and again. The ask was to turn that everyday affection into content that felt real, warm, and easy to trust.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">We framed the reel as a tiny review session instead of a product showcase. The children led the rhythm, the products stayed tactile and close, and the caption invited other parents into the conversation: which favourite would your little one choose?</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text">A product story that felt like parent-to-parent proof. The reel made Happy Rei's comfort visible through genuine reactions, giving the brand a softer and more believable way to show why the pieces matter beyond how they look.</p>
+          </div>
+      </div>
     </div>
   </article>
 
@@ -947,8 +1098,41 @@
     </div>
     <div class="case-info">
       <div class="eyebrow">CASE 007 · Luminance Learning</div>
-      <h2><em>Luminance Learning</em></h2>
-      <p style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-muted); margin: 0;">Case study coming soon</p>
+      <h2>Turning Math anxiety into a <em>guided conversation.</em></h2>
+      <div class="case-chips">
+        <span class="case-chip">Education</span>
+        <span class="case-chip">Q&amp;A Reel</span>
+        <span class="case-chip">Founder-led Content</span>
+        <span class="case-chip">Trust Building</span>
+        <span class="case-chip">Social Copy</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+          <p class="case-deck"><strong>Luminance Learning</strong> needed to speak to students and parents without making Math feel heavier than it already can. We shaped a 60-second Q&amp;A around the questions families quietly carry: confidence, fear, foundations, and the small wins that rebuild belief.</p>
+          <div class="case-proof">
+            <span class="case-proof-kicker">What we made</span>
+            <span class="case-proof-text">60-second Q&amp;A reel &middot; founder-led script structure &middot; education copy &middot; trust-building edit &middot; parent-facing social hook</span>
+          </div>
+          <div class="case-follow">
+            <span class="case-follow-label">Find them on</span>
+            <a class="case-follow-link" href="https://www.instagram.com/luminance_learning/" target="_blank" rel="noopener noreferrer">@luminance_learning</a>
+            <span class="case-follow-sep">&middot;</span>
+            <a class="case-follow-link" href="https://www.instagram.com/reel/DX3Hmaay-r7/" target="_blank" rel="noopener noreferrer">View reel</a>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Brief</span>
+            <p class="case-expand-text">Math tuition is often sold through grades, but Luminance Learning's real difference is emotional: students are seen, supported, and guided step by step. The content needed to make that care visible before a parent ever sends an enquiry.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">Our Approach</span>
+            <p class="case-expand-text">We used a direct Q&amp;A format so Mrs Khet could answer the real concerns behind Math learning: fear, weak foundations, and the need for confidence. The pacing stayed clear and human, with social copy that positioned coaching as support, not pressure.</p>
+          </div>
+          <div class="case-expand-section">
+            <span class="case-expand-label">The Result</span>
+            <p class="case-expand-text">A reel that gives parents a fast read on the teaching philosophy: calm, structured, and student-first. Instead of promising quick fixes, the content shows the trust-building work behind helping students believe in themselves again.</p>
+          </div>
+      </div>
     </div>
   </article>
 
@@ -985,8 +1169,125 @@
   var prevBtn = document.querySelector('.showcase-prev');
   var nextBtn = document.querySelector('.showcase-next');
   var current = 0;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var motionObserver = null;
+
+  function addMotion(el, variant, delay, drawLine) {
+    if (!el) return;
+    el.classList.add('work-motion');
+    if (variant) el.classList.add(variant);
+    if (drawLine) el.classList.add('work-motion-line');
+    el.style.setProperty('--motion-delay', (delay || 0) + 'ms');
+  }
+
+  function setupWorkMotions() {
+    addMotion(document.querySelector('.work-intro p'), 'motion-rise', 120);
+    addMotion(document.querySelector('.client-bar'), 'motion-tab', 0, true);
+    document.querySelectorAll('.client-tab').forEach(function (tab, i) {
+      addMotion(tab, 'motion-tab', 80 + i * 34);
+    });
+
+    cases.forEach(function (caseEl) {
+      addMotion(caseEl.querySelector('.case-video-wrap'), 'motion-film', 0);
+      addMotion(caseEl.querySelector('.case-info .eyebrow'), 'motion-left', 90);
+      addMotion(caseEl.querySelector('.case-info h2'), 'motion-right', 160);
+      caseEl.querySelectorAll('.case-chip').forEach(function (chip, i) {
+        addMotion(chip, 'motion-chip', 230 + i * 42);
+      });
+      addMotion(caseEl.querySelector('.case-deck'), 'motion-rise', 260);
+      addMotion(caseEl.querySelector('.case-proof'), 'motion-line', 300);
+      caseEl.querySelectorAll('.case-stat').forEach(function (stat, i) {
+        addMotion(stat, 'motion-stat', 350 + i * 80);
+      });
+      addMotion(caseEl.querySelector('.case-follow'), 'motion-follow', 420);
+      caseEl.querySelectorAll('.case-expand-section').forEach(function (section, i) {
+        addMotion(section, 'motion-detail', 500 + i * 95, true);
+      });
+    });
+
+    var future = document.querySelector('.future');
+    if (future) {
+      addMotion(future.querySelector('.eyebrow'), 'motion-left', 0);
+      addMotion(future.querySelector('h2'), 'motion-rise', 120);
+      addMotion(future.querySelector('p'), 'motion-rise', 220);
+      addMotion(future.querySelector('.btn'), 'motion-tab', 320);
+    }
+  }
+
+  function revealMotion(el) {
+    if (el) el.classList.add('work-motion-in');
+  }
+
+  function observeMotion(el) {
+    if (!el) return;
+    if (reduceMotion || !motionObserver) {
+      revealMotion(el);
+      return;
+    }
+    motionObserver.unobserve(el);
+    motionObserver.observe(el);
+  }
+
+  function isInMotionView(el) {
+    var rect = el.getBoundingClientRect();
+    var viewportH = window.innerHeight || document.documentElement.clientHeight;
+    return rect.top < viewportH * 0.9 && rect.bottom > viewportH * 0.08;
+  }
+
+  function observeMotionSet(root, reset) {
+    if (!root) return;
+    root.querySelectorAll('.work-motion').forEach(function (el) {
+      if (reset) {
+        if (motionObserver) motionObserver.unobserve(el);
+        el.classList.remove('work-motion-in');
+        void el.offsetWidth;
+      }
+      if (!reduceMotion && motionObserver && isInMotionView(el)) {
+        requestAnimationFrame(function () { revealMotion(el); });
+      } else {
+        observeMotion(el);
+      }
+    });
+  }
+
+  function resetMotionSet(root) {
+    if (!root) return;
+    root.querySelectorAll('.work-motion').forEach(function (el) {
+      if (motionObserver) motionObserver.unobserve(el);
+      el.classList.remove('work-motion-in');
+    });
+  }
+
+  function replayActiveCaseMotion() {
+    var activeCase = cases[current];
+    if (!activeCase) return;
+    observeMotionSet(activeCase, true);
+  }
+
+  setupWorkMotions();
+
+  if (!reduceMotion && typeof IntersectionObserver !== 'undefined') {
+    motionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        revealMotion(entry.target);
+        motionObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+  }
+
+  document.querySelectorAll('.work-motion').forEach(function (el) {
+    if (!el.closest('.case') || el.closest('.case.is-active')) {
+      observeMotion(el);
+    }
+  });
 
   function goTo(i, pushHash) {
+    if (i === current) {
+      replayActiveCaseMotion();
+      return;
+    }
+
     /* pause all videos in the outgoing case */
     cases[current].querySelectorAll('video').forEach(function (v) {
       v.pause();
@@ -995,6 +1296,7 @@
     cases[current].querySelectorAll('.case-video-wrap').forEach(function (w) {
       w.classList.remove('is-playing');
     });
+    resetMotionSet(cases[current]);
 
     cases[current].classList.remove('is-active');
     tabs[current].classList.remove('is-active');
@@ -1023,6 +1325,7 @@
 
     /* scroll page to top of showcase bar */
     document.querySelector('.client-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    replayActiveCaseMotion();
   }
 
   /* navigate to hash on load */
