@@ -1,8 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="sand" data-density="normal" data-grain="on">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="Start your project with KACISTUDIO. We reply to every brief within 48 hours. Singapore-based, open for two new brands in Q3 2026.">
@@ -297,6 +298,18 @@
   cursor: wait;
   opacity: 0.72;
 }
+.spam-field {
+  position: absolute !important;
+  left: -10000px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+.spam-field input {
+  width: 1px !important;
+  height: 1px !important;
+}
 
 /* Other ways to reach us */
 .other-ways {
@@ -491,7 +504,12 @@
     <input type="hidden" name="subject" value="New client brief from KACISTUDIO website">
     <input type="hidden" name="from_name" value="KACISTUDIO Website">
     <input type="hidden" name="services" id="selected-services" value="">
-    <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
+    <input type="hidden" name="form_started_at" id="form-started-at" value="">
+    <input type="checkbox" name="botcheck" class="hidden" style="display:none;" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Spam check">
+    <div class="spam-field" aria-hidden="true">
+      <label for="brief-website">Website</label>
+      <input id="brief-website" type="text" name="website" tabindex="-1" autocomplete="off">
+    </div>
     <div class="field">
       <label for="brief-name">Your name <span class="req">*</span></label>
       <input id="brief-name" type="text" name="name" placeholder="First and last" autocomplete="name" maxlength="120" required>
@@ -608,6 +626,12 @@
   const formStatus = document.getElementById("form-status");
   const submitButton = document.getElementById("submit-button");
   const selectedServices = document.getElementById("selected-services");
+  const formStartedAt = document.getElementById("form-started-at");
+  const spamWebsite = document.getElementById("brief-website");
+  const botcheck = briefForm.querySelector('input[name="botcheck"]');
+  const minimumSubmitMs = 3500;
+
+  formStartedAt.value = String(Date.now());
 
   function updateSelectedServices() {
     selectedServices.value = [...document.querySelectorAll('#chips input[name="service_options"]:checked')]
@@ -619,6 +643,20 @@
     e.preventDefault();
     updateSelectedServices();
 
+    const elapsed = Date.now() - Number(formStartedAt.value || 0);
+    if ((botcheck && botcheck.checked) || (spamWebsite && spamWebsite.value.trim())) {
+      briefForm.reset();
+      updateSelectedServices();
+      formStatus.textContent = "";
+      return;
+    }
+
+    if (elapsed < minimumSubmitMs) {
+      formStatus.textContent = "Please take a moment to complete the brief before sending.";
+      formStatus.classList.add("error");
+      return;
+    }
+
     formStatus.textContent = "Sending your brief...";
     formStatus.classList.remove("error");
     submitButton.disabled = true;
@@ -626,6 +664,7 @@
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
+        headers: { "Accept": "application/json" },
         body: new FormData(briefForm)
       });
       const result = await response.json();
@@ -647,8 +686,10 @@
   });
 </script>
 <script src="assets/tweaks.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" integrity="sha384-H2/JUQ2ozWNVrMrubXyimhDIGYpdzhYNhsR90WosBU5Iq1GilD0bTJ0+5jgXW+zq" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" integrity="sha384-3TaxGqyHrMuRIWY5Z5WHNIzgNRqGIUJE+mk6tm+g1wkm9Ux2kUyOLfy9AsNWXA6u" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script src="assets/contact-draw.js" defer></script>
 </body>
 </html>
+
+

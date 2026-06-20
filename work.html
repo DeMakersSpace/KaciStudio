@@ -1,8 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="sand" data-density="normal" data-grain="on">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="Selected work from KACISTUDIO — case studies across beauty, lifestyle, fashion, F&B, and education. Brixx Derma: +1,700% TikTok likes growth. Melissa Shoes: +900% interaction.">
@@ -105,46 +106,108 @@
 
 /* ── Client bar ── */
 .client-bar {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  max-width: 1200px;
-  margin: clamp(22px, 3vw, 40px) auto 0;
-  padding: clamp(10px, 1.4vw, 16px) var(--pad-gutter);
+  gap: 14px clamp(16px, 2vw, 28px);
+  max-width: 1240px;
+  margin: clamp(24px, 3.5vw, 48px) auto 0;
+  padding: clamp(14px, 1.8vw, 22px) var(--pad-gutter);
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--bg-alt) 70%, transparent), transparent 34%),
+    var(--bg);
 }
 
 .client-tabs {
+  grid-column: 1 / -1;
+  grid-row: 2;
   display: flex;
-  gap: 5px;
-  overflow-x: auto;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: clamp(8px, 1vw, 12px);
+  overflow: visible;
   scrollbar-width: none;
-  flex-shrink: 1;
   min-width: 0;
-  padding-bottom: 1px;
+  padding: 2px 2px 3px;
 }
 .client-tabs::-webkit-scrollbar { display: none; }
 
 .client-tab {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 9px;
+  flex: 0 0 auto;
+  min-height: 46px;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: .5px solid var(--rule);
-  background: transparent;
+  padding: 11px 13px 10px;
+  border: 0;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--bg-alt) 42%, transparent);
   color: var(--fg-muted);
   cursor: pointer;
+  text-align: left;
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  scroll-snap-align: start;
+  transition: background 0.24s ease, color 0.24s ease, transform 0.24s ease;
 }
-.client-tab:hover { color: var(--fg); border-color: var(--fg); }
-.client-tab.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 600; }
+.client-tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--rule);
+  transform-origin: left;
+  transform: scaleX(0.34);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), background 0.24s ease;
+}
+.client-tab-num {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+.client-tab-name {
+  color: currentColor;
+  justify-self: start;
+}
+.client-tab:hover,
+.client-tab:focus-visible {
+  color: var(--fg);
+  background: color-mix(in srgb, var(--bg-alt) 68%, transparent);
+  outline: none;
+}
+.client-tab:hover::before,
+.client-tab:focus-visible::before {
+  transform: scaleX(0.72);
+  background: color-mix(in srgb, var(--fg) 45%, var(--rule));
+}
+.client-tab.is-active {
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 600;
+  transform: translateY(-1px);
+}
+.client-tab.is-active::before {
+  transform: scaleX(1);
+  background: var(--accent);
+  height: 2px;
+}
+.client-tab.is-active .client-tab-num {
+  color: var(--accent);
+}
 
 .client-nav {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -259,8 +322,8 @@
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(88, 71, 56, 0.18);
   color: var(--fg);
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -330,7 +393,8 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 0;
+  min-height: 44px;
+  padding: 0 4px;
 }
 
 .case-info .eyebrow {
@@ -454,6 +518,9 @@
 }
 .case-follow-label { color: var(--fg-muted); opacity: 0.75; }
 .case-follow-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
   color: var(--fg);
   text-decoration: none;
   border-bottom: 1px solid var(--rule);
@@ -646,8 +713,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: .5px solid var(--rule);
   font-size: 14px;
@@ -684,10 +751,42 @@
   .case-info { padding: 18px 0 0; }
 }
 
+@media (max-width: 980px) {
+  .client-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+  }
+}
+
 @media (max-width: 430px) {
   .work-hero h1 { font-size: clamp(40px, 9vw, 56px); }
-  .client-bar { flex-wrap: wrap; gap: 10px; }
-  .client-counter { order: -1; }
+  .client-bar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding-inline: 16px;
+  }
+  .client-tabs {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(max-content, 76vw);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+    margin-inline: -16px;
+    padding-inline: 16px;
+  }
+  .client-tab {
+    min-height: 52px;
+    padding: 13px 14px 12px;
+  }
+  .client-nav {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .client-counter { min-width: auto; }
   .future h2 { font-size: clamp(30px, 8vw, 44px); }
   .future .btn { width: 100%; justify-content: center; }
   .case-video-wrap { width: 70%; }
@@ -747,13 +846,13 @@
 <!-- Client selector bar -->
 <div class="client-bar">
   <div class="client-tabs" role="tablist" aria-label="Select client">
-    <button class="client-tab is-active" role="tab" data-idx="0" aria-selected="true">Resurrack × LMM</button>
-    <button class="client-tab" role="tab" data-idx="1" aria-selected="false">Flyco</button>
-    <button class="client-tab" role="tab" data-idx="2" aria-selected="false">Brixx Derma</button>
-    <button class="client-tab" role="tab" data-idx="3" aria-selected="false">Melissa Shoes</button>
-    <button class="client-tab" role="tab" data-idx="4" aria-selected="false">Coffeeman@NYP</button>
-    <button class="client-tab" role="tab" data-idx="5" aria-selected="false">Happy Rei</button>
-    <button class="client-tab" role="tab" data-idx="6" aria-selected="false">Luminance Learning</button>
+    <button class="client-tab is-active" id="tab-resurrack" role="tab" data-idx="0" aria-selected="true" aria-controls="case-resurrack" aria-label="Case 1, Resurrack × LittleMissMarket" tabindex="0"><span class="client-tab-num">01</span><span class="client-tab-name">Resurrack × LMM</span></button>
+    <button class="client-tab" id="tab-flyco" role="tab" data-idx="1" aria-selected="false" aria-controls="case-flyco" aria-label="Case 2, Flyco" tabindex="-1"><span class="client-tab-num">02</span><span class="client-tab-name">Flyco</span></button>
+    <button class="client-tab" id="tab-brixx" role="tab" data-idx="2" aria-selected="false" aria-controls="case-brixx" aria-label="Case 3, Brixx Derma" tabindex="-1"><span class="client-tab-num">03</span><span class="client-tab-name">Brixx Derma</span></button>
+    <button class="client-tab" id="tab-melissa" role="tab" data-idx="3" aria-selected="false" aria-controls="case-melissa" aria-label="Case 4, Melissa Shoes" tabindex="-1"><span class="client-tab-num">04</span><span class="client-tab-name">Melissa Shoes</span></button>
+    <button class="client-tab" id="tab-coffeeman" role="tab" data-idx="4" aria-selected="false" aria-controls="case-coffeeman" aria-label="Case 5, Coffeeman at NYP" tabindex="-1"><span class="client-tab-num">05</span><span class="client-tab-name">Coffeeman@NYP</span></button>
+    <button class="client-tab" id="tab-happyrei" role="tab" data-idx="5" aria-selected="false" aria-controls="case-happyrei" aria-label="Case 6, Happy Rei" tabindex="-1"><span class="client-tab-num">06</span><span class="client-tab-name">Happy Rei</span></button>
+    <button class="client-tab" id="tab-luminance" role="tab" data-idx="6" aria-selected="false" aria-controls="case-luminance" aria-label="Case 7, Luminance Learning" tabindex="-1"><span class="client-tab-num">07</span><span class="client-tab-name">Luminance Learning</span></button>
   </div>
   <div class="client-nav">
     <button class="showcase-btn showcase-prev" aria-label="Previous client" disabled>
@@ -772,12 +871,12 @@
 <section class="showcase">
 
   <!-- Case 01 · Resurrack × LMM -->
-  <article class="case is-active" id="case-resurrack">
+  <article class="case is-active" id="case-resurrack" role="tabpanel" aria-labelledby="tab-resurrack" tabindex="0">
     <div class="case-video-wrap">
       <div class="case-strip">
-        <video src="media/For%20WORK%20Page/Resurrack%20X%20LMM/LMM%20TEASER%20VIDEO.mp4" poster="media/posters/resurrack-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Resurrack × LittleMissMarket teaser video"></video>
-        <video src="media/For%20WORK%20Page/Resurrack%20X%20LMM/Vendor%20recruitment%20video.MOV" poster="media/posters/resurrack-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Resurrack × LittleMissMarket vendor recruitment video"></video>
-        <video src="media/For%20WORK%20Page/Resurrack%20X%20LMM/_What%20do%20you%20want%20to%20say%20to%20the%20next%20person_%20Trend.mov" poster="media/posters/resurrack-3.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Resurrack × LittleMissMarket trend video"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957646/Resurrack_X_LMM2_uka3j0.mp4" poster="media/posters/resurrack-1.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Resurrack × LittleMissMarket teaser video"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957650/Resurrack_X_LMM1_xult98.mov" poster="media/posters/resurrack-2.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Resurrack × LittleMissMarket vendor recruitment video"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957654/Resurrack_X_LMM3_o6whkp.mov" poster="media/posters/resurrack-3.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Resurrack × LittleMissMarket trend video"></video>
       </div>
     </div>
     <div class="case-info">
@@ -823,11 +922,11 @@
   </article>
 
   <!-- Case 02 · Flyco -->
-  <article class="case" id="case-flyco">
+  <article class="case" id="case-flyco" role="tabpanel" aria-labelledby="tab-flyco" tabindex="0" hidden>
     <div class="case-video-wrap">
       <div class="case-strip">
-        <video src="media/For%20WORK%20Page/Flyco/IMG_9574.mov" poster="media/posters/flyco-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Flyco campaign video 1"></video>
-        <video src="media/For%20WORK%20Page/Flyco/IMG_9575.mov" poster="media/posters/flyco-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Flyco campaign video 2"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957124/Flyco1_wqktkl.mov" poster="media/posters/flyco-1.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Flyco campaign video 1"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957128/Flyco2_top6ad.mov" poster="media/posters/flyco-2.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Flyco campaign video 2"></video>
       </div>
     </div>
     <div class="case-info">
@@ -874,9 +973,9 @@
   </article>
 
   <!-- Case 03 · Brixx Derma -->
-  <article class="case" id="case-brixx">
+  <article class="case" id="case-brixx" role="tabpanel" aria-labelledby="tab-brixx" tabindex="0" hidden>
     <div class="case-video-wrap">
-      <video src="media/For%20WORK%20Page/Brixx%20Derma/IMG_8332.MOV" poster="media/posters/brixx.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Brixx Derma skincare content video"></video>
+      <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781956748/Brixx_Derma_owbxo4.mov" poster="media/posters/brixx.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Brixx Derma skincare content video"></video>
     </div>
     <div class="case-info">
       <div class="eyebrow">CASE 003 · Brixx Derma</div>
@@ -931,14 +1030,15 @@
   </article>
 
   <!-- Case 04 · Melissa Shoes -->
-  <article class="case" id="case-melissa">
+  <article class="case" id="case-melissa" role="tabpanel" aria-labelledby="tab-melissa" tabindex="0" hidden>
     <div class="case-video-wrap">
-      <div class="case-no-video">
+      <!-- Reserved for Melissa Shoes Cloudinary video. Replace this block with a <video> tag when the link is ready. -->
+      <div class="case-no-video" data-video-slot="melissa-cloudinary">
         <span class="video-placeholder-label">Video<br>coming soon</span>
       </div>
     </div>
     <div class="case-info">
-      <div class="eyebrow">CASE 004 · Melissa Shoes</div>
+      <div class="eyebrow">CASE 004 · Melissa Shoes · by way of NYP SBM TEP</div>
       <h2>Repositioning a heritage footwear label for <em>Gen Z.</em></h2>
       <div class="case-chips">
         <span class="case-chip">Content Creation</span>
@@ -985,9 +1085,9 @@
   </article>
 
   <!-- Case 05 · Coffeeman@NYP -->
-  <article class="case" id="case-coffeeman">
+  <article class="case" id="case-coffeeman" role="tabpanel" aria-labelledby="tab-coffeeman" tabindex="0" hidden>
     <div class="case-video-wrap">
-      <video src="media/For%20WORK%20Page/Coffeeman/COFFEEMAN.mov" poster="media/posters/coffeeman.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Coffeeman@NYP menu launch campaign video"></video>
+      <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957039/COFFEEMAN_psl5yt.mov" poster="media/posters/coffeeman.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Coffeeman@NYP menu launch campaign video"></video>
     </div>
     <div class="case-info">
       <div class="eyebrow">CASE 005 · Coffeeman@NYP</div>
@@ -1041,11 +1141,11 @@
   </article>
 
   <!-- Case 06 · Happy Rei -->
-  <article class="case" id="case-happyrei">
+  <article class="case" id="case-happyrei" role="tabpanel" aria-labelledby="tab-happyrei" tabindex="0" hidden>
     <div class="case-video-wrap">
       <div class="case-strip">
-        <video src="media/For%20WORK%20Page/Happy%20Rei/18%20April%20-%20Kids%20Rate%20Happy%20Rei.mov" poster="media/posters/happyrei-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Happy Rei — Kids Rate Happy Rei video"></video>
-        <video src="media/For%20WORK%20Page/Happy%20Rei/IMG_3192.MOV" poster="media/posters/happyrei-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Happy Rei video 2"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957208/Happy_Rei1_xr468y.mov" poster="media/posters/happyrei-1.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Happy Rei — Kids Rate Happy Rei video"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957216/Happy_Rei2_ydzdb9.mov" poster="media/posters/happyrei-2.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Happy Rei video 2"></video>
       </div>
     </div>
     <div class="case-info">
@@ -1089,11 +1189,10 @@
   </article>
 
   <!-- Case 07 · Luminance Learning -->
-  <article class="case" id="case-luminance">
+  <article class="case" id="case-luminance" role="tabpanel" aria-labelledby="tab-luminance" tabindex="0" hidden>
     <div class="case-video-wrap">
       <div class="case-strip">
-        <video src="media/For%20WORK%20Page/Luminance%20Learning/DRAFT%203_60%20SECONDS.mov" poster="media/posters/luminance-1.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Luminance Learning — 60 second brand video"></video>
-        <video src="media/For%20WORK%20Page/Luminance%20Learning/DRAFT%203_Luminance%20Learning%20Introduction.MOV" poster="media/posters/luminance-2.jpg" controls controlsList="nodownload" preload="metadata" playsinline aria-label="Luminance Learning introduction video"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781957281/Luminance_Learning1_cstiua.mov" poster="media/posters/luminance-1.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Luminance Learning — 60 second brand video"></video>
       </div>
     </div>
     <div class="case-info">
@@ -1299,14 +1398,18 @@
     resetMotionSet(cases[current]);
 
     cases[current].classList.remove('is-active');
+    cases[current].hidden = true;
     tabs[current].classList.remove('is-active');
     tabs[current].setAttribute('aria-selected', 'false');
+    tabs[current].setAttribute('tabindex', '-1');
 
     current = i;
 
+    cases[current].hidden = false;
     cases[current].classList.add('is-active');
     tabs[current].classList.add('is-active');
     tabs[current].setAttribute('aria-selected', 'true');
+    tabs[current].setAttribute('tabindex', '0');
 
     /* update URL hash without triggering a scroll */
     if (pushHash !== false) {
@@ -1339,6 +1442,17 @@
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
       goTo(parseInt(tab.dataset.idx, 10));
+    });
+    tab.addEventListener('keydown', function (event) {
+      var nextIndex = null;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = Math.min(current + 1, cases.length - 1);
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = Math.max(current - 1, 0);
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = cases.length - 1;
+      if (nextIndex === null) return;
+      event.preventDefault();
+      goTo(nextIndex);
+      tabs[nextIndex].focus({ preventScroll: true });
     });
   });
 
@@ -1433,8 +1547,11 @@
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("work"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" integrity="sha384-H2/JUQ2ozWNVrMrubXyimhDIGYpdzhYNhsR90WosBU5Iq1GilD0bTJ0+5jgXW+zq" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" integrity="sha384-3TaxGqyHrMuRIWY5Z5WHNIzgNRqGIUJE+mk6tm+g1wkm9Ux2kUyOLfy9AsNWXA6u" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script src="assets/work-draw.js" defer></script>
 </body>
 </html>
+
+
+

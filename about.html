@@ -1,8 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="sand" data-density="normal" data-grain="on">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" type="image/png" href="Logo/Primary Logo (Blue).png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="A small team that takes stories seriously. KACISTUDIO is founded by Angeline Khor and Jovinna Chow — Gen Z creatives based in Singapore, est. 2025.">
@@ -805,8 +806,10 @@
   .team-member-toggle {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     margin-top: 10px;
+    min-height: 44px;
     padding: 7px 14px;
     font-family: var(--font-mono);
     font-size: 9px;
@@ -820,11 +823,6 @@
     transition: border-color 0.2s ease, color 0.2s ease;
   }
   .team-member-toggle:active { color: var(--accent); border-color: var(--accent); }
-  .team-member-toggle .toggle-arrow {
-    display: inline-block;
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .team-member-card.is-open .team-member-toggle .toggle-arrow { transform: rotate(180deg); }
   .team-member-toggle .toggle-arrow {
     display: inline-block;
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -1246,8 +1244,8 @@
 }
 
 .embed-arrow {
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: .5px solid var(--rule);
   background: var(--bg);
@@ -1355,7 +1353,7 @@
 
 @media (max-width: 599px) {
   .follow-bottom { flex-direction: column; align-items: center; gap: 14px; }
-  .embed-arrow { width: 24px; height: 24px; font-size: 10px; }
+  .embed-arrow { width: 44px; height: 44px; font-size: 10px; }
 }
 
 @media (min-width: 1200px) {
@@ -1864,9 +1862,9 @@
         <div class="embed-col-label">Instagram · @kacistudio.co</div>
         <div class="embed-card-wrap" id="ig-card"></div>
         <div class="embed-switcher">
-          <button class="embed-arrow" onclick="igSwitch(-1)" aria-label="Previous">←</button>
+          <button class="embed-arrow" type="button" data-embed-switch="ig" data-dir="-1" aria-label="Previous">←</button>
           <div class="embed-dots" id="ig-dots"></div>
-          <button class="embed-arrow" onclick="igSwitch(1)" aria-label="Next">→</button>
+          <button class="embed-arrow" type="button" data-embed-switch="ig" data-dir="1" aria-label="Next">→</button>
         </div>
       </div>
 
@@ -1893,9 +1891,9 @@
         <div class="embed-col-label">TikTok · @kacistudio.co</div>
         <div class="embed-card-wrap" id="tt-card"></div>
         <div class="embed-switcher">
-          <button class="embed-arrow" onclick="ttSwitch(-1)" aria-label="Previous">←</button>
+          <button class="embed-arrow" type="button" data-embed-switch="tt" data-dir="-1" aria-label="Previous">←</button>
           <div class="embed-dots" id="tt-dots"></div>
-          <button class="embed-arrow" onclick="ttSwitch(1)" aria-label="Next">→</button>
+          <button class="embed-arrow" type="button" data-embed-switch="tt" data-dir="1" aria-label="Next">→</button>
         </div>
       </div>
 
@@ -1991,8 +1989,8 @@
   });
 })();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" integrity="sha384-H2/JUQ2ozWNVrMrubXyimhDIGYpdzhYNhsR90WosBU5Iq1GilD0bTJ0+5jgXW+zq" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" integrity="sha384-3TaxGqyHrMuRIWY5Z5WHNIzgNRqGIUJE+mk6tm+g1wkm9Ux2kUyOLfy9AsNWXA6u" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script src="assets/about-draw.js" defer></script>
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("about"); KaciChrome.footer();</script>
@@ -2275,8 +2273,13 @@ const ttSwitcher = makeSwitcher({
 });
 
 /* Arrow handlers */
-function igSwitch(dir) { igSwitcher.go(dir); }
-function ttSwitch(dir) { ttSwitcher.go(dir); }
+document.querySelectorAll('[data-embed-switch]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const dir = Number(button.getAttribute('data-dir')) || 0;
+    if (button.getAttribute('data-embed-switch') === 'ig') igSwitcher.go(dir);
+    if (button.getAttribute('data-embed-switch') === 'tt') ttSwitcher.go(dir);
+  });
+});
 
 /* ── Initial render — load both first items on page load ── */
 window.addEventListener('load', () => {
@@ -2297,3 +2300,5 @@ window.addEventListener('load', () => {
 </script>
 </body>
 </html>
+
+

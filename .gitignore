@@ -5,6 +5,7 @@ docs/superpowers/
 
 # Dev screenshots and reference images
 temporary screenshots/
+.tmp-checks/
 screenshot-*.mjs
 error.png
 possible color palettet.jpg
