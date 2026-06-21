@@ -611,30 +611,37 @@
   max-width: 420px;
   margin: 0 auto;
 }
-/* ── Team future: expand-on-hover row ── */
+/* ── Team future: expanding cards, adapted from the React grid pattern ── */
 .team-future-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: 5fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
   height: clamp(340px, 44vw, 560px);
   gap: 6px;
   margin: 0 auto;
   border-radius: 8px;
   overflow: hidden;
+  transition: grid-template-columns 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              grid-template-rows 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .team-member-card {
   position: relative;
-  flex: 0 0 56px;
+  min-width: 0;
+  min-height: 0;
   overflow: hidden;
   border-radius: 6px;
   cursor: pointer;
+  border: 1px solid color-mix(in oklch, var(--olive) 32%, transparent);
+  background: var(--bg-alt);
+  outline: none;
   /* Entrance initial state */
   opacity: 0;
   transform: scale(0.96) translateY(20px);
-  transition: flex 0.9s cubic-bezier(0.25, 1, 0.5, 1),
-              opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.team-member-card.is-expanded {
-  flex: 1 0 56px;
+.team-member-card:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
 }
 /* Clear stagger delays once entrance is done so expand fires instantly */
 .team-future-grid.entrance-done .team-member-card {
@@ -651,7 +658,6 @@
   background-size: cover;
   background-position: center 20%;
 }
-/* Blurred copy of the same image fills any gaps left by contain */
 .team-member-photo::before {
   content: '';
   position: absolute;
@@ -670,6 +676,14 @@
   object-fit: contain;
   object-position: center center;
   display: block;
+  filter: grayscale(1);
+  transform: scale(1.08);
+  transition: filter 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.team-member-card.is-expanded .team-member-photo img,
+.team-member-card[data-active="true"] .team-member-photo img {
+  filter: grayscale(0);
+  transform: scale(1);
 }
 /* Gradient scrim — fades in when expanded */
 .team-member-card::after {
@@ -686,7 +700,8 @@
   pointer-events: none;
   z-index: 1;
 }
-.team-member-card.is-expanded::after { opacity: 1; }
+.team-member-card.is-expanded::after,
+.team-member-card[data-active="true"]::after { opacity: 1; }
 /* Collapsed: first-name rotated label */
 .team-member-label {
   position: absolute;
@@ -704,7 +719,8 @@
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-.team-member-card.is-expanded .team-member-label { opacity: 0; }
+.team-member-card.is-expanded .team-member-label,
+.team-member-card[data-active="true"] .team-member-label { opacity: 0; }
 /* Expanded: info overlay fades up from bottom */
 .team-member-info {
   position: absolute;
@@ -719,7 +735,8 @@
   transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1) 0.28s,
               transform 0.55s cubic-bezier(0.25, 1, 0.5, 1) 0.28s;
 }
-.team-member-card.is-expanded .team-member-info {
+.team-member-card.is-expanded .team-member-info,
+.team-member-card[data-active="true"] .team-member-info {
   opacity: 1;
   transform: translateY(0);
 }
@@ -741,83 +758,67 @@
 /* Desktop: bio shown inside the expanded overlay */
 .team-member-bio {
   display: block;
-  font-size: 11.5px;
-  line-height: 1.65;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.58;
   color: rgba(255, 255, 255, 0.72);
-  margin-top: 10px;
-  max-width: 480px;
+  margin-top: 12px;
+  max-width: 560px;
 }
 .team-member-toggle { display: none; }
-/* Mobile: back to grid, restore normal card layout */
+/* Mobile: same component logic, turned into a vertical expanding stack */
 @media (max-width: 767px) {
   .team-future-grid {
     display: grid;
-    height: auto;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    overflow: visible;
-    border-radius: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5fr 1fr 1fr 1fr 1fr;
+    height: min(720px, 150vw);
+    gap: 8px;
+    overflow: hidden;
+    border-radius: 8px;
   }
   .team-member-card {
-    flex: none;
-    cursor: default;
-    border-radius: 4px;
-    overflow: visible;
-  }
-  .team-member-card::after { display: none; }
-  .team-member-label { display: none; }
-  .team-member-photo {
-    position: static;
-    aspect-ratio: 3/4;
+    cursor: pointer;
+    border-radius: 6px;
     overflow: hidden;
-    border-radius: 4px;
-    border: 1px solid var(--rule);
-    margin-bottom: 12px;
   }
-  .team-member-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
-  .team-member-photo::before { display: none; }
+  .team-member-card::after { display: block; }
+  .team-member-label {
+    display: block;
+    left: 18px;
+    bottom: 50%;
+    transform: translateY(50%);
+    color: rgba(255,255,255,0.86);
+  }
+  .team-member-photo {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    overflow: hidden;
+    border: none;
+    margin-bottom: 0;
+  }
+  .team-member-photo img { width: 100%; height: 100%; object-fit: contain; object-position: center center; }
+  .team-member-photo::before { display: block; }
   .team-member-info {
-    position: static;
-    opacity: 1;
-    transform: none;
-    padding: 0;
-    pointer-events: auto;
-    transition: none;
+    position: absolute;
+    padding: 18px;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .team-member-name { color: var(--fg); font-size: 16px; }
-  .team-member-role { color: var(--accent); margin-top: 4px; margin-bottom: 8px; }
+  .team-member-name { color: #fff; font-size: 18px; }
+  .team-member-role { color: rgba(255,255,255,0.72); margin-top: 4px; margin-bottom: 8px; }
   .team-member-bio {
     display: block;
-    font-size: 12px;
-    line-height: 1.65;
-    color: var(--fg-muted);
-    max-height: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.76);
+    max-height: none;
     overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.35s ease;
-    margin-top: 0;
-  }
-  .team-member-card.is-open .team-member-bio {
-    max-height: 400px;
-    opacity: 1;
     margin-top: 10px;
   }
   .team-member-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 10px;
-    min-height: 44px;
-    padding: 7px 14px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fg);
-    background: none;
-    border: 1px solid var(--rule);
+    display: none;
     border-radius: 40px;
     cursor: pointer;
     transition: border-color 0.2s ease, color 0.2s ease;
@@ -1680,7 +1681,7 @@
     <blockquote class="manifesto-pullquote reveal">We chase the feeling that makes someone stop, save, and send it to a friend.</blockquote>
   </div>
   <div class="manifesto-photo">
-    <img src="media/For ABOUT Page/About _ First Picture.jpg" alt="The KACISTUDIO team" style="object-position:center top;" loading="lazy">
+    <img src="media/optimized/about-first-picture.webp" alt="The KACISTUDIO team" style="object-position:center top;" loading="lazy" decoding="async">
   </div>
 </section>
 
@@ -1742,7 +1743,7 @@
       <!-- Left: photo -->
       <div class="member-photo-col">
         <div class="ph">
-          <img src="media/For ABOUT Page/About _ Co founders.jpg" alt="Angeline Khor and Jovinna Chow, Co-Founders of KACISTUDIO" loading="lazy">
+          <img src="media/optimized/about-cofounders.webp" alt="Angeline Khor and Jovinna Chow, Co-Founders of KACISTUDIO" loading="lazy" decoding="async">
           <div class="founder-tag founder-tag--left">
             <span class="founder-tag-name">Jovinna</span>
           </div>
@@ -1774,8 +1775,8 @@
     <div class="team-future-grid">
 
       <div class="team-member-card">
-        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Angeline.jpg')">
-          <img src="media/For ABOUT Page/About _ Team/Angeline.jpg" alt="Angeline, Creative Director at KACISTUDIO" loading="lazy">
+        <div class="team-member-photo" style="background-image: url('media/optimized/team-angeline.webp')">
+          <img src="media/optimized/team-angeline.webp" alt="Angeline, Creative Director at KACISTUDIO" loading="lazy" decoding="async">
         </div>
         <span class="team-member-label">Angeline</span>
         <div class="team-member-info">
@@ -1787,8 +1788,8 @@
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Jovinna.jpg')">
-          <img src="media/For ABOUT Page/About _ Team/Jovinna.jpg" alt="Jovinna, Production & Account Director at KACISTUDIO" loading="lazy">
+        <div class="team-member-photo" style="background-image: url('media/optimized/team-jovinna.webp')">
+          <img src="media/optimized/team-jovinna.webp" alt="Jovinna, Production & Account Director at KACISTUDIO" loading="lazy" decoding="async">
         </div>
         <span class="team-member-label">Jovinna</span>
         <div class="team-member-info">
@@ -1800,8 +1801,8 @@
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Xiao Ning.jpg')">
-          <img src="media/For ABOUT Page/About _ Team/Xiao Ning.jpg" alt="Xiao Ning, Events & Content Marketing Lead at KACISTUDIO" loading="lazy">
+        <div class="team-member-photo" style="background-image: url('media/optimized/team-xiao-ning.webp')">
+          <img src="media/optimized/team-xiao-ning.webp" alt="Xiao Ning, Events & Content Marketing Lead at KACISTUDIO" loading="lazy" decoding="async">
         </div>
         <span class="team-member-label">Xiao Ning</span>
         <div class="team-member-info">
@@ -1813,8 +1814,8 @@
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Joey.jpg')">
-          <img src="media/For ABOUT Page/About _ Team/Joey.jpg" alt="Joey, Content & Social Media Analyst at KACISTUDIO" loading="lazy">
+        <div class="team-member-photo" style="background-image: url('media/optimized/team-joey.webp')">
+          <img src="media/optimized/team-joey.webp" alt="Joey, Content & Social Media Analyst at KACISTUDIO" loading="lazy" decoding="async">
         </div>
         <span class="team-member-label">Joey</span>
         <div class="team-member-info">
@@ -1826,8 +1827,8 @@
       </div>
 
       <div class="team-member-card">
-        <div class="team-member-photo" style="background-image: url('media/For ABOUT Page/About _ Team/Denise.jpg')">
-          <img src="media/For ABOUT Page/About _ Team/Denise.jpg" alt="Denise, Graphic Designer at KACISTUDIO" loading="lazy">
+        <div class="team-member-photo" style="background-image: url('media/optimized/team-denise.webp')">
+          <img src="media/optimized/team-denise.webp" alt="Denise, Graphic Designer at KACISTUDIO" loading="lazy" decoding="async">
         </div>
         <span class="team-member-label">Denise</span>
         <div class="team-member-info">
@@ -1918,42 +1919,70 @@
 
 <div id="footer-slot"></div>
 <script>
-/* ── Team growing: expand-on-hover + mobile bio toggle ── */
+/* ── Team growing: expanding cards state ── */
 (function () {
   var grid = document.querySelector('.team-future-grid');
   if (!grid) return;
   var cards = Array.prototype.slice.call(grid.querySelectorAll('.team-member-card'));
   if (!cards.length) return;
 
-  var MOBILE_BP = 767;
-  var HOVER_DELAY = 120; /* ms you must dwell before the card switches */
-  var hoverTimer = null;
+  var mq = window.matchMedia('(min-width: 768px)');
+  var activeIndex = 0;
 
-  function isMobile() { return window.innerWidth <= MOBILE_BP; }
+  function updateGrid() {
+    var template = cards.map(function (_, index) {
+      return index === activeIndex ? '5fr' : '1fr';
+    }).join(' ');
 
-  function setExpanded(card) {
-    cards.forEach(function (c) { c.classList.remove('is-expanded'); });
-    if (card) card.classList.add('is-expanded');
+    if (mq.matches) {
+      grid.style.gridTemplateColumns = template;
+      grid.style.gridTemplateRows = '1fr';
+    } else {
+      grid.style.gridTemplateColumns = '1fr';
+      grid.style.gridTemplateRows = template;
+    }
   }
 
-  cards.forEach(function (card) {
+  function setExpanded(index) {
+    activeIndex = index;
+    cards.forEach(function (card, cardIndex) {
+      var isActive = cardIndex === activeIndex;
+      card.classList.toggle('is-expanded', isActive);
+      card.dataset.active = isActive ? 'true' : 'false';
+      card.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    });
+    updateGrid();
+  }
+
+  cards.forEach(function (card, index) {
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-expanded', 'false');
+
     card.addEventListener('mouseenter', function () {
-      if (isMobile()) return;
-      clearTimeout(hoverTimer);
-      hoverTimer = setTimeout(function () { setExpanded(card); }, HOVER_DELAY);
+      if (mq.matches) setExpanded(index);
     });
-    card.addEventListener('mouseleave', function () {
-      clearTimeout(hoverTimer);
+    card.addEventListener('focus', function () {
+      setExpanded(index);
+    });
+    card.addEventListener('click', function () {
+      setExpanded(index);
+    });
+    card.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        setExpanded(index);
+      }
     });
   });
 
-  grid.addEventListener('mouseleave', function () {
-    if (isMobile()) return;
-    clearTimeout(hoverTimer);
-    setExpanded(null);
-  });
+  if (mq.addEventListener) {
+    mq.addEventListener('change', updateGrid);
+  } else if (mq.addListener) {
+    mq.addListener(updateGrid);
+  }
 
-  /* After entrance stagger completes: clear stagger delays + expand first card */
+  /* After entrance stagger completes: clear stagger delays. */
   var section = grid.closest('.team-future');
   if (section && typeof IntersectionObserver !== 'undefined') {
     var entryTimer = null;
@@ -1962,13 +1991,11 @@
         clearTimeout(entryTimer);
         /* last card delay (480ms) + animation duration (550ms) + small buffer */
         entryTimer = setTimeout(function () {
-          if (isMobile()) return;
           grid.classList.add('entrance-done');
         }, 1140);
       } else {
         clearTimeout(entryTimer);
         grid.classList.remove('entrance-done');
-        cards.forEach(function (c) { c.classList.remove('is-expanded'); });
       }
     }, { threshold: 0.15 });
     obs.observe(section);
@@ -1976,22 +2003,10 @@
     grid.classList.add('entrance-done');
   }
 
-  /* Mobile bio toggle */
-  cards.forEach(function (card) {
-    var btn = card.querySelector('.team-member-toggle');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      if (!isMobile()) return;
-      var isOpen = card.classList.toggle('is-open');
-      btn.setAttribute('aria-expanded', isOpen);
-      btn.childNodes[0].textContent = isOpen ? 'View less ' : 'View more ';
-    });
-  });
+  setExpanded(activeIndex);
 })();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js" integrity="sha384-H2/JUQ2ozWNVrMrubXyimhDIGYpdzhYNhsR90WosBU5Iq1GilD0bTJ0+5jgXW+zq" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js" integrity="sha384-3TaxGqyHrMuRIWY5Z5WHNIzgNRqGIUJE+mk6tm+g1wkm9Ux2kUyOLfy9AsNWXA6u" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-<script src="assets/about-draw.js" defer></script>
+<script src="assets/draw-loader.js" data-draw="about" defer></script>
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("about"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
