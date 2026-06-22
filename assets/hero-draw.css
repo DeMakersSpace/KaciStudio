@@ -34,13 +34,6 @@
   stroke: var(--accent, #93A9D2);
 }
 
-/* Hide h1 from the start — SVG takes over once fonts load. Prevents FOUT. */
-#hero-split .split-left .split-headline {
-  animation: none;
-  opacity: 0;
-  transform: none;
-}
-
 /* Vivus callback adds .fill-done — transitions from outline to filled letterform */
 .letter-path.fill-done {
   fill: var(--fg, #584738);
@@ -82,9 +75,8 @@
   transform: none;
 }
 
-/* Button itself hidden until .btns-ready is added by JS */
 .hero-btns .btn {
-  opacity: 0;
+  opacity: 1;
 }
 
 .hero-btns.btns-ready .btn {
@@ -113,10 +105,9 @@
   }
 }
 
-/* Hidden until JS adds .desc-ready after the headline draw + fill complete */
 .hero-desc .desc-line {
   display: block;
-  opacity: 0;
+  opacity: 1;
 }
 
 .hero-desc.desc-ready .desc-line {

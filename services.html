@@ -1341,24 +1341,6 @@
   position: sticky;
   top: 112px;
 }
-.svc-cat-under-img {
-  display: none;
-  width: clamp(178px, 21vw, 318px);
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  align-self: flex-end;
-  margin-top: clamp(34px, 5.5vw, 84px);
-  margin-right: clamp(14px, 3vw, 46px);
-  border: 1px solid color-mix(in srgb, var(--cream) 42%, transparent);
-  box-shadow: 0 18px 42px rgba(31, 24, 18, 0.24);
-  opacity: 0.76;
-  filter: saturate(0.92) contrast(0.96);
-  transform: rotate(6deg);
-  pointer-events: none;
-}
-.svc-cats[data-active-cat="smm"] .svc-cat-under-img {
-  display: block;
-}
 .svc-cat-btn {
   display: grid;
   grid-template-columns: 32px 1fr;
@@ -1543,8 +1525,6 @@
     opacity: 1 !important;
     animation: none !important;
   }
-  .svc-pkg-panel .svc-pkg-image { opacity: 0.78 !important; animation: none !important; }
-  .svc-cat-under-img { opacity: 0.76 !important; animation: none !important; }
 }
 .svc-pkg-eyebrow {
   font-family: var(--font-serif);
@@ -1622,32 +1602,6 @@
   padding: 4px 10px;
   white-space: nowrap;
 }
-.svc-pkg-image {
-  width: clamp(178px, 21vw, 318px);
-  height: auto;
-  object-fit: contain;
-  display: block;
-  margin: clamp(20px, 2.8vw, 34px) auto 0;
-  border: 1px solid color-mix(in srgb, var(--cream) 42%, transparent);
-  box-shadow: 0 18px 42px rgba(31, 24, 18, 0.24);
-  opacity: 0.78;
-  filter: saturate(0.92) contrast(0.96);
-}
-.svc-pkg-panel[data-cat="smm"] .svc-pkg-image { transform: rotate(4deg); }
-.svc-pkg-panel[data-cat="content"] .svc-pkg-image { transform: rotate(-4deg); }
-.svc-pkg-panel[data-cat="branding"] .svc-pkg-image { transform: rotate(3deg); }
-/* Photo-drop: hidden during animation phase, JS adds img-drop to play */
-.svc-pkg-panel.rows-pending .svc-pkg-image,
-.svc-pkg-panel:not(.rows-settled) .svc-pkg-image { opacity: 0; }
-@keyframes imgDropContent  { from { opacity: 0; transform: rotate(-14deg) translateY(-40px); } to { opacity: 0.78; transform: rotate(-4deg); } }
-@keyframes imgDropBranding { from { opacity: 0; transform: rotate(13deg)  translateY(-40px); } to { opacity: 0.78; transform: rotate(3deg);  } }
-.svc-pkg-panel[data-cat="content"]  .svc-pkg-image.img-drop { animation: imgDropContent  0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.svc-pkg-panel[data-cat="branding"] .svc-pkg-image.img-drop { animation: imgDropBranding 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
-/* Under-img (SMM left col) */
-.svc-cat-under-img { opacity: 0; }
-@keyframes imgDropUnder { from { opacity: 0; transform: rotate(16deg) translateY(-40px); } to { opacity: 0.76; transform: rotate(6deg); } }
-.svc-cat-under-img.img-drop { animation: imgDropUnder 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
 /* ── Footer strip ── */
 
 /* ── Responsive ── */
@@ -1690,18 +1644,6 @@
     width: 100%;
     min-width: 0;
   }
-  .svc-cats[data-active-cat="smm"] .svc-cat-under-img {
-    display: none;
-    width: min(46vw, 280px);
-    align-self: flex-start;
-    margin: 22px 0 0 clamp(48px, 15vw, 88px);
-    transform: rotate(-5deg);
-    opacity: 0.66;
-  }
-  .svc-pkg-image {
-    display: none;
-    width: min(46vw, 280px);
-  }
   .svc-pkg-panel { min-height: auto; }
   .svc-pkg-row {
     grid-template-columns: minmax(88px, auto) minmax(0, 1fr);
@@ -1710,19 +1652,32 @@
   .svc-pkg-body { grid-column: 2; }
 }
 @media (max-width: 559px) {
-  .svc-pkg-image {
-    display: none;
-  }
-  .svc-cats[data-active-cat="smm"] .svc-cat-under-img {
-    display: none;
-  }
 }
 
-/* ── §01 → §02 gradient transition bridge ── */
-.svc-to-onboard {
-  height: 140px;
-  background: linear-gradient(to bottom, var(--fg) 0%, var(--bg) 100%);
+/* ── Slanted section dividers ── */
+.services-divider {
+  --divider-top: var(--bg);
+  --divider-bottom: var(--fg);
+  --divider-slope: clamp(34px, 5vw, 76px);
+  display: block;
+  position: relative;
+  height: clamp(84px, 9vw, 150px);
+  overflow: hidden;
+  background: var(--divider-top);
+  pointer-events: none;
 }
+.services-divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--divider-bottom);
+  clip-path: polygon(0 var(--divider-slope), 100% 0, 100% 100%, 0 100%);
+}
+.services-divider-right::after {
+  clip-path: polygon(0 0, 100% var(--divider-slope), 100% 100%, 0 100%);
+}
+.svc-to-onboard { --divider-top: var(--fg); --divider-bottom: var(--bg); }
+.svc-to-status  { --divider-top: var(--bg); --divider-bottom: var(--bg-alt); }
 
 /* ── Client Onboarding — 5-step path ── */
 .onboarding {
@@ -2599,7 +2554,6 @@
   padding: clamp(56px, 7vw, 112px) var(--pad-gutter);
   background: var(--bg-alt);
   text-align: center;
-  border-top: 1px solid var(--rule);
 }
 .studio-status-inner { max-width: 720px; margin: 0 auto; }
 .studio-status-meta {
@@ -2685,7 +2639,7 @@
 }
 
 /* ── Services headline draw animation ── */
-.svc-cats h1 { opacity: 0; }
+.svc-cats h1 { opacity: 1; }
 .svc-headline-hidden {
   position: absolute !important;
   width: 1px !important; height: 1px !important;
@@ -2927,10 +2881,9 @@
         </button>
         <button class="svc-cat-btn" type="button" data-cat="branding">
           <span class="svc-cat-btn-num">03</span>
-          <span class="svc-cat-btn-name">Events, Branding &amp; Marketing</span>
+          <span class="svc-cat-btn-name">Event Branding &amp; Marketing</span>
           <span class="svc-cat-btn-kicker">Creative direction and event marketing that connect the first announcement to the guest experience.</span>
         </button>
-        <img class="svc-cat-under-img" src="media/optimized/services-social-media-management.webp" alt="" loading="lazy" decoding="async">
       </div>
     </div>
 
@@ -3025,11 +2978,10 @@
             </div>
           </div>
         </div>
-        <img class="svc-pkg-image" src="media/optimized/services-content-creation.webp" alt="" loading="lazy" decoding="async">
       </div>
 
       <div class="svc-pkg-panel" data-cat="branding">
-        <div class="svc-pkg-eyebrow">Events, Branding &amp; Marketing</div>
+        <div class="svc-pkg-eyebrow">Event Branding &amp; Marketing</div>
         <div class="svc-pkg-rows">
           <div class="svc-pkg-row">
             <div class="svc-pkg-num">Package 01</div>
@@ -3040,7 +2992,6 @@
             </div>
           </div>
         </div>
-        <img class="svc-pkg-image" src="media/optimized/services-event-branding-marketing.webp" alt="" loading="lazy" decoding="async">
       </div>
 
     </div><!-- /.svc-split-right -->
@@ -3048,7 +2999,7 @@
 
 </section>
 
-<div class="svc-to-onboard" aria-hidden="true"></div>
+<div class="services-divider svc-to-onboard" aria-hidden="true"></div>
 
 <!-- ════════ §02 Client Onboarding — 5-step path ════════ -->
 <section class="onboarding reveal">
@@ -3226,6 +3177,8 @@
   </div>
 </section>
 
+<div class="services-divider services-divider-right svc-to-status" aria-hidden="true"></div>
+
 <!-- ════════ Studio status — closing ════════ -->
 <section class="studio-status">
   <div class="studio-status-inner reveal">
@@ -3246,7 +3199,6 @@
 </section>
 
 <div id="footer-slot"></div>
-<script src="assets/draw-loader.js" data-draw="services" defer></script>
 <script src="assets/chrome.js"></script>
 <script>KaciChrome.nav("services"); KaciChrome.footer();</script>
 <script src="assets/tweaks.js"></script>
@@ -3354,8 +3306,6 @@
     panel.querySelectorAll('.svc-pkg-desc, .svc-pkg-includes').forEach(function (el) {
       el.classList.remove('body-in');
     });
-    var img = panel.querySelector('.svc-pkg-image');
-    if (img) img.classList.remove('img-drop');
   }
 
   function startRowBodyIn(panel) {
@@ -3369,11 +3319,6 @@
       if (!rows.every(function (row) { return row.classList.contains('row-in'); })) return;
       bodyTimers.push(setTimeout(function () {
         panel.classList.add('rows-settled');
-        var img = panel.querySelector('.svc-pkg-image');
-        if (img) {
-          img.classList.add('img-drop');
-          bodyTimers.push(setTimeout(function () { img.classList.remove('img-drop'); }, 760));
-        }
       }, 980));
     }
 
@@ -3430,14 +3375,6 @@
         if (eyebrow) scrambleText(eyebrow);
       }
     });
-    /* Under-img (SMM left col): re-drop on switch to SMM, clear otherwise */
-    var underImg = section && section.querySelector('.svc-cat-under-img');
-    if (underImg) {
-      underImg.classList.remove('img-drop');
-      if (cat === 'smm') {
-        bodyTimers.push(setTimeout(function () { underImg.classList.add('img-drop'); }, 520));
-      }
-    }
   }
 
   catBtns.forEach(function (btn) {
@@ -3459,12 +3396,6 @@
           startRowBodyIn(activePanel);
           var eyebrow = activePanel.querySelector('.svc-pkg-eyebrow');
           if (eyebrow) scrambleText(eyebrow);
-        }
-        /* Under-img always schedules on section entry (CSS hides it if not SMM) */
-        var underImg = section.querySelector('.svc-cat-under-img');
-        if (underImg) {
-          underImg.classList.remove('img-drop');
-          bodyTimers.push(setTimeout(function () { underImg.classList.add('img-drop'); }, 520));
         }
         obs.unobserve(section);
       }
