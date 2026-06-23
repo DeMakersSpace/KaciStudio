@@ -1172,6 +1172,11 @@
 
 @media (max-width: 768px) {
   .manifesto { grid-template-columns: 1fr; }
+  .manifesto-photo {
+    clip-path: none !important;
+    animation: none !important;
+    transform: none;
+  }
   .kit-grid { grid-template-columns: 1fr 1fr; }
   .kit-card:first-child { grid-template-columns: 1fr; gap: 24px; }
   .kit-card:last-child { grid-column: 1 / -1; max-width: calc(50% - 12px); margin: 0 auto; }
@@ -1351,7 +1356,7 @@
     <blockquote class="manifesto-pullquote reveal">We chase the feeling that makes someone stop, save, and send it to a friend.</blockquote>
   </div>
   <div class="manifesto-photo">
-    <img src="media/optimized/about-first-picture.webp" alt="The KACISTUDIO team" style="object-position:center top;" loading="lazy" decoding="async">
+    <img src="media/optimized/about-first-picture.webp" alt="The KACISTUDIO team" style="object-position:center top;" loading="eager" decoding="async" fetchpriority="high">
   </div>
 </section>
 
