@@ -879,13 +879,19 @@
 
 /* 3 · Bio paragraphs — alternating left/right, toggled by JS observer */
 .bio-para-anim {
-  opacity: 0;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1;
+  transition: none;
 }
-.bio-para-left  { transform: translateX(-32px); }
-.bio-para-right { transform: translateX( 32px); }
-.bio-para-anim.bio-para-in { opacity: 1; transform: translateX(0); }
+.bio-para-left  { --bio-x: -32px; }
+.bio-para-right { --bio-x:  32px; }
+
+@keyframes bioParaIn {
+  from { opacity: 0; transform: translateX(var(--bio-x, 0)); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.bio-para-anim.bio-para-in {
+  animation: bioParaIn 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 
 /* 4 · Growing team cards stagger */
 .team-future.reveal { opacity: 1; transform: none; transition: none; }
@@ -1229,8 +1235,8 @@
 .manifesto-body .mw {
   display: inline-block;
   vertical-align: baseline;
-  opacity: 0;
-  transform: translateY(6px);
+  opacity: 1;
+  transform: none;
 }
 
 .manifesto-body.mf-revealed .mw {
@@ -1246,23 +1252,56 @@
   }
 }
 
+.manifesto-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.manifesto-copy > p {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes manifestoCopyIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.manifesto-copy.is-visible > p {
+  animation: manifestoCopyIn 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.manifesto-copy > p:nth-child(1) { animation-delay: 0ms; }
+.manifesto-copy > p:nth-child(2) { animation-delay: 140ms; }
+.manifesto-copy > p:nth-child(3) { animation-delay: 280ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-copy > p {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
 /* ── Manifesto photo curtain reveal ── */
-@keyframes curtainUp {
-  from { clip-path: inset(100% 0 0 0 round 4px); }
-  to   { clip-path: inset(0%   0 0 0 round 4px); }
+@keyframes manifestoPhotoIn {
+  from { opacity: 0; transform: translateY(18px) rotate(-2deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(-2deg); }
 }
 
 .manifesto-photo {
-  clip-path: inset(100% 0 0 0 round 4px);
+  opacity: 1;
+  transform: rotate(-2deg);
 }
 
-.manifesto-body.mf-revealed ~ .manifesto-photo {
-  animation: curtainUp 900ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+.manifesto-photo.is-visible {
+  animation: manifestoPhotoIn 780ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .manifesto-photo {
-    clip-path: none !important;
+    opacity: 1 !important;
+    transform: rotate(-2deg) !important;
     animation: none !important;
   }
 }
@@ -1345,13 +1384,15 @@
 
 <section class="manifesto">
   <div class="manifesto-body">
-    <p class="manifesto-lede">At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We understand what today's audiences <em>stop scrolling for</em>, and we make the kind of content that earns it.</p>
-    <p>We help brands show up online in a way that feels unmistakably like them. Whether you're starting out or scaling up, we work as an <em>extension of your team</em>. Strategy on the back end. Story on the feed.</p>
-    <p>We don't chase volume, algorithms, or trends.</p>
+    <div class="manifesto-copy reveal">
+      <p class="manifesto-lede">At KACISTUDIO, we don't just manage socials — we tell <em>stories</em>. We understand what today's audiences <em>stop scrolling for</em>, and we make the kind of content that earns it.</p>
+      <p>We help brands show up online in a way that feels unmistakably like them. Whether you're starting out or scaling up, we work as an <em>extension of your team</em>. Strategy on the back end. Story on the feed.</p>
+      <p>We don't chase volume, algorithms, or trends.</p>
+    </div>
     <blockquote class="manifesto-pullquote reveal">We chase the feeling that makes someone stop, save, and send it to a friend.</blockquote>
   </div>
-  <div class="manifesto-photo">
-    <img src="media/optimized/about-first-picture.webp" alt="The KACISTUDIO team" style="object-position:center top;" loading="lazy" decoding="async">
+  <div class="manifesto-photo reveal">
+    <img src="media/optimized/about-first-picture.webp" alt="The KACISTUDIO team" style="object-position:center top;" loading="eager" decoding="async" fetchpriority="high">
   </div>
 </section>
 
@@ -1621,6 +1662,52 @@
 <script src="assets/tweaks.js"></script>
 
 <script>
+/* Co-founder bio stagger — left/right reveal */
+(function () {
+  var paras = document.querySelectorAll('.member-bio-full p');
+  var grid  = document.querySelector('.team-grid');
+  if (!paras.length || !grid) return;
+
+  paras.forEach(function (p, i) {
+    p.classList.add('bio-para-anim');
+    p.classList.add(i % 2 === 0 ? 'bio-para-left' : 'bio-para-right');
+  });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || typeof IntersectionObserver === 'undefined') {
+    paras.forEach(function (p) { p.classList.add('bio-para-in'); });
+    return;
+  }
+
+  var timers = [];
+
+  function clearTimers() {
+    timers.forEach(clearTimeout);
+    timers = [];
+  }
+
+  function play() {
+    clearTimers();
+    paras.forEach(function (p) { p.classList.remove('bio-para-in'); });
+    requestAnimationFrame(function () {
+      paras.forEach(function (p, i) {
+        timers.push(setTimeout(function () { p.classList.add('bio-para-in'); }, i * 110));
+      });
+    });
+  }
+
+  function reset() {
+    clearTimers();
+    paras.forEach(function (p) { p.classList.remove('bio-para-in'); });
+  }
+
+  var obs = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) play();
+    else reset();
+  }, { threshold: 0.18, rootMargin: '0px 0px -18% 0px' });
+
+  obs.observe(grid);
+}());
+
 /* Values 3D carousel — auto-rotate, prev/next, word-by-word desc reveal */
 (function () {
   var root = document.getElementById('valuesCarousel');
