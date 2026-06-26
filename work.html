@@ -104,7 +104,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 14px clamp(16px, 2vw, 28px);
+  gap: clamp(16px, 2vw, 28px);
   max-width: 1240px;
   margin: clamp(18px, 2vw, 28px) auto 0;
   padding: clamp(14px, 1.8vw, 22px) var(--pad-gutter);
@@ -113,91 +113,146 @@
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--bg-alt) 70%, transparent), transparent 34%),
     var(--bg);
-}
-
-.client-tabs {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  gap: clamp(8px, 1vw, 12px);
-  overflow: visible;
-  scrollbar-width: none;
-  min-width: 0;
-  padding: 2px 2px 3px;
-}
-.client-tabs::-webkit-scrollbar { display: none; }
-
-.client-tab {
   position: relative;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: baseline;
-  gap: 9px;
-  flex: 0 0 auto;
-  min-height: 46px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 11px 13px 10px;
-  border: 0;
-  border-radius: 0;
-  background: color-mix(in srgb, var(--bg-alt) 42%, transparent);
-  color: var(--fg-muted);
+  z-index: 50;
+}
+
+/* ── Client select dropdown ── */
+.client-select {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.client-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 18px;
+  background: color-mix(in srgb, var(--fg) 7%, var(--bg));
+  border: 0.5px solid color-mix(in srgb, var(--fg) 18%, transparent);
   cursor: pointer;
-  text-align: left;
-  white-space: nowrap;
-  scroll-snap-align: start;
-  transition: background 0.24s ease, color 0.24s ease, transform 0.24s ease;
-}
-.client-tab::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--rule);
-  transform-origin: left;
-  transform: scaleX(0.34);
-  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), background 0.24s ease;
-}
-.client-tab-num {
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-}
-.client-tab-name {
-  color: currentColor;
-  justify-self: start;
-}
-.client-tab:hover,
-.client-tab:focus-visible {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   color: var(--fg);
-  background: color-mix(in srgb, var(--bg-alt) 68%, transparent);
-  outline: none;
+  text-align: left;
+  transition: background 0.22s ease, border-color 0.22s ease;
 }
-.client-tab:hover::before,
-.client-tab:focus-visible::before {
-  transform: scaleX(0.72);
-  background: color-mix(in srgb, var(--fg) 45%, var(--rule));
+.client-select-btn:hover {
+  background: color-mix(in srgb, var(--fg) 11%, var(--bg));
+  border-color: color-mix(in srgb, var(--fg) 30%, transparent);
 }
-.client-tab.is-active {
+.client-select-btn[aria-expanded="true"] {
   background: var(--fg);
   color: var(--bg);
-  font-weight: 600;
-  transform: translateY(-1px);
+  border-color: var(--fg);
 }
-.client-tab.is-active::before {
-  transform: scaleX(1);
-  background: var(--accent);
-  height: 2px;
-}
-.client-tab.is-active .client-tab-num {
+.client-select-num {
+  font-size: 10px;
+  letter-spacing: 0.14em;
   color: var(--accent);
+  flex-shrink: 0;
 }
+.client-select-label {
+  flex: 1;
+  font-weight: 500;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.client-select-count {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+  flex-shrink: 0;
+  opacity: 0.55;
+}
+.client-select-btn[aria-expanded="true"] .client-select-count {
+  color: color-mix(in srgb, var(--bg) 70%, transparent);
+  opacity: 1;
+}
+.client-select-chevron {
+  flex-shrink: 0;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.client-select-btn[aria-expanded="true"] .client-select-chevron {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu — portalled to body when open, position set by JS */
+.client-select-menu {
+  position: fixed;
+  z-index: 9999;
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  background: var(--bg);
+  border: 0.5px solid color-mix(in srgb, var(--fg) 22%, transparent);
+  box-shadow:
+    0 4px 6px rgba(88, 71, 56, 0.04),
+    0 12px 40px rgba(88, 71, 56, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px) scaleY(0.96);
+  transform-origin: top center;
+  transition:
+    opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0ms linear 220ms;
+}
+.client-select-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scaleY(1);
+  transition:
+    opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0ms linear 0ms;
+}
+
+.client-select-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease;
+  outline: none;
+  border-left: 2px solid transparent;
+}
+.client-select-opt:hover,
+.client-select-opt:focus-visible {
+  background: color-mix(in srgb, var(--bg-alt) 80%, transparent);
+  color: var(--fg);
+}
+.client-select-opt.is-active {
+  color: var(--fg);
+  font-weight: 600;
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--bg));
+}
+.client-select-opt.is-active .csopt-num { color: var(--accent); }
+.csopt-num {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  flex-shrink: 0;
+  opacity: 0.65;
+}
+.csopt-name { font-weight: 500; flex: 1; }
 
 .client-nav {
   grid-column: 2;
@@ -404,6 +459,16 @@
   margin-bottom: 16px;
 }
 .case-info h2 em { font-style: italic; color: var(--accent); }
+
+/* Package chosen label */
+.case-pkg-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0 0 8px;
+}
 
 /* Chips */
 .case-chips {
@@ -655,10 +720,9 @@
   padding: 0;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.showcase-btn { opacity: 0; }
-.client-bar:hover .showcase-btn:not(:disabled) { opacity: 1; }
+.showcase-btn { opacity: 0.65; }
 .showcase-btn:disabled { opacity: 0; cursor: default; pointer-events: none; }
-.showcase-btn:not(:disabled):hover { opacity: 0.7; }
+.showcase-btn:not(:disabled):hover { opacity: 1; }
 .showcase-prev:not(:disabled):hover { transform: translateX(-4px); }
 .showcase-next:not(:disabled):hover { transform: translateX(4px); }
 .showcase-btn-arrow {
@@ -703,36 +767,13 @@
   .case-info { padding: 18px 0 0; }
 }
 
-@media (max-width: 980px) {
-  .client-tabs {
-    justify-content: flex-start;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: x proximity;
-  }
-}
 
 @media (max-width: 430px) {
   .work-hero h1 { font-size: clamp(40px, 9vw, 56px); }
   .client-bar {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
     padding-inline: 16px;
-  }
-  .client-tabs {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(max-content, 76vw);
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: x proximity;
-    margin-inline: -16px;
-    padding-inline: 16px;
-  }
-  .client-tab {
-    min-height: 52px;
-    padding: 13px 14px 12px;
   }
   .client-nav {
     justify-content: space-between;
@@ -763,7 +804,7 @@
       },
       "mainEntity": {
         "@type": "ItemList",
-        "numberOfItems": 7,
+        "numberOfItems": 8,
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "item": { "@id": "https://kacistudio.co/work.html#case-resurrack" } },
           { "@type": "ListItem", "position": 2, "item": { "@id": "https://kacistudio.co/work.html#case-flyco" } },
@@ -771,7 +812,8 @@
           { "@type": "ListItem", "position": 4, "item": { "@id": "https://kacistudio.co/work.html#case-melissa" } },
           { "@type": "ListItem", "position": 5, "item": { "@id": "https://kacistudio.co/work.html#case-coffeeman" } },
           { "@type": "ListItem", "position": 6, "item": { "@id": "https://kacistudio.co/work.html#case-happyrei" } },
-          { "@type": "ListItem", "position": 7, "item": { "@id": "https://kacistudio.co/work.html#case-luminance" } }
+          { "@type": "ListItem", "position": 7, "item": { "@id": "https://kacistudio.co/work.html#case-luminance" } },
+          { "@type": "ListItem", "position": 8, "item": { "@id": "https://kacistudio.co/work.html#case-fino" } }
         ]
       }
     }
@@ -786,7 +828,7 @@
 <section class="work-hero">
   <div class="work-hero-top">
     <div class="eyebrow reveal" style="--reveal-delay: 0ms">◎ SELECTED WORK · 2025–2026</div>
-    <div class="eyebrow reveal" style="--reveal-delay: 80ms">CLIENTS <span style="color: var(--accent);">●</span> 07</div>
+    <div class="eyebrow reveal" style="--reveal-delay: 80ms">CLIENTS <span style="color: var(--accent);">●</span> 08</div>
   </div>
   <h1>Brands we've<br><em>grown</em> with.</h1>
 </section>
@@ -797,21 +839,30 @@
 
 <!-- Client selector bar -->
 <div class="client-bar">
-  <div class="client-tabs" role="tablist" aria-label="Select client">
-    <button class="client-tab is-active" id="tab-resurrack" role="tab" data-idx="0" aria-selected="true" aria-controls="case-resurrack" aria-label="Case 1, Resurrack × LittleMissMarket" tabindex="0"><span class="client-tab-num">01</span><span class="client-tab-name">Resurrack × LMM</span></button>
-    <button class="client-tab" id="tab-flyco" role="tab" data-idx="1" aria-selected="false" aria-controls="case-flyco" aria-label="Case 2, Flyco" tabindex="-1"><span class="client-tab-num">02</span><span class="client-tab-name">Flyco</span></button>
-    <button class="client-tab" id="tab-brixx" role="tab" data-idx="2" aria-selected="false" aria-controls="case-brixx" aria-label="Case 3, Brixx Derma" tabindex="-1"><span class="client-tab-num">03</span><span class="client-tab-name">Brixx Derma</span></button>
-    <button class="client-tab" id="tab-melissa" role="tab" data-idx="3" aria-selected="false" aria-controls="case-melissa" aria-label="Case 4, Melissa Shoes" tabindex="-1"><span class="client-tab-num">04</span><span class="client-tab-name">Melissa Shoes</span></button>
-    <button class="client-tab" id="tab-coffeeman" role="tab" data-idx="4" aria-selected="false" aria-controls="case-coffeeman" aria-label="Case 5, Coffeeman at NYP" tabindex="-1"><span class="client-tab-num">05</span><span class="client-tab-name">Coffeeman@NYP</span></button>
-    <button class="client-tab" id="tab-happyrei" role="tab" data-idx="5" aria-selected="false" aria-controls="case-happyrei" aria-label="Case 6, Happy Rei" tabindex="-1"><span class="client-tab-num">06</span><span class="client-tab-name">Happy Rei</span></button>
-    <button class="client-tab" id="tab-luminance" role="tab" data-idx="6" aria-selected="false" aria-controls="case-luminance" aria-label="Case 7, Luminance Learning" tabindex="-1"><span class="client-tab-num">07</span><span class="client-tab-name">Luminance Learning</span></button>
+  <div class="client-select" id="clientSelect">
+    <button class="client-select-btn" id="clientSelectBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select client case study">
+      <span class="client-select-num">01</span>
+      <span class="client-select-label">Resurrack × LMM</span>
+      <span class="client-select-count">08 clients</span>
+      <svg class="client-select-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <ul class="client-select-menu" id="clientSelectMenu" role="listbox" aria-label="Client case studies">
+      <li class="client-select-opt is-active" role="option" id="csopt-0" data-idx="0" aria-selected="true"  tabindex="0"><span class="csopt-num">01</span><span class="csopt-name">Resurrack × LMM</span></li>
+      <li class="client-select-opt" role="option" id="csopt-1" data-idx="1" aria-selected="false" tabindex="-1"><span class="csopt-num">02</span><span class="csopt-name">Flyco</span></li>
+      <li class="client-select-opt" role="option" id="csopt-2" data-idx="2" aria-selected="false" tabindex="-1"><span class="csopt-num">03</span><span class="csopt-name">Brixx Derma</span></li>
+      <li class="client-select-opt" role="option" id="csopt-3" data-idx="3" aria-selected="false" tabindex="-1"><span class="csopt-num">04</span><span class="csopt-name">Melissa Shoes</span></li>
+      <li class="client-select-opt" role="option" id="csopt-4" data-idx="4" aria-selected="false" tabindex="-1"><span class="csopt-num">05</span><span class="csopt-name">Coffeeman@NYP</span></li>
+      <li class="client-select-opt" role="option" id="csopt-5" data-idx="5" aria-selected="false" tabindex="-1"><span class="csopt-num">06</span><span class="csopt-name">Happy Rei</span></li>
+      <li class="client-select-opt" role="option" id="csopt-6" data-idx="6" aria-selected="false" tabindex="-1"><span class="csopt-num">07</span><span class="csopt-name">Luminance Learning</span></li>
+      <li class="client-select-opt" role="option" id="csopt-7" data-idx="7" aria-selected="false" tabindex="-1"><span class="csopt-num">08</span><span class="csopt-name">Fine Today Singapore (FINO)</span></li>
+    </ul>
   </div>
   <div class="client-nav">
     <button class="showcase-btn showcase-prev" aria-label="Previous client" disabled>
       <span class="showcase-btn-arrow">←</span>
     </button>
     <div class="client-counter" aria-live="polite">
-      <span class="client-counter-cur">01</span> / <span class="client-counter-tot">07</span>
+      <span class="client-counter-cur">01</span> / <span class="client-counter-tot">08</span>
     </div>
     <button class="showcase-btn showcase-next" aria-label="Next client">
       <span class="showcase-btn-arrow">→</span>
@@ -834,21 +885,14 @@
     <div class="case-info">
       <div class="eyebrow">CASE 001 · Resurrack × LittleMissMarket</div>
       <h2>A co-branded drop, told as a <em>shared ritual.</em></h2>
+      <p class="case-pkg-label">Package chosen</p>
       <div class="case-chips">
-        <span class="case-chip">Strategy</span>
-        <span class="case-chip">Shoot day</span>
-        <span class="case-chip">TikTok</span>
-        <span class="case-chip">Instagram</span>
-        <span class="case-chip">Community</span>
+        <span class="case-chip">Event Branding &amp; Marketing</span>
       </div>
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
           <p class="case-deck"><strong>Resurrack</strong> and <strong>LittleMissMarket</strong> needed a collab story that could hold two lifestyle audiences without feeling like a forced partnership. We shaped the launch around a shared weekend ritual: easy to understand, social-first, and made for the girls who already live in that world.</p>
-          <div class="case-proof">
-            <span class="case-proof-kicker">What we made</span>
-            <span class="case-proof-text">Campaign narrative &middot; eight TikToks &middot; co-hosted IG shoot day &middot; teaser reel &middot; vendor recruitment content</span>
-          </div>
           <div class="case-follow">
             <span class="case-follow-label">Find them on</span>
             <a class="case-follow-link" href="https://www.instagram.com/resurrack/" target="_blank" rel="noopener noreferrer">@resurrack</a>
@@ -884,20 +928,14 @@
     <div class="case-info">
       <div class="eyebrow">CASE 002 · Flyco</div>
       <h2>A concert campaign for <em>customisable</em> luggage.</h2>
+      <p class="case-pkg-label">Package chosen</p>
       <div class="case-chips">
-        <span class="case-chip">Campaign Strategy</span>
-        <span class="case-chip">Video Production</span>
-        <span class="case-chip">Shoot Day</span>
-        <span class="case-chip">Editing</span>
+        <span class="case-chip">Social Media Management - Atelier</span>
       </div>
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
           <p class="case-deck"><strong>Flyco</strong> brought us a time-sensitive concert campaign with a sharp cultural window: Blackpink in Singapore, BLINKs planning their outfits, and customisable luggage that could become part of the fan identity instead of just the travel kit.</p>
-          <div class="case-proof">
-            <span class="case-proof-kicker">What we made</span>
-            <span class="case-proof-text">Campaign concept &middot; short-form video direction &middot; shoot styling &middot; edit pacing &middot; social-first product framing</span>
-          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>23K+</em></div>
@@ -932,21 +970,14 @@
     <div class="case-info">
       <div class="eyebrow">CASE 003 · Brixx Derma</div>
       <h2>Rebuilding voice for a <em>derm-led</em> skincare line.</h2>
+      <p class="case-pkg-label">Package chosen</p>
       <div class="case-chips">
-        <span class="case-chip">Brand voice</span>
-        <span class="case-chip">Strategy</span>
-        <span class="case-chip">Education</span>
-        <span class="case-chip">Community</span>
-        <span class="case-chip">Telegram</span>
+        <span class="case-chip">Social Media Management - Atelier</span>
       </div>
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
           <p class="case-deck"><strong>Brixx Derma</strong> had the credibility: derm-led formulas, ingredient logic, and real product depth. What they needed was a social voice that made all of that feel calm, understandable, and worth coming back to.</p>
-          <div class="case-proof">
-            <span class="case-proof-kicker">What we made</span>
-            <span class="case-proof-text">Brand voice system &middot; education-led reels &middot; product drop copy &middot; Telegram community rhythm &middot; skincare storytelling</span>
-          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>30K+</em></div>
@@ -984,28 +1015,22 @@
   <!-- Case 04 · Melissa Shoes -->
   <article class="case" id="case-melissa" role="tabpanel" aria-labelledby="tab-melissa" tabindex="0" hidden>
     <div class="case-video-wrap">
-      <!-- Reserved for Melissa Shoes Cloudinary video. Replace this block with a <video> tag when the link is ready. -->
-      <div class="case-no-video" data-video-slot="melissa-cloudinary">
-        <span class="video-placeholder-label">Video<br>coming soon</span>
+      <div class="case-strip">
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782495040/1_n1blht.mov" poster="media/posters/melissa-1.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Melissa Shoes campaign video 1"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782495041/2_bz5sam.mov" poster="media/posters/melissa-2.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Melissa Shoes campaign video 2"></video>
       </div>
     </div>
     <div class="case-info">
       <div class="eyebrow">CASE 004 · Melissa Shoes · by way of NYP SBM TEP</div>
       <h2>Repositioning a heritage footwear label for <em>Gen Z.</em></h2>
+      <p class="case-pkg-label">Package chosen</p>
       <div class="case-chips">
-        <span class="case-chip">Content Creation</span>
-        <span class="case-chip">Brand Voice</span>
-        <span class="case-chip">Strategy</span>
-        <span class="case-chip">Motion Video</span>
+        <span class="case-chip">Content Creation - À La Carte</span>
       </div>
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
           <p class="case-deck"><strong>Melissa Shoes</strong> already had heritage, recognisable silhouettes, and a strong fashion memory. The opportunity was to make the brand feel current again through motion-first content built for younger audiences.</p>
-          <div class="case-proof">
-            <span class="case-proof-kicker">What we made</span>
-            <span class="case-proof-text">Content strategy &middot; motion-led reels &middot; campaign styling &middot; platform-native edits &middot; brand voice refresh</span>
-          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>10K+</em></div>
@@ -1044,20 +1069,14 @@
     <div class="case-info">
       <div class="eyebrow">CASE 005 · Coffeeman@NYP</div>
       <h2>A menu launch for a <em>campus</em> coffee bar.</h2>
+      <p class="case-pkg-label">Package chosen</p>
       <div class="case-chips">
-        <span class="case-chip">Content Creation</span>
-        <span class="case-chip">Food &amp; Beverage</span>
-        <span class="case-chip">Launch Campaign</span>
-        <span class="case-chip">Community</span>
+        <span class="case-chip">Content Creation - À La Carte</span>
       </div>
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
           <p class="case-deck"><strong>Coffeeman@NYP</strong> needed a launch story for a new menu inside a campus environment. The content had to feel appetising and polished without making the cafe feel out of reach for the students walking past it every day.</p>
-          <div class="case-proof">
-            <span class="case-proof-kicker">What we made</span>
-            <span class="case-proof-text">Menu launch reel &middot; food and beverage close-ups &middot; craft-led edit &middot; warm campus storytelling &middot; social captions</span>
-          </div>
           <div class="case-stats">
             <div class="case-stat">
               <div class="n"><em>1K+</em></div>
@@ -1103,21 +1122,14 @@
     <div class="case-info">
       <div class="eyebrow">CASE 006 · Happy Rei</div>
       <h2>Letting tiny reviewers make the case for <em>comfort.</em></h2>
+      <p class="case-pkg-label">Package chosen</p>
       <div class="case-chips">
-        <span class="case-chip">Content Creation</span>
-        <span class="case-chip">Kids-led Reels</span>
-        <span class="case-chip">Product Storytelling</span>
-        <span class="case-chip">Lifestyle</span>
-        <span class="case-chip">Community</span>
+        <span class="case-chip">Social Media Management - Bespoke</span>
       </div>
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
           <p class="case-deck"><strong>Happy Rei</strong> needed content that could show softness, usefulness, and parent trust without sounding like a catalogue. We built the reel around the brand's most honest proof point: children choosing and rating their own favourites.</p>
-          <div class="case-proof">
-            <span class="case-proof-kicker">What we made</span>
-            <span class="case-proof-text">Kids-led reel &middot; product review concept &middot; lifestyle framing &middot; parent-friendly caption &middot; comfort-led storytelling</span>
-          </div>
           <div class="case-follow">
             <span class="case-follow-label">Find them on</span>
             <a class="case-follow-link" href="https://www.instagram.com/happyrei.sg/" target="_blank" rel="noopener noreferrer">@happyrei.sg</a>
@@ -1150,21 +1162,14 @@
     <div class="case-info">
       <div class="eyebrow">CASE 007 · Luminance Learning</div>
       <h2>Turning Math anxiety into a <em>guided conversation.</em></h2>
+      <p class="case-pkg-label">Package chosen</p>
       <div class="case-chips">
-        <span class="case-chip">Education</span>
-        <span class="case-chip">Q&amp;A Reel</span>
-        <span class="case-chip">Founder-led Content</span>
-        <span class="case-chip">Trust Building</span>
-        <span class="case-chip">Social Copy</span>
+        <span class="case-chip">Social Media Management - Bespoke</span>
       </div>
     </div>
     <div class="case-expand">
       <div class="case-expand-body">
           <p class="case-deck"><strong>Luminance Learning</strong> needed to speak to students and parents without making Math feel heavier than it already can. We shaped a 60-second Q&amp;A around the questions families quietly carry: confidence, fear, foundations, and the small wins that rebuild belief.</p>
-          <div class="case-proof">
-            <span class="case-proof-kicker">What we made</span>
-            <span class="case-proof-text">60-second Q&amp;A reel &middot; founder-led script structure &middot; education copy &middot; trust-building edit &middot; parent-facing social hook</span>
-          </div>
           <div class="case-follow">
             <span class="case-follow-label">Find them on</span>
             <a class="case-follow-link" href="https://www.instagram.com/luminance_learning/" target="_blank" rel="noopener noreferrer">@luminance_learning</a>
@@ -1183,6 +1188,39 @@
             <span class="case-expand-label">The Result</span>
             <p class="case-expand-text">A reel that gives parents a fast read on the teaching philosophy: calm, structured, and student-first. Instead of promising quick fixes, the content shows the trust-building work behind helping students believe in themselves again.</p>
           </div>
+      </div>
+    </div>
+  </article>
+
+
+  <!-- Case 08 · Fine Today · Fino -->
+  <article class="case" id="case-fino" role="tabpanel" aria-labelledby="tab-fino" tabindex="0" hidden>
+    <div class="case-video-wrap">
+      <div class="case-strip">
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782494651/1_m5ejjx.mov" poster="media/posters/fino-1.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Fine Today Fino — UGC routine video"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782494655/2_jt9eaw.mov" poster="media/posters/fino-2.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Fine Today Fino — transformation video"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782494650/3_uzadoq.mov" poster="media/posters/fino-3.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Fine Today Fino — product texture video"></video>
+      </div>
+    </div>
+    <div class="case-info">
+      <div class="eyebrow">CASE 008 · Fine Today Singapore (FINO)</div>
+      <h2>UGC-led content for an <em>it girl</em> haircare essential.</h2>
+      <p class="case-pkg-label">Package chosen</p>
+      <div class="case-chips">
+        <span class="case-chip">Content Creation - The Set</span>
+      </div>
+    </div>
+    <div class="case-expand">
+      <div class="case-expand-body">
+        <p class="case-deck"><strong>Fine Today Singapore (FINO)</strong> is a well-loved Japanese haircare brand known for its premium hair mask and hair oil. We created UGC-led content to introduce FINO in a more relatable, Gen Z-friendly, and lifestyle-driven way across the SEA market.</p>
+        <div class="case-expand-section">
+          <span class="case-expand-label">The Brief</span>
+          <p class="case-expand-text">To create short-form video content that positioned Fino as an easy, everyday haircare essential for Gen Z consumers. The content needed to feel natural while highlighting product benefits in a way that was engaging without feeling overly promotional.</p>
+        </div>
+        <div class="case-expand-section">
+          <span class="case-expand-label">Our Approach</span>
+          <p class="case-expand-text">We developed a series of UGC-style content concepts built around routine, transformation, product texture, problem-solution storytelling, and "it girl" haircare moments. Each video was crafted to feel casual yet visually polished — making Fino feel desirable and easy to work into any daily routine.</p>
+        </div>
       </div>
     </div>
   </article>
@@ -1214,12 +1252,17 @@
 <script>
 (function () {
 
-  var cases   = Array.from(document.querySelectorAll('.case'));
-  var tabs    = Array.from(document.querySelectorAll('.client-tab'));
-  var curEl   = document.querySelector('.client-counter-cur');
-  var prevBtn = document.querySelector('.showcase-prev');
-  var nextBtn = document.querySelector('.showcase-next');
-  var current = 0;
+  var cases      = Array.from(document.querySelectorAll('.case'));
+  var opts       = Array.from(document.querySelectorAll('.client-select-opt'));
+  var curEl      = document.querySelector('.client-counter-cur');
+  var prevBtn    = document.querySelector('.showcase-prev');
+  var nextBtn    = document.querySelector('.showcase-next');
+  var selectBtn  = document.getElementById('clientSelectBtn');
+  var selectMenu = document.getElementById('clientSelectMenu');
+  var selectLabel = selectBtn.querySelector('.client-select-label');
+  var selectNum   = selectBtn.querySelector('.client-select-num');
+  var current    = 0;
+  var menuOpen   = false;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var motionObserver = null;
 
@@ -1234,19 +1277,17 @@
   function setupWorkMotions() {
     addMotion(document.querySelector('.work-intro p'), 'motion-rise', 120);
     addMotion(document.querySelector('.client-bar'), 'motion-tab', 0, true);
-    document.querySelectorAll('.client-tab').forEach(function (tab, i) {
-      addMotion(tab, 'motion-tab', 80 + i * 34);
-    });
+    addMotion(document.querySelector('.client-select-btn'), 'motion-tab', 80);
 
     cases.forEach(function (caseEl) {
       addMotion(caseEl.querySelector('.case-video-wrap'), 'motion-film', 0);
       addMotion(caseEl.querySelector('.case-info .eyebrow'), 'motion-left', 90);
       addMotion(caseEl.querySelector('.case-info h2'), 'motion-right', 160);
+      addMotion(caseEl.querySelector('.case-pkg-label'), 'motion-chip', 205);
       caseEl.querySelectorAll('.case-chip').forEach(function (chip, i) {
         addMotion(chip, 'motion-chip', 230 + i * 42);
       });
       addMotion(caseEl.querySelector('.case-deck'), 'motion-rise', 260);
-      addMotion(caseEl.querySelector('.case-proof'), 'motion-line', 300);
       caseEl.querySelectorAll('.case-stat').forEach(function (stat, i) {
         addMotion(stat, 'motion-stat', 350 + i * 80);
       });
@@ -1333,16 +1374,36 @@
     }
   });
 
-  function goTo(i, pushHash) {
-    if (i === current) {
-      replayActiveCaseMotion();
-      return;
-    }
+  /* ── Dropdown helpers ── */
+  function openMenu() {
+    menuOpen = true;
+    var r = selectBtn.getBoundingClientRect();
+    selectMenu.style.top    = (r.bottom + 2) + 'px';
+    selectMenu.style.left   = r.left + 'px';
+    selectMenu.style.width  = r.width + 'px';
+    document.body.appendChild(selectMenu);
+    selectMenu.classList.add('is-open');
+    selectBtn.setAttribute('aria-expanded', 'true');
+    opts[current].focus();
+  }
 
+  function closeMenu() {
+    menuOpen = false;
+    selectMenu.classList.remove('is-open');
+    document.getElementById('clientSelect').appendChild(selectMenu);
+    selectBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function updateTrigger(i) {
+    selectNum.textContent  = opts[i].querySelector('.csopt-num').textContent;
+    selectLabel.textContent = opts[i].querySelector('.csopt-name').textContent;
+  }
+
+  /* ── Core navigation ── */
+  function goTo(i, pushHash) {
     /* pause all videos in the outgoing case */
     cases[current].querySelectorAll('video').forEach(function (v) {
-      v.pause();
-      v.currentTime = 0;
+      v.pause(); v.currentTime = 0;
     });
     cases[current].querySelectorAll('.case-video-wrap').forEach(function (w) {
       w.classList.remove('is-playing');
@@ -1351,34 +1412,30 @@
 
     cases[current].classList.remove('is-active');
     cases[current].hidden = true;
-    tabs[current].classList.remove('is-active');
-    tabs[current].setAttribute('aria-selected', 'false');
-    tabs[current].setAttribute('tabindex', '-1');
+    opts[current].classList.remove('is-active');
+    opts[current].setAttribute('aria-selected', 'false');
+    opts[current].setAttribute('tabindex', '-1');
 
     current = i;
 
     cases[current].hidden = false;
     cases[current].classList.add('is-active');
-    tabs[current].classList.add('is-active');
-    tabs[current].setAttribute('aria-selected', 'true');
-    tabs[current].setAttribute('tabindex', '0');
+    opts[current].classList.add('is-active');
+    opts[current].setAttribute('aria-selected', 'true');
+    opts[current].setAttribute('tabindex', '0');
 
-    /* update URL hash without triggering a scroll */
+    updateTrigger(current);
+    closeMenu();
+
     if (pushHash !== false) {
       history.replaceState(null, '', '#' + cases[current].id);
     }
 
-    /* scroll tab into view */
-    tabs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-    /* update counter */
     if (curEl) curEl.textContent = String(current + 1).padStart(2, '0');
 
-    /* update prev/next disabled state */
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === cases.length - 1;
 
-    /* scroll page to top of showcase bar */
     document.querySelector('.client-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
     replayActiveCaseMotion();
   }
@@ -1391,21 +1448,30 @@
     if (idx > 0) goTo(idx, false);
   })();
 
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      goTo(parseInt(tab.dataset.idx, 10));
+  /* ── Dropdown events ── */
+  selectBtn.addEventListener('click', function () {
+    if (menuOpen) { closeMenu(); } else { openMenu(); }
+  });
+
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      goTo(parseInt(opt.dataset.idx, 10));
     });
-    tab.addEventListener('keydown', function (event) {
-      var nextIndex = null;
-      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = Math.min(current + 1, cases.length - 1);
-      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = Math.max(current - 1, 0);
-      if (event.key === 'Home') nextIndex = 0;
-      if (event.key === 'End') nextIndex = cases.length - 1;
-      if (nextIndex === null) return;
-      event.preventDefault();
-      goTo(nextIndex);
-      tabs[nextIndex].focus({ preventScroll: true });
+    opt.addEventListener('keydown', function (event) {
+      var focusIdx = parseInt(opt.dataset.idx, 10);
+      if (event.key === 'ArrowDown') { event.preventDefault(); opts[Math.min(focusIdx + 1, opts.length - 1)].focus(); return; }
+      if (event.key === 'ArrowUp')   { event.preventDefault(); opts[Math.max(focusIdx - 1, 0)].focus(); return; }
+      if (event.key === 'Home')      { event.preventDefault(); opts[0].focus(); return; }
+      if (event.key === 'End')       { event.preventDefault(); opts[opts.length - 1].focus(); return; }
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); goTo(focusIdx); selectBtn.focus(); return; }
+      if (event.key === 'Escape')    { closeMenu(); selectBtn.focus(); return; }
     });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (menuOpen && !document.getElementById('clientSelect').contains(e.target)) {
+      closeMenu();
+    }
   });
 
   prevBtn.addEventListener('click', function () { if (current > 0) goTo(current - 1); });
