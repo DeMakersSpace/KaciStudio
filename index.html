@@ -375,18 +375,10 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     0 32px 80px rgba(0,0,0,0.24);
 }
 
-/* Hide hint label once expanded */
-.hero-star.is-expanded .hsc-brand::after { display: none; }
-
-/* ── Interaction hint ── */
+/* ── Brand card ripple on entry ── */
 @keyframes brand-pulse {
   0%   { box-shadow: 0 2px 6px rgba(0,0,0,0.28), 0 10px 32px rgba(0,0,0,0.22), 0 0 0 0px  rgba(147,169,210,0.55); }
   100% { box-shadow: 0 2px 6px rgba(0,0,0,0.28), 0 10px 32px rgba(0,0,0,0.22), 0 0 0 22px rgba(147,169,210,0);   }
-}
-
-@keyframes hint-blink {
-  0%, 100% { opacity: 0.55; }
-  50%       { opacity: 0.15; }
 }
 
 /* Brand card: bigger on load, ripple plays 3× after drop-in */
@@ -397,25 +389,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
              brand-pulse 1.3s ease-out 1.1s 3;
 }
 
-/* Push AGENCY · SG up to create gap above hint */
-.hsc-brand .hsc-label { bottom: 20px; }
+.hsc-brand .hsc-label { bottom: 11px; }
 
-/* Hint label inside polaroid strip, below AGENCY · SG */
-.hsc-brand::after {
-  content: '◎ hover to explore';
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 7.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(15,10,5,0.30);
-  white-space: nowrap;
-  pointer-events: none;
-  animation: hint-blink 1.8s ease-in-out 1.6s infinite;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .hsc { transition: none; animation: none; opacity: 1; }
@@ -1184,30 +1159,25 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   margin-bottom: 16px;
   display: block;
 }
-/* Marquee wrapper — bleeds edge-to-edge, fades sides */
+/* Marquee wrapper — continuous spin + grab to browse */
 .love-marquee {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
   margin: 0 calc(-1 * var(--pad-gutter));
-  mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  padding: 0 var(--pad-gutter);
+  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
 }
+.love-marquee::-webkit-scrollbar { display: none; }
+.love-marquee.is-grabbing { cursor: grabbing; scroll-behavior: auto; }
 .love-marquee-track {
   display: flex;
   gap: 16px;
   width: max-content;
-  padding: 4px 0 8px;
-  animation: love-scroll 60s linear infinite;
-  will-change: transform;
-}
-.love-marquee:hover .love-marquee-track {
-  animation-play-state: paused;
-}
-@keyframes love-scroll {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .love-marquee-track { animation: none; }
+  padding: 4px var(--pad-gutter) 8px;
 }
 .love-card {
   width: clamp(260px, 35vw, 380px);
@@ -1254,6 +1224,46 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   vertical-align: -0.35em;
   margin-left: 2px;
 }
+/* Expandable full-letter pattern */
+.love-full-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.love-full-wrap.is-open {
+  grid-template-rows: 1fr;
+}
+.love-full-inner { overflow: hidden; }
+.love-full {
+  padding-top: 14px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  margin: 0;
+}
+.love-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.love-expand-btn:hover { opacity: 0.7; }
+.love-expand-arrow {
+  display: inline-block;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.love-expand-btn[aria-expanded="true"] .love-expand-arrow { transform: rotate(180deg); }
+
 .love-client {
   border-top: 1px solid color-mix(in oklch, var(--olive) 35%, transparent);
   padding-top: 20px;
@@ -1940,6 +1950,36 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div class="love-marquee reveal" style="--reveal-delay:100ms;">
       <div class="love-marquee-track" id="loveTrack">
         <div class="love-card">
+          <p class="love-quote">They have consistently demonstrated the discipline, creativity, and entrepreneurial mindset that sets serious founders apart.</p>
+          <div>
+            <button class="love-expand-btn" aria-expanded="false" aria-controls="benson-full">Read full letter <span class="love-expand-arrow">↓</span></button>
+            <div class="love-full-wrap" id="benson-full">
+              <div class="love-full-inner">
+                <p class="love-full">As a mentor, one of the most rewarding experiences is watching young founders grow with intention and purpose. Angeline and Jovinna of KACISTUDIO are exactly that. From our early conversations about their business direction to seeing how they have developed their craft and client relationships, they have consistently demonstrated the discipline, creativity, and entrepreneurial mindset that sets serious founders apart. I am proud to have walked part of this journey with them and look forward to seeing where KACISTUDIO goes next.</p>
+              </div>
+            </div>
+          </div>
+          <div class="love-client">
+            <div class="love-name">Benson Ong</div>
+            <div class="love-brand"></div>
+          </div>
+        </div>
+        <div class="love-card">
+          <p class="love-quote">Despite a tight timeline and a huge volume of projects, they delivered everything on time and exceeded our expectations.</p>
+          <div>
+            <button class="love-expand-btn" aria-expanded="false" aria-controls="isaac-full">Read full letter <span class="love-expand-arrow">↓</span></button>
+            <div class="love-full-wrap" id="isaac-full">
+              <div class="love-full-inner">
+                <p class="love-full">Working with KACISTUDIO was one of the smoothest experiences we've had with an external team. Despite a tight timeline and a huge volume of projects, they delivered everything on time and exceeded our expectations. From marketing strategy to onsite campaign execution, the team was professional, creative, and genuinely passionate about the project, something we really appreciated! I'd definitely recommend KACISTUDIO to anyone looking for a reliable team that consistently goes the extra mile.</p>
+              </div>
+            </div>
+          </div>
+          <div class="love-client">
+            <div class="love-name">Isaac Loh</div>
+            <div class="love-brand"></div>
+          </div>
+        </div>
+        <div class="love-card">
           <p class="love-quote">Working with KACISTUDIO felt really easy from the start! They were flexible, receptive to feedback, and made the whole process feel smooth without us having to over-explain every little detail.</p>
           <div class="love-client">
             <div class="love-name">Tricia</div>
@@ -1965,34 +2005,6 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
           <div class="love-client">
             <div class="love-name">Shermaine</div>
             <div class="love-brand"></div>
-          </div>
-        </div>
-        <div class="love-card">
-          <p class="love-quote">They didn't make luggage ads. They made content that belonged in the moment and happened to feature our bags. That distinction made all the difference.</p>
-          <div class="love-client">
-            <div class="love-name">Flyco</div>
-            <div class="love-brand">Flyco &middot; Travel &amp; Lifestyle</div>
-          </div>
-        </div>
-        <div class="love-card">
-          <p class="love-quote">We had the formulas. KACISTUDIO gave us the language. Our audience finally understands what we do, and they genuinely care about it now.</p>
-          <div class="love-client">
-            <div class="love-name">Brixx Derma</div>
-            <div class="love-brand">Brixx Derma &middot; Skincare &amp; Wellness</div>
-          </div>
-        </div>
-        <div class="love-card">
-          <p class="love-quote">They understood our audience before we finished briefing them. The warmth in every piece matched exactly what Happy Rei is supposed to feel like.</p>
-          <div class="love-client">
-            <div class="love-name">Happy Rei</div>
-            <div class="love-brand">Happy Rei &middot; Lifestyle</div>
-          </div>
-        </div>
-        <div class="love-card">
-          <p class="love-quote">Making education exciting on social is genuinely hard. KACISTUDIO cracked the brief in a way that surprised us and made us proud to share every single time.</p>
-          <div class="love-client">
-            <div class="love-name">Luminance Learning</div>
-            <div class="love-brand">Luminance Learning &middot; Education</div>
           </div>
         </div>
       </div>
@@ -2021,47 +2033,9 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 <script>
 (function () {
   var star = document.querySelector('.hero-star');
-  var brand = document.querySelector('.hsc-brand');
-  var firstFlyoutCard = document.querySelector('.hsc-pa');
-  if (!star || !brand) return;
-
-  var expanded = false;
-  var brandCanCollapse = false;
-
-  function setExpanded(next) {
-    expanded = next;
-    star.classList.toggle('is-expanded', expanded);
-    brandCanCollapse = false;
-  }
-
-  brand.addEventListener('pointerenter', function () {
-    if (expanded && brandCanCollapse) {
-      setExpanded(false);
-      return;
-    }
-    if (!expanded) setExpanded(true);
-  });
-
-  brand.addEventListener('pointerleave', function () {
-    if (expanded) brandCanCollapse = true;
-  });
-
-  star.addEventListener('pointermove', function (event) {
-    if (!expanded || !brandCanCollapse) return;
-    if (event.target.closest && event.target.closest('.hsc-brand')) {
-      setExpanded(false);
-    }
-  });
-
-  if (firstFlyoutCard) {
-    firstFlyoutCard.addEventListener('pointerenter', function () {
-      if (expanded) setExpanded(false);
-    });
-  }
-
-  star.addEventListener('pointerleave', function () {
-    if (expanded) setExpanded(false);
-  });
+  if (!star) return;
+  // Auto-fan the polaroids after the brand card drop animation settles
+  setTimeout(function () { star.classList.add('is-expanded'); }, 400);
 })();
 </script>
 
@@ -2209,15 +2183,95 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   KaciChrome.nav("home");
   KaciChrome.footer();
 
-  // Love marquee — clone cards so the -50% → 0 loop is seamless.
+  // Love carousel — continuous auto-spin + grab to browse
   (function () {
-    var track = document.getElementById('loveTrack');
-    if (!track) return;
+    var marquee = document.querySelector('.love-marquee');
+    var track   = document.getElementById('loveTrack');
+    if (!marquee || !track) return;
+
+    // Clone cards for seamless infinite loop
     var originals = Array.prototype.slice.call(track.querySelectorAll('.love-card'));
     originals.forEach(function (card) {
       var clone = card.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
       track.appendChild(clone);
+    });
+
+    var SPEED = 0.7; // px per frame
+    var isGrabbing = false;
+    var isHovered  = false;
+    var startX = 0, scrollStart = 0;
+
+    function halfWidth() { return track.scrollWidth / 2; }
+
+    // ── RAF auto-spin ──
+    function tick() {
+      if (!isGrabbing && !isHovered) {
+        marquee.scrollLeft += SPEED;
+        if (marquee.scrollLeft >= halfWidth()) {
+          marquee.scrollLeft -= halfWidth();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // ── Hover pause ──
+    marquee.addEventListener('mouseenter', function () { isHovered = true; });
+    marquee.addEventListener('mouseleave', function () { isHovered = false; });
+
+    // ── Mouse drag ──
+    marquee.addEventListener('mousedown', function (e) {
+      if (e.button !== 0) return;
+      isGrabbing = true;
+      startX = e.pageX;
+      scrollStart = marquee.scrollLeft;
+      marquee.classList.add('is-grabbing');
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function (e) {
+      if (!isGrabbing) return;
+      var delta = e.pageX - startX;
+      var next  = scrollStart - delta;
+      var half  = halfWidth();
+      if (next >= half) next -= half;
+      if (next < 0)     next += half;
+      marquee.scrollLeft = next;
+    });
+
+    document.addEventListener('mouseup', function () {
+      if (!isGrabbing) return;
+      isGrabbing = false;
+      marquee.classList.remove('is-grabbing');
+    });
+
+    // ── Touch drag (mobile) ──
+    var touchStartX = 0, touchScrollStart = 0;
+    marquee.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+      touchScrollStart = marquee.scrollLeft;
+    }, { passive: true });
+
+    marquee.addEventListener('touchmove', function (e) {
+      var delta = e.touches[0].clientX - touchStartX;
+      marquee.scrollLeft = touchScrollStart - delta;
+    }, { passive: true });
+  })();
+
+  // Expandable love letters — "Read full letter" toggle
+  (function () {
+    var marquee = document.querySelector('.love-marquee');
+    if (!marquee) return;
+    marquee.addEventListener('click', function (e) {
+      var btn = e.target.closest('.love-expand-btn');
+      if (!btn) return;
+      e.stopPropagation();
+      var wrap = btn.parentElement.querySelector('.love-full-wrap');
+      if (!wrap) return;
+      var isOpen = wrap.classList.contains('is-open');
+      wrap.classList.toggle('is-open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
     });
   })();
 
