@@ -1161,23 +1161,20 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 }
 /* Marquee wrapper — continuous spin + grab to browse */
 .love-marquee {
-  overflow-x: auto;
+  overflow-x: clip;
   overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
   cursor: grab;
   margin: 0 calc(-1 * var(--pad-gutter));
-  padding: 0 var(--pad-gutter);
   mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
 }
-.love-marquee::-webkit-scrollbar { display: none; }
-.love-marquee.is-grabbing { cursor: grabbing; scroll-behavior: auto; }
+.love-marquee.is-grabbing { cursor: grabbing; }
 .love-marquee-track {
   display: flex;
   gap: 16px;
   width: max-content;
   padding: 4px var(--pad-gutter) 8px;
+  will-change: transform;
 }
 .love-card {
   width: clamp(260px, 35vw, 380px);
@@ -2172,7 +2169,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   KaciChrome.nav("home");
   KaciChrome.footer();
 
-  // Love carousel — continuous auto-spin + grab to browse
+  // Love carousel — continuous auto-spin + grab to browse (transform-based, works on mobile)
   (function () {
     var marquee = document.querySelector('.love-marquee');
     var track   = document.getElementById('loveTrack');
@@ -2186,49 +2183,39 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
       track.appendChild(clone);
     });
 
-    var SPEED = 0.7; // px per frame
+    var SPEED = 0.7;
+    var pos = 0;
     var isGrabbing = false;
-    var isHovered  = false;
-    var startX = 0, scrollStart = 0;
+    var startX = 0, startPos = 0;
 
     function halfWidth() { return track.scrollWidth / 2; }
 
+    function setPos(p) {
+      var half = halfWidth();
+      pos = ((p % half) + half) % half;
+      track.style.transform = 'translateX(' + (-pos) + 'px)';
+    }
+
     // ── RAF auto-spin ──
     function tick() {
-      if (!isGrabbing && !isHovered) {
-        marquee.scrollLeft += SPEED;
-        if (marquee.scrollLeft >= halfWidth()) {
-          marquee.scrollLeft -= halfWidth();
-        }
-      }
+      if (!isGrabbing) setPos(pos + SPEED);
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
-
-    // ── Hover pause ──
-    marquee.addEventListener('mouseenter', function () { isHovered = true; });
-    marquee.addEventListener('mouseleave', function () { isHovered = false; });
 
     // ── Mouse drag ──
     marquee.addEventListener('mousedown', function (e) {
       if (e.button !== 0) return;
       isGrabbing = true;
       startX = e.pageX;
-      scrollStart = marquee.scrollLeft;
+      startPos = pos;
       marquee.classList.add('is-grabbing');
       e.preventDefault();
     });
-
     document.addEventListener('mousemove', function (e) {
       if (!isGrabbing) return;
-      var delta = e.pageX - startX;
-      var next  = scrollStart - delta;
-      var half  = halfWidth();
-      if (next >= half) next -= half;
-      if (next < 0)     next += half;
-      marquee.scrollLeft = next;
+      setPos(startPos + (startX - e.pageX));
     });
-
     document.addEventListener('mouseup', function () {
       if (!isGrabbing) return;
       isGrabbing = false;
@@ -2236,15 +2223,17 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     });
 
     // ── Touch drag (mobile) ──
-    var touchStartX = 0, touchScrollStart = 0;
     marquee.addEventListener('touchstart', function (e) {
-      touchStartX = e.touches[0].clientX;
-      touchScrollStart = marquee.scrollLeft;
+      isGrabbing = true;
+      startX = e.touches[0].clientX;
+      startPos = pos;
     }, { passive: true });
-
     marquee.addEventListener('touchmove', function (e) {
-      var delta = e.touches[0].clientX - touchStartX;
-      marquee.scrollLeft = touchScrollStart - delta;
+      if (!isGrabbing) return;
+      setPos(startPos + (startX - e.touches[0].clientX));
+    }, { passive: true });
+    marquee.addEventListener('touchend', function () {
+      isGrabbing = false;
     }, { passive: true });
   })();
 
