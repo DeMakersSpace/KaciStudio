@@ -269,7 +269,7 @@
 .form-submit {
   padding-top: 32px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
@@ -588,7 +588,7 @@
     </div>
     <div class="field">
       <label for="brief-message">Tell us the story <span class="req">*</span></label>
-      <textarea id="brief-message" name="message" placeholder="What's your brand about? Who's it for? What makes it feel like yours? Don't polish it — we prefer it raw." maxlength="3000" required></textarea>
+      <textarea id="brief-message" name="message" placeholder="What's your brand about?" maxlength="3000" required></textarea>
     </div>
     <div class="field">
       <label for="brief-budget">Monthly budget</label>
@@ -601,7 +601,6 @@
 
     <div class="form-submit">
       <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-      <p class="legal">By submitting, you agree we'll read this over a coffee. We reply to every brief within 48 hours, even if it's a "not right now".</p>
       <button type="submit" class="btn btn-primary" id="submit-button" style="padding: 18px 28px; font-size: 15px;">
         Send the brief <span class="arrow">→</span>
       </button>

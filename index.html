@@ -2186,6 +2186,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     var SPEED = 0.7;
     var pos = 0;
     var isGrabbing = false;
+    var isHovered  = false;
     var startX = 0, startPos = 0;
 
     function halfWidth() { return track.scrollWidth / 2; }
@@ -2198,10 +2199,14 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 
     // ── RAF auto-spin ──
     function tick() {
-      if (!isGrabbing) setPos(pos + SPEED);
+      if (!isGrabbing && !isHovered) setPos(pos + SPEED);
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
+
+    // ── Hover pause ──
+    marquee.addEventListener('mouseenter', function () { isHovered = true; });
+    marquee.addEventListener('mouseleave', function () { isHovered = false; });
 
     // ── Mouse drag ──
     marquee.addEventListener('mousedown', function (e) {

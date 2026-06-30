@@ -965,7 +965,13 @@
   <!-- Case 03 · Brixx Derma -->
   <article class="case" id="case-brixx" role="tabpanel" aria-labelledby="tab-brixx" tabindex="0" hidden>
     <div class="case-video-wrap">
-      <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1781956748/Brixx_Derma_owbxo4.mov" poster="media/posters/brixx.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Brixx Derma skincare content video"></video>
+      <div class="case-strip">
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782816673/Brixx_Derma_1_jrmrvo.mp4" poster="media/posters/brixx-1.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Brixx Derma skincare content video 1"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782816673/Brixx_Derma_2_c4rac6.mp4" poster="media/posters/brixx-2.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Brixx Derma skincare content video 2"></video>
+        <video src="https://res.cloudinary.com/dwzpgm80t/video/upload/v1782816677/Brixx_Derma_3_ryutnd.mov" poster="media/posters/brixx-3.jpg" controls controlsList="nodownload" preload="none" playsinline aria-label="Brixx Derma skincare content video 3"></video>
+      </div>
+      <button class="vid-nav vid-nav-prev" aria-label="Previous video">&#8592;</button>
+      <button class="vid-nav vid-nav-next" aria-label="Next video">&#8594;</button>
     </div>
     <div class="case-info">
       <div class="eyebrow">CASE 003 · Brixx Derma</div>
@@ -1390,8 +1396,12 @@
   function closeMenu() {
     menuOpen = false;
     selectMenu.classList.remove('is-open');
-    document.getElementById('clientSelect').appendChild(selectMenu);
     selectBtn.setAttribute('aria-expanded', 'false');
+    setTimeout(function () {
+      if (!menuOpen && selectMenu.parentElement === document.body) {
+        document.getElementById('clientSelect').appendChild(selectMenu);
+      }
+    }, 240);
   }
 
   function updateTrigger(i) {
@@ -1473,6 +1483,10 @@
       closeMenu();
     }
   });
+
+  window.addEventListener('scroll', function () {
+    if (menuOpen) closeMenu();
+  }, { passive: true });
 
   prevBtn.addEventListener('click', function () { if (current > 0) goTo(current - 1); });
   nextBtn.addEventListener('click', function () { if (current < cases.length - 1) goTo(current + 1); });
