@@ -8,21 +8,24 @@
 /* Perandory — display / headings */
 @font-face {
   font-family: 'Perandory';
-  src: url('../Brand fonts/Perandory/Perandory-Regular.otf') format('opentype');
+  src: url('../Brand fonts/Perandory/Perandory-Regular.woff2') format('woff2'),
+       url('../Brand fonts/Perandory/Perandory-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Perandory';
-  src: url('../Brand fonts/Perandory/Perandory-Semi-Condensed.otf') format('opentype');
+  src: url('../Brand fonts/Perandory/Perandory-Semi-Condensed.woff2') format('woff2'),
+       url('../Brand fonts/Perandory/Perandory-Semi-Condensed.otf') format('opentype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Perandory';
-  src: url('../Brand fonts/Perandory/Perandory-Condensed.otf') format('opentype');
+  src: url('../Brand fonts/Perandory/Perandory-Condensed.woff2') format('woff2'),
+       url('../Brand fonts/Perandory/Perandory-Condensed.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -31,70 +34,80 @@
 /* Gordita — body / sans / labels */
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Light.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Light.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-Light.otf') format('opentype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-LightItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-LightItalic.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-LightItalic.otf') format('opentype');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Regular.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Regular.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-RegularItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-RegularItalic.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-RegularItalic.otf') format('opentype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Medium.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Medium.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-MediumItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-MediumItalic.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-MediumItalic.otf') format('opentype');
   font-weight: 500;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Bold.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Bold.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-BoldItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-BoldItalic.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-BoldItalic.otf') format('opentype');
   font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Black.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Black.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-Black.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-BlackItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-BlackItalic.woff2') format('woff2'),
+       url('../Brand fonts/Gordita/Gordita-BlackItalic.otf') format('opentype');
   font-weight: 900;
   font-style: italic;
   font-display: swap;
@@ -103,10 +116,40 @@
 /* Sloop Script — flowing italic accents on em elements */
 @font-face {
   font-family: 'Sloop Script';
-  src: url('../Brand fonts/Sloop Script Regular.ttf') format('truetype');
+  src: url('../Brand fonts/Sloop Script Regular.woff2') format('woff2'),
+       url('../Brand fonts/Sloop Script Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+}
+
+/* Metric-matched fallbacks — eliminate CLS when custom fonts load */
+/* Gordita → Arial: size-adjust matches x-height so swap is invisible */
+@font-face {
+  font-family: 'Gordita Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('sans-serif');
+  size-adjust: 95.84%;
+  ascent-override: 111.02%;
+  descent-override: 27.86%;
+  line-gap-override: 0%;
+}
+/* Perandory → Georgia: size-adjust matches x-height */
+@font-face {
+  font-family: 'Perandory Fallback';
+  src: local('Georgia'), local('Times New Roman'), local('serif');
+  size-adjust: 111.79%;
+  ascent-override: 67.09%;
+  descent-override: 22.36%;
+  line-gap-override: 8.95%;
+}
+/* Sloop Script → Arial: adjusted to script font proportions */
+@font-face {
+  font-family: 'Sloop Script Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('sans-serif');
+  size-adjust: 57.1%;
+  ascent-override: 140.45%;
+  descent-override: 91.77%;
+  line-gap-override: 0%;
 }
 
 /* BootzyTM — brand card / special display */
@@ -145,10 +188,10 @@
   --nav-glow:     rgba(147, 169, 210, 0.14);
 
   /* Typography */
-  --font-serif:   'Perandory', Georgia, serif;
-  --font-sans:    'Gordita', system-ui, sans-serif;
-  --font-mono:    'Gordita', system-ui, sans-serif;
-  --font-script:  'Sloop Script', cursive;
+  --font-serif:   'Perandory', 'Perandory Fallback', Georgia, serif;
+  --font-sans:    'Gordita', 'Gordita Fallback', Arial, system-ui, sans-serif;
+  --font-mono:    'Gordita', 'Gordita Fallback', Arial, system-ui, sans-serif;
+  --font-script:  'Sloop Script', 'Sloop Script Fallback', cursive;
   --font-display: 'BootzyTM', cursive;
 
   /* Layout */
@@ -162,7 +205,7 @@
 @supports (color: color-mix(in oklch, red, blue)) {
   :root {
     --rule:     color-mix(in oklch, #584738 15%, transparent);
-    --nav-bg:   color-mix(in oklch, #584738 68%, #F8F6DA);
+    --nav-bg:   #584738;
     --nav-border: color-mix(in oklch, #F8F6DA 28%, transparent);
     --nav-glow:   color-mix(in oklch, #93A9D2 14%, transparent);
   }
@@ -191,10 +234,15 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* bottom space for fixed pill nav */
+  /* space for fixed banner (top) and pill nav (bottom) */
+  padding-top: 68px;
   padding-bottom: 5rem;
   overflow-x: hidden;
   max-width: 100%;
+}
+/* Banner dismissed: remove top padding so no empty strip appears */
+html.banner-dismissed body {
+  padding-top: 0;
 }
 
 img {
@@ -591,7 +639,7 @@ hr.rule {
   font-weight: 400;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: rgba(248, 246, 218, 0.50);
+  color: rgba(248, 246, 218, 0.75);
   padding: 0.4rem 0.85rem;
   border-radius: 9999px;
   text-decoration: none;
@@ -877,7 +925,7 @@ body.nav-locked { overflow: hidden; }
 
 .kaci-footer-credit {
   font-size: 0.75rem;
-  color: rgba(88, 71, 56, 0.36);
+  color: var(--fg-muted);
   text-align: right;
 }
 .kaci-footer-credit a {
@@ -933,8 +981,11 @@ body.nav-locked { overflow: hidden; }
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  position: relative;
-  z-index: 200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 300;
   overflow: hidden;
   animation: kaci-banner-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }

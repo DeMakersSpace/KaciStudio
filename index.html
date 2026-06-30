@@ -11,7 +11,7 @@
 <meta property="og:title" content="KACISTUDIO — Where your story meets socials.">
 <meta property="og:description" content="Singapore-based Gen Z social media agency. Story-first strategy, production, and community for lifestyle, beauty, and wellness brands. Est. 2025.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://kacistudio.co/index.html">
+<meta property="og:url" content="https://kacistudio.co/">
 <meta property="og:image" content="https://kacistudio.co/Logo/Primary%20Logo%20(Blue).png">
 <meta property="og:site_name" content="KACISTUDIO">
 <meta property="og:locale" content="en_SG">
@@ -25,9 +25,14 @@
 <meta name="author" content="KACISTUDIO">
 <meta name="geo.region" content="SG">
 <meta name="geo.placename" content="Singapore">
-<title>KACISTUDIO — Where your story meets socials.</title>
+<title>Social Media Agency Singapore | KACISTUDIO</title>
+<link rel="preload" href="Brand fonts/Sloop Script Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="Brand fonts/Gordita/Gordita-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="Brand fonts/Gordita/Gordita-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="Brand fonts/Perandory/Perandory-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="Brand fonts/Perandory/Perandory-Semi-Condensed.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="Brand fonts/Perandory/Perandory-Condensed.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/tokens.css">
-<link rel="stylesheet" href="assets/hero-draw.css">
 <style>
 /* ---------------- Home density overrides ---------------- */
 /* Tighter vertical pacing — scoped to this page only */
@@ -153,7 +158,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   letter-spacing: 0.12em;
 }
 .hero-desc {
-  display: none;
+  display: block;
   font-size: clamp(15px, 1.3vw, 18px);
   line-height: 1.6;
   color: var(--fg-muted);
@@ -174,7 +179,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('media/For HOME page/Home _ Cover Pic (Polaroid Background).jpg');
+  background-image: url('media/optimized/home-cover.webp');
   background-size: cover;
   background-position: center;
   z-index: 0;
@@ -1810,9 +1815,10 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 </script>
 </head>
 <body>
-
+<script>if(sessionStorage.getItem('kaci-banner-dismissed')==='1')document.documentElement.classList.add('banner-dismissed');</script>
 <div id="nav-slot"></div>
 
+<main>
 <!-- ============= HERO: SPLIT ============= -->
 <section id="hero-split" class="section hero-ready">
   <div class="split-left">
@@ -1832,47 +1838,47 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     <div class="hero-star">
 
       <div class="hsc hsc-pa" style="--drop-delay:60ms">
-        <img src="media/optimized/home-polaroid-green.webp" alt="LittleMissMarket indoor market" decoding="async">
+        <img src="media/optimized/home-polaroid-green.webp" alt="LittleMissMarket indoor market" width="1400" height="1866" decoding="async">
       </div>
 
       <div class="hsc hsc-st" style="--drop-delay:120ms">
-        <img src="media/optimized/home-polaroid-orange.webp" alt="LittleMissMarket Dear Diary activation" decoding="async">
+        <img src="media/optimized/home-polaroid-orange.webp" alt="LittleMissMarket Dear Diary activation" width="853" height="1280" decoding="async">
       </div>
 
       <div class="hsc hsc-wide" style="--drop-delay:90ms">
-        <img src="media/optimized/home-polaroid-blue.webp" alt="Live music at Singapore street event" decoding="async">
+        <img src="media/optimized/home-polaroid-blue.webp" alt="Live music at Singapore street event" width="1200" height="1800" decoding="async">
       </div>
 
       <div class="hsc hsc-bt" style="--drop-delay:0ms">
-        <img src="media/BTS-Stock Photos/IMG_2944 2.webp" alt="Behind the scenes at KACISTUDIO">
+        <img src="media/optimized/bts-01.webp" alt="Behind the scenes at KACISTUDIO" width="600" height="450" decoding="async">
       </div>
 
       <div class="hsc hsc-logo" style="--drop-delay:180ms">
-        <img src="Logo/Secondary Logo (White).png" alt="KACISTUDIO — Social Media Agency" style="object-fit:contain;width:100%;height:100%;">
+        <img src="Logo/Secondary Logo (White).png" alt="KACISTUDIO — Social Media Agency" width="3125" height="3125" style="object-fit:contain;width:100%;height:100%;">
       </div>
 
       <div class="hsc hsc-brand" style="--drop-delay:30ms">
-        <img src="Logo/Primary Logo (Blue).png" alt="KACISTUDIO" style="object-fit:cover;width:100%;height:100%;">
+        <img src="Logo/Primary Logo (Blue).png" alt="KACISTUDIO" width="3125" height="3125" style="object-fit:cover;width:100%;height:100%;">
       </div>
 
       <div class="hsc hsc-sq4" style="--drop-delay:200ms">
-        <img src="media/optimized/home-polaroid-purple.webp" alt="Dear Diary event activation wall" decoding="async">
+        <img src="media/optimized/home-polaroid-purple.webp" alt="Dear Diary event activation wall" width="1400" height="1866" decoding="async">
       </div>
 
       <div class="hsc hsc-pb" style="--drop-delay:140ms">
-        <img src="media/optimized/home-polaroid-red.webp" alt="KACISTUDIO co-founders" style="object-position:center top;" decoding="async">
+        <img src="media/optimized/home-polaroid-red.webp" alt="KACISTUDIO co-founders" width="1400" height="1866" style="object-position:center top;" decoding="async">
       </div>
 
       <div class="hsc hsc-sqa" style="--drop-delay:220ms">
-        <img src="media/optimized/home-polaroid-pink.webp" alt="LittleMissMarket outdoor market stall" decoding="async">
+        <img src="media/optimized/home-polaroid-pink.webp" alt="LittleMissMarket outdoor market stall" width="1400" height="1866" decoding="async">
       </div>
 
       <div class="hsc hsc-sq3" style="--drop-delay:255ms">
-        <img src="media/BTS-Stock Photos/IMG_2959.webp" alt="KACISTUDIO behind the scenes">
+        <img src="media/optimized/bts-02.webp" alt="KACISTUDIO behind the scenes" width="600" height="450" decoding="async">
       </div>
 
       <div class="hsc hsc-sqb" style="--drop-delay:275ms">
-        <img src="media/optimized/home-polaroid-yellow.webp" alt="LittleMissMarket clothing racks" decoding="async">
+        <img src="media/optimized/home-polaroid-yellow.webp" alt="LittleMissMarket clothing racks" width="1400" height="1050" decoding="async">
       </div>
 
     </div>
@@ -2015,6 +2021,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     </div>
   </div>
 </section>
+
+</main>
 
 <div id="footer-slot"></div>
 
@@ -2182,6 +2190,9 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
     originals.forEach(function (card) {
       var clone = card.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('a, button, input, [tabindex]').forEach(function (el) {
+        el.setAttribute('tabindex', '-1');
+      });
       track.appendChild(clone);
     });
 

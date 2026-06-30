@@ -50,6 +50,7 @@ const KaciChrome = (() => {
     closeBtn.addEventListener('click', () => {
       bannerEl.style.display = 'none';
       sessionStorage.setItem('kaci-banner-dismissed', '1');
+      document.documentElement.classList.add('banner-dismissed');
     });
     bannerEl.appendChild(closeBtn);
 
