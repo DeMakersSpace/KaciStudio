@@ -143,7 +143,7 @@ const KaciChrome = (() => {
     social.appendChild(el('span', { cls: 'kaci-footer-social-sep', text: '·' }));
     social.appendChild(el('a', { cls: 'kaci-footer-social-link', href: 'https://www.tiktok.com/@kacistudio', target: '_blank', rel: 'noopener noreferrer', text: 'TT · @kacistudio' }));
     social.appendChild(el('span', { cls: 'kaci-footer-social-sep', text: '·' }));
-    social.appendChild(el('a', { cls: 'kaci-footer-social-link', href: 'mailto:hello.kacistudio@gmail.com', text: 'hello.kacistudio@gmail.com' }));
+    social.appendChild(el('a', { cls: 'kaci-footer-social-link', href: 'mailto:hello@kacistudio.co', text: 'hello@kacistudio.co' }));
 
     /* Tagline */
     const tagline = el('p', { cls: 'kaci-footer-tagline', text: 'Crafted with Soul. Created to Connect.' });
