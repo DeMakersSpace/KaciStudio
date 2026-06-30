@@ -1693,7 +1693,8 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
   --divider-slope: clamp(12px, 2vw, 28px);
   display: block;
   position: relative;
-  height: clamp(84px, 9vw, 150px);
+  height: calc(2 * var(--divider-slope));
+  margin-bottom: -1px;
   overflow: hidden;
   background: var(--divider-top);
   pointer-events: none;
@@ -1711,6 +1712,7 @@ html[data-headline="v3"] .hl-v3 { display: inline; }
 .blend-fg-to-bg     { --divider-top: var(--fg);    --divider-bottom: var(--bg); }
 .blend-bg-to-olive  { --divider-top: var(--bg);    --divider-bottom: var(--olive); }
 .blend-olive-to-bg  { --divider-top: var(--olive); --divider-bottom: var(--bg); }
+
 
 /* Restore section backgrounds to solid colours */
 .love         { background: var(--olive); }
