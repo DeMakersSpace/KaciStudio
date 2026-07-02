@@ -8,7 +8,16 @@ temporary screenshots/
 .tmp-checks/
 screenshot-*.mjs
 error.png
+proof.png
 possible color palettet.jpg
+
+# Internal docs, audit reports, and dev server logs — not public site content
+*.docx
+seo-audit-*/
+*.log
+handoff.md
+handsoff.md
+Website Discovery Guide.docx
 
 # Raw camera files (large, not needed for the site)
 *.CR2

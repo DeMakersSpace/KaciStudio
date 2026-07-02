@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /colour-reference.html
+Disallow: /colour-reference.css
 
 # AI crawlers — explicitly allow
 User-agent: GPTBot

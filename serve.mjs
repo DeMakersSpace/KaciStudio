@@ -30,20 +30,32 @@ const MIME = {
   '.txt': 'text/plain',
 };
 
+function notFound(res) {
+  res.writeHead(404, { 'Content-Type': 'text/plain' });
+  res.end('404 Not Found');
+}
+
 http.createServer((req, res) => {
   let urlPath = decodeURIComponent(req.url.split('?')[0]);
   if (urlPath === '/') urlPath = '/index.html';
 
+  // Block dotfiles/dotfolders (.git, .github, .gitignore, etc.) at the path-segment level.
+  const segments = urlPath.split('/').filter(Boolean);
+  if (segments.some((seg) => seg.startsWith('.'))) return notFound(res);
+
   const filePath = path.join(__dirname, urlPath);
+
+  // Path traversal guard: resolved path must stay inside the project root.
+  const root = path.resolve(__dirname) + path.sep;
+  if (!path.resolve(filePath).startsWith(root)) return notFound(res);
+
   const ext = path.extname(filePath).toLowerCase();
-  const contentType = MIME[ext] || 'application/octet-stream';
+  const contentType = MIME[ext];
+  // No known extension (.md, .docx, .log, extensionless git internals, etc.) → refuse to serve.
+  if (!contentType) return notFound(res);
 
   fs.readFile(filePath, (err, data) => {
-    if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end('404 Not Found');
-      return;
-    }
+    if (err) return notFound(res);
     res.writeHead(200, { 'Content-Type': contentType });
     res.end(data);
   });

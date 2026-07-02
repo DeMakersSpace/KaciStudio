@@ -1,0 +1,50 @@
+# Cloudflare Pages: exclude these from the deployed asset bundle,
+# independent of .gitignore/git tracking. Syntax matches .gitignore.
+# See findings/technical.md C1 (SEO audit 2026-07-01).
+
+# VCS / tooling internals — must never be publicly servable
+.git/
+.github/
+.superpowers/
+.claude/
+docs/
+.impeccable.md
+.gitattributes
+.gitignore
+.assetsignore
+
+# Internal docs, briefs, and audit output — not site content
+handoff.md
+handsoff.md
+README.md
+*.docx
+seo-audit-*/
+
+# Dev-only reference pages — not part of the client-facing site
+colour-reference.html
+colour-reference.css
+
+# Server logs and dev artifacts
+*.log
+error.png
+proof.png
+possible color palettet.jpg
+
+# Empty/duplicate scaffold folder
+KaciStudio-main/
+
+# Raw, unoptimized source media — only media/optimized/* and media/posters/* are referenced
+# by the site. Exclude everything else in media/, keep those two subfolders.
+media/*
+!media/optimized/
+!media/optimized/**
+!media/posters/
+!media/posters/**
+videos/KACISTUDIO/
+videos/Past works/
+
+# Dev screenshots
+temporary screenshots/
+screenshot-compare.mjs
+screenshot-preview.mjs
+serve.mjs

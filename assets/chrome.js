@@ -1,183 +1,40 @@
 /* ═══════════════════════════════════════════════
-   KACISTUDIO — Chrome (Nav + Footer injection)
-   KaciChrome.nav(page)  → injects pill nav
-   KaciChrome.footer()   → injects footer
-   All DOM built with createElement/textContent
-   (no innerHTML with dynamic data — XSS safe)
+   KACISTUDIO — Chrome (progressive enhancement)
+   Nav and footer markup ships server-rendered in each
+   page's HTML (see the .kaci-nav / .kaci-footer blocks).
+   This file only wires up interactive behavior on top
+   of that existing markup — it builds nothing from scratch.
+   KaciChrome.init()
 ═══════════════════════════════════════════════ */
 
 const KaciChrome = (() => {
 
-  const PAGES = [
-    { id: 'home',     label: 'Home',     href: 'index.html'    },
-    { id: 'about',    label: 'About',    href: 'about.html'    },
-    { id: 'services', label: 'Services', href: 'services.html' },
-    { id: 'work',     label: 'Work',     href: 'work.html'     },
-    { id: 'contact',  label: 'Contact',  href: 'contact.html', cta: true },
-  ];
+  /* ── Availability banner ── */
+  function initBanner() {
+    const bannerEl = document.getElementById('kaci-banner');
+    if (!bannerEl) return;
 
-  /* ── Helpers ── */
-  function el(tag, attrs = {}, ...children) {
-    const node = document.createElement(tag);
-    Object.entries(attrs).forEach(([k, v]) => {
-      if (k === 'cls') node.className = v;
-      else if (k === 'text') node.textContent = v;
-      else node.setAttribute(k, v);
-    });
-    children.forEach(c => c && node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
-    return node;
-  }
+    if (sessionStorage.getItem('kaci-banner-dismissed') === '1') {
+      bannerEl.style.display = 'none';
+      return;
+    }
 
-  /* ── Availability Banner ── */
-  function banner() {
-    if (sessionStorage.getItem('kaci-banner-dismissed') === '1') return;
-
-    const bannerEl = el('div', { cls: 'kaci-banner', id: 'kaci-banner' });
-
-    /* Rainbow gradient overlay — sits behind text via z-index */
-    bannerEl.appendChild(el('div', { cls: 'kaci-banner-rainbow' }));
-
-    /* Text wrapper — floats above the rainbow */
-    const textWrap = el('span', { cls: 'kaci-banner-text' });
-    textWrap.appendChild(document.createTextNode('Now accepting 2 brands for Q3 2026 — '));
-    const link = el('a', { href: 'contact.html' });
-    link.textContent = 'Apply here →';
-    textWrap.appendChild(link);
-    bannerEl.appendChild(textWrap);
-
-    const closeBtn = el('button', { cls: 'kaci-banner-close', 'aria-label': 'Dismiss banner' });
-    closeBtn.textContent = '×';
+    const closeBtn = bannerEl.querySelector('.kaci-banner-close');
+    if (!closeBtn) return;
     closeBtn.addEventListener('click', () => {
       bannerEl.style.display = 'none';
       sessionStorage.setItem('kaci-banner-dismissed', '1');
       document.documentElement.classList.add('banner-dismissed');
     });
-    bannerEl.appendChild(closeBtn);
-
-    const navSlot = document.getElementById('nav-slot');
-    if (navSlot) navSlot.parentNode.insertBefore(bannerEl, navSlot);
   }
 
-  /* ── Nav ── */
-  function nav(activePage) {
-    banner();
-    const slot = document.getElementById('nav-slot');
-    if (!slot) return;
+  /* ── Mobile menu ── */
+  function initMobileMenu() {
+    const hamburger = document.querySelector('.kaci-nav-hamburger');
+    const menu = document.getElementById('kaci-mobile-menu');
+    if (!hamburger || !menu) return;
+    const closeBtn = menu.querySelector('.kaci-mobile-close');
 
-    /* Logo */
-    const logo = el('a', { cls: 'kaci-nav-logo', href: 'index.html', 'aria-label': 'KACISTUDIO home' });
-    const logoWrap = document.createElement('div');
-    logoWrap.setAttribute('aria-hidden', 'true');
-    logoWrap.style.cssText = 'overflow:hidden;border-radius:6px;flex-shrink:0;width:96px;height:36px;background:#93A9D2;';
-    const logoImg = document.createElement('img');
-    logoImg.src = 'Logo/Primary Logo (Blue).png';
-    logoImg.alt = 'Kaci Studio';
-    logoImg.style.cssText = 'width:144px;height:144px;margin-top:-57px;margin-left:8px;display:block;';
-    logoWrap.appendChild(logoImg);
-    logo.appendChild(logoWrap);
-
-    /* Desktop links — Home is omitted; the KACI logo links to home */
-    const linkRow = el('div', { cls: 'kaci-nav-links' });
-    PAGES.filter(p => p.id !== 'home').forEach(p => {
-      const cls = ['kaci-nav-link', p.cta ? 'kaci-nav-cta' : '', p.id === activePage ? 'is-active' : ''].filter(Boolean).join(' ');
-      const a = el('a', { cls, href: p.href });
-      a.textContent = p.label + (p.cta ? ' →' : '');
-      linkRow.appendChild(a);
-    });
-
-    /* Hamburger */
-    const burger = el('button', { cls: 'kaci-nav-hamburger', 'aria-label': 'Open menu', 'aria-expanded': 'false' });
-    burger.appendChild(el('span', {}));
-    burger.appendChild(el('span', {}));
-    burger.appendChild(el('span', {}));
-
-    /* Nav element */
-    const navEl = el('nav', { cls: 'kaci-nav', 'aria-label': 'Main navigation' });
-    navEl.appendChild(logo);
-    navEl.appendChild(linkRow);
-    navEl.appendChild(burger);
-
-    /* Mobile menu */
-    const mobileMenu = el('div', { cls: 'kaci-mobile-menu', id: 'kaci-mobile-menu', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Navigation' });
-    const closeBtn   = el('button', { cls: 'kaci-mobile-close', 'aria-label': 'Close menu', text: '×' });
-    const mobileNav  = el('nav', { cls: 'kaci-mobile-links' });
-
-    PAGES.filter(p => p.id !== 'home').forEach(p => {
-      const cls = ['kaci-mobile-link', p.id === activePage ? 'is-active' : ''].filter(Boolean).join(' ');
-      mobileNav.appendChild(el('a', { cls, href: p.href, text: p.label }));
-    });
-
-    mobileMenu.appendChild(closeBtn);
-    mobileMenu.appendChild(mobileNav);
-
-    slot.appendChild(navEl);
-    slot.appendChild(mobileMenu);
-
-    _initMobileMenu(burger, mobileMenu, closeBtn);
-  }
-
-  /* ── Footer ── */
-  function footer() {
-    const slot = document.getElementById('footer-slot');
-    if (!slot) return;
-
-    const year = new Date().getFullYear();
-
-    /* Brand logo + sub-label */
-    const brand = el('div', { cls: 'kaci-footer-brand' });
-    const logoImg = document.createElement('img');
-    logoImg.src = 'Logo/Primary Logo (Blue).png';
-    logoImg.alt = 'Kaci Studio';
-    logoImg.className = 'kaci-footer-logo-img';
-    brand.appendChild(logoImg);
-    const brandWrap = el('div', { cls: 'kaci-footer-brand-wrap' });
-    brandWrap.appendChild(brand);
-    brandWrap.appendChild(el('div', { cls: 'kaci-footer-brand-sub', text: 'Singapore' }));
-    brandWrap.appendChild(el('div', { cls: 'kaci-footer-brand-sub', text: 'Est. 2025' }));
-
-    const top = el('div', { cls: 'kaci-footer-top' });
-    top.appendChild(brandWrap);
-
-    /* Social links bar */
-    const social = el('div', { cls: 'kaci-footer-social' });
-    social.appendChild(el('a', { cls: 'kaci-footer-social-link', href: 'https://www.instagram.com/kacistudio.co', target: '_blank', rel: 'noopener noreferrer', text: 'IG · @kacistudio.co' }));
-    social.appendChild(el('span', { cls: 'kaci-footer-social-sep', text: '·' }));
-    social.appendChild(el('a', { cls: 'kaci-footer-social-link', href: 'https://www.tiktok.com/@kacistudio', target: '_blank', rel: 'noopener noreferrer', text: 'TT · @kacistudio' }));
-    social.appendChild(el('span', { cls: 'kaci-footer-social-sep', text: '·' }));
-    social.appendChild(el('a', { cls: 'kaci-footer-social-link', href: 'mailto:hello@kacistudio.co', text: 'hello@kacistudio.co' }));
-
-    /* Tagline */
-    const tagline = el('p', { cls: 'kaci-footer-tagline', text: 'Crafted with Soul. Created to Connect.' });
-
-    /* Copyright */
-    const copy = el('span', { cls: 'kaci-footer-copy' });
-    copy.textContent = '© ' + year + ' KACISTUDIO · Singapore';
-
-    /* De Makers Space credit — required on every page */
-    const credit = el('p', { cls: 'kaci-footer-credit' });
-    credit.appendChild(document.createTextNode('Website by '));
-    credit.appendChild(el('a', {
-      href: 'https://www.instagram.com/de.makers.space/',
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      text: 'De Makers Space',
-    }));
-
-    const bottom = el('div', { cls: 'kaci-footer-bottom' });
-    bottom.appendChild(copy);
-    bottom.appendChild(credit);
-
-    const footerEl = el('footer', { cls: 'kaci-footer', role: 'contentinfo' });
-    footerEl.appendChild(top);
-    footerEl.appendChild(social);
-    footerEl.appendChild(tagline);
-    footerEl.appendChild(bottom);
-
-    slot.appendChild(footerEl);
-  }
-
-  /* ── Mobile menu logic ── */
-  function _initMobileMenu(hamburger, menu, closeBtn) {
     function openMenu() {
       menu.classList.add('is-open');
       hamburger.classList.add('is-open');
@@ -191,14 +48,66 @@ const KaciChrome = (() => {
       hamburger.setAttribute('aria-expanded', 'false');
     }
     hamburger.addEventListener('click', openMenu);
-    closeBtn.addEventListener('click', closeMenu);
-    menu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
     menu.addEventListener('click', e => { if (e.target === menu) closeMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
   }
 
-  return { nav, footer };
+  /* ── Footer copyright year ── */
+  function initFooterYear() {
+    const yearEl = document.getElementById('kaci-footer-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  }
+
+  /* ── Nav auto-hide on scroll ──
+     The pill nav is docked at the bottom of the viewport (see .kaci-nav in
+     tokens.css), so on tall pages it sits on top of body copy while the
+     visitor scrolls (most visible on services.html's package tiers). Hide
+     it on scroll-down, reveal it on scroll-up or near the top of the page.
+     Desktop/tablet only (min-width matches tokens.css's 768px breakpoint):
+     on mobile the pill collapses to the hamburger, which is the only way
+     to reach the rest of the nav, so it must never be hidden or made
+     pointer-events:none there. */
+  function initNavAutoHide() {
+    const nav = document.querySelector('.kaci-nav');
+    if (!nav) return;
+    if (!window.matchMedia('(min-width: 769px)').matches) return;
+
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    function update() {
+      const y = window.scrollY;
+      const delta = y - lastY;
+
+      if (y < 80 || document.body.classList.contains('nav-locked')) {
+        nav.classList.remove('kaci-nav-hidden');
+      } else if (delta > 6) {
+        nav.classList.add('kaci-nav-hidden');
+      } else if (delta < -6) {
+        nav.classList.remove('kaci-nav-hidden');
+      }
+
+      lastY = y;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  function init() {
+    initBanner();
+    initMobileMenu();
+    initFooterYear();
+    initNavAutoHide();
+  }
+
+  return { init };
 
 })();

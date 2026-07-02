@@ -244,6 +244,9 @@ body {
 html.banner-dismissed body {
   padding-top: 0;
 }
+html.banner-dismissed .kaci-banner {
+  display: none;
+}
 
 img {
   max-width: 100%;
@@ -605,6 +608,19 @@ hr.rule {
   white-space: nowrap;
   animation: kaci-nav-rise 680ms cubic-bezier(0.16, 1, 0.3, 1) 140ms both;
   will-change: transform, opacity;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), opacity 320ms ease;
+}
+
+/* Docked at the bottom, the pill can sit on top of page copy while scrolling
+   through tall sections (e.g. services.html package tiers). Hide it on
+   scroll-down and bring it back on scroll-up so it never blocks reading. */
+.kaci-nav.kaci-nav-hidden {
+  /* !important needed: the kaci-nav-rise entrance animation uses
+     fill-mode:both, which keeps holding transform/opacity at its end
+     value and otherwise outranks a plain class rule in the cascade. */
+  transform: translateX(-50%) translateY(140%) !important;
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
 /* Logo mark */
@@ -692,8 +708,8 @@ hr.rule {
   align-items: center;
   justify-content: center;
   gap: 4.5px;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 48px;
+  min-height: 48px;
   padding: 0.5rem 0.9rem;
   margin-right: 0.25rem;
   cursor: pointer;
@@ -922,6 +938,14 @@ body.nav-locked { overflow: hidden; }
   text-transform: uppercase;
   color: var(--fg-muted);
 }
+.kaci-footer-copy a {
+  color: var(--fg-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+.kaci-footer-copy a:hover,
+.kaci-footer-copy a:focus-visible { color: var(--fg); }
 
 .kaci-footer-credit {
   font-size: 0.75rem;
