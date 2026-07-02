@@ -570,6 +570,11 @@
     marquee.addEventListener('mouseenter', function () { isHovered = true; });
     marquee.addEventListener('mouseleave', function () { isHovered = false; });
 
+    function releaseGrab() {
+      isGrabbing = false;
+      marquee.classList.remove('is-grabbing');
+    }
+
     // ── Mouse drag ──
     marquee.addEventListener('mousedown', function (e) {
       if (e.button !== 0) return;
@@ -581,13 +586,14 @@
     });
     document.addEventListener('mousemove', function (e) {
       if (!isGrabbing) return;
+      // Self-healing: if the primary button isn't actually down anymore,
+      // the mouseup that should have released the drag was missed (e.g.
+      // released outside the window) — recover instead of staying stuck.
+      if ((e.buttons & 1) === 0) { releaseGrab(); return; }
       setPos(startPos + (startX - e.pageX));
     });
-    document.addEventListener('mouseup', function () {
-      if (!isGrabbing) return;
-      isGrabbing = false;
-      marquee.classList.remove('is-grabbing');
-    });
+    document.addEventListener('mouseup', releaseGrab);
+    window.addEventListener('blur', releaseGrab);
 
     // ── Touch drag (mobile) ──
     marquee.addEventListener('touchstart', function (e) {
@@ -599,9 +605,11 @@
       if (!isGrabbing) return;
       setPos(startPos + (startX - e.touches[0].clientX));
     }, { passive: true });
-    marquee.addEventListener('touchend', function () {
-      isGrabbing = false;
-    }, { passive: true });
+    marquee.addEventListener('touchend', releaseGrab, { passive: true });
+    // touchcancel fires when the OS/browser cancels the gesture mid-drag
+    // (system gestures, scroll conflicts, notifications) — touchend never
+    // fires in that case, so without this the marquee freezes permanently.
+    marquee.addEventListener('touchcancel', releaseGrab, { passive: true });
   })();
 
   // Expandable love letters — "Read full letter" toggle
