@@ -43,15 +43,25 @@ http.createServer((req, res) => {
   const segments = urlPath.split('/').filter(Boolean);
   if (segments.some((seg) => seg.startsWith('.'))) return notFound(res);
 
-  const filePath = path.join(__dirname, urlPath);
+  let filePath = path.join(__dirname, urlPath);
 
   // Path traversal guard: resolved path must stay inside the project root.
   const root = path.resolve(__dirname) + path.sep;
   if (!path.resolve(filePath).startsWith(root)) return notFound(res);
 
-  const ext = path.extname(filePath).toLowerCase();
+  let ext = path.extname(filePath).toLowerCase();
+
+  // Clean URLs: Cloudflare Pages serves /about.html at /about (and 308s the
+  // .html request there) — every internal link on this site points at the
+  // extensionless form to match. Replicate that here so local dev matches
+  // production: an extensionless path resolves to its .html file.
+  if (!ext) {
+    filePath += '.html';
+    ext = '.html';
+  }
+
   const contentType = MIME[ext];
-  // No known extension (.md, .docx, .log, extensionless git internals, etc.) → refuse to serve.
+  // No known/resolvable extension (.md, .docx, .log, etc.) → refuse to serve.
   if (!contentType) return notFound(res);
 
   fs.readFile(filePath, (err, data) => {
