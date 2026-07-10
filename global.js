@@ -7,7 +7,22 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initScrollReveal();
   setActiveNavLink();
+  initQuarterLabel();
 });
+
+/* ── Auto-updating quarter label (.kaci-quarter) ──
+   Resets "Q3 2026" style labels to the current calendar
+   quarter automatically — no manual edit needed each quarter. */
+function initQuarterLabel() {
+  const els = document.querySelectorAll('.kaci-quarter');
+  if (!els.length) return;
+
+  const now     = new Date();
+  const quarter = Math.floor(now.getMonth() / 3) + 1;
+  const label   = `Q${quarter} ${now.getFullYear()}`;
+
+  els.forEach(el => { el.textContent = label; });
+}
 
 /* ── Generic smooth accordion ──
    containerSel — wrapping element (items live inside)
