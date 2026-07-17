@@ -32,10 +32,183 @@
 <meta name="geo.placename" content="Singapore">
 <title>Social Media Agency Singapore | KACISTUDIO</title>
 <link rel="preload" href="Brand fonts/Gordita/Gordita-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="Brand fonts/Perandory/Perandory-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="media/optimized/home-cover.webp" fetchpriority="high">
+<link rel="preload" href="Brand fonts/Perandory/Perandory-Condensed.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/tokens.css">
-<link rel="stylesheet" href="index.css">
+<style>
+  :root {
+    --pad-section-y: clamp(28px, 4.5vw, 64px);
+    --stack-lg: clamp(24px, 3vw, 40px);
+  }
+  #hero-split {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 0;
+    min-height: 56vh;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .split-left {
+    padding: clamp(28px, 4vw, 56px) var(--pad-gutter);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: clamp(20px, 2.5vw, 32px);
+  }
+  .hero-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .hero-btns .btn {
+    padding: 16px 28px;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    font-weight: 400;
+  }
+  .hero-desc {
+    display: block;
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.6;
+    color: var(--fg-muted);
+    max-width: 460px;
+    margin: 0;
+  }
+  .split-right {
+    background: var(--fg);
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-cover-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    opacity: 1;
+    pointer-events: none;
+  }
+  #hero-split .split-headline,
+  #hero-split .hero-desc,
+  #hero-split .hero-btns {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .split-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, color-mix(in oklch, var(--fg) 20%, transparent), transparent 38%),
+      linear-gradient(180deg, transparent 62%, color-mix(in oklch, var(--fg) 24%, transparent));
+    opacity: 1;
+    pointer-events: none;
+  }
+  .hero-star {
+    position: relative;
+    z-index: 2;
+    width: 560px;
+    height: 660px;
+    flex-shrink: 0;
+    margin-top: 60px;
+  }
+  .hsc {
+    position: absolute;
+    background: #F5F3EE;
+    border-radius: 1px;
+    box-sizing: border-box;
+    --rot: 0deg;
+    --drop-delay: 0ms;
+    padding: 9px 9px 38px;
+    transform: rotate(var(--rot));
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.28), 0 10px 32px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.14);
+    opacity: 0;
+    overflow: hidden;
+  }
+  .hsc img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hsc-pa { width: 162px; height: 198px; top: -5px; left: 0; --rot: -13deg; z-index: 2; }
+  .hsc-st { width: 148px; height: 184px; top: 20px; left: 238px; --rot: 17deg; z-index: 3; }
+  .hsc-wide { width: 178px; height: 216px; top: 18px; left: 92px; --rot: -8deg; z-index: 4; }
+  .hsc-bt { width: 188px; height: 228px; top: 0; left: 312px; --rot: 10deg; z-index: 4; }
+  .hsc-logo { width: 158px; height: 194px; top: 198px; left: 60px; --rot: -19deg; z-index: 3; }
+  .hsc-brand { width: 188px; height: 228px; top: 165px; left: 215px; --rot: -3deg; z-index: 6; }
+  .hsc-sq4 { width: 142px; height: 176px; top: 172px; left: 390px; --rot: 13deg; z-index: 2; }
+  .hsc-pb { width: 162px; height: 198px; top: 360px; left: 292px; --rot: -9deg; z-index: 3; }
+  .hsc-sqa { width: 155px; height: 190px; top: 400px; left: 40px; --rot: 16deg; z-index: 2; }
+  .hsc-sq3 { width: 170px; height: 208px; top: 412px; left: 168px; --rot: -6deg; z-index: 3; }
+  .hsc-sqb { width: 140px; height: 172px; top: 432px; left: 408px; --rot: 8deg; z-index: 1; }
+  .hsc-pa { --fly-x: 195px; --fly-y: 185px; --fly-delay: 0ms; }
+  .hsc-st { --fly-x: -36px; --fly-y: 167px; --fly-delay: 40ms; }
+  .hsc-wide { --fly-x: 95px; --fly-y: 153px; --fly-delay: 20ms; }
+  .hsc-bt { --fly-x: -130px; --fly-y: 165px; --fly-delay: 10ms; }
+  .hsc-logo { --fly-x: 191px; --fly-y: -16px; --fly-delay: 60ms; }
+  .hsc-sq4 { --fly-x: -185px; --fly-y: 19px; --fly-delay: 50ms; }
+  .hsc-pb { --fly-x: -97px; --fly-y: -180px; --fly-delay: 80ms; }
+  .hsc-sqa { --fly-x: 158px; --fly-y: -216px; --fly-delay: 90ms; }
+  .hsc-sq3 { --fly-x: 23px; --fly-y: -237px; --fly-delay: 70ms; }
+  .hsc-sqb { --fly-x: -202px; --fly-y: -239px; --fly-delay: 100ms; }
+  .hsc:not(.hsc-brand) {
+    transform: translate(var(--fly-x, 0px), var(--fly-y, 0px)) rotate(var(--rot)) scale(0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+    transition-delay: var(--fly-delay, 0ms);
+  }
+  .hero-star.is-expanded .hsc:not(.hsc-brand) {
+    transform: rotate(var(--rot));
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .hero-star.is-expanded .hsc-brand {
+    transform: rotate(0deg) scale(1) translateY(-8px);
+    z-index: 30 !important;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.32), 0 32px 80px rgba(0,0,0,0.24);
+  }
+  .split-headline {
+    font-family: var(--font-serif);
+    font-size: clamp(56px, 8vw, 92px);
+    line-height: 1.05;
+    letter-spacing: normal;
+  }
+  .split-headline em {
+    font-family: var(--font-script) !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    color: var(--accent);
+  }
+  @media (max-width: 768px) {
+    #hero-split { grid-template-columns: 1fr; min-height: auto; }
+    .split-right { min-height: clamp(360px, 80vw, 480px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hsc,
+    .hsc:not(.hsc-brand),
+    .hero-star.is-expanded .hsc:not(.hsc-brand),
+    .hero-star.is-expanded .hsc-brand {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>
+<link rel="preload" href="index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="index.css"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -122,7 +295,7 @@
 <nav class="kaci-nav" aria-label="Main navigation">
   <a class="kaci-nav-logo" href="/" aria-label="KACISTUDIO home">
     <div aria-hidden="true" style="overflow:hidden;border-radius:6px;flex-shrink:0;width:96px;height:36px;background:#93A9D2;">
-      <img src="Logo/Primary Logo (Blue).png" alt="Kaci Studio" style="width:144px;height:144px;margin-top:-57px;margin-left:8px;display:block;">
+      <img src="Logo/Primary Logo (Blue)-320.webp" alt="Kaci Studio" width="144" height="144" style="width:144px;height:144px;margin-top:-57px;margin-left:8px;display:block;">
     </div>
   </a>
   <div class="kaci-nav-links">
@@ -164,12 +337,12 @@
   <div class="split-right">
     <img
       class="hero-cover-media"
-      src="media/optimized/home-cover.webp"
+      src="media/optimized/home-cover-960.webp"
       srcset="media/optimized/home-cover-960.webp 960w, media/optimized/home-cover.webp 1600w"
       sizes="(max-width: 900px) 100vw, 50vw"
       alt=""
       loading="eager"
-      decoding="async"
+      decoding="sync"
       fetchpriority="high"
     >
     <div class="hero-star">
@@ -191,11 +364,11 @@
       </div>
 
       <div class="hsc hsc-logo" style="--drop-delay:180ms">
-        <img src="Logo/Secondary Logo (White).png" srcset="Logo/Secondary Logo (White)-320.webp 320w, Logo/Secondary Logo (White).png 3125w" sizes="(max-width: 430px) 92px, (max-width: 900px) 124px, 158px" alt="KACISTUDIO: Social Media Agency" width="3125" height="3125" loading="lazy" decoding="async" style="object-fit:contain;width:100%;height:100%;">
+        <img src="Logo/Secondary Logo (White)-320.webp" alt="KACISTUDIO: Social Media Agency" width="320" height="320" loading="lazy" decoding="async" style="object-fit:contain;width:100%;height:100%;">
       </div>
 
       <div class="hsc hsc-brand" style="--drop-delay:30ms">
-        <img src="Logo/Primary Logo (Blue).png" srcset="Logo/Primary Logo (Blue)-320.webp 320w, Logo/Primary Logo (Blue).png 3125w" sizes="(max-width: 430px) 112px, (max-width: 900px) 148px, 188px" alt="KACISTUDIO" width="3125" height="3125" loading="lazy" decoding="async" style="object-fit:cover;width:100%;height:100%;">
+        <img src="Logo/Primary Logo (Blue)-320.webp" alt="KACISTUDIO" width="320" height="320" loading="lazy" decoding="async" style="object-fit:cover;width:100%;height:100%;">
       </div>
 
       <div class="hsc hsc-sq4" style="--drop-delay:200ms">
@@ -372,7 +545,7 @@
   <div class="kaci-footer-top">
     <div class="kaci-footer-brand-wrap">
       <div class="kaci-footer-brand">
-        <img src="Logo/Primary Logo (Blue).png" alt="Kaci Studio" class="kaci-footer-logo-img">
+        <img src="Logo/Primary Logo (Blue)-320.webp" alt="Kaci Studio" width="320" height="320" class="kaci-footer-logo-img">
       </div>
       <div class="kaci-footer-brand-sub">Singapore</div>
       <div class="kaci-footer-brand-sub">Est. 2025</div>
@@ -398,147 +571,38 @@
 (function () {
   var star = document.querySelector('.hero-star');
   if (!star) return;
-  // Auto-fan the polaroids after the brand card drop animation settles
-  setTimeout(function () { star.classList.add('is-expanded'); }, 400);
+  function expandHeroStar() {
+    star.classList.add('is-expanded');
+  }
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(expandHeroStar, { timeout: 1200 });
+  } else {
+    setTimeout(expandHeroStar, 700);
+  }
 })();
 </script>
 
 <script>
-/* Process carousel — circular (infinite loop) + peek + drag + prev/next */
-(function () {
-  var carousel = document.getElementById('processCarousel');
-  if (!carousel) return;
-  var viewport = carousel.querySelector('.process-viewport');
-  var track = carousel.querySelector('.process-track');
-  var prevBtn = document.getElementById('processPrev');
-  var nextBtn = document.getElementById('processNext');
-  if (!viewport || !track || !prevBtn || !nextBtn) return;
+function whenVisible(selector, callback, options) {
+  var el = document.querySelector(selector);
+  if (!el) return;
 
-  /* Clone the original 5 steps once before and once after for seamless loop:
-     [clones-set-A] [originals] [clones-set-C]   (15 items total) */
-  var ORIGINALS = track.children.length;
-  var originals = Array.prototype.slice.call(track.children);
-  for (var i = ORIGINALS - 1; i >= 0; i--) {
-    var c = originals[i].cloneNode(true);
-    c.setAttribute('aria-hidden', 'true');
-    track.insertBefore(c, track.firstChild);
+  if (!('IntersectionObserver' in window)) {
+    callback(el);
+    return;
   }
-  for (var j = 0; j < ORIGINALS; j++) {
-    var c2 = originals[j].cloneNode(true);
-    c2.setAttribute('aria-hidden', 'true');
-    track.appendChild(c2);
-  }
-  var items = track.children;
-  var total = items.length; /* = ORIGINALS * 3 */
 
-  var index = ORIGINALS; /* start at first item of the middle set (step 01) */
-  var DRAG_THRESHOLD = 50;
-  var dragStartX = null;
-  var dragDelta = 0;
-  var pointerActive = false;
-
-  function basisPercent() {
-    var w = window.innerWidth;
-    if (w >= 1024) return 40;
-    if (w >= 768) return 52;
-    return 78;
-  }
-  function setTranslate(noTransition) {
-    if (noTransition) {
-      track.style.transition = 'none';
-    }
-    var basis = basisPercent();
-    var translate = 50 - (index * basis) - (basis / 2);
-    track.style.transform = 'translateX(' + translate + '%)';
-    if (noTransition) {
-      /* Force reflow before re-enabling transition so the jump is instant */
-      void track.offsetWidth;
-      track.style.transition = '';
-    }
-  }
-  function paint() {
-    Array.prototype.forEach.call(items, function (item, i) {
-      item.classList.toggle('is-active', i === index);
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      callback(el);
     });
-  }
-  function snapToIndex(noTransition) {
-    setTranslate(noTransition);
-    paint();
-  }
+  }, options || { threshold: 0.05 });
 
-  /* When the slide animation finishes, if we're inside one of the clone sets,
-     silently jump to the equivalent slot in the middle set. */
-  track.addEventListener('transitionend', function (e) {
-    if (e.target !== track || e.propertyName !== 'transform') return;
-    if (index < ORIGINALS) {
-      index += ORIGINALS;
-      snapToIndex(true);
-    } else if (index >= ORIGINALS * 2) {
-      index -= ORIGINALS;
-      snapToIndex(true);
-    }
-  });
-
-  function go(delta) {
-    index += delta;
-    track.classList.remove('is-dragging');
-    snapToIndex(false);
-  }
-
-  prevBtn.addEventListener('click', function () { go(-1); });
-  nextBtn.addEventListener('click', function () { go(1); });
-
-  /* Drag — pointer events for unified mouse + touch */
-  function onPointerDown(e) {
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
-    pointerActive = true;
-    dragStartX = e.clientX;
-    dragDelta = 0;
-    track.classList.add('is-dragging');
-    track.setPointerCapture(e.pointerId);
-  }
-  function onPointerMove(e) {
-    if (!pointerActive) return;
-    dragDelta = e.clientX - dragStartX;
-    var basis = basisPercent();
-    var basePct = 50 - (index * basis) - (basis / 2);
-    var dragPct = (dragDelta / viewport.offsetWidth) * 100;
-    track.style.transform = 'translateX(' + (basePct + dragPct) + '%)';
-  }
-  function onPointerEnd(e) {
-    if (!pointerActive) return;
-    pointerActive = false;
-    track.classList.remove('is-dragging');
-    if (track.hasPointerCapture && e && e.pointerId != null && track.hasPointerCapture(e.pointerId)) {
-      track.releasePointerCapture(e.pointerId);
-    }
-    if (dragDelta < -DRAG_THRESHOLD) go(1);
-    else if (dragDelta > DRAG_THRESHOLD) go(-1);
-    else snapToIndex(false);
-    dragDelta = 0;
-    dragStartX = null;
-  }
-
-  track.addEventListener('pointerdown', onPointerDown);
-  track.addEventListener('pointermove', onPointerMove);
-  track.addEventListener('pointerup', onPointerEnd);
-  track.addEventListener('pointercancel', onPointerEnd);
-  track.addEventListener('dragstart', function (e) { e.preventDefault(); });
-
-  carousel.tabIndex = 0;
-  carousel.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-  });
-
-  var resizeTimer;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () { snapToIndex(true); }, 120);
-  });
-
-  snapToIndex(true);
-})();
+  observer.observe(el);
+}
 </script>
 
 
@@ -563,11 +627,19 @@
     }
 
     function scheduleAnalytics() {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadAnalytics, { timeout: 2000 });
-      } else {
-        setTimeout(loadAnalytics, 1500);
+      var fallbackTimer = setTimeout(loadAnalytics, 10000);
+
+      function loadOnFirstIntent() {
+        clearTimeout(fallbackTimer);
+        loadAnalytics();
+        window.removeEventListener('pointerdown', loadOnFirstIntent);
+        window.removeEventListener('keydown', loadOnFirstIntent);
+        window.removeEventListener('scroll', loadOnFirstIntent);
       }
+
+      window.addEventListener('pointerdown', loadOnFirstIntent, { once: true, passive: true });
+      window.addEventListener('keydown', loadOnFirstIntent, { once: true });
+      window.addEventListener('scroll', loadOnFirstIntent, { once: true, passive: true });
     }
 
     if (document.readyState === 'complete') {
@@ -577,11 +649,9 @@
     }
   })();
 
-  // Love carousel — continuous auto-spin + grab to browse (transform-based, works on mobile)
-  (function () {
-    var marquee = document.querySelector('.love-marquee');
-    var track   = document.getElementById('loveTrack');
-    if (!marquee || !track) return;
+  whenVisible('.love-marquee', function (marquee) {
+    var track = document.getElementById('loveTrack');
+    if (!track) return;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     // Clone cards for seamless infinite loop
@@ -714,12 +784,9 @@
       reduceMotion.addEventListener('change', syncMotionState);
     }
     document.addEventListener('visibilitychange', syncMotionState);
-  })();
+  }, { threshold: 0.05, rootMargin: '240px 0px' });
 
-  // Expandable love letters — "Read full letter" toggle
-  (function () {
-    var marquee = document.querySelector('.love-marquee');
-    if (!marquee) return;
+  whenVisible('.love-marquee', function (marquee) {
     marquee.addEventListener('click', function (e) {
       var btn = e.target.closest('.love-expand-btn');
       if (!btn) return;
@@ -730,11 +797,9 @@
       wrap.classList.toggle('is-open', !isOpen);
       btn.setAttribute('aria-expanded', String(!isOpen));
     });
-  })();
+  }, { threshold: 0.01, rootMargin: '240px 0px' });
 
-  // Seamless infinite brand marquee — fill the track until one set
-  // is wider than the viewport, then duplicate it for a clean -50% loop.
-  (function () {
+  whenVisible('.client-bar', function () {
     var track = document.getElementById("logo-marquee-track");
     if (!track) return;
     var marquee = track.parentElement;
@@ -811,7 +876,7 @@
       clearTimeout(rebuildTimer);
       rebuildTimer = setTimeout(build, 200);
     });
-  })();
+  }, { threshold: 0.01, rootMargin: '200px 0px' });
 </script>
 <script src="assets/tweaks.js"></script>
 </body>

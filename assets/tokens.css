@@ -894,6 +894,8 @@ body.nav-locked { overflow: hidden; }
   border-top: 1px solid var(--rule);
   background: var(--bg);
   padding: clamp(40px, 5vw, 64px) var(--pad-gutter);
+  content-visibility: auto;
+  contain-intrinsic-size: 320px;
 }
 
 .kaci-footer-top {
