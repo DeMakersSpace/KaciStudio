@@ -470,6 +470,16 @@
   gap: 0;
 }
 
+/* Brief label inside expand */
+.case-brief-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0 0 8px;
+}
+
 /* Deck inside expand */
 .case-deck {
   font-size: 16px;
