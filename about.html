@@ -219,7 +219,11 @@
     <div class="values-content">
       <div class="value-active-num" id="valActiveNum">01</div>
       <div class="value-active-title" id="valActiveTitle">Strategy before aesthetics.</div>
-      <p class="value-active-desc" id="valActiveDesc"></p>
+      <div class="values-desc-group">
+        <p class="value-active-desc" data-value-desc="0">Beautiful content matters, but direction is what gives it meaning. We begin by understanding what your brand needs to say, who it needs to reach, and how it should be remembered.</p>
+        <p class="value-active-desc" data-value-desc="1" hidden>We do not believe in posting just to stay active. We help brands build a presence that feels consistent, recognisable, and rooted in a bigger story.</p>
+        <p class="value-active-desc" data-value-desc="2" hidden>A caption, a hook, a transition, a content pillar, a posting rhythm, every small choice shapes how your brand is experienced.</p>
+      </div>
       <div class="values-arrows">
         <button class="values-arrow" type="button" id="valuesPrev" aria-label="Previous value">
           <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -539,13 +543,19 @@
   var nextBtn = document.getElementById('valuesNext');
   var numEl = document.getElementById('valActiveNum');
   var titleEl = document.getElementById('valActiveTitle');
-  var descEl = document.getElementById('valActiveDesc');
-  if (!stage || !cards || !cards.length || !prevBtn || !nextBtn || !numEl || !titleEl || !descEl) return;
+  var descEls = root.querySelectorAll('.value-active-desc');
+  if (!stage || !cards || !cards.length || !prevBtn || !nextBtn || !numEl || !titleEl || !descEls.length) return;
+
+  /* Full desc text lives as static markup in each [data-value-desc] paragraph
+     (so it's present in the raw HTML for crawlers), captured once here before
+     paint() rebuilds each into word-spans for the reveal animation. */
+  var descText = [];
+  descEls.forEach(function (el) { descText[+el.getAttribute('data-value-desc')] = el.textContent.trim(); });
 
   var data = [
-    { num: "01", title: "Strategy before aesthetics.", desc: "Beautiful content matters, but direction is what gives it meaning. We begin by understanding what your brand needs to say, who it needs to reach, and how it should be remembered." },
-    { num: "02", title: "Presence over posting.", desc: "We do not believe in posting just to stay active. We help brands build a presence that feels consistent, recognisable, and rooted in a bigger story." },
-    { num: "03", title: "Details make the difference.", desc: "A caption, a hook, a transition, a content pillar, a posting rhythm, every small choice shapes how your brand is experienced." }
+    { num: "01", title: "Strategy before aesthetics." },
+    { num: "02", title: "Presence over posting." },
+    { num: "03", title: "Details make the difference." }
   ];
   var total = data.length;
   var index = 0;
@@ -567,11 +577,13 @@
     numEl.textContent = '0' + (index + 1);
     titleEl.textContent = active.title;
 
-    /* Word-by-word reveal on desc — clear then append safely.
-       Spaces go BETWEEN spans as text nodes; trailing whitespace inside
-       an inline-block gets collapsed by the browser. */
+    /* Show only the active desc paragraph; word-by-word reveal — clear then
+       append safely. Spaces go BETWEEN spans as text nodes; trailing
+       whitespace inside an inline-block gets collapsed by the browser. */
+    descEls.forEach(function (el, i) { el.hidden = i !== index; });
+    var descEl = descEls[index];
     while (descEl.firstChild) descEl.removeChild(descEl.firstChild);
-    var words = active.desc.split(' ');
+    var words = descText[index].split(' ');
     words.forEach(function (word, i) {
       var span = document.createElement('span');
       span.className = 'word';
