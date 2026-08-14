@@ -422,6 +422,16 @@
     opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1),
     transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
 }
+/* .svc-title/.svc-desc below run their own nested transform on top of this
+   row's transform while both are mid-transition — without an explicit
+   compositing layer per element, that overlap can render as doubled/smeared
+   glyphs on some GPUs. will-change forces each into its own layer so the
+   two transforms interpolate independently instead of visually compounding. */
+.services-list .svc-row,
+.services-list .svc-row .svc-title,
+.services-list .svc-row .svc-desc {
+  will-change: opacity, transform;
+}
 .services-list.is-visible .svc-row:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay:    0ms; }
 .services-list.is-visible .svc-row:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay:  480ms; }
 .services-list.is-visible .svc-row:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay:  960ms; }

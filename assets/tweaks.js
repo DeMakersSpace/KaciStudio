@@ -4,10 +4,27 @@
 ═══════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initReveal();
-  initScrollReveal();
-  initMarquee();
+  /* Each init runs independently — one throwing (a browser extension
+     interfering with IntersectionObserver, an unexpected DOM shape, etc.)
+     must not prevent the others from running and leaving their sections
+     stuck invisible. */
+  [initReveal, initScrollReveal, initMarquee].forEach(fn => {
+    try { fn(); } catch (err) { console.error(fn.name + ' failed:', err); }
+  });
+  initRevealFailsafe();
 });
+
+/* ── Failsafe: force any .reveal/.reveal-scroll element still invisible
+   after 4s to show. Catches cases where the observer above never fires for
+   a given element (a bug, an edge-case DOM state) — without this, content
+   that fails to reveal stays permanently blank since .reveal starts at
+   opacity:0 with no other visibility trigger. */
+function initRevealFailsafe() {
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.is-visible), .reveal-scroll:not(.is-visible)')
+      .forEach(el => el.classList.add('is-visible'));
+  }, 4000);
+}
 
 /* ── Reversible reveal (.reveal → .is-visible, resets when scrolled away) ── */
 function initReveal() {

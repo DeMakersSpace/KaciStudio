@@ -464,10 +464,21 @@
   grid-area: expand;
 }
 .case-expand-body {
-  padding: 20px 0 8px;
+  /* Extra top padding clears the fixed pill nav's footprint (52px height +
+     2rem bottom offset) on /work, where the first element is a short
+     .case-brief-label heading. */
+  padding: 140px 0 8px;
   display: flex;
   flex-direction: column;
   gap: 0;
+}
+/* On standalone case-*.html pages there's no .case-brief-label — .case-deck
+   (a multi-line paragraph) is the first element instead, and needs more
+   clearance than the label did to fully clear the nav rather than just its
+   top edge. Scoped to :first-child so /work's cases (where .case-deck
+   follows the label, already clear) aren't affected. */
+.case-expand-body > .case-deck:first-child {
+  margin-top: 140px;
 }
 
 /* Brief label inside expand */
@@ -746,6 +757,13 @@
   }
   .case-video-wrap { width: clamp(200px, 60%, 280px); margin: 0 auto; }
   .case-info { padding: 18px 0 0; }
+  /* On /work specifically (multiple stacked cases + hero/intro/client-bar
+     content above), the case title can land under the fixed pill nav at
+     this breakpoint on initial load. Standalone case-*.html pages don't
+     need this (less content above pushes things down less). */
+  .client-bar ~ .showcase .case-info h2 {
+    margin-top: 72px;
+  }
 }
 
 

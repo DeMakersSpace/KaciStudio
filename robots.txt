@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /colour-reference
 Disallow: /colour-reference.html
 Disallow: /colour-reference.css
 
