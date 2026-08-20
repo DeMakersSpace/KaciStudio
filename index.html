@@ -974,11 +974,49 @@ function whenVisible(selector, callback, options) {
         bar.style.marginTop = '';
         return;
       }
+      // Read nav's RESTING bottom edge from its own computed bottom/
+      // height rather than nav.getBoundingClientRect(): chrome.js toggles
+      // a .kaci-nav-hidden class (translateY(140%)) on scroll-down, and
+      // the entrance animation also transforms it briefly on load — a
+      // live rect read during either state would bake in a wrong, much
+      // larger margin here (permanently, since this only reruns on
+      // resize/load, not on scroll or animation-end). Computed bottom/
+      // height are unaffected by transform, so this is stable regardless
+      // of nav's current visibility state.
+      var navStyle = getComputedStyle(nav);
+      var navBottomOffset = parseFloat(navStyle.bottom) || 0;
+      var navRestingBottom = window.innerHeight - navBottomOffset;
+
+      // .client-bar also carries .reveal (opacity:0, translateY(28px) ->
+      // is-visible: opacity:1, translateY(0), transition: transform 0.7s).
+      // Its reveal threshold (rootMargin -28%) means is-visible may not
+      // have fired yet at the moment this runs, so the element can still
+      // be sitting 28px off from its settled position. Forcing
+      // transform:none isn't enough by itself: with the transition still
+      // active, that write starts a NEW transition toward 'none' rather
+      // than snapping to it, so a synchronous rect read straight after
+      // still reports the pre-change (mid-transition) position. Also
+      // suspending the transition itself is what makes the override
+      // instant. Since this only reruns on resize/load (not once any
+      // later reveal transition completes on its own), any error here
+      // would otherwise get permanently baked into the margin.
+      var prevTransform = bar.style.transform;
+      var prevTransition = bar.style.transition;
+      bar.style.transition = 'none';
       bar.style.marginTop = '0px';
-      var navRect = nav.getBoundingClientRect();
-      var barRect = bar.getBoundingClientRect();
-      var needed = Math.ceil(navRect.bottom - barRect.top);
+      bar.style.transform = 'none';
+      bar.offsetHeight; // force layout to apply the above synchronously
+      // getBoundingClientRect().top is viewport-relative — if this runs
+      // while the page is scrolled (e.g. a resize firing mid-scroll),
+      // that offset must be added back to get the bar's true position
+      // relative to the top of the document, which is what a margin-top
+      // (a document-flow property) actually needs to clear.
+      var barTop = bar.getBoundingClientRect().top + window.scrollY;
+      var needed = Math.ceil(navRestingBottom - barTop);
       bar.style.marginTop = (needed > 0 ? needed : 0) + 'px';
+      bar.style.transform = prevTransform;
+      bar.offsetHeight; // force layout again before re-enabling the transition
+      bar.style.transition = prevTransition;
     }
 
     // Hero images carry explicit width/height, so the browser reserves
