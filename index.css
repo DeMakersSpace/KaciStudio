@@ -94,7 +94,6 @@
 /* Defer below-the-fold layout and paint work on mobile-sized devices. */
 @media (max-width: 900px) {
   .client-bar,
-  #section-services,
   .love,
   .closing-cta,
   footer.kaci-footer {
@@ -298,11 +297,33 @@
   padding: 22px 0;
   overflow: hidden;
 }
+@media (min-width: 769px) {
+  .client-bar {
+    /* .kaci-nav is fixed `bottom: 2rem` with its own ~52px height. On
+       desktop viewports roughly 850–1450px tall, its fixed band lands
+       directly on this marquee (and, further down, on the WHAT WE DO
+       heading) since the hero above it has a constant ~720px height
+       rather than scaling with viewport height. Pushing this bar down
+       by the same amount the nav has descended keeps it (and the
+       section that follows) clear — same "content starts after the
+       nav" pattern used on /work and the case-study pages. Calibrated
+       against #hero-split's measured, viewport-height-independent
+       bottom edge (~788px + this bar's own 28px gap before it = 816px);
+       scoped to desktop since the mobile hero uses a shorter,
+       differently-computed single-column layout below 769px. */
+    margin-top: clamp(0px, calc(100vh - 848px), 600px);
+  }
+}
 
 .client-bar,
-#section-services,
 .love,
 .closing-cta {
+  /* #section-services deliberately excluded: it sits close enough to
+     the fold that content-visibility:auto's placeholder/real-size
+     mismatch (contain-intrinsic-size 720px vs its true ~900px+
+     height) was producing a transient rendering seam right at its top
+     edge on load. Little paint-skipping benefit for a section this
+     close to the viewport anyway. */
   content-visibility: auto;
 }
 
@@ -310,7 +331,6 @@
   contain-intrinsic-size: 96px;
 }
 
-#section-services,
 .closing-cta {
   contain-intrinsic-size: 720px;
 }
