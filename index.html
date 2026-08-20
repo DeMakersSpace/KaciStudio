@@ -208,8 +208,8 @@
     }
   }
 </style>
-<link rel="preload" href="index.css?v=20260821" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="index.css?v=20260821"></noscript>
+<link rel="preload" href="index.css?v=20260821b" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="index.css?v=20260821b"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -955,6 +955,42 @@ function whenVisible(selector, callback, options) {
       rebuildTimer = setTimeout(build, 200);
     });
   }, { threshold: 0.01, rootMargin: '0px 0px' });
+</script>
+<script>
+  // .kaci-nav is fixed bottom:2rem and can land on .client-bar (or the
+  // section after it) on desktop, since the hero above has a roughly
+  // constant height rather than scaling with viewport height. Measures
+  // the real, rendered positions instead of assuming a fixed pixel
+  // offset — actual hero height varies enough across real browsers/
+  // DPI/font-rendering that a hardcoded calc(100vh - Xpx) formula
+  // either under- or over-corrected depending on the device.
+  (function () {
+    var bar = document.querySelector('.client-bar');
+    var nav = document.querySelector('.kaci-nav');
+    if (!bar || !nav) return;
+
+    function clearNavOverlap() {
+      if (window.innerWidth < 769) {
+        bar.style.marginTop = '';
+        return;
+      }
+      bar.style.marginTop = '0px';
+      var navRect = nav.getBoundingClientRect();
+      var barRect = bar.getBoundingClientRect();
+      var needed = Math.ceil(navRect.bottom - barRect.top);
+      bar.style.marginTop = (needed > 0 ? needed : 0) + 'px';
+    }
+
+    // Hero images carry explicit width/height, so the browser reserves
+    // their box before they decode — layout is already stable by the
+    // time this script runs (placed at the end of body), so there's no
+    // need to wait for 'load' and risk a visible jump after .client-bar
+    // has already faded in via its .reveal transition.
+    clearNavOverlap();
+    window.addEventListener('resize', clearNavOverlap);
+    // Safety net in case fonts swap in late and shift text height.
+    window.addEventListener('load', clearNavOverlap);
+  })();
 </script>
 <script src="assets/tweaks.js"></script>
 </body>

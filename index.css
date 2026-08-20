@@ -296,23 +296,15 @@
   color: var(--cream);
   padding: 22px 0;
   overflow: hidden;
-}
-@media (min-width: 769px) {
-  .client-bar {
-    /* .kaci-nav is fixed `bottom: 2rem` with its own ~52px height. On
-       desktop viewports roughly 850–1450px tall, its fixed band lands
-       directly on this marquee (and, further down, on the WHAT WE DO
-       heading) since the hero above it has a constant ~720px height
-       rather than scaling with viewport height. Pushing this bar down
-       by the same amount the nav has descended keeps it (and the
-       section that follows) clear — same "content starts after the
-       nav" pattern used on /work and the case-study pages. Calibrated
-       against #hero-split's measured, viewport-height-independent
-       bottom edge (~788px + this bar's own 28px gap before it = 816px);
-       scoped to desktop since the mobile hero uses a shorter,
-       differently-computed single-column layout below 769px. */
-    margin-top: clamp(0px, calc(100vh - 848px), 600px);
-  }
+  /* Nav-overlap clearance (.kaci-nav is fixed bottom:2rem and can land
+     on this bar or the section after it, since the hero above has a
+     roughly constant height rather than scaling with viewport height)
+     is applied as an inline margin-top by the script at the bottom of
+     index.html, which measures the real, rendered nav/bar positions at
+     runtime instead of assuming a fixed pixel calibration — actual
+     hero height varies enough across real browsers/DPI/font-rendering
+     that a hardcoded calc(100vh - Xpx) formula either under- or
+     over-corrected depending on the device. See clearNavOverlap(). */
 }
 
 .client-bar,
