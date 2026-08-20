@@ -314,7 +314,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation">
+<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation" hidden inert aria-hidden="true">
   <button class="kaci-mobile-close" aria-label="Close menu">×</button>
   <nav class="kaci-mobile-links">
     <a class="kaci-mobile-link" href="about">About</a>
@@ -716,9 +716,16 @@ function whenVisible(selector, callback, options) {
     var cloneFragment = document.createDocumentFragment();
     originals.forEach(function (card) {
       var clone = card.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.setAttribute('data-carousel-clone', '');
       clone.setAttribute('aria-hidden', 'true');
-      clone.querySelectorAll('a, button, input, [tabindex]').forEach(function (el) {
+      clone.querySelectorAll('[id]').forEach(function (el) {
+        el.removeAttribute('id');
+      });
+      clone.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(function (el) {
         el.setAttribute('tabindex', '-1');
+        el.setAttribute('aria-hidden', 'true');
+        el.removeAttribute('aria-controls');
       });
       cloneFragment.appendChild(clone);
     });
@@ -853,6 +860,9 @@ function whenVisible(selector, callback, options) {
       var isOpen = wrap.classList.contains('is-open');
       wrap.classList.toggle('is-open', !isOpen);
       btn.setAttribute('aria-expanded', String(!isOpen));
+      btn.firstChild.nodeValue = isOpen ? 'Read full letter ' : 'Read less ';
+      var arrow = btn.querySelector('.love-expand-arrow');
+      if (arrow) arrow.textContent = isOpen ? '↓' : '↑';
     });
   }, { threshold: 0.01, rootMargin: '240px 0px' });
 
@@ -949,4 +959,3 @@ function whenVisible(selector, callback, options) {
 <script src="assets/tweaks.js"></script>
 </body>
 </html>
-

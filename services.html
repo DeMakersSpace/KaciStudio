@@ -245,7 +245,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation">
+<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation" hidden inert aria-hidden="true">
   <button class="kaci-mobile-close" aria-label="Close menu">×</button>
   <nav class="kaci-mobile-links">
     <a class="kaci-mobile-link" href="about">About</a>
@@ -270,18 +270,18 @@
 
     <!-- Left: service selector -->
     <div class="svc-split-left">
-      <div class="svc-cat-selector">
-        <button class="svc-cat-btn is-active" type="button" data-cat="smm">
+      <div class="svc-cat-selector" role="tablist" aria-label="Service categories">
+        <button class="svc-cat-btn is-active" id="service-tab-smm" type="button" role="tab" aria-selected="true" aria-controls="service-panel-smm" tabindex="0" data-cat="smm">
           <span class="svc-cat-btn-num">01</span>
           <span class="svc-cat-btn-name">Social Media Management</span>
           <span class="svc-cat-btn-kicker">Monthly support for brands that need consistent direction, content, and account care.</span>
         </button>
-        <button class="svc-cat-btn" type="button" data-cat="content">
+        <button class="svc-cat-btn" id="service-tab-content" type="button" role="tab" aria-selected="false" aria-controls="service-panel-content" tabindex="-1" data-cat="content">
           <span class="svc-cat-btn-num">02</span>
           <span class="svc-cat-btn-name">Content Creation</span>
           <span class="svc-cat-btn-kicker">Video-led content packages for campaigns, launches, and refreshed content banks.</span>
         </button>
-        <button class="svc-cat-btn" type="button" data-cat="branding">
+        <button class="svc-cat-btn" id="service-tab-branding" type="button" role="tab" aria-selected="false" aria-controls="service-panel-branding" tabindex="-1" data-cat="branding">
           <span class="svc-cat-btn-num">03</span>
           <span class="svc-cat-btn-name">Event Branding &amp; Marketing</span>
           <span class="svc-cat-btn-kicker">Creative direction and event marketing that connect the first announcement to the guest experience.</span>
@@ -292,7 +292,7 @@
     <!-- Right: package list -->
     <div class="svc-split-right">
 
-      <div class="svc-pkg-panel is-active" data-cat="smm">
+      <div class="svc-pkg-panel is-active" id="service-panel-smm" role="tabpanel" aria-labelledby="service-tab-smm" tabindex="0" data-cat="smm">
         <h3 class="svc-pkg-eyebrow">Social Media Management</h3>
         <div class="svc-pkg-rows">
           <div class="svc-pkg-row">
@@ -362,7 +362,7 @@
         </div>
       </div>
 
-      <div class="svc-pkg-panel" data-cat="content">
+      <div class="svc-pkg-panel" id="service-panel-content" role="tabpanel" aria-labelledby="service-tab-content" tabindex="0" data-cat="content" hidden>
         <h3 class="svc-pkg-eyebrow">Content Creation</h3>
         <div class="svc-pkg-rows">
           <div class="svc-pkg-row">
@@ -382,7 +382,7 @@
         </div>
       </div>
 
-      <div class="svc-pkg-panel" data-cat="branding">
+      <div class="svc-pkg-panel" id="service-panel-branding" role="tabpanel" aria-labelledby="service-tab-branding" tabindex="0" data-cat="branding" hidden>
         <h3 class="svc-pkg-eyebrow">Event Branding &amp; Marketing</h3>
         <div class="svc-pkg-rows">
           <div class="svc-pkg-row">
@@ -414,30 +414,30 @@
   </div>
 
   <div class="onboard-carousel" id="onboardCarousel" aria-label="Client onboarding steps">
-    <div class="onboard-chips" id="onboardChips">
-      <button class="onboard-chip" type="button" data-idx="0">
+    <div class="onboard-chips" id="onboardChips" role="group" aria-label="Choose an onboarding step">
+      <button class="onboard-chip" type="button" aria-pressed="true" aria-controls="onboard-step-1" data-idx="0">
         <span class="onboard-chip-num">i.</span>
         <span class="onboard-chip-label">Discovery & Alignment</span>
       </button>
-      <button class="onboard-chip" type="button" data-idx="1">
+      <button class="onboard-chip" type="button" aria-pressed="false" aria-controls="onboard-step-2" data-idx="1">
         <span class="onboard-chip-num">ii.</span>
         <span class="onboard-chip-label">Brand & Social Audit</span>
       </button>
-      <button class="onboard-chip" type="button" data-idx="2">
+      <button class="onboard-chip" type="button" aria-pressed="false" aria-controls="onboard-step-3" data-idx="2">
         <span class="onboard-chip-num">iii.</span>
         <span class="onboard-chip-label">Strategy & Creative Direction</span>
       </button>
-      <button class="onboard-chip" type="button" data-idx="3">
+      <button class="onboard-chip" type="button" aria-pressed="false" aria-controls="onboard-step-4" data-idx="3">
         <span class="onboard-chip-num">iv.</span>
         <span class="onboard-chip-label">Content Planning & Creation</span>
       </button>
-      <button class="onboard-chip" type="button" data-idx="4">
+      <button class="onboard-chip" type="button" aria-pressed="false" aria-controls="onboard-step-5" data-idx="4">
         <span class="onboard-chip-num">v.</span>
         <span class="onboard-chip-label">Review, Publishing & Growth</span>
       </button>
     </div>
     <div class="onboard-stage" id="onboardStage">
-      <article class="onboard-card" data-idx="0">
+      <article class="onboard-card" id="onboard-step-1" role="group" aria-roledescription="slide" aria-label="1 of 5: Discovery and Alignment" aria-hidden="false" data-idx="0">
         <div class="onboard-card-photo">
           <img src="media/optimized/services-how-i.webp" alt="Discovery and alignment session with the team" loading="lazy" decoding="async">
         </div>
@@ -450,7 +450,7 @@
           <p class="onboard-card-desc">We begin with a conversation to understand your brand, goals, audience, current challenges, and the kind of presence you want to build. This helps us see where your brand is now, and where we can take it with intention.</p>
         </div>
       </article>
-      <article class="onboard-card" data-idx="1">
+      <article class="onboard-card" id="onboard-step-2" role="group" aria-roledescription="slide" aria-label="2 of 5: Brand and Social Audit" aria-hidden="true" data-idx="1">
         <div class="onboard-card-photo">
           <img src="media/optimized/services-how-ii.webp" alt="Brand and social audit review" loading="lazy" decoding="async">
         </div>
@@ -463,7 +463,7 @@
           <p class="onboard-card-desc">Before we create, we take time to look through your existing platforms, visuals, messaging, competitors, and overall digital presence. This allows us to identify what is working, what can be refined, and where there is room to grow.</p>
         </div>
       </article>
-      <article class="onboard-card" data-idx="2">
+      <article class="onboard-card" id="onboard-step-3" role="group" aria-roledescription="slide" aria-label="3 of 5: Strategy and Creative Direction" aria-hidden="true" data-idx="2">
         <div class="onboard-card-photo">
           <img src="media/optimized/services-how-iii.webp" alt="Strategy and creative direction in the studio" loading="lazy" decoding="async">
         </div>
@@ -476,7 +476,7 @@
           <p class="onboard-card-desc">From there, we shape the direction forward. This includes your content pillars, campaign angles, visual direction, tone of voice, and monthly content approach, so every idea has a purpose and every piece of content feels connected.</p>
         </div>
       </article>
-      <article class="onboard-card" data-idx="3">
+      <article class="onboard-card" id="onboard-step-4" role="group" aria-roledescription="slide" aria-label="4 of 5: Content Planning and Creation" aria-hidden="true" data-idx="3">
         <div class="onboard-card-photo">
           <img src="media/optimized/services-how-iv.webp" alt="Content planning and creation review" loading="lazy" decoding="async">
         </div>
@@ -489,7 +489,7 @@
           <p class="onboard-card-desc">Once the direction is aligned, we move into planning and production. From content calendars and shoot direction to editing, design, copywriting, and asset creation, this is where the strategy begins to take form.</p>
         </div>
       </article>
-      <article class="onboard-card" data-idx="4">
+      <article class="onboard-card" id="onboard-step-5" role="group" aria-roledescription="slide" aria-label="5 of 5: Review, Publishing and Growth" aria-hidden="true" data-idx="4">
         <div class="onboard-card-photo">
           <img src="media/optimized/services-how-v.webp" alt="Review, publishing and growth: the full team" loading="lazy" decoding="async">
         </div>
@@ -519,11 +519,11 @@
   <div class="studio-faq-list">
     <div class="studio-faq-item">
       <div>
-        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" type="button" aria-expanded="false">
+        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" id="faq-question-deliverables" type="button" aria-expanded="false" aria-controls="faq-answer-deliverables">
           <span class="studio-faq-q-text">Can I pick and choose deliverables?</span>
           <span class="studio-faq-chev" aria-hidden="true">+</span>
         </button></h3>
-        <div class="studio-faq-wrap">
+        <div class="studio-faq-wrap" id="faq-answer-deliverables" role="region" aria-labelledby="faq-question-deliverables" hidden>
           <p class="studio-faq-a">We offer custom packages based on your brand's needs. Whether you need full-scope management or support in specific areas, we'll shape the scope around what feels most aligned for this season.</p>
         </div>
       </div>
@@ -531,11 +531,11 @@
 
     <div class="studio-faq-item">
       <div>
-        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" type="button" aria-expanded="false">
+        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" id="faq-question-location" type="button" aria-expanded="false" aria-controls="faq-answer-location">
           <span class="studio-faq-q-text">Do you work with brands outside Singapore?</span>
           <span class="studio-faq-chev" aria-hidden="true">+</span>
         </button></h3>
-        <div class="studio-faq-wrap">
+        <div class="studio-faq-wrap" id="faq-answer-location" role="region" aria-labelledby="faq-question-location" hidden>
           <p class="studio-faq-a">Yes. We're Singapore-based but our clients are global. Shoot days happen in SG. Strategy, editing, management, and community run across time zones.</p>
         </div>
       </div>
@@ -543,11 +543,11 @@
 
     <div class="studio-faq-item">
       <div>
-        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" type="button" aria-expanded="false">
+        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" id="faq-question-commitment" type="button" aria-expanded="false" aria-controls="faq-answer-commitment">
           <span class="studio-faq-q-text">How long is the commitment?</span>
           <span class="studio-faq-chev" aria-hidden="true">+</span>
         </button></h3>
-        <div class="studio-faq-wrap">
+        <div class="studio-faq-wrap" id="faq-answer-commitment" role="region" aria-labelledby="faq-question-commitment" hidden>
           <p class="studio-faq-a">Month to month, with space to grow. Our packages are flexible by month, but we encourage a three-month start so we can understand your brand more deeply, refine the direction, and let the work build with consistency.</p>
         </div>
       </div>
@@ -555,11 +555,11 @@
 
     <div class="studio-faq-item">
       <div>
-        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" type="button" aria-expanded="false">
+        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" id="faq-question-ownership" type="button" aria-expanded="false" aria-controls="faq-answer-ownership">
           <span class="studio-faq-q-text">Who owns the content we make together?</span>
           <span class="studio-faq-chev" aria-hidden="true">+</span>
         </button></h3>
-        <div class="studio-faq-wrap">
+        <div class="studio-faq-wrap" id="faq-answer-ownership" role="region" aria-labelledby="faq-question-ownership" hidden>
           <p class="studio-faq-a">You do. Raw footage, edits, photography, and brand assets from every shoot day are yours to keep and reuse, forever.</p>
         </div>
       </div>
@@ -567,11 +567,11 @@
 
     <div class="studio-faq-item">
       <div>
-        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" type="button" aria-expanded="false">
+        <h3 class="studio-faq-q-heading"><button class="studio-faq-q" id="faq-question-start" type="button" aria-expanded="false" aria-controls="faq-answer-start">
           <span class="studio-faq-q-text">How soon can we start?</span>
           <span class="studio-faq-chev" aria-hidden="true">+</span>
         </button></h3>
-        <div class="studio-faq-wrap">
+        <div class="studio-faq-wrap" id="faq-answer-start" role="region" aria-labelledby="faq-question-start" hidden>
           <p class="studio-faq-a">We take on a small number of brands at a time so we can stay thoughtful and present in the work. Send us a note when you're ready, and we'll let you know the earliest time we can begin.</p>
         </div>
       </div>
@@ -664,10 +664,13 @@
   var items = document.querySelectorAll('.studio-faq-item');
   items.forEach(function (item) {
     var q = item.querySelector('.studio-faq-q');
-    if (!q) return;
+    var panel = item.querySelector('.studio-faq-wrap');
+    if (!q || !panel) return;
     q.addEventListener('click', function () {
-      var isOpen = item.classList.toggle('is-open');
-      q.setAttribute('aria-expanded', String(isOpen));
+      var willOpen = q.getAttribute('aria-expanded') !== 'true';
+      q.setAttribute('aria-expanded', String(willOpen));
+      panel.hidden = !willOpen;
+      item.classList.toggle('is-open', willOpen);
     });
   });
 })();
@@ -789,10 +792,14 @@
   function switchCat(cat) {
     if (section) section.dataset.activeCat = cat;
     catBtns.forEach(function (btn) {
-      btn.classList.toggle('is-active', btn.dataset.cat === cat);
+      var selected = btn.dataset.cat === cat;
+      btn.classList.toggle('is-active', selected);
+      btn.setAttribute('aria-selected', String(selected));
+      btn.tabIndex = selected ? 0 : -1;
     });
     pkgPanels.forEach(function (panel) {
       var becoming = panel.dataset.cat === cat;
+      panel.hidden = !becoming;
       panel.classList.toggle('is-active', becoming);
       if (becoming) {
         cancelBodyTimers();
@@ -807,6 +814,18 @@
 
   catBtns.forEach(function (btn) {
     btn.addEventListener('click', function () { switchCat(btn.dataset.cat); });
+    btn.addEventListener('keydown', function (event) {
+      var current = catBtns.indexOf(btn);
+      var target = null;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') target = (current + 1) % catBtns.length;
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') target = (current - 1 + catBtns.length) % catBtns.length;
+      if (event.key === 'Home') target = 0;
+      if (event.key === 'End') target = catBtns.length - 1;
+      if (target === null) return;
+      event.preventDefault();
+      switchCat(catBtns[target].dataset.cat);
+      catBtns[target].focus();
+    });
   });
 
   /* All panels start pending — animation waits for scroll trigger */
@@ -858,10 +877,15 @@
 
   function paint() {
     chips.forEach(function (chip, i) {
-      chip.classList.toggle('is-active', i === index);
+      var selected = i === index;
+      chip.classList.toggle('is-active', selected);
+      chip.setAttribute('aria-pressed', String(selected));
     });
     cards.forEach(function (card, i) {
+      var selected = i === index;
       card.classList.remove('is-active', 'is-prev', 'is-next');
+      card.setAttribute('aria-hidden', String(!selected));
+      card.toggleAttribute('inert', !selected);
       var n = normalize(i - index);
       if (n === 0) card.classList.add('is-active');
       else if (n === -1) card.classList.add('is-prev');
@@ -889,9 +913,22 @@
 
   chips.forEach(function (chip, i) {
     chip.addEventListener('click', function () { go(i); });
+    chip.addEventListener('keydown', function (event) {
+      var target = null;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') target = (i + 1) % total;
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') target = (i - 1 + total) % total;
+      if (event.key === 'Home') target = 0;
+      if (event.key === 'End') target = total - 1;
+      if (target === null) return;
+      event.preventDefault();
+      go(target);
+      chips[target].focus();
+    });
   });
   root.addEventListener('mouseenter', function () { paused = true; });
   root.addEventListener('mouseleave', function () { paused = false; });
+  root.addEventListener('focusin', function () { paused = true; });
+  root.addEventListener('focusout', function () { paused = false; });
   root.addEventListener('onboard:pause', function () { paused = true; });
   root.addEventListener('onboard:resume', function () { paused = false; });
 

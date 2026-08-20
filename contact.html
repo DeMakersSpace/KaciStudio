@@ -184,7 +184,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation">
+<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation" hidden inert aria-hidden="true">
   <button class="kaci-mobile-close" aria-label="Close menu">×</button>
   <nav class="kaci-mobile-links">
     <a class="kaci-mobile-link" href="about">About</a>
@@ -225,7 +225,7 @@
     <input type="hidden" name="services" id="selected-services" value="">
     <input type="hidden" name="form_started_at" id="form-started-at" value="">
     <input type="checkbox" name="botcheck" class="hidden" style="display:none;" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Spam check">
-    <div class="spam-field" aria-hidden="true">
+    <div class="spam-field" aria-hidden="true" inert>
       <label for="brief-website">Website</label>
       <input id="brief-website" type="text" name="website" tabindex="-1" autocomplete="off">
     </div>

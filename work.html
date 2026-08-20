@@ -162,7 +162,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation">
+<div class="kaci-mobile-menu" id="kaci-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation" hidden inert aria-hidden="true">
   <button class="kaci-mobile-close" aria-label="Close menu">×</button>
   <nav class="kaci-mobile-links">
     <a class="kaci-mobile-link" href="about">About</a>
@@ -749,7 +749,25 @@
     var hash = window.location.hash.replace('#', '');
     if (!hash) return;
     var idx = cases.findIndex(function (c) { return c.id === hash; });
+    if (idx < 0) return;
     if (idx > 0) goTo(idx, false);
+
+    /* The target .case has tabindex="0" and matches the URL fragment, so
+       the browser auto-focuses and scroll-into-views it natively — this
+       fires asynchronously (timing varies run-to-run: sometimes before
+       goTo()'s own scrollIntoView() above, sometimes after it), landing
+       content behind the fixed bottom nav whenever it wins. A single
+       delayed re-correction isn't reliable since it can't guarantee it
+       runs after the native one. Re-apply repeatedly over a window
+       instead, so whichever fires last, ours is always the final word. */
+    window.addEventListener('load', function () {
+      var attempts = 0;
+      var reCorrect = setInterval(function () {
+        document.querySelector('.client-bar').scrollIntoView({ behavior: 'auto', block: 'start' });
+        attempts++;
+        if (attempts >= 8) clearInterval(reCorrect);
+      }, 100);
+    });
   })();
 
   /* ── Dropdown events ── */

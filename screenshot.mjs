@@ -50,9 +50,13 @@ await page.evaluate(async () => {
 await new Promise(r => setTimeout(r, 300));
 
 // Force all scroll-reveal elements visible before full-page capture
-// (belt-and-suspenders in case the scroll pass above missed a threshold)
+// (belt-and-suspenders in case the scroll pass above missed a threshold —
+// this matters a lot on pages with `scroll-behavior: smooth`, where the
+// scroll loop above can exit after one step because the 150ms poll catches
+// the animation still mid-flight, leaving below-fold content unrevealed)
 await page.evaluate(() => {
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+  document.querySelectorAll('.work-motion').forEach(el => el.classList.add('work-motion-in'));
 });
 
 // Force-render any content-visibility:auto sections (perf optimization that

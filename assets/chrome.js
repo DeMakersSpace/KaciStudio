@@ -34,24 +34,84 @@ const KaciChrome = (() => {
     const menu = document.getElementById('kaci-mobile-menu');
     if (!hamburger || !menu) return;
     const closeBtn = menu.querySelector('.kaci-mobile-close');
+    const focusableSelector = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(',');
+
+    hamburger.setAttribute('aria-controls', menu.id);
+
+    function setClosedState() {
+      menu.classList.remove('is-open');
+      menu.hidden = true;
+      menu.setAttribute('inert', '');
+      menu.setAttribute('aria-hidden', 'true');
+      hamburger.classList.remove('is-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open menu');
+      document.body.classList.remove('nav-locked');
+    }
+
+    /* The server-rendered dialog is visually hidden by CSS. Add the matching
+       DOM and accessibility state as soon as the shared chrome initializes. */
+    setClosedState();
 
     function openMenu() {
+      if (hamburger.getAttribute('aria-expanded') === 'true') return;
+      menu.hidden = false;
+      menu.removeAttribute('inert');
+      menu.removeAttribute('aria-hidden');
       menu.classList.add('is-open');
       hamburger.classList.add('is-open');
       document.body.classList.add('nav-locked');
       hamburger.setAttribute('aria-expanded', 'true');
+      hamburger.setAttribute('aria-label', 'Close menu');
+
+      window.requestAnimationFrame(() => {
+        const firstFocusable = menu.querySelector(focusableSelector);
+        if (firstFocusable) firstFocusable.focus();
+      });
     }
-    function closeMenu() {
-      menu.classList.remove('is-open');
-      hamburger.classList.remove('is-open');
-      document.body.classList.remove('nav-locked');
-      hamburger.setAttribute('aria-expanded', 'false');
+    function closeMenu(restoreFocus = true) {
+      if (hamburger.getAttribute('aria-expanded') !== 'true') return;
+      setClosedState();
+      if (restoreFocus) hamburger.focus();
     }
     hamburger.addEventListener('click', openMenu);
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
     menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
     menu.addEventListener('click', e => { if (e.target === menu) closeMenu(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+    document.addEventListener('keydown', e => {
+      if (hamburger.getAttribute('aria-expanded') !== 'true') return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(menu.querySelectorAll(focusableSelector))
+        .filter(el => !el.hidden && el.getAttribute('aria-hidden') !== 'true');
+      if (!focusable.length) {
+        e.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && (document.activeElement === first || !menu.contains(document.activeElement))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
   }
 
   /* ── Footer copyright year ── */

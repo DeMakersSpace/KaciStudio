@@ -1,0 +1,7 @@
+{
+  "name": "kacistudio-site",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/site-regressions.test.mjs"
+  }
+}

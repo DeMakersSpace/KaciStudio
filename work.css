@@ -262,6 +262,12 @@
   column-gap: clamp(32px, 5vw, 72px);
   row-gap: 0;
   align-items: start;
+  /* Visiting /work#case-<id> gives this element native browser focus
+     (tabindex + URL fragment target), which scrolls it into view using
+     an algorithm that ignores html's scroll-padding-bottom but does
+     respect scroll-margin on the target itself — reserves room for the
+     fixed bottom nav so focus-scroll doesn't land content behind it. */
+  scroll-margin-bottom: 110px;
 }
 .case.is-active { display: grid; }
 
@@ -464,21 +470,56 @@
   grid-area: expand;
 }
 .case-expand-body {
-  /* Extra top padding clears the fixed pill nav's footprint (52px height +
-     2rem bottom offset) on /work, where the first element is a short
-     .case-brief-label heading. */
-  padding: 140px 0 8px;
+  /* Below 861px the .case grid stacks (video full-width on top — see the
+     max-width:860px query further down), which already pushes chips/title
+     well past the nav on its own at every height tested (375 and 768) —
+     normal padding is enough. */
+  padding: 40px 0 8px;
   display: flex;
   flex-direction: column;
   gap: 0;
 }
-/* On standalone case-*.html pages there's no .case-brief-label — .case-deck
-   (a multi-line paragraph) is the first element instead, and needs more
-   clearance than the label did to fully clear the nav rather than just its
-   top edge. Scoped to :first-child so /work's cases (where .case-deck
-   follows the label, already clear) aren't affected. */
-.case-expand-body > .case-deck:first-child {
-  margin-top: 140px;
+/* Above 860px the video sits side-by-side with a short title/chips column,
+   which can land the deck/stats/follow content that follows (their number
+   and combined height vary per case study) inside the fixed nav's band.
+   "Finish before the nav" was tried and is fragile — different pages have
+   different combinations of stats/follow, any of which can end up
+   overlapping depending on total height. "Start after the nav" is robust
+   regardless: once content begins below the nav's band, nothing after it
+   can retroactively overlap.
+   The nav sits `bottom: 2rem` from viewport bottom, so its bottom edge is
+   always (100vh - 32px) — a relationship confirmed exactly via measurement
+   (868px at a 900px-tall viewport). padding-top therefore needs to be
+   (100vh - 32px) - <chips bottom position>, with a small safety buffer. */
+@media (min-width: 861px) {
+  .case-expand-body { padding-top: clamp(40px, calc(100vh - 618px), 700px); }
+}
+/* case-fino and case-resurrack have longer h2 titles that push their chips
+   column further down than the rest, so they need less added padding to
+   reach the same (100vh - 32px) start point (measured separately). */
+@media (min-width: 861px) {
+  #case-fino .case-expand-body,
+  #case-resurrack .case-expand-body {
+    padding-top: clamp(40px, calc(100vh - 698px), 700px);
+  }
+}
+/* /work.html stacks multiple cases after a hero + client-bar selector, and
+   its first element is the shorter .case-brief-label — that combination
+   needs the full 140px to clear the nav (verified at 375/768/1440). Also
+   re-asserted (higher specificity) against the #case-fino/#case-resurrack
+   override above, since /work.html reuses those same article IDs for its
+   own cases and would otherwise inherit the standalone-page value. */
+.client-bar ~ .showcase .case-expand-body,
+.client-bar ~ .showcase #case-fino .case-expand-body,
+.client-bar ~ .showcase #case-resurrack .case-expand-body {
+  padding-top: 140px;
+}
+/* case-brixx's 3 stats wrap to 2 lines at this width, in the /work.html
+   hash-navigated (scrolled-to-client-bar) state specifically, pushing
+   .case-follow into the nav's band — case-coffeeman also has 3 stats but
+   shorter label text that doesn't wrap, so it isn't affected (verified). */
+.client-bar ~ .showcase #case-brixx .case-follow {
+  margin-top: 50px;
 }
 
 /* Brief label inside expand */
@@ -615,6 +656,31 @@
   max-width: 72ch;
 }
 .case-expand-text strong { color: var(--fg); font-weight: 500; }
+
+/* ── Case story: Brief/Approach/Result, full-width text blocks ──
+   Sits as its own section below .showcase, independent of the sticky
+   video grid. */
+.case-story {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(56px, 7vw, 96px) var(--pad-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 6vw, 72px);
+}
+.case-story-block { max-width: 560px; }
+.case-story-block .case-expand-label { width: fit-content; }
+.case-story-block.align-left { margin-right: auto; }
+.case-story-block.align-right { margin-left: auto; text-align: right; }
+.case-story-block.align-right .case-expand-label { margin-left: auto; }
+.case-story-block .case-expand-text { max-width: 58ch; }
+.case-story-block.align-right .case-expand-text { margin-left: auto; }
+
+@media (max-width: 640px) {
+  .case-story-block.align-right { text-align: left; margin-left: 0; }
+  .case-story-block.align-right .case-expand-label,
+  .case-story-block.align-right .case-expand-text { margin-left: 0; }
+}
 
 @media (max-width: 640px) {
   .case-proof {
@@ -760,9 +826,21 @@
   /* On /work specifically (multiple stacked cases + hero/intro/client-bar
      content above), the case title can land under the fixed pill nav at
      this breakpoint on initial load. Standalone case-*.html pages don't
-     need this (less content above pushes things down less). */
-  .client-bar ~ .showcase .case-info h2 {
+     need this (less content above pushes things down less) — except
+     case-fino and case-resurrack, whose longer two-line h2 titles push
+     the chip row far enough down to hit the same problem (measured). */
+  .client-bar ~ .showcase .case-info h2,
+  #case-fino .case-info h2,
+  #case-resurrack .case-info h2 {
     margin-top: 72px;
+  }
+  /* Visiting /work#case-<id> scrolls to .client-bar (not page-top) via JS —
+     a different scroll position than a plain page load, where
+     .case-brief-label (the first element in case-expand-body) lands
+     inside the nav's band regardless of which case is active. Verified
+     against both case-melissa and case-resurrack. */
+  .client-bar ~ .showcase .case-brief-label {
+    margin-top: 24px;
   }
 }
 
