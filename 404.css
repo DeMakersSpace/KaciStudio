@@ -16,7 +16,7 @@
 
 .notfound-hero h1 em {
   font-style: italic;
-  color: var(--accent);
+  color: var(--accent-copy);
 }
 
 .notfound-hero p {

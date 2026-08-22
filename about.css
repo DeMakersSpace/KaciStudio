@@ -16,7 +16,7 @@
   max-width: 18ch;
   margin: 0 auto;
 }
-.about-hero h1 em { font-style: italic; color: var(--accent); }
+.about-hero h1 em { font-style: italic; color: var(--accent-copy); }
 
 .manifesto {
   padding: clamp(40px, 5vw, 80px) var(--pad-gutter);
@@ -234,7 +234,7 @@
   font-family: var(--font-serif);
   font-size: 64px;
   line-height: 0.9;
-  color: var(--accent);
+  color: var(--accent-copy);
   font-style: italic;
   margin-bottom: 20px;
 }
@@ -319,7 +319,7 @@
   font-style: italic;
   font-size: clamp(48px, 5vw, 72px);
   line-height: 1;
-  color: var(--accent);
+  color: var(--accent-copy);
   display: block;
 }
 .value-card-title {
@@ -356,7 +356,7 @@
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-copy);
   margin-bottom: 12px;
 }
 .value-active-title {
@@ -412,11 +412,11 @@
 }
 .values-arrow:hover {
   background: var(--accent);
-  color: var(--fg);
+  color: var(--on-accent);
   transform: scale(1.06);
 }
 .values-arrow:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -526,7 +526,7 @@
   letter-spacing: -0.01em;
   line-height: 1.1;
 }
-.member-name em { font-style: italic; color: var(--accent); }
+.member-name em { font-style: italic; color: var(--accent-copy); }
 .member-role {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -610,7 +610,7 @@
               transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .team-member-card:focus-visible {
-  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus-ring);
 }
 /* Clear stagger delays once entrance is done so expand fires instantly */
 .team-future-grid.entrance-done .team-member-card {
@@ -792,7 +792,7 @@
     cursor: pointer;
     transition: border-color 0.2s ease, color 0.2s ease;
   }
-  .team-member-toggle:active { color: var(--accent); border-color: var(--accent); }
+  .team-member-toggle:active { color: var(--accent-copy); border-color: var(--accent-ink); }
   .team-member-toggle .toggle-arrow {
     display: inline-block;
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -950,7 +950,7 @@
 }
 .kit-inner { max-width: 1440px; margin: 0 auto; }
 .kit-head { margin-bottom: var(--stack-md); }
-.kit-head h2 em { font-style: italic; color: var(--accent); }
+.kit-head h2 em { font-style: italic; color: var(--accent-copy); }
 .kit-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -975,7 +975,7 @@
 }
 .kit-card:first-child .items { margin-top: 0; }
 .kit-card h3 { font-size: 32px; }
-.kit-card h3 em { font-style: italic; color: var(--accent); }
+.kit-card h3 em { font-style: italic; color: var(--accent-copy); }
 .kit-card .items {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -996,14 +996,14 @@
 }
 .kit-item::before {
   content: '–';
-  color: var(--accent);
+  color: var(--accent-copy);
   margin-right: 10px;
   display: inline-block;
   font-style: normal;
   opacity: 0.85;
 }
 .kit-item:hover {
-  color: var(--accent);
+  color: var(--accent-copy);
   transform: translateX(6px);
 }
 .kit-item:hover::before {
@@ -1026,7 +1026,7 @@
   letter-spacing: normal;
   margin-bottom: 32px;
 }
-.closing-cta-h2 em { font-style: italic; color: var(--accent); }
+.closing-cta-h2 em { font-style: italic; color: var(--accent-copy); }
 .closing-cta-desc {
   font-size: 18px;
   line-height: 1.7;
@@ -1057,7 +1057,7 @@
   max-width: 860px;
   margin-top: 20px;
 }
-.name-story-copy em { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.name-story-copy em { color: var(--accent-copy); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 
 /* Social links */
 .social-links {
@@ -1109,7 +1109,7 @@
   justify-self: end;
   font-family: var(--font-mono);
   font-size: 16px;
-  color: var(--accent);
+  color: var(--accent-copy);
   opacity: 0;
   transform: translateX(-8px);
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -1126,7 +1126,7 @@
   transform-origin: left;
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.social-row:hover .social-platform { color: var(--accent); }
+.social-row:hover .social-platform { color: var(--accent-copy); }
 .social-row:hover .social-handle { color: var(--fg); }
 .social-row:hover .social-arrow { opacity: 1; transform: translateX(0); }
 .social-row:hover::after { transform: scaleX(1); }

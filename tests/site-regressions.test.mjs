@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -9,12 +10,17 @@ import puppeteer from 'puppeteer';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PORT = 4173;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
-const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 900 },
   { name: 'mobile-390', width: 390, height: 844 },
   { name: 'mobile-320', width: 320, height: 568 },
+];
+
+const HERO_MARQUEE_VIEWPORTS = [
+  VIEWPORTS[0],
+  { name: 'reported-desktop', width: 1863, height: 937 },
+  { name: 'wide-tall-desktop', width: 2560, height: 1440 },
 ];
 
 const SITE_ROUTES = [
@@ -38,6 +44,41 @@ const SITE_ROUTES = [
 let server;
 let browser;
 
+function localChromePath() {
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) return process.env.PUPPETEER_EXECUTABLE_PATH;
+  if (process.platform !== 'win32') return undefined;
+
+  const candidates = [
+    process.env.PROGRAMFILES,
+    process.env['PROGRAMFILES(X86)'],
+    process.env.LOCALAPPDATA,
+  ].filter(Boolean).map(base => path.join(base, 'Google', 'Chrome', 'Application', 'chrome.exe'));
+
+  return candidates.find(existsSync);
+}
+
+function rgbChannels(value) {
+  const channels = value.match(/[\d.]+/g)?.slice(0, 3).map(Number);
+  assert.equal(channels?.length, 3, `Could not parse colour: ${value}`);
+  return channels;
+}
+
+function relativeLuminance(value) {
+  const [red, green, blue] = rgbChannels(value).map(channel => {
+    const normalized = channel / 255;
+    return normalized <= 0.04045
+      ? normalized / 12.92
+      : ((normalized + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+}
+
+function contrastRatio(first, second) {
+  const a = relativeLuminance(first);
+  const b = relativeLuminance(second);
+  return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+}
+
 async function waitForServer() {
   const deadline = Date.now() + 10_000;
   while (Date.now() < deadline) {
@@ -52,10 +93,13 @@ async function waitForServer() {
   throw new Error('Timed out waiting for the local site server');
 }
 
-async function makePage(viewport = VIEWPORTS[0]) {
+async function makePage(viewport = VIEWPORTS[0], { reducedMotion = true } = {}) {
   const page = await browser.newPage();
   await page.setViewport({ width: viewport.width, height: viewport.height, deviceScaleFactor: 1 });
-  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+  await page.emulateMediaFeatures([{
+    name: 'prefers-reduced-motion',
+    value: reducedMotion ? 'reduce' : 'no-preference',
+  }]);
   await page.setRequestInterception(true);
   page.on('request', request => {
     const url = new URL(request.url());
@@ -86,9 +130,10 @@ before(async () => {
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   await waitForServer();
+  const executablePath = localChromePath();
   browser = await puppeteer.launch({
     headless: true,
-    executablePath: CHROME_PATH,
+    ...(executablePath ? { executablePath } : {}),
     args: ['--no-sandbox', '--disable-dev-shm-usage'],
   });
 });
@@ -158,6 +203,217 @@ test('testimonial clones are inaccessible, ID-free, and labels reflect expansion
   }
 });
 
+test('homepage result metrics use the readable Gordita accent treatment', async () => {
+  const page = await makePage();
+  try {
+    await open(page, '/');
+    const metrics = await page.$$eval('.result-card .stat-num', elements => elements.map(element => {
+      const style = getComputedStyle(element);
+      return {
+        text: element.textContent.trim(),
+        fontFamily: style.fontFamily,
+        fontSize: parseFloat(style.fontSize),
+        fontWeight: parseInt(style.fontWeight, 10),
+        color: style.color,
+      };
+    }));
+
+    assert.deepEqual(metrics.map(metric => metric.text), ['+1,700%', '900%+', '92%']);
+    metrics.forEach(metric => {
+      assert.match(metric.fontFamily, /Gordita/i);
+      assert.ok(metric.fontSize >= 32 && metric.fontSize <= 44, `${metric.text} renders at ${metric.fontSize}px`);
+      assert.equal(metric.fontWeight, 400);
+      assert.equal(metric.color, 'rgb(82, 104, 143)');
+    });
+  } finally {
+    await page.close();
+  }
+});
+
+test('semantic accent roles meet text and control contrast thresholds', async () => {
+  const page = await makePage();
+  const readColourPair = async (route, selector) => {
+    await open(page, route);
+    return page.$eval(selector, element => {
+      const opaqueBackground = start => {
+        let node = start;
+        while (node) {
+          const colour = getComputedStyle(node).backgroundColor;
+          if (colour && colour !== 'rgba(0, 0, 0, 0)' && colour !== 'transparent') return colour;
+          node = node.parentElement;
+        }
+        return 'rgb(255, 255, 255)';
+      };
+      const style = getComputedStyle(element);
+      return {
+        text: style.color,
+        background: opaqueBackground(element),
+        border: style.borderTopColor,
+        ambient: opaqueBackground(element.parentElement),
+      };
+    });
+  };
+
+  try {
+    const metric = await readColourPair('/', '.result-card .stat-num');
+    assert.ok(contrastRatio(metric.text, metric.background) >= 4.5);
+
+    const primary = await readColourPair('/', '.hero-btns .btn-primary');
+    assert.ok(contrastRatio(primary.text, primary.background) >= 4.5);
+    assert.ok(contrastRatio(primary.border, primary.ambient) >= 3);
+
+    const navCta = await readColourPair('/', '.kaci-nav-cta');
+    assert.ok(contrastRatio(navCta.text, navCta.background) >= 4.5);
+
+    const darkAccentCopy = await readColourPair('/services', '.svc-cats h1 em');
+    assert.ok(contrastRatio(darkAccentCopy.text, darkAccentCopy.background) >= 4.5);
+  } finally {
+    await page.close();
+  }
+});
+
+test('media reserves image space and declares verified caption coverage', async () => {
+  let videoCount = 0;
+  let auditedImageCount = 0;
+
+  for (const route of SITE_ROUTES) {
+    const filename = route === '/' ? 'index.html' : `${route.slice(1)}.html`;
+    const source = await readFile(path.join(ROOT, filename), 'utf8');
+
+    for (const video of source.match(/<video\b[^>]*>[\s\S]*?<\/video>/gi) || []) {
+      videoCount += 1;
+      const hasOpenCaptions = /\bdata-captioned="open"/i.test(video);
+      const hasCaptionTrack = /<track\b[^>]*\bkind="captions"/i.test(video);
+      assert.ok(hasOpenCaptions || hasCaptionTrack, `${filename} has a video without declared caption coverage`);
+    }
+
+    for (const image of source.match(/<img\b[^>]*>/gi) || []) {
+      if (!/\bsrc="media\/(?:optimized|posters)\//i.test(image)) continue;
+      auditedImageCount += 1;
+      assert.match(image, /\bwidth="\d+"/i, `${filename} has an audited image without width`);
+      assert.match(image, /\bheight="\d+"/i, `${filename} has an audited image without height`);
+    }
+  }
+
+  assert.equal(videoCount, 40);
+  assert.ok(auditedImageCount >= 15);
+});
+
+test('hover motion avoids layout properties and manifest colours match the design tokens', async () => {
+  for (const filename of ['contact.css', 'services.css']) {
+    const source = await readFile(path.join(ROOT, filename), 'utf8');
+    assert.doesNotMatch(source, /transition[^;{}]*padding/i, `${filename} animates padding`);
+    assert.doesNotMatch(source, /:hover\s*\{[^}]*padding-left/i, `${filename} changes padding on hover`);
+  }
+
+  const manifest = JSON.parse(await readFile(path.join(ROOT, 'manifest.json'), 'utf8'));
+  assert.equal(manifest.background_color, '#F8F6DA');
+  assert.equal(manifest.theme_color, '#4E342E');
+
+  const workflow = await readFile(path.join(ROOT, '.github', 'workflows', 'static.yml'), 'utf8');
+  assert.match(workflow, /Build lean site artifact/);
+  assert.match(workflow, /path:\s*['_"]?_site/);
+  assert.doesNotMatch(workflow, /path:\s*['"]?\.['"]?\s*$/m);
+});
+
+for (const viewport of [VIEWPORTS[0], HERO_MARQUEE_VIEWPORTS[2]]) {
+  test(`standalone case-study layout stays compact at ${viewport.width}x${viewport.height}`, async () => {
+    const page = await makePage(viewport);
+    try {
+      await open(page, '/case-resurrack-littlemissmarket');
+      const layout = await page.evaluate(() => {
+        const chips = document.querySelector('.case-chips').getBoundingClientRect();
+        const deck = document.querySelector('.case-deck').getBoundingClientRect();
+        const media = document.querySelector('.case-video-wrap').getBoundingClientRect();
+        const story = document.querySelector('.case-story').getBoundingClientRect();
+        const storyBlock = document.querySelector('.case-story-block').getBoundingClientRect();
+        const storyLabel = document.querySelector('.case-story-block .case-expand-label').getBoundingClientRect();
+        return {
+          metadataGap: deck.top - chips.bottom,
+          mediaWidth: media.width,
+          storyBlockWidth: storyBlock.width,
+          storyLeadGap: storyLabel.top - story.top,
+        };
+      });
+
+      assert.ok(layout.metadataGap >= 40 && layout.metadataGap <= 64, `metadata-to-introduction gap is ${layout.metadataGap}px`);
+      assert.ok(layout.mediaWidth <= 402, `standalone media is ${layout.mediaWidth}px wide`);
+      assert.ok(layout.storyBlockWidth >= 900, `story row is only ${layout.storyBlockWidth}px wide`);
+      assert.ok(layout.storyLeadGap <= 96, `story begins ${layout.storyLeadGap}px below its section edge`);
+    } finally {
+      await page.close();
+    }
+  });
+}
+
+for (const viewport of HERO_MARQUEE_VIEWPORTS) {
+  test(`homepage hero meets the marquee and clears navigation at ${viewport.width}x${viewport.height}`, async () => {
+    const page = await makePage(viewport, { reducedMotion: false });
+    try {
+      await open(page, '/');
+
+      const readLayout = () => page.evaluate(() => {
+        const hero = document.querySelector('#hero-split');
+        const bar = document.querySelector('.client-bar');
+        const nav = document.querySelector('.kaci-nav');
+        const services = document.querySelector('#section-services');
+        const heroRect = hero.getBoundingClientRect();
+        const barRect = bar.getBoundingClientRect();
+        const servicesRect = services.getBoundingClientRect();
+        const navStyle = getComputedStyle(nav);
+        return {
+          bannerDismissed: document.documentElement.classList.contains('banner-dismissed'),
+          heroBottom: heroRect.bottom + window.scrollY,
+          barTop: barRect.top + window.scrollY,
+          barBottom: barRect.bottom + window.scrollY,
+          servicesTop: servicesRect.top + window.scrollY,
+          navRestingBottom: window.innerHeight - (parseFloat(navStyle.bottom) || 0),
+        };
+      });
+
+      const assertFlushAndClear = (positions, phase) => {
+        assert.ok(
+          Math.abs(positions.barTop - positions.heroBottom) <= 1,
+          `${phase}: hero ends at ${positions.heroBottom}px while marquee starts at ${positions.barTop}px`,
+        );
+        assert.ok(
+          Math.abs(positions.servicesTop - positions.barBottom) <= 1,
+          `${phase}: marquee ends at ${positions.barBottom}px while Services starts at ${positions.servicesTop}px`,
+        );
+        assert.ok(
+          positions.barTop >= positions.navRestingBottom - 1,
+          `${phase}: marquee starts at ${positions.barTop}px while navigation ends at ${positions.navRestingBottom}px`,
+        );
+      };
+
+      const initial = await readLayout();
+      assert.equal(initial.bannerDismissed, false);
+      assertFlushAndClear(initial, 'with banner');
+
+      await page.$eval('.kaci-banner-close', button => button.click());
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      const dismissed = await readLayout();
+      assert.equal(dismissed.bannerDismissed, true);
+      assertFlushAndClear(dismissed, 'after persisted banner dismissal');
+
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
+      await page.setViewport({
+        width: viewport.width - 80,
+        height: viewport.height,
+        deviceScaleFactor: 1,
+      });
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      const afterStress = await readLayout();
+      assertFlushAndClear(afterStress, 'after scroll and resize');
+    } finally {
+      await page.close();
+    }
+  });
+}
+
 for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
   test(`mobile menu traps and restores focus at ${viewport.width}x${viewport.height}`, async () => {
     const page = await makePage(viewport);
@@ -226,6 +482,42 @@ test('Services controls expose state and support keyboard operation', async () =
     await page.keyboard.press('Space');
     assert.equal(await page.$eval('#faq-question-deliverables', button => button.getAttribute('aria-expanded')), 'false');
     assert.equal(await page.$eval('#faq-answer-deliverables', panel => panel.hidden), true);
+  } finally {
+    await page.close();
+  }
+});
+
+test('Services scroll-driven sections finish their entrance states', async () => {
+  const page = await makePage(VIEWPORTS[0], { reducedMotion: false });
+  try {
+    await open(page, '/services');
+    const sections = [
+      ['.svc-cats', 'cats-entrance-done'],
+      ['.onboarding', 'seq-done'],
+      ['.studio-faq', 'faq-done'],
+    ];
+
+    for (const [selector, completedClass] of sections) {
+      await page.$eval(selector, element => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await page.waitForFunction(
+        (target, className) => document.querySelector(target)?.classList.contains(className),
+        { timeout: 5_000 },
+        selector,
+        completedClass,
+      );
+    }
+
+    const hiddenContent = await page.evaluate(() => [
+      ['package heading', document.querySelector('.svc-cats h1')],
+      ['onboarding heading', document.querySelector('.onboarding h2')],
+      ['FAQ heading', document.querySelector('.studio-faq h2')],
+      ['FAQ question', document.querySelector('.studio-faq-q')],
+    ].flatMap(([label, element]) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return parseFloat(style.opacity) > 0 && rect.width > 0 && rect.height > 0 ? [] : [label];
+    }));
+    assert.deepEqual(hiddenContent, []);
   } finally {
     await page.close();
   }

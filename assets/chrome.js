@@ -15,6 +15,7 @@ const KaciChrome = (() => {
     if (!bannerEl) return;
 
     if (sessionStorage.getItem('kaci-banner-dismissed') === '1') {
+      document.documentElement.classList.add('banner-dismissed');
       bannerEl.style.display = 'none';
       return;
     }

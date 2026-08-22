@@ -167,7 +167,9 @@
    * COLOUR HIERARCHY
    * --bg / --bg-alt    → page surfaces (Coconut Cream / Merino)
    * --fg               → primary dark tone (Judge Gray #584738) — use for dark sections
-   * --accent           → highlight colour (Polo Blue #93A9D2)
+   * --accent           → decorative brand blue (Polo Blue #93A9D2)
+   * --accent-copy      → readable blue text for the current surface
+   * --on-accent        → readable text/icons placed on Polo Blue
    * --espresso         → sub-colour only (#584738) — banner, mobile menu, submit btn ONLY
    * --mahogany         → deep anchor (#4E342E) — dark section backgrounds, dramatic moments
    * --olive            → warm mid-tone (Mongoose #B59E7D)
@@ -178,6 +180,11 @@
   --fg:           #584738;
   --fg-muted:     #7A6553;
   --accent:       #93A9D2;
+  --accent-ink:   #52688F;
+  --accent-on-dark: #A9BADB;
+  --accent-copy:  var(--accent-ink);
+  --on-accent:    #00145D;
+  --focus-ring:   var(--accent-ink);
   --espresso:     var(--mahogany);
   --mahogany:     #4E342E;
   --cream:        #F8F6DA;
@@ -199,6 +206,29 @@
   --pad-section-y: clamp(40px, 8vw, 120px);
   --stack-lg:      clamp(48px, 6vw, 80px);
   --stack-md:      clamp(32px, 4vw, 56px);
+}
+
+/* Semantic blue roles on dark surfaces. Polo Blue remains the decorative
+   brand swatch; the lighter companion blue keeps small copy at AA contrast. */
+.kaci-nav,
+.kaci-mobile-menu,
+.kaci-banner,
+.values,
+.other-ways,
+.split-right,
+.client-bar,
+.package,
+.compare-col.us,
+.flip-card-front:not(.flip-card-front--logo),
+.flip-card-back--logo,
+.retainer-strip,
+.svc-block.svc-espresso,
+.svc-cats,
+.onboard-carousel,
+.tier-card.is-featured,
+.studio-package {
+  --accent-copy: var(--accent-on-dark);
+  --focus-ring: var(--accent-on-dark);
 }
 
 
@@ -431,7 +461,7 @@ hr.rule {
   white-space: nowrap;
 }
 .btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 .btn:hover { --btn-lift: -2px; }
@@ -439,8 +469,8 @@ hr.rule {
 
 .btn-primary {
   background: var(--accent);
-  color: var(--cream);
-  border-color: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent-ink);
 }
 .btn-primary:hover { opacity: 0.9; }
 
@@ -698,7 +728,7 @@ hr.rule {
   padding: 0.4rem 1rem;
   border-radius: 9999px;
   background: var(--accent);
-  color: #ffffff !important;
+  color: var(--on-accent) !important;
   font-weight: 500 !important;
   transition:
     opacity 180ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -824,7 +854,7 @@ hr.rule {
 .kaci-mobile-link.is-active {
   color: var(--cream);
 }
-.kaci-mobile-link.is-active { color: var(--accent); }
+.kaci-mobile-link.is-active { color: var(--accent-copy); }
 
 body.nav-locked { overflow: hidden; }
 
@@ -1144,7 +1174,7 @@ body.nav-locked { overflow: hidden; }
   color: var(--fg-muted);
   transition: color 0.2s ease;
 }
-.kaci-footer-social-link:hover { color: var(--accent); }
+.kaci-footer-social-link:hover { color: var(--accent-copy); }
 
 .kaci-footer-social-sep {
   color: var(--rule);

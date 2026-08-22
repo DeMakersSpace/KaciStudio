@@ -13,9 +13,17 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 0;
-  min-height: 56vh;
+  /* Fill the desktop viewport down to the fixed nav's resting bottom edge.
+     This keeps the logo marquee flush to the hero without letting the nav
+     overlap the next section. The 100px offset is the 68px banner reserve
+     plus the nav's 32px bottom inset. */
+  min-height: max(720px, calc(100svh - 100px));
   padding-top: 0;
   padding-bottom: 0;
+}
+
+html.banner-dismissed #hero-split {
+  min-height: max(720px, calc(100svh - 32px));
 }
 .split-left {
   padding: clamp(28px, 4vw, 56px) var(--pad-gutter);
@@ -88,6 +96,7 @@
 }
 @media (max-width: 768px) {
   #hero-split { grid-template-columns: 1fr; min-height: auto; }
+  html.banner-dismissed #hero-split { min-height: auto; }
   .split-right { min-height: clamp(360px, 80vw, 480px); }
 }
 
@@ -283,7 +292,7 @@
   font-family: var(--font-script) !important;
   font-style: normal !important;
   font-weight: 400 !important;
-  color: var(--accent);
+  color: var(--accent-copy);
 }
 
 .hero-btns .btn {
@@ -296,15 +305,6 @@
   color: var(--cream);
   padding: 22px 0;
   overflow: hidden;
-  /* Nav-overlap clearance (.kaci-nav is fixed bottom:2rem and can land
-     on this bar or the section after it, since the hero above has a
-     roughly constant height rather than scaling with viewport height)
-     is applied as an inline margin-top by the script at the bottom of
-     index.html, which measures the real, rendered nav/bar positions at
-     runtime instead of assuming a fixed pixel calibration — actual
-     hero height varies enough across real browsers/DPI/font-rendering
-     that a hardcoded calc(100vh - Xpx) formula either under- or
-     over-corrected depending on the device. See clearNavOverlap(). */
 }
 
 .client-bar,
@@ -376,7 +376,7 @@
   border-radius: 12px;
   outline: none;
 }
-.logo-marquee-link:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.logo-marquee-link:focus-visible { box-shadow: 0 0 0 2px var(--focus-ring); }
 .logo-marquee-img {
   display: block;
   height: 48px;
@@ -408,7 +408,7 @@
 .services-head h2 { font-size: clamp(34px, 4.5vw, 56px); letter-spacing: normal; line-height: 1.08; }
 .services-head h2 em {
   font-style: italic;
-  color: var(--accent);
+  color: var(--accent-copy);
   position: relative;
 }
 .services-head h2 em::after {
@@ -550,8 +550,8 @@
   gap: 10px;
   transition: transform 0.3s ease;
 }
-.svc-row:hover .svc-arrow { transform: translateX(8px); color: var(--accent); }
-.svc-row:hover .svc-num { color: var(--accent); transition: color 0.25s ease; }
+.svc-row:hover .svc-arrow { transform: translateX(8px); color: var(--accent-copy); }
+.svc-row:hover .svc-num { color: var(--accent-copy); transition: color 0.25s ease; }
 
 /* Results strip */
 .results-head { margin-bottom: var(--stack-lg); }
@@ -595,7 +595,16 @@
 .result-card-body {
   padding: 24px 24px 28px;
 }
-.result-card-body .stat-num { font-size: clamp(32px, 3vw, 44px); margin-bottom: 6px; }
+.result-card-body .stat-num {
+  color: var(--accent-copy);
+  font-family: var(--font-sans);
+  font-size: clamp(32px, 3vw, 44px);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
 .result-card-body .stat-label { margin-bottom: 16px; }
 .result-client {
   font-family: var(--font-mono);
@@ -610,7 +619,7 @@
   border-top: 1px solid var(--rule);
 }
 .result-client .arrow { transition: transform 0.3s ease; }
-.result-card:hover .result-client .arrow { transform: translateX(6px); color: var(--accent); }
+.result-card:hover .result-client .arrow { transform: translateX(6px); color: var(--accent-copy); }
 @media (max-width: 860px) {
   .results-grid { grid-template-columns: 1fr; }
 }
@@ -627,7 +636,7 @@
   margin: 0;
   max-width: 1200px;
 }
-.pull blockquote em { font-style: italic; color: var(--accent); }
+.pull blockquote em { font-style: italic; color: var(--accent-copy); }
 .pull .attrib {
   margin-top: 40px;
   font-family: var(--font-mono);
@@ -663,7 +672,7 @@
   letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
-.stat-num em { font-style: italic; color: var(--accent); }
+.stat-num em { font-style: italic; color: var(--accent-copy); }
 .stat-unit { font-size: 0.45em; font-style: normal; letter-spacing: 0; font-family: var(--font-serif); font-weight: 700; }
 .stat-label {
   font-family: var(--font-mono);
@@ -690,7 +699,7 @@
   margin-bottom: var(--stack-lg);
 }
 .love-head h2 { font-size: clamp(34px, 4.5vw, 56px); letter-spacing: normal; line-height: 1.08; }
-.love-head h2 em { font-style: italic; color: var(--accent); }
+.love-head h2 em { font-style: italic; color: var(--accent-copy); }
 .love-placeholder-note {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -749,7 +758,7 @@
 }
 .love-quote::before {
   content: '\201C';
-  color: var(--accent);
+  color: var(--accent-copy);
   font-size: 1.5em;
   line-height: 0;
   vertical-align: -0.35em;
@@ -757,7 +766,7 @@
 }
 .love-quote::after {
   content: '\201D';
-  color: var(--accent);
+  color: var(--accent-copy);
   font-size: 1.5em;
   line-height: 0;
   vertical-align: -0.35em;
@@ -792,7 +801,7 @@
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-copy);
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
@@ -910,7 +919,6 @@
 .sec-blend.divider-right::after {
   clip-path: polygon(0 0, 100% var(--divider-slope), 100% 100%, 0 100%);
 }
-.blend-fg-to-bg     { --divider-top: var(--fg);    --divider-bottom: var(--bg); }
 .blend-bg-to-olive  { --divider-top: var(--bg);    --divider-bottom: var(--olive); }
 .blend-olive-to-bg  { --divider-top: var(--olive); --divider-bottom: var(--bg); }
 

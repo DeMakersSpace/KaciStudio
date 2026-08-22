@@ -44,9 +44,12 @@
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 0;
-    min-height: 56vh;
+    min-height: max(720px, calc(100svh - 100px));
     padding-top: 0;
     padding-bottom: 0;
+  }
+  html.banner-dismissed #hero-split {
+    min-height: max(720px, calc(100svh - 32px));
   }
   .split-left {
     padding: clamp(28px, 4vw, 56px) var(--pad-gutter);
@@ -192,10 +195,11 @@
     font-family: var(--font-script) !important;
     font-style: normal !important;
     font-weight: 400 !important;
-    color: var(--accent);
+    color: var(--accent-copy);
   }
   @media (max-width: 768px) {
     #hero-split { grid-template-columns: 1fr; min-height: auto; }
+    html.banner-dismissed #hero-split { min-height: auto; }
     .split-right { min-height: clamp(360px, 80vw, 480px); }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -208,8 +212,8 @@
     }
   }
 </style>
-<link rel="preload" href="index.css?v=20260821b" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="index.css?v=20260821b"></noscript>
+<link rel="preload" href="index.css?v=20260823" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="index.css?v=20260823"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -411,13 +415,11 @@
 </section>
 
 <!-- ============= Client ticker (logo marquee) ============= -->
-<div class="client-bar reveal">
+<div class="client-bar">
   <div class="logo-marquee" aria-label="Selected brands">
     <div class="logo-marquee-track" id="logo-marquee-track"></div>
   </div>
 </div>
-
-<div class="sec-blend blend-fg-to-bg" aria-hidden="true"></div>
 
 <!-- ============= Services ============= -->
 <section id="section-services" class="section">
@@ -425,7 +427,7 @@
     <div class="services-head reveal">
       <div>
         <div class="eyebrow" style="margin-bottom: 20px;">◎ WHAT WE DO · 01</div>
-        <h2>Why Singapore brands choose<br>KACISTUDIO as their <span style="color: var(--accent);">social media agency.</span></h2>
+        <h2>Why Singapore brands choose<br>KACISTUDIO as their <span style="color: var(--accent-copy);">social media agency.</span></h2>
       </div>
       <div style="padding-bottom: 8px; display: flex; flex-direction: column; justify-content: flex-end; gap: 28px;">
         <p style="font-size: 17px; line-height: 1.65; color: var(--fg-muted); max-width: 400px;">From planning to posting, we help your brand show up with consistency, clarity, and care. Explore our <a href="services">social media management, content creation, and event marketing services</a>, meet <a href="about">the Singapore studio behind the work</a>, or browse <a href="work">social media case studies for Singapore brands</a>.</p>
@@ -460,35 +462,35 @@
   <div class="wrap">
     <div class="results-head reveal">
       <div class="eyebrow" style="margin-bottom: 20px;">◎ RESULTS · 02</div>
-      <h2>Numbers Singapore brands<br>actually <span style="color: var(--accent);">felt.</span></h2>
+      <h2>Numbers Singapore brands<br>actually <span style="color: var(--accent-copy);">felt.</span></h2>
     </div>
     <div class="results-grid reveal" style="--reveal-delay:80ms;">
       <a class="result-card" href="case-brixx-derma">
         <div class="result-card-media">
-          <img src="media/posters/brixx-1.jpg" alt="Brixx Derma skincare content" loading="lazy" decoding="async">
+          <img src="media/posters/brixx-1.jpg" alt="Brixx Derma skincare content" width="438" height="800" loading="lazy" decoding="async">
         </div>
         <div class="result-card-body">
-          <div class="stat-num"><em>+1,700%</em></div>
+          <div class="stat-num">+1,700%</div>
           <div class="stat-label">TikTok likes growth</div>
           <div class="result-client">Brixx Derma <span class="arrow">→</span></div>
         </div>
       </a>
       <a class="result-card" href="case-melissa-shoes">
         <div class="result-card-media">
-          <img src="media/posters/melissa-1.jpg" alt="Melissa Shoes Gen Z repositioning content" loading="lazy" decoding="async">
+          <img src="media/posters/melissa-1.jpg" alt="Melissa Shoes Gen Z repositioning content" width="540" height="960" loading="lazy" decoding="async">
         </div>
         <div class="result-card-body">
-          <div class="stat-num"><em>900%+</em></div>
+          <div class="stat-num">900%+</div>
           <div class="stat-label">Audience interaction uplift</div>
           <div class="result-client">Melissa Shoes <span class="arrow">→</span></div>
         </div>
       </a>
       <a class="result-card" href="case-coffeeman-nyp">
         <div class="result-card-media">
-          <img src="media/posters/coffeeman.jpg" alt="Coffeeman@NYP campus coffee bar content" loading="lazy" decoding="async">
+          <img src="media/posters/coffeeman.jpg" alt="Coffeeman@NYP campus coffee bar content" width="540" height="960" loading="lazy" decoding="async">
         </div>
         <div class="result-card-body">
-          <div class="stat-num"><em>92%</em></div>
+          <div class="stat-num">92%</div>
           <div class="stat-label">New audiences reached</div>
           <div class="result-client">Coffeeman@NYP <span class="arrow">→</span></div>
         </div>
@@ -955,80 +957,6 @@ function whenVisible(selector, callback, options) {
       rebuildTimer = setTimeout(build, 200);
     });
   }, { threshold: 0.01, rootMargin: '0px 0px' });
-</script>
-<script>
-  // .kaci-nav is fixed bottom:2rem and can land on .client-bar (or the
-  // section after it) on desktop, since the hero above has a roughly
-  // constant height rather than scaling with viewport height. Measures
-  // the real, rendered positions instead of assuming a fixed pixel
-  // offset — actual hero height varies enough across real browsers/
-  // DPI/font-rendering that a hardcoded calc(100vh - Xpx) formula
-  // either under- or over-corrected depending on the device.
-  (function () {
-    var bar = document.querySelector('.client-bar');
-    var nav = document.querySelector('.kaci-nav');
-    if (!bar || !nav) return;
-
-    function clearNavOverlap() {
-      if (window.innerWidth < 769) {
-        bar.style.marginTop = '';
-        return;
-      }
-      // Read nav's RESTING bottom edge from its own computed bottom/
-      // height rather than nav.getBoundingClientRect(): chrome.js toggles
-      // a .kaci-nav-hidden class (translateY(140%)) on scroll-down, and
-      // the entrance animation also transforms it briefly on load — a
-      // live rect read during either state would bake in a wrong, much
-      // larger margin here (permanently, since this only reruns on
-      // resize/load, not on scroll or animation-end). Computed bottom/
-      // height are unaffected by transform, so this is stable regardless
-      // of nav's current visibility state.
-      var navStyle = getComputedStyle(nav);
-      var navBottomOffset = parseFloat(navStyle.bottom) || 0;
-      var navRestingBottom = window.innerHeight - navBottomOffset;
-
-      // .client-bar also carries .reveal (opacity:0, translateY(28px) ->
-      // is-visible: opacity:1, translateY(0), transition: transform 0.7s).
-      // Its reveal threshold (rootMargin -28%) means is-visible may not
-      // have fired yet at the moment this runs, so the element can still
-      // be sitting 28px off from its settled position. Forcing
-      // transform:none isn't enough by itself: with the transition still
-      // active, that write starts a NEW transition toward 'none' rather
-      // than snapping to it, so a synchronous rect read straight after
-      // still reports the pre-change (mid-transition) position. Also
-      // suspending the transition itself is what makes the override
-      // instant. Since this only reruns on resize/load (not once any
-      // later reveal transition completes on its own), any error here
-      // would otherwise get permanently baked into the margin.
-      var prevTransform = bar.style.transform;
-      var prevTransition = bar.style.transition;
-      bar.style.transition = 'none';
-      bar.style.marginTop = '0px';
-      bar.style.transform = 'none';
-      bar.offsetHeight; // force layout to apply the above synchronously
-      // getBoundingClientRect().top is viewport-relative — if this runs
-      // while the page is scrolled (e.g. a resize firing mid-scroll),
-      // that offset must be added back to get the bar's true position
-      // relative to the top of the document, which is what a margin-top
-      // (a document-flow property) actually needs to clear.
-      var barTop = bar.getBoundingClientRect().top + window.scrollY;
-      var needed = Math.ceil(navRestingBottom - barTop);
-      bar.style.marginTop = (needed > 0 ? needed : 0) + 'px';
-      bar.style.transform = prevTransform;
-      bar.offsetHeight; // force layout again before re-enabling the transition
-      bar.style.transition = prevTransition;
-    }
-
-    // Hero images carry explicit width/height, so the browser reserves
-    // their box before they decode — layout is already stable by the
-    // time this script runs (placed at the end of body), so there's no
-    // need to wait for 'load' and risk a visible jump after .client-bar
-    // has already faded in via its .reveal transition.
-    clearNavOverlap();
-    window.addEventListener('resize', clearNavOverlap);
-    // Safety net in case fonts swap in late and shift text height.
-    window.addEventListener('load', clearNavOverlap);
-  })();
 </script>
 <script src="assets/tweaks.js"></script>
 </body>

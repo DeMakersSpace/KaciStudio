@@ -10,7 +10,7 @@
   text-align: center;
   opacity: 1;
 }
-.contact-hero h1 em { font-style: italic; color: var(--accent); }
+.contact-hero h1 em { font-style: italic; color: var(--accent-copy); }
 
 /* SVG headline draw animation */
 .contact-headline-hidden {
@@ -92,7 +92,7 @@
   text-align: center;
 }
 .form-head h2 { font-size: clamp(28px, 4vw, 48px); line-height: 1.08; letter-spacing: normal; }
-.form-head h2 em { font-style: italic; color: var(--accent); }
+.form-head h2 em { font-style: italic; color: var(--accent-copy); }
 .form-head .step {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -132,7 +132,7 @@
 }
 .field label .req,
 .field legend .req,
-.field-label .req { color: var(--accent); }
+.field-label .req { color: var(--accent-copy); }
 .field-control {
   min-width: 0;
   width: 100%;
@@ -165,7 +165,7 @@
 }
 .field textarea { min-height: 140px; }
 .field input:focus, .field textarea:focus {
-  border-bottom: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent-ink);
 }
 
 /* Chips for goals */
@@ -228,7 +228,7 @@
   border-color: var(--fg);
 }
 .chip-check:focus-visible + .chip-text {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 .chip-check:disabled + .chip-text {
@@ -295,7 +295,7 @@
   gap: 60px;
 }
 .other-ways h2 { color: var(--cream); font-size: clamp(34px, 4.5vw, 56px); line-height: 1.08; letter-spacing: normal; }
-.other-ways h2 em { font-style: italic; color: var(--accent); }
+.other-ways h2 em { font-style: italic; color: var(--accent-copy); }
 .contact-list { display: flex; flex-direction: column; gap: 2px; }
 .contact-item {
   display: grid;
@@ -306,10 +306,8 @@
   align-items: center;
   text-decoration: none;
   color: inherit;
-  transition: padding 0.3s ease;
 }
 .contact-item:last-child { border-bottom: 1px solid color-mix(in oklch, var(--cream) 20%, transparent); }
-.contact-item:hover { padding-left: 16px; }
 .contact-item .kind {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -325,21 +323,22 @@
 }
 .contact-item .val em { color: var(--fg); font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 .contact-item .arr {
-  color: var(--accent);
+  color: var(--accent-copy);
   text-align: right;
   font-size: 16px;
   transition: transform 0.3s ease;
 }
 .contact-item:hover .arr { transform: translateX(6px); }
 .contact-item:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
 /* Success state */
 .success-card {
   background: var(--accent);
-  color: var(--cream);
+  color: var(--on-accent);
+  border: 1px solid var(--accent-ink);
   padding: clamp(40px, 5vw, 80px);
   border-radius: 4px;
   text-align: center;
@@ -353,7 +352,7 @@
   letter-spacing: normal;
   margin-bottom: 16px;
 }
-.success-card em { font-style: italic; color: var(--espresso); }
+.success-card em { font-style: italic; color: var(--on-accent); }
 
 .contact-notes,
 .contact-faq {
@@ -381,7 +380,7 @@
 }
 .contact-notes h2 em,
 .contact-faq h2 em {
-  color: var(--accent);
+  color: var(--accent-copy);
   font-style: italic;
 }
 .contact-notes-intro p,
@@ -461,6 +460,5 @@
 
 /* ── Touch devices: prevent stuck hover states ── */
 @media (hover: none) {
-  .contact-item:hover { padding-left: 0; }
   .contact-item:hover .arr { transform: none; }
 }
