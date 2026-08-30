@@ -694,7 +694,7 @@
   }
 }
 
-@media (hover: none) {
+@media (hover: none) and (pointer: coarse) {
   /* nav arrows: hidden on touch — strip is swipeable, dots show progress */
   .vid-nav { display: none; }
 }
