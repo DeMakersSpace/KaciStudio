@@ -341,7 +341,8 @@ test('video carousel endpoints are disabled and usable controls reveal on focus'
       nextDisabled: false,
     });
 
-    await page.click('.vid-nav-next');
+    await page.$eval('.vid-nav-next', button => button.click());
+    await page.waitForFunction(() => document.querySelector('.vid-nav-next')?.disabled);
     const final = await page.evaluate(() => ({
       previousDisabled: document.querySelector('.vid-nav-prev').disabled,
       nextDisabled: document.querySelector('.vid-nav-next').disabled,
