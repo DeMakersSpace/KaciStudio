@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "include": [
+    "/.agents/*",
+    "/.assetsignore",
+    "/.codex/*",
+    "/.git/*",
+    "/.github/*",
+    "/.gitignore",
+    "/.impeccable.md",
+    "/Brain/*",
+    "/HANDOFF.md",
+    "/HANDSOFF.md",
+    "/README.md",
+    "/Website*",
+    "/build-site.mjs",
+    "/colour-reference*",
+    "/global.js",
+    "/node_modules/*",
+    "/package-lock.json",
+    "/package.json",
+    "/screenshot.mjs",
+    "/serve.mjs",
+    "/start-local*",
+    "/test-active-links.mjs",
+    "/test-output/*",
+    "/tests/*",
+    "/wrangler.json",
+    "/wrangler.jsonc",
+    "/wrangler.toml"
+  ],
+  "exclude": []
+}

@@ -37,6 +37,7 @@ const PUBLIC_ROOT_FILES = [
   '7c8186c3e8bbd7c170afbba65bc7de91.txt',
   'apple-touch-icon.png',
   '_headers',
+  '_routes.json',
 ];
 
 const PUBLIC_TREES = [

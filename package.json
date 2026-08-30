@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "node build-site.mjs",
-    "test": "node build-site.mjs && node --test tests/site-regressions.test.mjs"
+    "test": "node build-site.mjs && node --test tests/site-regressions.test.mjs tests/edge-guard.test.mjs"
   },
   "devDependencies": {
     "puppeteer": "25.9.0"
