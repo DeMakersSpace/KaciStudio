@@ -51,11 +51,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build lean site artifact
-        run: |
-          mkdir -p _site/media
-          cp -- *.html *.css *.js *.txt *.xml manifest.json apple-touch-icon.png _site/
-          cp -R assets "Brand fonts" Logo _site/
-          cp -R media/optimized media/posters "media/Kaci's Clients" _site/media/
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

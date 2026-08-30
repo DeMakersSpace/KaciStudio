@@ -1,0 +1,19 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com; font-src 'self'; media-src 'self' https://res.cloudinary.com; connect-src 'self' https://api.web3forms.com https://www.googletagmanager.com https://*.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+
+/assets/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/Brand fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/Logo/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/media/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

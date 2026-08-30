@@ -74,6 +74,7 @@
 
     var dotsEl = document.createElement('div');
     dotsEl.className = 'vid-dots';
+    dotsEl.setAttribute('aria-hidden', 'true');
     vids.forEach(function (_, i) {
       var d = document.createElement('span');
       d.className = 'vid-dot' + (i === 0 ? ' active' : '');
@@ -84,11 +85,14 @@
     wrap.appendChild(next);
     wrap.appendChild(dotsEl);
 
+    function setDisabled(button, disabled) {
+      button.disabled = disabled;
+      button.setAttribute('aria-disabled', String(disabled));
+    }
+
     function sync() {
-      prev.style.opacity = vidIdx === 0 ? '0' : '';
-      prev.style.pointerEvents = vidIdx === 0 ? 'none' : '';
-      next.style.opacity = vidIdx === vids.length - 1 ? '0' : '';
-      next.style.pointerEvents = vidIdx === vids.length - 1 ? 'none' : '';
+      setDisabled(prev, vidIdx === 0);
+      setDisabled(next, vidIdx === vids.length - 1);
       dotsEl.querySelectorAll('.vid-dot').forEach(function (d, i) {
         d.classList.toggle('active', i === vidIdx);
       });
@@ -103,7 +107,7 @@
     function vidGoTo(i) {
       vidIdx = Math.max(0, Math.min(i, vids.length - 1));
       pauseOthers(vidIdx);
-      strip.scrollTo({ left: strip.offsetWidth * vidIdx, behavior: 'smooth' });
+      strip.scrollTo({ left: strip.offsetWidth * vidIdx, behavior: reduceMotion ? 'auto' : 'smooth' });
       sync();
     }
 

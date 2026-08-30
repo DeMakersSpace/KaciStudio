@@ -2,10 +2,8 @@
 <html lang="en" data-theme="sand" data-density="normal" data-grain="on">
 <head>
 <meta charset="utf-8">
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-</script>
+<script>document.documentElement.classList.add('js');</script>
+<script src="assets/analytics.js" defer></script>
 <meta name="google-site-verification" content="googleb759c4218c55b228">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -668,45 +666,6 @@ function whenVisible(selector, callback, options) {
 <script src="assets/chrome.js"></script>
 <script>
   KaciChrome.init();
-
-  (function () {
-    var analyticsLoaded = false;
-
-    function loadAnalytics() {
-      if (analyticsLoaded) return;
-      analyticsLoaded = true;
-
-      gtag('js', new Date());
-      gtag('config', 'G-MH6S397YFH');
-
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MH6S397YFH';
-      document.head.appendChild(script);
-    }
-
-    function scheduleAnalytics() {
-      var fallbackTimer = setTimeout(loadAnalytics, 10000);
-
-      function loadOnFirstIntent() {
-        clearTimeout(fallbackTimer);
-        loadAnalytics();
-        window.removeEventListener('pointerdown', loadOnFirstIntent);
-        window.removeEventListener('keydown', loadOnFirstIntent);
-        window.removeEventListener('scroll', loadOnFirstIntent);
-      }
-
-      window.addEventListener('pointerdown', loadOnFirstIntent, { once: true, passive: true });
-      window.addEventListener('keydown', loadOnFirstIntent, { once: true });
-      window.addEventListener('scroll', loadOnFirstIntent, { once: true, passive: true });
-    }
-
-    if (document.readyState === 'complete') {
-      scheduleAnalytics();
-    } else {
-      window.addEventListener('load', scheduleAnalytics, { once: true });
-    }
-  })();
 
   whenVisible('.love-marquee', function (marquee) {
     var track = document.getElementById('loveTrack');

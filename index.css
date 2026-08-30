@@ -796,7 +796,8 @@ html.banner-dismissed #hero-split {
   gap: 6px;
   background: none;
   border: none;
-  padding: 0;
+  min-height: 44px;
+  padding: 10px 0;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -926,4 +927,15 @@ html.banner-dismissed #hero-split {
 /* Restore section backgrounds to solid colours */
 .love         { background: var(--olive); }
 .closing-cta  { background: var(--bg); }
+
+/* Core copy stays available when JavaScript is blocked. */
+html:not(.js) .services-list .svc-row,
+html:not(.js) .services-list .svc-row .svc-title,
+html:not(.js) .services-list .svc-row .svc-desc {
+  opacity: 1 !important;
+  transform: none !important;
+}
+html:not(.js) .services-list .svc-row::after { transform: scaleX(1); }
+html:not(.js) .love-full-wrap { grid-template-rows: 1fr; }
+html:not(.js) .love-expand-btn { display: none; }
 

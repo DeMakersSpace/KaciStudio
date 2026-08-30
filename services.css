@@ -1712,6 +1712,65 @@
   .onboard-step { transition: none; }
   .onboard-step:hover { transform: none; }
 }
+
+/* Progressive fallback: choreography enhances content; it never gates it. */
+html:not(.js) .svc-split { grid-template-columns: 1fr; }
+html:not(.js) .svc-split-left { display: none; }
+html:not(.js) .svc-pkg-panel,
+html:not(.js) .svc-pkg-panel[hidden] {
+  display: flex;
+  min-height: 0;
+}
+html:not(.js) .svc-pkg-panel + .svc-pkg-panel {
+  margin-top: 36px;
+  border-top: 1px solid color-mix(in srgb, var(--cream) 16%, transparent);
+}
+html:not(.js) .svc-pkg-panel .svc-pkg-eyebrow,
+html:not(.js) .svc-pkg-panel .svc-pkg-row,
+html:not(.js) .svc-pkg-panel .svc-pkg-desc,
+html:not(.js) .svc-pkg-panel .svc-pkg-includes,
+html:not(.js) .svc-cats .svc-cat-btn,
+html:not(.js) .onboarding .onboarding-eyebrow,
+html:not(.js) .onboarding h2,
+html:not(.js) .onboarding .onboarding-summary,
+html:not(.js) .studio-faq-head .eyebrow,
+html:not(.js) .studio-faq-head h2,
+html:not(.js) .studio-faq-item .studio-faq-q {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  clip-path: none !important;
+}
+html:not(.js) .studio-faq-head .summary { clip-path: none !important; }
+html:not(.js) .studio-faq-item { border-bottom-color: var(--rule); }
+html:not(.js) .studio-faq-item::after { transform: scaleX(1); }
+html:not(.js) .studio-faq-wrap,
+html:not(.js) .studio-faq-wrap[hidden] {
+  display: block;
+  max-height: none;
+  opacity: 1;
+}
+html:not(.js) .onboard-chips { display: none; }
+html:not(.js) .onboard-stage {
+  display: grid;
+  gap: 20px;
+  aspect-ratio: auto;
+  max-width: 560px;
+}
+html:not(.js) .onboard-card,
+html:not(.js) .onboard-card[aria-hidden="true"] {
+  position: relative;
+  inset: auto;
+  aspect-ratio: 4 / 5;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none !important;
+}
+html:not(.js) .onboard-card-meta,
+html:not(.js) .onboard-card-body {
+  opacity: 1;
+  transform: none;
+}
 @media (min-width: 768px) {
   .onboard-step {
     grid-template-columns: 180px 1fr;

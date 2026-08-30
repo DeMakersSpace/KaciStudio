@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
+const siteRoot = path.resolve(process.env.SITE_ROOT || __dirname);
 
 const MIME = {
   '.html': 'text/html',
@@ -43,10 +44,10 @@ http.createServer((req, res) => {
   const segments = urlPath.split('/').filter(Boolean);
   if (segments.some((seg) => seg.startsWith('.'))) return notFound(res);
 
-  let filePath = path.join(__dirname, urlPath);
+  let filePath = path.join(siteRoot, urlPath);
 
   // Path traversal guard: resolved path must stay inside the project root.
-  const root = path.resolve(__dirname) + path.sep;
+  const root = siteRoot + path.sep;
   if (!path.resolve(filePath).startsWith(root)) return notFound(res);
 
   let ext = path.extname(filePath).toLowerCase();

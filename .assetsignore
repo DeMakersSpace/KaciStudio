@@ -1,6 +1,6 @@
-# Cloudflare Pages: exclude these from the deployed asset bundle,
-# independent of .gitignore/git tracking. Syntax matches .gitignore.
-# See findings/technical.md C1 (SEO audit 2026-07-01).
+# Legacy defence-in-depth for accidental Workers static-asset deployments.
+# Cloudflare Pages does not use this file. The production boundary is the
+# allow-listed build in build-site.mjs, which publishes only the _site folder.
 
 # VCS / tooling internals — must never be publicly servable
 .git/

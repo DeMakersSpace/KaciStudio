@@ -8,24 +8,21 @@
 /* Perandory — display / headings */
 @font-face {
   font-family: 'Perandory';
-  src: url('../Brand fonts/Perandory/Perandory-Regular.woff2') format('woff2'),
-       url('../Brand fonts/Perandory/Perandory-Regular.otf') format('opentype');
+  src: url('../Brand fonts/Perandory/Perandory-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Perandory';
-  src: url('../Brand fonts/Perandory/Perandory-Semi-Condensed.woff2') format('woff2'),
-       url('../Brand fonts/Perandory/Perandory-Semi-Condensed.otf') format('opentype');
+  src: url('../Brand fonts/Perandory/Perandory-Semi-Condensed.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Perandory';
-  src: url('../Brand fonts/Perandory/Perandory-Condensed.woff2') format('woff2'),
-       url('../Brand fonts/Perandory/Perandory-Condensed.otf') format('opentype');
+  src: url('../Brand fonts/Perandory/Perandory-Condensed.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -34,80 +31,70 @@
 /* Gordita — body / sans / labels */
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Light.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-Light.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-LightItalic.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-LightItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-LightItalic.woff2') format('woff2');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Regular.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-Regular.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-RegularItalic.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-RegularItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-RegularItalic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Medium.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-Medium.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-MediumItalic.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-MediumItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-MediumItalic.woff2') format('woff2');
   font-weight: 500;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Bold.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-Bold.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-BoldItalic.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-BoldItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-BoldItalic.woff2') format('woff2');
   font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-Black.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-Black.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-Black.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gordita';
-  src: url('../Brand fonts/Gordita/Gordita-BlackItalic.woff2') format('woff2'),
-       url('../Brand fonts/Gordita/Gordita-BlackItalic.otf') format('opentype');
+  src: url('../Brand fonts/Gordita/Gordita-BlackItalic.woff2') format('woff2');
   font-weight: 900;
   font-style: italic;
   font-display: swap;
@@ -116,8 +103,7 @@
 /* Sloop Script — flowing italic accents on em elements */
 @font-face {
   font-family: 'Sloop Script';
-  src: url('../Brand fonts/Sloop Script Regular.woff2') format('woff2'),
-       url('../Brand fonts/Sloop Script Regular.ttf') format('truetype');
+  src: url('../Brand fonts/Sloop Script Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -605,18 +591,26 @@ hr.rule {
 
 /* ── 9. Scroll reveal ── */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+.js .reveal {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
-.reveal.is-visible {
+.js .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal { transform: none; transition: opacity 0.4s ease; }
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 
@@ -875,7 +869,29 @@ body.nav-locked { overflow: hidden; }
 
 @media (max-width: 768px) {
   /* iOS home indicator safe-area + reduced height */
-  .kaci-nav             { bottom: max(1.5rem, calc(env(safe-area-inset-bottom) + 0.75rem)); height: 48px; }
+  html {
+    scroll-padding-top: calc(68px + 76px + env(safe-area-inset-top));
+    scroll-padding-bottom: 0;
+  }
+  html.banner-dismissed { scroll-padding-top: calc(76px + env(safe-area-inset-top)); }
+  body { padding-bottom: 2rem; }
+  .kaci-nav {
+    position: sticky;
+    top: calc(68px + max(0.75rem, env(safe-area-inset-top)));
+    bottom: auto;
+    left: auto;
+    width: max-content;
+    height: 48px;
+    margin: 0.75rem auto;
+    transform: none;
+    animation: none;
+  }
+  html.banner-dismissed .kaci-nav { top: max(0.75rem, env(safe-area-inset-top)); }
+  .kaci-nav.kaci-nav-hidden {
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
   .kaci-nav-links       { display: none; }
   .kaci-nav-hamburger   { display: flex; }
   /* Full dynamic-viewport height so iOS Safari's address bar doesn't clip the last link */
@@ -883,7 +899,7 @@ body.nav-locked { overflow: hidden; }
 }
 
 @media (max-width: 430px) {
-  .kaci-nav { width: auto; gap: 4px; }
+  .kaci-nav { width: max-content; gap: 4px; }
   .kaci-nav-logo { padding: 0 0.5rem; }
   .kaci-nav-logo::after { display: none; }
   .kaci-nav-hamburger { padding: 0.5rem 0.7rem; }
@@ -918,13 +934,13 @@ body.nav-locked { overflow: hidden; }
     transform: none;
   }
 
-  .kaci-nav {
-    transform: translateX(-50%);
-  }
-
   .kaci-mobile-link {
     opacity: 1;
   }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 769px) {
+  .kaci-nav { transform: translateX(-50%); }
 }
 
 
@@ -1196,7 +1212,6 @@ body.nav-locked { overflow: hidden; }
   section:not(:first-of-type),
   .showcase,
   .client-bar,
-  .kaci-banner,
   .site-footer {
     content-visibility: auto;
     contain-intrinsic-size: auto 900px;

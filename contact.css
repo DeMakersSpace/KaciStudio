@@ -421,13 +421,6 @@
 
 @media (max-width: 768px) {
   .after-send-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-  .form-section {
-    padding-bottom: calc(var(--pad-section-y) + 104px + env(safe-area-inset-bottom));
-  }
-  .form .field,
-  .form-submit {
-    scroll-margin-bottom: calc(88px + env(safe-area-inset-bottom));
-  }
 }
 
 @media (max-width: 600px) {

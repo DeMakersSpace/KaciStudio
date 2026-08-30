@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import test, { after, before } from 'node:test';
 import puppeteer from 'puppeteer';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const OUTPUT = path.join(ROOT, '_site');
 const PORT = 4173;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 
@@ -123,10 +124,30 @@ async function duplicateIds(page) {
   });
 }
 
+function rectanglesOverlap(first, second) {
+  return first.left < second.right
+    && first.right > second.left
+    && first.top < second.bottom
+    && first.bottom > second.top;
+}
+
+async function generatedFiles() {
+  const files = [];
+  async function visit(directory) {
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      const absolute = path.join(directory, entry.name);
+      if (entry.isDirectory()) await visit(absolute);
+      else if (entry.isFile()) files.push(path.relative(OUTPUT, absolute).replaceAll('\\', '/'));
+    }
+  }
+  await visit(OUTPUT);
+  return files;
+}
+
 before(async () => {
   server = spawn(process.execPath, ['serve.mjs'], {
     cwd: ROOT,
-    env: { ...process.env, PORT: String(PORT) },
+    env: { ...process.env, PORT: String(PORT), SITE_ROOT: OUTPUT },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   await waitForServer();
@@ -141,6 +162,92 @@ before(async () => {
 after(async () => {
   if (browser) await browser.close();
   if (server && !server.killed) server.kill();
+});
+
+test('production artifact is an allow-listed public surface', async () => {
+  const files = await generatedFiles();
+  const lowerFiles = new Set(files.map(file => file.toLowerCase()));
+  const forbidden = [
+    'package.json',
+    'package-lock.json',
+    'readme.md',
+    'handoff.md',
+    'handsoff.md',
+    'website discovery guide.docx',
+    '.impeccable.md',
+    'serve.mjs',
+    'build-site.mjs',
+    'colour-reference.html',
+    'tests/site-regressions.test.mjs',
+  ];
+
+  forbidden.forEach(file => assert.equal(lowerFiles.has(file), false, `${file} entered _site`));
+  assert.ok(lowerFiles.has('index.html'));
+  assert.ok(lowerFiles.has('_headers'));
+  assert.equal(files.some(file => /\.(?:docx|md|mjs|otf|ps1|cmd)$/i.test(file)), false);
+
+  const headers = await readFile(path.join(OUTPUT, '_headers'), 'utf8');
+  assert.match(headers, /Content-Security-Policy:/);
+  assert.match(headers, /frame-ancestors 'none'/);
+  assert.match(headers, /Strict-Transport-Security: max-age=31536000/);
+
+  for (const route of [
+    '/package.json',
+    '/Website%20Discovery%20Guide.docx',
+    '/tests/site-regressions.test.mjs',
+    '/serve.mjs',
+    '/.impeccable.md',
+    '/colour-reference.html',
+  ]) {
+    const response = await fetch(`${BASE_URL}${route}`);
+    assert.equal(response.status, 404, `${route} returned ${response.status}`);
+  }
+});
+
+test('every page uses progressive enhancement and only critical font preloads', async () => {
+  for (const route of SITE_ROUTES) {
+    const filename = route === '/' ? 'index.html' : `${route.slice(1)}.html`;
+    const source = await readFile(path.join(ROOT, filename), 'utf8');
+    assert.match(source, /document\.documentElement\.classList\.add\('js'\)/, `${filename} lacks the early js marker`);
+    assert.match(source, /assets\/analytics\.js/, `${filename} lacks the shared analytics loader`);
+    assert.doesNotMatch(source, /googletagmanager\.com\/gtag\/js/, `${filename} eagerly loads analytics`);
+    assert.equal((source.match(/rel="preload"[^>]+as="font"/g) || []).length, 2, `${filename} preloads more than two fonts`);
+  }
+});
+
+test('core content remains readable when JavaScript is disabled', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  await page.setJavaScriptEnabled(false);
+
+  async function visibleCount(selector) {
+    return page.$$eval(selector, elements => elements.filter(element => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return style.display !== 'none'
+        && style.visibility !== 'hidden'
+        && parseFloat(style.opacity) > 0
+        && rect.width > 0
+        && rect.height > 0;
+    }).length);
+  }
+
+  try {
+    await open(page, '/about');
+    assert.equal(await page.evaluate(() => document.documentElement.classList.contains('js')), false);
+    assert.ok(await visibleCount('.team-head > p') >= 1);
+    assert.ok(await visibleCount('.founder-tag') >= 2);
+
+    await open(page, '/services');
+    assert.ok(await visibleCount('.svc-pkg-panel') >= 3);
+    assert.ok(await visibleCount('.onboard-card') >= 5);
+    assert.ok(await visibleCount('.studio-faq-q') >= 5);
+    assert.ok(await visibleCount('.studio-faq-wrap') >= 5);
+
+    await open(page, '/work');
+    assert.equal(await visibleCount('.case'), 8);
+  } finally {
+    await page.close();
+  }
 });
 
 test('every server-rendered mobile menu starts hidden and inert', async () => {
@@ -198,6 +305,66 @@ test('testimonial clones are inaccessible, ID-free, and labels reflect expansion
       await page.$eval('#loveTrack > .love-card:not([data-carousel-clone]) .love-expand-btn', button => button.textContent.trim()),
       'Read full letter ↓',
     );
+  } finally {
+    await page.close();
+  }
+});
+
+test('testimonial expansion control meets the touch target minimum', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  try {
+    await open(page, '/');
+    const size = await page.$eval('.love-expand-btn', button => {
+      const rect = button.getBoundingClientRect();
+      return { width: rect.width, height: rect.height };
+    });
+    assert.ok(size.height >= 44, `testimonial control is only ${size.height}px high`);
+  } finally {
+    await page.close();
+  }
+});
+
+test('video carousel endpoints are disabled and usable controls reveal on focus', async () => {
+  const page = await makePage(VIEWPORTS[0]);
+  try {
+    await open(page, '/case-melissa-shoes');
+    await page.waitForSelector('.vid-nav-next');
+
+    const initial = await page.evaluate(() => ({
+      previousDisabled: document.querySelector('.vid-nav-prev').disabled,
+      previousAriaDisabled: document.querySelector('.vid-nav-prev').getAttribute('aria-disabled'),
+      nextDisabled: document.querySelector('.vid-nav-next').disabled,
+    }));
+    assert.deepEqual(initial, {
+      previousDisabled: true,
+      previousAriaDisabled: 'true',
+      nextDisabled: false,
+    });
+
+    await page.click('.vid-nav-next');
+    const final = await page.evaluate(() => ({
+      previousDisabled: document.querySelector('.vid-nav-prev').disabled,
+      nextDisabled: document.querySelector('.vid-nav-next').disabled,
+      nextAriaDisabled: document.querySelector('.vid-nav-next').getAttribute('aria-disabled'),
+    }));
+    assert.deepEqual(final, {
+      previousDisabled: false,
+      nextDisabled: true,
+      nextAriaDisabled: 'true',
+    });
+
+    await page.focus('.vid-nav-prev');
+    await page.waitForFunction(() => parseFloat(getComputedStyle(document.querySelector('.vid-nav-prev')).opacity) > 0.9);
+    const focused = await page.$eval('.vid-nav-prev', button => ({
+      active: document.activeElement === button,
+      disabled: button.disabled,
+      display: getComputedStyle(button).display,
+      opacity: parseFloat(getComputedStyle(button).opacity),
+    }));
+    assert.equal(focused.active, true);
+    assert.equal(focused.disabled, false);
+    assert.equal(focused.display, 'flex');
+    assert.ok(focused.opacity > 0.9);
   } finally {
     await page.close();
   }
@@ -447,6 +614,52 @@ for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
   });
 }
 
+for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
+  test(`mobile navigation avoids headings and video controls at ${viewport.width}x${viewport.height}`, async () => {
+    const page = await makePage(viewport);
+    try {
+      for (const route of SITE_ROUTES) {
+        await open(page, route);
+        const initial = await page.evaluate(() => {
+          const nav = document.querySelector('.kaci-nav').getBoundingClientRect();
+          const heading = document.querySelector('main h1').getBoundingClientRect();
+          const plain = rect => ({ top: rect.top, right: rect.right, bottom: rect.bottom, left: rect.left });
+          return {
+            nav: plain(nav),
+            heading: plain(heading),
+            position: getComputedStyle(document.querySelector('.kaci-nav')).position,
+          };
+        });
+        assert.equal(initial.position, 'sticky');
+        assert.equal(rectanglesOverlap(initial.nav, initial.heading), false, `${route} heading intersects navigation`);
+
+        const hasCaseMedia = await page.$('.case-video-wrap');
+        if (!hasCaseMedia) continue;
+
+        const controls = await page.evaluate(async () => {
+          const video = document.querySelector('.case-video-wrap');
+          video.scrollIntoView({ block: 'center' });
+          await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+          const nav = document.querySelector('.kaci-nav').getBoundingClientRect();
+          const media = video.getBoundingClientRect();
+          return {
+            nav: { top: nav.top, right: nav.right, bottom: nav.bottom, left: nav.left },
+            controlBand: {
+              top: Math.max(media.top, media.bottom - 72),
+              right: media.right,
+              bottom: media.bottom,
+              left: media.left,
+            },
+          };
+        });
+        assert.equal(rectanglesOverlap(controls.nav, controls.controlBand), false, `${route} controls intersect navigation`);
+      }
+    } finally {
+      await page.close();
+    }
+  });
+}
+
 test('Services controls expose state and support keyboard operation', async () => {
   const page = await makePage(VIEWPORTS[1]);
   try {
@@ -561,23 +774,21 @@ for (const viewport of VIEWPORTS) {
 }
 
 for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
-  test(`fixed navigation clears the mobile form at ${viewport.width}x${viewport.height}`, async () => {
+  test(`mobile navigation stays outside the form at ${viewport.width}x${viewport.height}`, async () => {
     const page = await makePage(viewport);
     try {
       await open(page, '/contact');
       const positions = await page.evaluate(async () => {
         const submit = document.querySelector('.form-submit');
         const nav = document.querySelector('.kaci-nav');
-        submit.scrollIntoView({ block: 'end' });
+        submit.scrollIntoView({ block: 'center' });
         await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         const submitRect = submit.getBoundingClientRect();
         const navRect = nav.getBoundingClientRect();
-        return { submitBottom: submitRect.bottom, navTop: navRect.top };
+        const plain = rect => ({ top: rect.top, right: rect.right, bottom: rect.bottom, left: rect.left });
+        return { submit: plain(submitRect), nav: plain(navRect) };
       });
-      assert.ok(
-        positions.submitBottom <= positions.navTop,
-        `form ends at ${positions.submitBottom}px while navigation starts at ${positions.navTop}px`,
-      );
+      assert.equal(rectanglesOverlap(positions.submit, positions.nav), false);
     } finally {
       await page.close();
     }

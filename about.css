@@ -1303,3 +1303,17 @@
   }
   .about-svg-headline { display: none !important; }
 }
+
+/* Nested entrance elements must not hide content without JavaScript. */
+html:not(.js) .team-head > div,
+html:not(.js) .team-head > p,
+html:not(.js) .member-photo-col .ph,
+html:not(.js) .founder-tag,
+html:not(.js) .member-role,
+html:not(.js) .team-future-head,
+html:not(.js) .team-member-card {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+  filter: none !important;
+}

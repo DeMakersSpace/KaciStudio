@@ -2,14 +2,8 @@
 <html lang="en" data-theme="sand" data-density="normal" data-grain="on">
 <head>
 <meta charset="utf-8">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MH6S397YFH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-MH6S397YFH');
-</script>
+<script>document.documentElement.classList.add('js');</script>
+<script src="assets/analytics.js" defer></script>
 <meta name="google-site-verification" content="googleb759c4218c55b228">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -35,11 +29,7 @@
 <meta name="geo.region" content="SG">
 <meta name="geo.placename" content="Singapore">
 <title>Social Media Case Studies Singapore | KACISTUDIO Portfolio</title>
-<link rel="preload" href="Brand fonts/Sloop Script Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="Brand fonts/Gordita/Gordita-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="Brand fonts/Gordita/Gordita-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="Brand fonts/Perandory/Perandory-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="Brand fonts/Perandory/Perandory-Semi-Condensed.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="Brand fonts/Perandory/Perandory-Condensed.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="work.css">
@@ -823,6 +813,7 @@
 
     var dotsEl = document.createElement('div');
     dotsEl.className = 'vid-dots';
+    dotsEl.setAttribute('aria-hidden', 'true');
     vids.forEach(function (_, i) {
       var d = document.createElement('span');
       d.className = 'vid-dot' + (i === 0 ? ' active' : '');
@@ -833,11 +824,14 @@
     wrap.appendChild(next);
     wrap.appendChild(dotsEl);
 
+    function setDisabled(button, disabled) {
+      button.disabled = disabled;
+      button.setAttribute('aria-disabled', String(disabled));
+    }
+
     function sync() {
-      prev.style.opacity       = vidIdx === 0               ? '0' : '';
-      prev.style.pointerEvents = vidIdx === 0               ? 'none' : '';
-      next.style.opacity       = vidIdx === vids.length - 1 ? '0' : '';
-      next.style.pointerEvents = vidIdx === vids.length - 1 ? 'none' : '';
+      setDisabled(prev, vidIdx === 0);
+      setDisabled(next, vidIdx === vids.length - 1);
       dotsEl.querySelectorAll('.vid-dot').forEach(function (d, i) {
         d.classList.toggle('active', i === vidIdx);
       });
@@ -852,7 +846,7 @@
     function vidGoTo(i) {
       vidIdx = Math.max(0, Math.min(i, vids.length - 1));
       pauseOthers(vidIdx);
-      strip.scrollTo({ left: strip.offsetWidth * vidIdx, behavior: 'smooth' });
+      strip.scrollTo({ left: strip.offsetWidth * vidIdx, behavior: reduceMotion ? 'auto' : 'smooth' });
       sync();
     }
 

@@ -375,7 +375,19 @@
   -webkit-user-select: none;
 }
 .case-video-wrap:hover .vid-nav { opacity: 1; }
+.case-video-wrap:hover .vid-nav:disabled { opacity: 0; }
 .vid-nav:hover { background: var(--cream); }
+.vid-nav:focus { opacity: 1; }
+.vid-nav:focus-visible {
+  opacity: 1;
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.vid-nav:disabled {
+  opacity: 0;
+  cursor: default;
+  pointer-events: none;
+}
 .vid-nav:active { transform: translateY(-50%) scale(0.96); }
 .vid-nav-prev { left: 14px; }
 .vid-nav-next { right: 14px; }
@@ -491,18 +503,14 @@
    its first element is the shorter .case-brief-label — that combination
    needs extra separation from the selector above it. Standalone case-study
    pages keep the normal 40px spacing declared above. */
-.client-bar ~ .showcase .case-expand-body,
-.client-bar ~ .showcase #case-fino .case-expand-body,
-.client-bar ~ .showcase #case-resurrack .case-expand-body {
-  padding-top: 140px;
+@media (min-width: 769px) {
+  .client-bar ~ .showcase .case-expand-body { padding-top: 140px; }
+  .client-bar ~ .showcase #case-brixx .case-follow { margin-top: 50px; }
 }
 /* case-brixx's 3 stats wrap to 2 lines at this width, in the /work.html
    hash-navigated (scrolled-to-client-bar) state specifically, pushing
    .case-follow into the nav's band — case-coffeeman also has 3 stats but
    shorter label text that doesn't wrap, so it isn't affected (verified). */
-.client-bar ~ .showcase #case-brixx .case-follow {
-  margin-top: 50px;
-}
 
 /* Brief label inside expand */
 .case-brief-label {
@@ -820,25 +828,6 @@
   }
   .case-video-wrap { width: clamp(200px, 60%, 280px); margin: 0 auto; }
   .case-info { padding: 18px 0 0; }
-  /* On /work specifically (multiple stacked cases + hero/intro/client-bar
-     content above), the case title can land under the fixed pill nav at
-     this breakpoint on initial load. Standalone case-*.html pages don't
-     need this (less content above pushes things down less) — except
-     case-fino and case-resurrack, whose longer two-line h2 titles push
-     the chip row far enough down to hit the same problem (measured). */
-  .client-bar ~ .showcase .case-info h2,
-  #case-fino .case-info h2,
-  #case-resurrack .case-info h2 {
-    margin-top: 72px;
-  }
-  /* Visiting /work#case-<id> scrolls to .client-bar (not page-top) via JS —
-     a different scroll position than a plain page load, where
-     .case-brief-label (the first element in case-expand-body) lands
-     inside the nav's band regardless of which case is active. Verified
-     against both case-melissa and case-resurrack. */
-  .client-bar ~ .showcase .case-brief-label {
-    margin-top: 24px;
-  }
 }
 
 
@@ -859,3 +848,8 @@
   .case-video-wrap { width: 70%; }
   .showcase-controls { padding-bottom: clamp(32px, 5vw, 56px); }
 }
+
+html:not(.js) .client-bar { display: none; }
+html:not(.js) .case { display: grid; }
+html:not(.js) .case + .case { margin-top: clamp(72px, 10vw, 120px); }
+html:not(.js) .work-motion { opacity: 1; transform: none; }

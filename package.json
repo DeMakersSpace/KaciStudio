@@ -2,9 +2,10 @@
   "name": "kacistudio-site",
   "private": true,
   "scripts": {
-    "test": "node --test tests/site-regressions.test.mjs"
+    "build": "node build-site.mjs",
+    "test": "node build-site.mjs && node --test tests/site-regressions.test.mjs"
   },
   "devDependencies": {
-    "puppeteer": "25.8.0"
+    "puppeteer": "25.9.0"
   }
 }
