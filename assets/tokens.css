@@ -618,9 +618,17 @@ hr.rule {
 .kaci-nav {
   position: fixed;
   bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(0);
+  left: 0;
+  right: 0;
   z-index: 1000;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  margin-inline: auto;
+}
+
+/* Keep transforms off the fixed shell. iOS Safari can mispaint a bottom-fixed,
+   transformed layer when its dynamic browser toolbar changes the visual viewport. */
+.kaci-nav-inner {
   height: 52px;
   display: flex;
   align-items: center;
@@ -645,12 +653,14 @@ hr.rule {
    through tall sections (e.g. services.html package tiers). Hide it on
    scroll-down and bring it back on scroll-up so it never blocks reading. */
 .kaci-nav.kaci-nav-hidden {
+  pointer-events: none;
+}
+.kaci-nav.kaci-nav-hidden .kaci-nav-inner {
   /* !important needed: the kaci-nav-rise entrance animation uses
      fill-mode:both, which keeps holding transform/opacity at its end
      value and otherwise outranks a plain class rule in the cascade. */
-  transform: translateX(-50%) translateY(140%) !important;
+  transform: translateY(140%) !important;
   opacity: 0 !important;
-  pointer-events: none;
 }
 
 /* Logo mark */
@@ -853,8 +863,8 @@ hr.rule {
 body.nav-locked { overflow: hidden; }
 
 @keyframes kaci-nav-rise {
-  from { opacity: 0; transform: translateX(-50%) translateY(18px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Mobile typography breathing ── */
@@ -880,17 +890,22 @@ body.nav-locked { overflow: hidden; }
     top: calc(68px + max(0.75rem, env(safe-area-inset-top)));
     bottom: auto;
     left: auto;
+    right: auto;
     width: max-content;
-    height: 48px;
     margin: 0.75rem auto;
-    transform: none;
+  }
+  .kaci-nav-inner {
+    height: 48px;
     animation: none;
+    transform: none;
   }
   html.banner-dismissed .kaci-nav { top: max(0.75rem, env(safe-area-inset-top)); }
   .kaci-nav.kaci-nav-hidden {
+    pointer-events: auto;
+  }
+  .kaci-nav.kaci-nav-hidden .kaci-nav-inner {
     transform: none !important;
     opacity: 1 !important;
-    pointer-events: auto;
   }
   .kaci-nav-links       { display: none; }
   .kaci-nav-hamburger   { display: flex; }
@@ -899,7 +914,7 @@ body.nav-locked { overflow: hidden; }
 }
 
 @media (max-width: 430px) {
-  .kaci-nav { width: max-content; gap: 4px; }
+  .kaci-nav-inner { gap: 4px; }
   .kaci-nav-logo { padding: 0 0.5rem; }
   .kaci-nav-logo::after { display: none; }
   .kaci-nav-hamburger { padding: 0.5rem 0.7rem; }
@@ -911,7 +926,7 @@ body.nav-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .btn,
   .arrow,
-  .kaci-nav,
+  .kaci-nav-inner,
   .kaci-nav-link,
   .kaci-nav-cta,
   .kaci-nav-hamburger,
@@ -925,7 +940,7 @@ body.nav-locked { overflow: hidden; }
   .btn,
   .btn:hover,
   .btn:active,
-  .kaci-nav,
+  .kaci-nav-inner,
   .kaci-nav-link,
   .kaci-nav-link:hover,
   .kaci-nav-cta:hover,
@@ -940,7 +955,7 @@ body.nav-locked { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) and (min-width: 769px) {
-  .kaci-nav { transform: translateX(-50%); }
+  .kaci-nav-inner { transform: none; }
 }
 
 
@@ -1219,7 +1234,7 @@ body.nav-locked { overflow: hidden; }
 }
 
 @media (max-width: 768px) {
-  .kaci-nav {
+  .kaci-nav-inner {
     backdrop-filter: blur(10px) saturate(125%);
     -webkit-backdrop-filter: blur(10px) saturate(125%);
   }
