@@ -12,6 +12,11 @@
 }
 .contact-hero h1 em { font-style: italic; color: var(--accent-copy); }
 
+@media (max-width: 360px) and (max-height: 640px) {
+  .contact-hero { padding-top: 32px; }
+  .contact-hero h1 { font-size: 34px; line-height: 1.02; margin-top: 20px; }
+}
+
 /* SVG headline draw animation */
 .contact-headline-hidden {
   position: absolute !important;

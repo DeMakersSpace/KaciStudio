@@ -125,15 +125,12 @@ const KaciChrome = (() => {
      The pill nav is docked at the bottom of the viewport (see .kaci-nav in
      tokens.css), so on tall pages it sits on top of body copy while the
      visitor scrolls (most visible on services.html's package tiers). Hide
-     it on scroll-down, reveal it on scroll-up or near the top of the page.
-     Desktop/tablet only (min-width matches tokens.css's 768px breakpoint):
-     on mobile the pill collapses to the hamburger, which is the only way
-     to reach the rest of the nav, so it must never be hidden or made
-     pointer-events:none there. */
+     it on scroll-down, then reveal it on scroll-up, keyboard focus, or near
+     the top of the page. This keeps mobile media controls unobstructed while
+     leaving the hamburger one upward swipe or Tab press away. */
   function initNavAutoHide() {
     const nav = document.querySelector('.kaci-nav');
     if (!nav) return;
-    if (!window.matchMedia('(min-width: 769px)').matches) return;
 
     let lastY = window.scrollY;
     let ticking = false;
@@ -160,6 +157,7 @@ const KaciChrome = (() => {
         ticking = true;
       }
     }, { passive: true });
+    nav.addEventListener('focusin', () => nav.classList.remove('kaci-nav-hidden'));
   }
 
   function init() {

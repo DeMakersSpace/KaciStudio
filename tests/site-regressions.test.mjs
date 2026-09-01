@@ -617,22 +617,35 @@ for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
 
 for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
   test(`mobile navigation avoids headings and video controls at ${viewport.width}x${viewport.height}`, async () => {
-    const page = await makePage(viewport);
+    const page = await makePage(viewport, { reducedMotion: false });
     try {
       for (const route of SITE_ROUTES) {
         await open(page, route);
         const initial = await page.evaluate(() => {
-          const nav = document.querySelector('.kaci-nav').getBoundingClientRect();
+          const nav = document.querySelector('.kaci-nav-inner').getBoundingClientRect();
           const heading = document.querySelector('main h1').getBoundingClientRect();
           const plain = rect => ({ top: rect.top, right: rect.right, bottom: rect.bottom, left: rect.left });
+          const inner = document.querySelector('.kaci-nav-inner');
+          const navStyle = getComputedStyle(document.querySelector('.kaci-nav'));
+          const innerStyle = getComputedStyle(inner);
           return {
             nav: plain(nav),
             heading: plain(heading),
-            position: getComputedStyle(document.querySelector('.kaci-nav')).position,
+            position: navStyle.position,
+            wrapperTransform: navStyle.transform,
+            wrapperAnimation: navStyle.animationName,
+            innerAnimation: innerStyle.animationName,
           };
         });
-        assert.equal(initial.position, 'sticky');
-        assert.equal(rectanglesOverlap(initial.nav, initial.heading), false, `${route} heading intersects navigation`);
+        assert.equal(initial.position, 'fixed');
+        assert.equal(initial.wrapperTransform, 'none');
+        assert.equal(initial.wrapperAnimation, 'none');
+        assert.equal(initial.innerAnimation, 'kaci-nav-rise');
+        assert.equal(
+          rectanglesOverlap(initial.nav, initial.heading),
+          false,
+          `${route} heading intersects navigation: ${JSON.stringify(initial)}`,
+        );
 
         const hasCaseMedia = await page.$('.case-video-wrap');
         if (!hasCaseMedia) continue;
@@ -640,8 +653,8 @@ for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
         const controls = await page.evaluate(async () => {
           const video = document.querySelector('.case-video-wrap');
           video.scrollIntoView({ block: 'center' });
-          await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-          const nav = document.querySelector('.kaci-nav').getBoundingClientRect();
+          await new Promise(resolve => setTimeout(resolve, 380));
+          const nav = document.querySelector('.kaci-nav-inner').getBoundingClientRect();
           const media = video.getBoundingClientRect();
           return {
             nav: { top: nav.top, right: nav.right, bottom: nav.bottom, left: nav.left },
@@ -653,7 +666,11 @@ for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
             },
           };
         });
-        assert.equal(rectanglesOverlap(controls.nav, controls.controlBand), false, `${route} controls intersect navigation`);
+        assert.equal(
+          rectanglesOverlap(controls.nav, controls.controlBand),
+          false,
+          `${route} controls intersect navigation: ${JSON.stringify(controls)}`,
+        );
       }
     } finally {
       await page.close();
