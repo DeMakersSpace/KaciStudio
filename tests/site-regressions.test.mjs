@@ -190,6 +190,7 @@ test('production artifact is an allow-listed public surface', async () => {
   assert.match(headers, /Content-Security-Policy:/);
   assert.match(headers, /frame-ancestors 'none'/);
   assert.match(headers, /Strict-Transport-Security: max-age=31536000/);
+  assert.match(headers, /\/assets\/\*\s+Cache-Control: public, max-age=0, must-revalidate/);
 
   for (const route of [
     '/package.json',
@@ -210,6 +211,8 @@ test('every page uses progressive enhancement and only critical font preloads', 
     const source = await readFile(path.join(ROOT, filename), 'utf8');
     assert.match(source, /document\.documentElement\.classList\.add\('js'\)/, `${filename} lacks the early js marker`);
     assert.match(source, /assets\/analytics\.js/, `${filename} lacks the shared analytics loader`);
+    assert.match(source, /assets\/tokens\.css\?v=\d{8}-\d+/, `${filename} does not cache-bust the shared stylesheet`);
+    assert.match(source, /assets\/chrome\.js\?v=\d{8}-\d+/, `${filename} does not cache-bust the shared navigation script`);
     assert.doesNotMatch(source, /googletagmanager\.com\/gtag\/js/, `${filename} eagerly loads analytics`);
     assert.equal((source.match(/rel="preload"[^>]+as="font"/g) || []).length, 2, `${filename} preloads more than two fonts`);
   }
