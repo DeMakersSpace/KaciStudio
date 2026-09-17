@@ -14,7 +14,9 @@ const KaciChrome = (() => {
     const bannerEl = document.getElementById('kaci-banner');
     if (!bannerEl) return;
 
-    if (sessionStorage.getItem('kaci-banner-dismissed') === '1') {
+    let dismissed = false;
+    try { dismissed = sessionStorage.getItem('kaci-banner-dismissed') === '1'; } catch {}
+    if (dismissed) {
       document.documentElement.classList.add('banner-dismissed');
       bannerEl.style.display = 'none';
       return;
@@ -24,7 +26,7 @@ const KaciChrome = (() => {
     if (!closeBtn) return;
     closeBtn.addEventListener('click', () => {
       bannerEl.style.display = 'none';
-      sessionStorage.setItem('kaci-banner-dismissed', '1');
+      try { sessionStorage.setItem('kaci-banner-dismissed', '1'); } catch {}
       document.documentElement.classList.add('banner-dismissed');
     });
   }
@@ -83,6 +85,12 @@ const KaciChrome = (() => {
       if (restoreFocus) hamburger.focus();
     }
     hamburger.addEventListener('click', openMenu);
+    window.matchMedia('(min-width: 769px)').addEventListener('change', event => {
+      if (!event.matches || hamburger.getAttribute('aria-expanded') !== 'true') return;
+      const focusWasInMenu = menu.contains(document.activeElement);
+      closeMenu(false);
+      if (focusWasInMenu) document.querySelector('.kaci-nav a')?.focus();
+    });
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
     menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
     menu.addEventListener('click', e => { if (e.target === menu) closeMenu(); });
@@ -133,7 +141,7 @@ const KaciChrome = (() => {
   function initNavAutoHide() {
     const nav = document.querySelector('.kaci-nav');
     if (!nav) return;
-    if (!window.matchMedia('(min-width: 769px)').matches) return;
+    const desktop = window.matchMedia('(min-width: 769px)');
 
     let lastY = window.scrollY;
     let ticking = false;
@@ -142,7 +150,7 @@ const KaciChrome = (() => {
       const y = window.scrollY;
       const delta = y - lastY;
 
-      if (y < 80 || document.body.classList.contains('nav-locked')) {
+      if (!desktop.matches || y < 80 || nav.contains(document.activeElement) || document.body.classList.contains('nav-locked')) {
         nav.classList.remove('kaci-nav-hidden');
       } else if (delta > 6) {
         nav.classList.add('kaci-nav-hidden');
@@ -160,6 +168,11 @@ const KaciChrome = (() => {
         ticking = true;
       }
     }, { passive: true });
+    nav.addEventListener('focusin', () => nav.classList.remove('kaci-nav-hidden'));
+    desktop.addEventListener('change', () => {
+      nav.classList.remove('kaci-nav-hidden');
+      lastY = window.scrollY;
+    });
   }
 
   function init() {

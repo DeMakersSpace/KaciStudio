@@ -29,6 +29,16 @@ Website Discovery Guide.docx
 *.ARW
 *.arw
 
+# Local source photography. Only optimized derivatives, video posters, and
+# the small client-logo set belong in Git and the production build.
+media/*
+!media/optimized/
+!media/optimized/**
+!media/posters/
+!media/posters/**
+!media/Kaci's Clients/
+!media/Kaci's Clients/**
+
 # OS files
 .DS_Store
 Thumbs.db
@@ -36,6 +46,7 @@ desktop.ini
 
 # Node
 node_modules/
+.npm-cache/
 
 # Generated production artifact
 _site/

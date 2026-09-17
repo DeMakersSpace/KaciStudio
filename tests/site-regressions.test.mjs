@@ -4,6 +4,7 @@ import { existsSync } from 'node:fs';
 import { readFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import test, { after, before } from 'node:test';
 import puppeteer from 'puppeteer';
 
@@ -212,6 +213,80 @@ test('every page uses progressive enhancement and only critical font preloads', 
     assert.match(source, /assets\/analytics\.js/, `${filename} lacks the shared analytics loader`);
     assert.doesNotMatch(source, /googletagmanager\.com\/gtag\/js/, `${filename} eagerly loads analytics`);
     assert.equal((source.match(/rel="preload"[^>]+as="font"/g) || []).length, 2, `${filename} preloads more than two fonts`);
+  }
+});
+
+test('production script/style URLs match content hashes and sitemap dates survive builds', async () => {
+  for (const file of (await generatedFiles()).filter(file => file.endsWith('.html'))) {
+    const html = await readFile(path.join(OUTPUT, file), 'utf8');
+    for (const match of html.matchAll(/\b(?:src|href)=["']([^"']+\.(?:css|js)(?:\?[^"']*)?)["']/g)) {
+      const url = new URL(match[1], BASE_URL);
+      if (url.origin !== BASE_URL) continue;
+      const asset = await readFile(path.join(OUTPUT, decodeURIComponent(url.pathname)));
+      assert.equal(url.searchParams.get('v'), createHash('sha256').update(asset).digest('hex').slice(0, 16), `${file}: ${match[1]}`);
+    }
+  }
+  assert.equal(await readFile(path.join(OUTPUT, 'sitemap.xml'), 'utf8'), await readFile(path.join(ROOT, 'sitemap.xml'), 'utf8'));
+});
+
+test('published llms links resolve to real pages and anchors', async () => {
+  const source = await readFile(path.join(OUTPUT, 'llms.txt'), 'utf8');
+  for (const match of source.matchAll(/https:\/\/kacistudio\.co\/[^\s)]+/g)) {
+    const url = new URL(match[0]);
+    const file = url.pathname === '/' ? 'index.html' : `${url.pathname.slice(1)}.html`;
+    const html = await readFile(path.join(OUTPUT, file), 'utf8');
+    if (url.hash) assert.ok(html.includes(`id="${url.hash.slice(1)}"`), `${url.href} has no anchor`);
+  }
+});
+
+test('service links reveal the requested category on load and hash changes', async () => {
+  const page = await makePage();
+  try {
+    await open(page, '/services#service-tab-content');
+    assert.equal(await page.$eval('#service-panel-content', panel => panel.hidden), false);
+    await page.evaluate(() => { location.hash = 'service-tab-branding'; });
+    await page.waitForFunction(() => !document.getElementById('service-panel-branding').hidden);
+    assert.equal(await page.$eval('#service-tab-branding', tab => tab.getAttribute('aria-selected')), 'true');
+  } finally { await page.close(); }
+});
+
+test('every page provides a keyboard-visible bypass link to main content', async () => {
+  for (const route of SITE_ROUTES) {
+    const filename = route === '/' ? 'index.html' : `${route.slice(1)}.html`;
+    const source = await readFile(path.join(ROOT, filename), 'utf8');
+    assert.match(
+      source,
+      /<body>\s*<a class="skip-link" href="#main-content">Skip to main content<\/a>/,
+      `${filename} does not start with the shared skip link`,
+    );
+    assert.match(
+      source,
+      /<main id="main-content" tabindex="-1">/,
+      `${filename} does not expose a focusable main-content target`,
+    );
+  }
+
+  const page = await makePage(VIEWPORTS[1]);
+  try {
+    await open(page, '/');
+    await page.keyboard.press('Tab');
+    const focusedLink = await page.evaluate(() => {
+      const element = document.activeElement;
+      const rect = element.getBoundingClientRect();
+      return {
+        className: element.className,
+        top: rect.top,
+        height: rect.height,
+      };
+    });
+    assert.equal(focusedLink.className, 'skip-link');
+    assert.ok(focusedLink.top >= 0, 'skip link stays off-screen when focused');
+    assert.ok(focusedLink.height >= 44, `skip link is only ${focusedLink.height}px tall`);
+
+    await page.keyboard.press('Enter');
+    assert.equal(await page.evaluate(() => document.activeElement.id), 'main-content');
+  } finally {
+    await page.close();
   }
 });
 
@@ -628,11 +703,13 @@ for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
           return {
             nav: plain(nav),
             heading: plain(heading),
+            eyebrow: document.querySelector('main .eyebrow') ? plain(document.querySelector('main .eyebrow').getBoundingClientRect()) : null,
             position: getComputedStyle(document.querySelector('.kaci-nav')).position,
           };
         });
         assert.equal(initial.position, 'sticky');
         assert.equal(rectanglesOverlap(initial.nav, initial.heading), false, `${route} heading intersects navigation`);
+        if (initial.eyebrow) assert.equal(rectanglesOverlap(initial.nav, initial.eyebrow), false, `${route} introductory label intersects navigation`);
 
         const hasCaseMedia = await page.$('.case-video-wrap');
         if (!hasCaseMedia) continue;
@@ -736,6 +813,65 @@ test('Services scroll-driven sections finish their entrance states', async () =>
     await page.close();
   }
 });
+
+test('navigation recovers when switching from mobile to desktop and using keyboard focus', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  try {
+    await open(page, '/services');
+    await page.click('.kaci-nav-hamburger');
+    await page.waitForFunction(() => document.body.classList.contains('nav-locked'));
+    await page.setViewport({ width: 1440, height: 900 });
+    await page.waitForFunction(() => !document.body.classList.contains('nav-locked'));
+    assert.equal(await page.$eval('#kaci-mobile-menu', menu => menu.hidden), true);
+    await page.evaluate(() => { document.activeElement.blur(); window.scrollTo(0, 1000); });
+    await page.waitForFunction(() => document.querySelector('.kaci-nav').classList.contains('kaci-nav-hidden'));
+    await page.focus('.kaci-nav a');
+    assert.equal(await page.$eval('.kaci-nav', nav => nav.classList.contains('kaci-nav-hidden')), false);
+    await page.evaluate(() => window.scrollTo(0, 1300));
+    await new Promise(resolve => setTimeout(resolve, 100));
+    assert.equal(await page.$eval('.kaci-nav', nav => nav.classList.contains('kaci-nav-hidden')), false);
+  } finally {
+    await page.close();
+  }
+});
+
+for (const outcome of ['success', 'rejected', 'timeout']) {
+  test(`contact form handles ${outcome} without sending a real enquiry`, async () => {
+    const page = await makePage();
+    try {
+      await open(page, '/contact');
+      await page.evaluate(outcome => {
+        const originalTimer = window.setTimeout;
+        window.setTimeout = (callback, delay, ...args) => originalTimer(callback, delay === 15000 ? 20 : delay, ...args);
+        window.fetch = async (url, options) => {
+          window.submittedBrief = [...options.body.entries()];
+          if (outcome === 'timeout') {
+            return new Promise((resolve, reject) => options.signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError'))));
+          }
+          return { ok: outcome === 'success', json: async () => ({ success: outcome === 'success' }) };
+        };
+        document.getElementById('form-started-at').value = String(Date.now() - 5000);
+        document.querySelector('#brief textarea').value = 'Maintenance test';
+        document.querySelector('#brief').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      }, outcome);
+      if (outcome === 'success') {
+        await page.waitForFunction(() => document.activeElement.id === 'success');
+        assert.equal(await page.$eval('#brief', form => form.style.display), 'none');
+      } else {
+        await page.waitForFunction(() => document.querySelector('#form-status').classList.contains('error'));
+        assert.equal(await page.$eval('#submit-button', button => button.disabled), false);
+        assert.equal(await page.$eval('#brief textarea', field => field.value), 'Maintenance test');
+      }
+      assert.equal(await page.$eval('#brief', form => form.hasAttribute('aria-busy')), false);
+      const leadEvents = await page.evaluate(() => (window.dataLayer || [])
+        .map(entry => Array.from(entry)).filter(entry => entry[0] === 'event' && entry[1] === 'generate_lead'));
+      assert.deepEqual(leadEvents, outcome === 'success'
+        ? [['event', 'generate_lead', { form_id: 'brief' }]] : []);
+    } finally {
+      await page.close();
+    }
+  });
+}
 
 test('contact honeypot stays submitted but is inert and hidden from assistive technology', async () => {
   const page = await makePage();

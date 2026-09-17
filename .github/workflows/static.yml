@@ -1,19 +1,23 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Cloudflare Pages is production; GitHub Pages is an explicit manual alternative.
+name: Verify site and optional GitHub Pages preview
 
 on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+  pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      deploy_github_pages:
+        description: 'Deploy a secondary GitHub Pages copy (Cloudflare is production)'
+        type: boolean
+        default: false
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -40,7 +44,12 @@ jobs:
         run: npm test
 
   deploy:
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_github_pages
     needs: test
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -48,6 +57,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build lean site artifact

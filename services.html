@@ -213,10 +213,11 @@
 </script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <script>if(sessionStorage.getItem('kaci-banner-dismissed')==='1')document.documentElement.classList.add('banner-dismissed');</script>
 <div id="kaci-banner" class="kaci-banner">
   <div class="kaci-banner-rainbow"></div>
-  <span class="kaci-banner-text">Now accepting 2 brands for <span class="kaci-quarter">Q3 2026</span>. <a href="contact">Apply here →</a></span>
+  <span class="kaci-banner-text">Enquire about our next available intake. <a href="contact">Apply here →</a></span>
   <button class="kaci-banner-close" aria-label="Dismiss banner">×</button>
 </div>
 <nav class="kaci-nav" aria-label="Main navigation">
@@ -245,7 +246,7 @@
   </nav>
 </div>
 
-<main>
+<main id="main-content" tabindex="-1">
 <!-- ════════ §01 Packages ════════ -->
 <section class="svc-cats reveal" data-active-cat="smm">
   <div class="svc-cats-head">
@@ -577,7 +578,7 @@
     <div class="studio-status-meta">
       <span class="studio-status-live">
         <span class="live-dot" aria-hidden="true"></span>
-        <span>Now accepting &middot; <strong>2 new brands</strong> &middot; <span class="kaci-quarter">Q3 2026</span></span>
+        <span>Enquire about our next available intake</span>
       </span>
       <span>Updated May 2026</span>
     </div>
@@ -820,6 +821,13 @@
 
   /* All panels start pending — animation waits for scroll trigger */
   pkgPanels.forEach(function (p) { p.classList.add('rows-pending'); });
+
+  function selectLinkedService() {
+    var linked = catBtns.find(function (btn) { return '#' + btn.id === window.location.hash; });
+    if (linked) switchCat(linked.dataset.cat);
+  }
+  selectLinkedService();
+  window.addEventListener('hashchange', selectLinkedService);
 
   /* Scroll-triggered row reveal — resets and replays on each re-entry */
   if (typeof IntersectionObserver !== 'undefined' && section) {

@@ -237,7 +237,7 @@
 html {
   scroll-behavior: smooth;
   background: var(--bg);
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
   /* .kaci-nav is fixed `bottom: 2rem` with its own ~52px height — without
      this, scrolling to a URL fragment (e.g. work#case-resurrack) or any
@@ -259,7 +259,7 @@ body {
   /* space for fixed banner (top) and pill nav (bottom) */
   padding-top: 68px;
   padding-bottom: 5rem;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
 }
 /* Banner dismissed: remove top padding so no empty strip appears */
@@ -282,6 +282,43 @@ video, iframe, blockquote { max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; background: none; border: none; }
 ul, ol { list-style: none; }
+
+/* Keyboard bypass link — visually hidden until focused. */
+.skip-link {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top));
+  left: var(--pad-gutter);
+  z-index: 100000;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--accent-on-dark);
+  border-radius: 2px;
+  background: var(--mahogany);
+  color: var(--cream);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transform: translateY(calc(-100% - 1.5rem));
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  outline: 3px solid var(--accent-on-dark);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link { transition: none; }
+}
 
 
 /* ── 3. Grain overlay ── */

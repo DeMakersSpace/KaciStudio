@@ -1,6 +1,7 @@
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT = path.join(ROOT, '_site');
@@ -145,13 +146,27 @@ await mkdir(OUTPUT, { recursive: true });
 for (const relative of PUBLIC_ROOT_FILES) await copyRelative(relative);
 for (const tree of PUBLIC_TREES) await copyTree(tree.directory, tree.allow);
 
-const releaseDate = process.env.SITE_LASTMOD || new Date().toISOString().slice(0, 10);
-if (!/^\d{4}-\d{2}-\d{2}$/.test(releaseDate)) {
-  throw new Error(`SITE_LASTMOD must use YYYY-MM-DD, received: ${releaseDate}`);
+// Source sitemap dates describe content edits, not the time of a rebuild.
+// Version local scripts/styles by their contents so returning visitors get fixes.
+const assetVersions = new Map();
+for (const relative of await outputFiles()) {
+  if (!/\.(css|js)$/.test(relative)) continue;
+  const contents = await readFile(resolveWithin(OUTPUT, relative));
+  assetVersions.set(relative.replaceAll('\\', '/'), createHash('sha256').update(contents).digest('hex').slice(0, 16));
 }
-const sitemapPath = path.join(OUTPUT, 'sitemap.xml');
-const sitemap = await readFile(sitemapPath, 'utf8');
-await writeFile(sitemapPath, sitemap.replace(/<lastmod>[^<]+<\/lastmod>/g, `<lastmod>${releaseDate}</lastmod>`));
+for (const relative of PUBLIC_ROOT_FILES.filter(file => file.endsWith('.html'))) {
+  const target = resolveWithin(OUTPUT, relative);
+  const html = await readFile(target, 'utf8');
+  const versioned = html.replace(/\b(src|href)=(['"])([^'"]+)\2/g, (match, attribute, quote, value) => {
+    const [pathname] = value.split(/[?#]/);
+    const version = assetVersions.get(pathname.replace(/^\.\//, '').replace(/^\//, ''));
+    if (!version) return match;
+    const url = new URL(value, 'https://kacistudio.co/');
+    url.searchParams.set('v', version);
+    return `${attribute}=${quote}${pathname}${url.search}${url.hash}${quote}`;
+  });
+  await writeFile(target, versioned);
+}
 
 const files = await outputFiles();
 const forbidden = files.filter(relative => {
