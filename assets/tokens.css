@@ -165,7 +165,8 @@
   --bg-alt:       #F1EADA;
   --fg:           #584738;
   --fg-muted:     #7A6553;
-  --accent:       #93A9D2;
+  --brand-blue:   #93A9D2; /* Exact background colour of the primary logo. */
+  --accent:       var(--brand-blue);
   --accent-ink:   #52688F;
   --accent-on-dark: #A9BADB;
   --accent-copy:  var(--accent-ink);
@@ -495,7 +496,7 @@ hr.rule {
   color: var(--on-accent);
   border-color: var(--accent-ink);
 }
-.btn-primary:hover { opacity: 0.9; }
+.btn-primary:hover { opacity: 1; }
 
 .btn-ghost {
   background: transparent;
@@ -776,7 +777,7 @@ hr.rule {
     transform 180ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 .kaci-nav-cta::after { display: none !important; }
-.kaci-nav-cta:hover { opacity: 0.9; background: var(--accent) !important; transform: translateY(-1px); }
+.kaci-nav-cta:hover { opacity: 1; background: var(--accent) !important; transform: translateY(-1px); }
 
 /* Hamburger */
 .kaci-nav-hamburger {

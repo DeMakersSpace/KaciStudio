@@ -1330,9 +1330,10 @@
   transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), background 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .svc-cat-btn.is-active {
+  --cat-opacity: 1;
   opacity: 1;
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 .svc-cat-btn:hover:not(.is-active) {
   opacity: 0.92;
@@ -1358,7 +1359,11 @@
 }
 .svc-cat-btn.is-active .svc-cat-btn-num {
   background: var(--accent);
-  border-color: var(--accent-on-dark);
+  border-color: var(--on-accent);
+  color: var(--on-accent);
+}
+.svc-cat-btn.is-active .svc-cat-btn-name,
+.svc-cat-btn.is-active .svc-cat-btn-kicker {
   color: var(--on-accent);
 }
 .svc-cat-btn-name {
@@ -2037,7 +2042,7 @@ html:not(.js) .onboard-card-body {
   border-color: var(--fg);
 }
 .tier-card.is-featured:hover {
-  border-color: var(--accent-on-dark);
+  border-color: var(--accent);
 }
 .tier-flag {
   position: absolute;
@@ -2046,7 +2051,7 @@ html:not(.js) .onboard-card-body {
   transform: translateX(-50%);
   background: var(--accent);
   color: var(--on-accent);
-  border: 1px solid var(--accent-on-dark);
+  border: 1px solid var(--accent);
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.24em;
@@ -2660,7 +2665,7 @@ html:not(.js) .onboard-card-body {
 /* ── Category button entrance animation ── */
 @keyframes catBtnSlideIn {
   from { opacity: 0; transform: translateX(-56px) translateY(12px); }
-  to   { opacity: 0.72; transform: translateX(0) translateY(0); }
+  to   { opacity: var(--cat-opacity, 0.72); transform: translateX(0) translateY(0); }
 }
 .svc-cats:not(.cats-entrance-done) .svc-cat-btn {
   opacity: 0;
@@ -2674,7 +2679,7 @@ html:not(.js) .onboard-card-body {
 .svc-cats.is-visible:not(.cats-entrance-done) .svc-cat-btn:nth-child(3) { animation-delay: 240ms; }
 @media (prefers-reduced-motion: reduce) {
   .svc-cats:not(.cats-entrance-done) .svc-cat-btn {
-    opacity: 0.72 !important;
+    opacity: var(--cat-opacity, 0.72) !important;
     transform: none !important;
     animation: none !important;
   }

@@ -506,7 +506,7 @@ html.banner-dismissed #hero-split {
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .svc-row:hover {
-  background: color-mix(in oklch, var(--accent) 8%, transparent);
+  background: var(--bg-alt);
 }
 .svc-row:hover::before { transform: scaleY(1); }
 .svc-num {
@@ -758,7 +758,7 @@ html.banner-dismissed #hero-split {
 }
 .love-quote::before {
   content: '\201C';
-  color: var(--accent-copy);
+  color: var(--accent);
   font-size: 1.5em;
   line-height: 0;
   vertical-align: -0.35em;
@@ -766,7 +766,7 @@ html.banner-dismissed #hero-split {
 }
 .love-quote::after {
   content: '\201D';
-  color: var(--accent-copy);
+  color: var(--accent);
   font-size: 1.5em;
   line-height: 0;
   vertical-align: -0.35em;
