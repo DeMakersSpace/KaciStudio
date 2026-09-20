@@ -154,7 +154,7 @@
    * --bg / --bg-alt    → page surfaces (Coconut Cream / Merino)
    * --fg               → primary dark tone (Judge Gray #584738) — use for dark sections
    * --accent           → decorative brand blue (Polo Blue #93A9D2)
-   * --accent-copy      → readable blue text for the current surface
+   * --accent-copy      → readable brown/cream emphasis for the current surface
    * --on-accent        → readable text/icons placed on Polo Blue
    * --espresso         → sub-colour only (#584738) — banner, mobile menu, submit btn ONLY
    * --mahogany         → deep anchor (#4E342E) — dark section backgrounds, dramatic moments
@@ -167,10 +167,11 @@
   --fg-muted:     #7A6553;
   --brand-blue:   #93A9D2; /* Exact background colour of the primary logo. */
   --accent:       var(--brand-blue);
-  --accent-ink:   #52688F;
-  --accent-on-dark: #A9BADB;
+  /* Legacy semantic names remain compatible; only --brand-blue is blue. */
+  --accent-ink:   var(--mahogany);
+  --accent-on-dark: var(--cream);
   --accent-copy:  var(--accent-ink);
-  --on-accent:    #00145D;
+  --on-accent:    var(--mahogany);
   --focus-ring:   var(--accent-ink);
   --espresso:     var(--mahogany);
   --mahogany:     #4E342E;
@@ -179,7 +180,7 @@
   --rule:         rgba(88, 71, 56, 0.15);
   --nav-bg:       #4a3b2c;
   --nav-border:   rgba(248, 246, 218, 0.28);
-  --nav-glow:     rgba(147, 169, 210, 0.14);
+  --nav-glow:     rgba(248, 246, 218, 0.14);
 
   /* Typography */
   --font-serif:   'Perandory', 'Perandory Fallback', Georgia, serif;
@@ -195,8 +196,7 @@
   --stack-md:      clamp(32px, 4vw, 56px);
 }
 
-/* Semantic blue roles on dark surfaces. Polo Blue remains the decorative
-   brand swatch; the lighter companion blue keeps small copy at AA contrast. */
+/* Cream emphasis on dark surfaces keeps text readable without another blue. */
 .kaci-nav,
 .kaci-mobile-menu,
 .kaci-banner,
@@ -224,7 +224,7 @@
     --rule:     color-mix(in oklch, #584738 15%, transparent);
     --nav-bg:   #584738;
     --nav-border: color-mix(in oklch, #F8F6DA 28%, transparent);
-    --nav-glow:   color-mix(in oklch, #93A9D2 14%, transparent);
+    --nav-glow:   color-mix(in oklch, var(--cream) 14%, transparent);
   }
 }
 
@@ -896,7 +896,7 @@ hr.rule {
 .kaci-mobile-link.is-active {
   color: var(--cream);
 }
-.kaci-mobile-link.is-active { color: var(--accent-copy); }
+.kaci-mobile-link.is-active { color: var(--accent); }
 
 body.nav-locked { overflow: hidden; }
 

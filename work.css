@@ -423,7 +423,7 @@
   align-items: center;
   justify-content: center;
   background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, transparent), transparent 42%),
+    linear-gradient(135deg, color-mix(in srgb, var(--fg) 16%, transparent), transparent 42%),
     color-mix(in srgb, var(--fg) 94%, var(--cream));
 }
 .video-placeholder-label {
@@ -749,7 +749,7 @@
 }
 @keyframes workAccentBloom {
   0% { color: var(--fg); }
-  55% { color: color-mix(in oklch, var(--accent) 78%, var(--cream)); }
+  55% { color: var(--accent-copy); }
   100% { color: var(--accent-copy); }
 }
 

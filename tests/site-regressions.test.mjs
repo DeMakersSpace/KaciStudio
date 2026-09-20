@@ -469,7 +469,7 @@ test('homepage result metrics use the readable Gordita accent treatment', async 
       assert.match(metric.fontFamily, /Gordita/i);
       assert.ok(metric.fontSize >= 32 && metric.fontSize <= 44, `${metric.text} renders at ${metric.fontSize}px`);
       assert.equal(metric.fontWeight, 400);
-      assert.equal(metric.color, 'rgb(82, 104, 143)');
+      assert.equal(metric.color, 'rgb(78, 52, 46)');
     });
   } finally {
     await page.close();
@@ -505,6 +505,8 @@ test('semantic accent roles meet text and control contrast thresholds', async ()
     assert.ok(contrastRatio(metric.text, metric.background) >= 4.5);
 
     const primary = await readColourPair('/', '.hero-btns .btn-primary');
+    assert.equal(primary.background, 'rgb(147, 169, 210)', 'Button fill must match the primary logo');
+    assert.equal(primary.text, 'rgb(78, 52, 46)', 'Use brown, not a secondary blue, on blue fills');
     assert.ok(contrastRatio(primary.text, primary.background) >= 4.5);
     assert.ok(contrastRatio(primary.border, primary.ambient) >= 3);
 
@@ -512,7 +514,14 @@ test('semantic accent roles meet text and control contrast thresholds', async ()
     assert.ok(contrastRatio(navCta.text, navCta.background) >= 4.5);
 
     const darkAccentCopy = await readColourPair('/services', '.svc-cats h1 em');
+    assert.equal(darkAccentCopy.text, 'rgb(248, 246, 218)', 'Use cream emphasis on dark sections');
     assert.ok(contrastRatio(darkAccentCopy.text, darkAccentCopy.background) >= 4.5);
+
+    const selectedService = await readColourPair('/services', '.svc-cat-btn.is-active');
+    assert.equal(selectedService.background, primary.background);
+    const selectedName = await page.$eval('.svc-cat-btn.is-active .svc-cat-btn-name', el => getComputedStyle(el).color);
+    assert.equal(selectedName, primary.text);
+    assert.ok(contrastRatio(selectedName, selectedService.background) >= 4.5);
   } finally {
     await page.close();
   }
