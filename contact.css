@@ -269,6 +269,24 @@
   color: var(--fg-muted);
 }
 .form-status.error { color: #9d2f1f; }
+.form-fallback {
+  width: 100%;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg);
+}
+.form-fallback a {
+  display: inline-block;
+  padding-block: 12px;
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.form-fallback a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
 .form-submit button[disabled] {
   cursor: wait;
   opacity: 0.72;

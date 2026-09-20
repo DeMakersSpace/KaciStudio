@@ -31,6 +31,8 @@ Never publish the repository root. The allow-listed build in `build-site.mjs` is
 
 Monthly maintenance: run `npm test`, `npm audit`, and `npm outdated`. After building, run `node tests/maintenance-check.mjs` for real-asset browser checks and desktop/mobile screenshots, then `node tests/maintenance-check.mjs --live` for read-only checks of the published site. These checks never submit enquiries. Confirm actual inbox delivery separately with the client. Reports stay outside `_site`.
 
+The checker reports the method and URL for HTTP errors, network failures, and 20-second request timeouts, continues through remaining references/private paths, and exits nonzero if any check fails. `loadedPages` counts completed page loads; `pages` is the number attempted. A timeout is an inconclusive request, not proof that a link is broken.
+
 ## Asset policy
 
 Git tracks only the web-ready files in `media/optimized`, `media/posters`, and `media/Kaci's Clients`. Keep original photography in the local/client asset archive rather than committing it to this repository.

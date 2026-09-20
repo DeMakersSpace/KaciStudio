@@ -875,16 +875,33 @@ for (const outcome of ['success', 'rejected', 'timeout']) {
       if (outcome === 'success') {
         await page.waitForFunction(() => document.activeElement.id === 'success');
         assert.equal(await page.$eval('#brief', form => form.style.display), 'none');
+        assert.match(await page.$eval('#success', el => el.textContent), /submitted successfully[\s\S]*2 business days/);
       } else {
         await page.waitForFunction(() => document.querySelector('#form-status').classList.contains('error'));
         assert.equal(await page.$eval('#submit-button', button => button.disabled), false);
         assert.equal(await page.$eval('#brief textarea', field => field.value), 'Maintenance test');
+        assert.equal(await page.$eval('#form-fallback', el => el.hidden), false);
+        assert.equal(await page.$eval('#form-fallback a', el => el.href), 'mailto:hello@kacistudio.co');
+        const message = await page.$eval('#form-status', el => el.textContent);
+        assert.match(message, /Your brief is still here/);
+        assert.match(message, outcome === 'timeout' ? /timed out/ : /Check your connection/);
       }
       assert.equal(await page.$eval('#brief', form => form.hasAttribute('aria-busy')), false);
       const leadEvents = await page.evaluate(() => (window.dataLayer || [])
         .map(entry => Array.from(entry)).filter(entry => entry[0] === 'event' && entry[1] === 'generate_lead'));
       assert.deepEqual(leadEvents, outcome === 'success'
         ? [['event', 'generate_lead', { form_id: 'brief' }]] : []);
+      if (outcome !== 'success') {
+        await page.evaluate(() => {
+          window.fetch = async () => ({ ok: true, json: async () => ({ success: true }) });
+          document.getElementById('brief').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        });
+        await page.waitForFunction(() => document.activeElement.id === 'success');
+        assert.equal(await page.$eval('#form-fallback', el => el.hidden), true);
+        assert.equal(await page.$eval('#brief', form => form.hasAttribute('aria-busy')), false);
+        assert.equal(await page.evaluate(() => (window.dataLayer || [])
+          .filter(entry => entry[0] === 'event' && entry[1] === 'generate_lead').length), 1);
+      }
     } finally {
       await page.close();
     }
