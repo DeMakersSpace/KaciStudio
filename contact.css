@@ -278,7 +278,7 @@
 .form-fallback a {
   display: inline-block;
   padding-block: 12px;
-  color: var(--accent-ink);
+  color: var(--accent-copy);
   text-decoration: underline;
   text-underline-offset: 3px;
   overflow-wrap: anywhere;

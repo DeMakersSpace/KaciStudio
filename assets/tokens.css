@@ -154,8 +154,8 @@
    * --bg / --bg-alt    → page surfaces (Coconut Cream / Merino)
    * --fg               → primary dark tone (Judge Gray #584738) — use for dark sections
    * --accent           → decorative brand blue (Polo Blue #93A9D2)
-   * --accent-copy      → readable brown/cream emphasis for the current surface
-   * --on-accent        → readable text/icons placed on Polo Blue
+   * --accent-copy      → logo-blue/cream emphasis for the current surface
+   * --on-accent        → cream text/icons placed on Polo Blue
    * --espresso         → sub-colour only (#584738) — banner, mobile menu, submit btn ONLY
    * --mahogany         → deep anchor (#4E342E) — dark section backgrounds, dramatic moments
    * --olive            → warm mid-tone (Mongoose #B59E7D)
@@ -170,8 +170,8 @@
   /* Legacy semantic names remain compatible; only --brand-blue is blue. */
   --accent-ink:   var(--mahogany);
   --accent-on-dark: var(--cream);
-  --accent-copy:  var(--accent-ink);
-  --on-accent:    var(--mahogany);
+  --accent-copy:  var(--brand-blue);
+  --on-accent:    var(--cream);
   --focus-ring:   var(--accent-ink);
   --espresso:     var(--mahogany);
   --mahogany:     #4E342E;

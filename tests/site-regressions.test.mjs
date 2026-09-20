@@ -449,7 +449,7 @@ test('video carousel endpoints are disabled and usable controls reveal on focus'
   }
 });
 
-test('homepage result metrics use the readable Gordita accent treatment', async () => {
+test('homepage result metrics use Gordita and the approved logo blue', async () => {
   const page = await makePage();
   try {
     await open(page, '/');
@@ -469,14 +469,14 @@ test('homepage result metrics use the readable Gordita accent treatment', async 
       assert.match(metric.fontFamily, /Gordita/i);
       assert.ok(metric.fontSize >= 32 && metric.fontSize <= 44, `${metric.text} renders at ${metric.fontSize}px`);
       assert.equal(metric.fontWeight, 400);
-      assert.equal(metric.color, 'rgb(78, 52, 46)');
+      assert.equal(metric.color, 'rgb(147, 169, 210)');
     });
   } finally {
     await page.close();
   }
 });
 
-test('semantic accent roles meet text and control contrast thresholds', async () => {
+test('approved logo palette is consistent and neutral control boundaries retain contrast', async () => {
   const page = await makePage();
   const readColourPair = async (route, selector) => {
     await open(page, route);
@@ -502,16 +502,18 @@ test('semantic accent roles meet text and control contrast thresholds', async ()
 
   try {
     const metric = await readColourPair('/', '.result-card .stat-num');
-    assert.ok(contrastRatio(metric.text, metric.background) >= 4.5);
+    assert.equal(metric.text, 'rgb(147, 169, 210)');
 
     const primary = await readColourPair('/', '.hero-btns .btn-primary');
     assert.equal(primary.background, 'rgb(147, 169, 210)', 'Button fill must match the primary logo');
-    assert.equal(primary.text, 'rgb(78, 52, 46)', 'Use brown, not a secondary blue, on blue fills');
-    assert.ok(contrastRatio(primary.text, primary.background) >= 4.5);
+    assert.equal(primary.text, 'rgb(248, 246, 218)', 'Use logo cream, not brown text, on blue fills');
+    // The user explicitly chose logo blue/cream. This pair is about 2.17:1,
+    // below WCAG text contrast; do not describe this palette test as AA compliance.
     assert.ok(contrastRatio(primary.border, primary.ambient) >= 3);
 
     const navCta = await readColourPair('/', '.kaci-nav-cta');
-    assert.ok(contrastRatio(navCta.text, navCta.background) >= 4.5);
+    assert.equal(navCta.text, primary.text);
+    assert.equal(navCta.background, primary.background);
 
     const darkAccentCopy = await readColourPair('/services', '.svc-cats h1 em');
     assert.equal(darkAccentCopy.text, 'rgb(248, 246, 218)', 'Use cream emphasis on dark sections');
@@ -521,7 +523,6 @@ test('semantic accent roles meet text and control contrast thresholds', async ()
     assert.equal(selectedService.background, primary.background);
     const selectedName = await page.$eval('.svc-cat-btn.is-active .svc-cat-btn-name', el => getComputedStyle(el).color);
     assert.equal(selectedName, primary.text);
-    assert.ok(contrastRatio(selectedName, selectedService.background) >= 4.5);
   } finally {
     await page.close();
   }
