@@ -51,9 +51,9 @@ function localChromePath() {
   if (process.platform !== 'win32') return undefined;
 
   const candidates = [
-    process.env.PROGRAMFILES,
-    process.env['PROGRAMFILES(X86)'],
-    process.env.LOCALAPPDATA,
+    process.env.PROGRAMFILES || process.env.ProgramFiles || 'C:/Program Files',
+    process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'] || 'C:/Program Files (x86)',
+    process.env.LOCALAPPDATA || process.env.LocalAppData,
   ].filter(Boolean).map(base => path.join(base, 'Google', 'Chrome', 'Application', 'chrome.exe'));
 
   return candidates.find(existsSync);
@@ -449,7 +449,7 @@ test('video carousel endpoints are disabled and usable controls reveal on focus'
   }
 });
 
-test('homepage result metrics use Gordita and the approved logo blue', async () => {
+test('homepage result metrics use Gordita and readable neutral text', async () => {
   const page = await makePage();
   try {
     await open(page, '/');
@@ -469,14 +469,14 @@ test('homepage result metrics use Gordita and the approved logo blue', async () 
       assert.match(metric.fontFamily, /Gordita/i);
       assert.ok(metric.fontSize >= 32 && metric.fontSize <= 44, `${metric.text} renders at ${metric.fontSize}px`);
       assert.equal(metric.fontWeight, 400);
-      assert.equal(metric.color, 'rgb(147, 169, 210)');
+      assert.equal(metric.color, 'rgb(78, 52, 46)');
     });
   } finally {
     await page.close();
   }
 });
 
-test('approved logo palette is consistent and neutral control boundaries retain contrast', async () => {
+test('brand-blue controls and neutral emphasis meet text contrast', async () => {
   const page = await makePage();
   const readColourPair = async (route, selector) => {
     await open(page, route);
@@ -502,13 +502,12 @@ test('approved logo palette is consistent and neutral control boundaries retain 
 
   try {
     const metric = await readColourPair('/', '.result-card .stat-num');
-    assert.equal(metric.text, 'rgb(147, 169, 210)');
+    assert.ok(contrastRatio(metric.text, metric.background) >= 4.5);
 
     const primary = await readColourPair('/', '.hero-btns .btn-primary');
     assert.equal(primary.background, 'rgb(147, 169, 210)', 'Button fill must match the primary logo');
-    assert.equal(primary.text, 'rgb(248, 246, 218)', 'Use logo cream, not brown text, on blue fills');
-    // The user explicitly chose logo blue/cream. This pair is about 2.17:1,
-    // below WCAG text contrast; do not describe this palette test as AA compliance.
+    assert.equal(primary.text, 'rgb(78, 52, 46)', 'Use readable mahogany text on the unchanged blue fill');
+    assert.ok(contrastRatio(primary.text, primary.background) >= 4.5);
     assert.ok(contrastRatio(primary.border, primary.ambient) >= 3);
 
     const navCta = await readColourPair('/', '.kaci-nav-cta');
@@ -523,6 +522,7 @@ test('approved logo palette is consistent and neutral control boundaries retain 
     assert.equal(selectedService.background, primary.background);
     const selectedName = await page.$eval('.svc-cat-btn.is-active .svc-cat-btn-name', el => getComputedStyle(el).color);
     assert.equal(selectedName, primary.text);
+    assert.ok(contrastRatio(selectedName, selectedService.background) >= 4.5);
   } finally {
     await page.close();
   }
@@ -976,3 +976,183 @@ for (const viewport of VIEWPORTS.filter(item => item.width < 768)) {
     }
   });
 }
+
+
+test('all accessible labels and controls reference real elements', async () => {
+  const page = await makePage();
+  try {
+    for (const route of SITE_ROUTES) {
+      await open(page, route);
+      const missing = await page.evaluate(() => [...document.querySelectorAll('[aria-labelledby], [aria-describedby], [aria-controls]')].flatMap(el =>
+        ['aria-labelledby', 'aria-describedby', 'aria-controls'].flatMap(attr => (el.getAttribute(attr) || '').split(/\s+/).filter(Boolean).filter(id => !document.getElementById(id)).map(id => ({ element: el.id || el.tagName, attr, id })))));
+      assert.deepEqual(missing, [], route + ' contains broken accessibility references');
+    }
+    await open(page, '/work');
+    assert.equal(await page.$$eval('.case[role="tabpanel"]', els => els.length), 0);
+    assert.equal(await page.$$eval('.case[aria-labelledby] h2[id]', els => els.length), 8);
+  } finally { await page.close(); }
+});
+
+test('Work videos defer loading and remain available when a case is selected', async () => {
+  const page = await makePage();
+  const mediaRequests = [];
+  page.on('request', request => { if (request.resourceType() === 'media') mediaRequests.push(request.url()); });
+  try {
+    await open(page, '/work');
+    await new Promise(resolve => setTimeout(resolve, 400));
+    assert.deepEqual(mediaRequests, [], 'No video should load before playback is requested');
+    assert.deepEqual(await page.$$eval('.case video', els => els.filter(el => el.preload !== 'none').map(el => el.src)), []);
+    await page.click('#clientSelectBtn');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    const active = await page.$eval('.case.is-active', el => ({ hidden: el.hidden, videos: [...el.querySelectorAll('video')].map(v => ({ src: v.src, poster: v.poster, controls: v.controls })) }));
+    assert.equal(active.hidden, false);
+    assert.ok(active.videos.length);
+    assert.ok(active.videos.every(v => v.src && v.poster && v.controls));
+    await page.$eval('.case.is-active video', video => { video.play().catch(() => {}); });
+    await page.waitForFunction(() => document.querySelector('.case.is-active video').networkState !== HTMLMediaElement.NETWORK_EMPTY);
+    assert.ok(mediaRequests.length > 0, 'Playback should request the selected video');
+  } finally { await page.close(); }
+});
+
+for (const reducedMotion of [false, true]) {
+  test('marquees stay accessible while paused; reduced motion=' + reducedMotion, async () => {
+    const page = await makePage(VIEWPORTS[1], { reducedMotion });
+    try {
+      await open(page, '/');
+      for (const selector of ['.logo-marquee', '.love-marquee']) {
+        await page.$eval(selector, el => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+        await page.waitForFunction(sel => document.querySelector(sel).previousElementSibling?.classList.contains('marquee-controls'), { timeout: 5000 }, selector).catch(error => { throw new Error(selector + ' controls did not initialize: ' + error.message); });
+        if (!reducedMotion) {
+          await page.$eval(selector, el => el.previousElementSibling.children[1].click());
+        }
+        assert.equal(await page.$eval(selector, el => el.classList.contains('is-animated')), false);
+        const before = await page.$eval(selector, el => el.firstElementChild.style.transform);
+        await new Promise(resolve => setTimeout(resolve, 150));
+        assert.equal(await page.$eval(selector, el => el.firstElementChild.style.transform), before);
+        await page.$eval(selector, el => el.previousElementSibling.lastElementChild.click());
+        assert.ok(await page.$eval(selector, el => el.scrollLeft > 0), 'Next must reach content beyond the first screen');
+        await page.focus(selector);
+        await page.$eval(selector, el => { el.scrollLeft = el.scrollWidth; });
+        const lastVisible = await page.$eval(selector, el => {
+          const cards = [...el.firstElementChild.children].filter(card => !card.hasAttribute('data-carousel-clone'));
+          const r = cards.at(-1).getBoundingClientRect(); const box = el.getBoundingClientRect();
+          return r.right <= box.right + 1 && r.right > box.left;
+        });
+        assert.ok(lastVisible, 'Last original must be reachable');
+        if (!reducedMotion) {
+          await page.$eval(selector, el => el.previousElementSibling.children[1].click());
+          assert.equal(await page.$eval(selector, el => el.classList.contains('is-animated')), true);
+          await page.$eval(selector, el => el.querySelector('a, button').focus());
+          assert.equal(await page.$eval(selector, el => el.classList.contains('is-animated')), false, 'Focus stops motion');
+        }
+      }
+      await page.$eval('.love-expand-btn', el => el.click());
+      assert.equal(await page.$eval('.love-marquee', el => el.classList.contains('is-animated')), false);
+      assert.equal(await page.$eval('.love-marquee', el => el.previousElementSibling.children[1].disabled), true);
+      assert.deepEqual(await duplicateIds(page), []);
+    } finally { await page.close(); }
+  });
+}
+
+
+test('both Work case navigators stay synchronized and operate', async () => {
+  const page = await makePage();
+  try {
+    await open(page, '/work');
+    await page.$$eval('.showcase-next', els => els.at(-1).click());
+    assert.equal(await page.$eval('.case.is-active', el => el.id), 'case-happyrei');
+    assert.deepEqual(await page.$$eval('.showcase-prev', els => els.map(el => el.disabled)), [false, false]);
+    await page.$$eval('.showcase-prev', els => els.at(-1).click());
+    assert.equal(await page.$eval('.case.is-active', el => el.id), 'case-resurrack');
+    assert.deepEqual(await page.$$eval('.showcase-prev', els => els.map(el => el.disabled)), [true, true]);
+  } finally { await page.close(); }
+});
+
+test('Work video strips have one functional set of controls', async () => {
+  const page = await makePage();
+  try {
+    await open(page, '/work');
+    const counts = await page.$$eval('.case-strip', els => els.map(el => ({ previous: el.parentElement.querySelectorAll('.vid-nav-prev').length, next: el.parentElement.querySelectorAll('.vid-nav-next').length })));
+    assert.ok(counts.every(count => count.previous === 1 && count.next === 1), JSON.stringify(counts));
+  } finally { await page.close(); }
+});
+
+test('Work selector opens with arrows and closes cleanly on Tab and scroll', async () => {
+  const page = await makePage();
+  try {
+    await open(page, '/work');
+    await page.focus('#clientSelectBtn');
+    await page.keyboard.press('ArrowDown');
+    assert.equal(await page.$eval('#clientSelectBtn', el => el.getAttribute('aria-expanded')), 'true');
+    await page.keyboard.press('Tab');
+    assert.equal(await page.$eval('#clientSelectBtn', el => el.getAttribute('aria-expanded')), 'false');
+    assert.equal(await page.evaluate(() => document.querySelector('#clientSelectMenu').contains(document.activeElement)), false);
+    await page.focus('#clientSelectBtn');
+    await page.keyboard.press('Enter');
+    await page.evaluate(() => window.dispatchEvent(new Event('scroll')));
+    assert.equal(await page.evaluate(() => document.activeElement.id), 'clientSelectBtn');
+  } finally { await page.close(); }
+});
+
+
+test('video failures offer a retry and recover without leaving the case study', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  try {
+    await open(page, '/case-melissa-shoes');
+    await page.$eval('video', video => video.play().catch(() => {}));
+    await page.waitForSelector('.video-recovery:not([hidden])');
+    assert.match(await page.$eval('.video-recovery', el => el.textContent), /could not load/);
+    const link = await page.$eval('.video-recovery a', el => ({ href: el.href, target: el.target, rel: el.rel }));
+    assert.equal(new URL(link.href).hostname, 'res.cloudinary.com');
+    assert.equal(link.target, '_blank'); assert.match(link.rel, /noopener/);
+    await page.$eval('video', video => {
+      window.retryLoads = 0;
+      video.load = () => { window.retryLoads++; };
+      video.play = () => Promise.resolve();
+    });
+    await page.$eval('.video-recovery button', button => { button.click(); button.click(); });
+    assert.equal(await page.evaluate(() => window.retryLoads), 1, 'Repeated retries must not start duplicate loads');
+    assert.equal(await page.$eval('.video-recovery', el => el.getAttribute('aria-busy')), 'true');
+    await page.focus('.video-recovery button');
+    await page.$eval('video', video => video.dispatchEvent(new Event('canplay')));
+    assert.equal(await page.$eval('.video-recovery', el => el.hidden), true);
+    assert.equal(await page.evaluate(() => document.activeElement.tagName), 'VIDEO');
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+  } finally { await page.close(); }
+});
+
+for (const viewport of [{ width: 320, height: 568 }, { width: 768, height: 600 }]) {
+  test('Work selector stays within viewport ' + viewport.width, async () => {
+    const page = await makePage(viewport);
+    try {
+      await open(page, '/work');
+      await page.$eval('#clientSelectBtn', el => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await new Promise(resolve => setTimeout(resolve, 100));
+      await page.focus('#clientSelectBtn'); await page.keyboard.press('ArrowDown');
+      const rect = await page.$eval('#clientSelectMenu', el => ({ top: el.getBoundingClientRect().top, bottom: el.getBoundingClientRect().bottom, overflow: getComputedStyle(el).overflowY }));
+      assert.ok(rect.top >= 0 && rect.bottom <= viewport.height, JSON.stringify(rect));
+      assert.equal(rect.overflow, 'auto');
+      await page.keyboard.press('End'); await page.keyboard.press('Enter');
+      assert.equal(await page.$eval('.case.is-active', el => el.id), 'case-coffeeman');
+      assert.deepEqual(await page.$$eval('.showcase-next', els => els.map(el => el.disabled)), [true, true]);
+    } finally { await page.close(); }
+  });
+}
+
+
+test('unselected service descriptions remain readable at normal opacity', async () => {
+  const page = await makePage();
+  try {
+    await open(page, '/services');
+    const pairs = await page.$$eval('.svc-cat-btn:not(.is-active)', els => els.map(el => {
+      const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = getComputedStyle(el.closest('.svc-cats')).backgroundColor; ctx.fillRect(0, 0, 1, 1);
+      ctx.fillStyle = getComputedStyle(el).backgroundColor; ctx.fillRect(0, 0, 1, 1);
+      const pixel = ctx.getImageData(0, 0, 1, 1).data;
+      return { opacity: getComputedStyle(el).opacity, text: getComputedStyle(el.querySelector('.svc-cat-btn-kicker')).color, background: 'rgb(' + [...pixel].slice(0, 3).join(',') + ')' };
+    }));
+    for (const pair of pairs) { assert.equal(pair.opacity, '1'); assert.ok(contrastRatio(pair.text, pair.background) >= 4.5, JSON.stringify(pair)); }
+  } finally { await page.close(); }
+});

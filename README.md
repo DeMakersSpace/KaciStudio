@@ -33,6 +33,13 @@ Monthly maintenance: run `npm test`, `npm audit`, and `npm outdated`. After buil
 
 The checker reports the method and URL for HTTP errors, network failures, and 20-second request timeouts, continues through remaining references/private paths, and exits nonzero if any check fails. `loadedPages` counts completed page loads; `pages` is the number attempted. A timeout is an inconclusive request, not proof that a link is broken.
 
+## Maintenance records
+
+- [14 October 2026](maintenance-2026-10-14.md): dependency and CI updates, release verification, and live checks.
+
+- [11 October 2026](maintenance-2026-10-11.md): local verification, Windows browser-discovery fix, and outstanding network-dependent checks.
+- [17 September 2026](maintenance-2026-09-17.md): previous maintenance review.
+
 ## Asset policy
 
 Git tracks only the web-ready files in `media/optimized`, `media/posters`, and `media/Kaci's Clients`. Keep original photography in the local/client asset archive rather than committing it to this repository.

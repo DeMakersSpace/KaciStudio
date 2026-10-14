@@ -157,6 +157,8 @@
 
 /* Dropdown menu — portalled to body when open, position set by JS */
 .client-select-menu {
+  overflow-y: auto;
+  overscroll-behavior: contain;
   position: fixed;
   z-index: 9999;
   list-style: none;
@@ -854,3 +856,18 @@ html:not(.js) .client-bar { display: none; }
 html:not(.js) .case { display: grid; }
 html:not(.js) .case + .case { margin-top: clamp(72px, 10vw, 120px); }
 html:not(.js) .work-motion { opacity: 1; transform: none; }
+
+/* Video errors stay within the media frame and offer a usable recovery path. */
+.video-recovery {
+  position: absolute; z-index: 5; inset-inline: 12px; bottom: 12px;
+  max-height: calc(100% - 24px); overflow: auto;
+  padding: 16px; background: var(--cream); color: var(--mahogany);
+  border: 1px solid var(--mahogany); border-radius: 4px;
+  font: 400 14px/1.5 var(--font-sans);
+}
+.video-recovery[hidden] { display: none; }
+.video-recovery p { margin: 0 0 12px; }
+.video-recovery button, .video-recovery a { min-height: 44px; display: flex; align-items: center; padding: 8px 12px; font: inherit; }
+.video-recovery button { width: 100%; border: 1px solid var(--mahogany); background: var(--mahogany); color: var(--cream); cursor: pointer; }
+.video-recovery a { color: var(--mahogany); text-decoration: underline; }
+.video-recovery :is(button, a):focus-visible { outline: 2px solid var(--mahogany); outline-offset: 3px; }

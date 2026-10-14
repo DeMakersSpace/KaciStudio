@@ -320,7 +320,7 @@ html.banner-dismissed #hero-split {
 }
 
 .client-bar {
-  contain-intrinsic-size: 96px;
+  contain-intrinsic-size: 164px;
 }
 
 .closing-cta {
@@ -341,8 +341,9 @@ html.banner-dismissed #hero-split {
 }
 .client-bar .marquee-track .dot { background: var(--accent); width: 6px; height: 6px; }
 
-/* Logo marquee — continuous right-to-left scroll with hover pause */
+/* Brand strip — motion is managed by the accessible shared controller. */
 .logo-marquee {
+  min-height: 64px;
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -350,11 +351,8 @@ html.banner-dismissed #hero-split {
 .logo-marquee-track {
   display: flex;
   width: max-content;
-  animation: kaci-logo-marquee 40s linear infinite;
+  /* Shared motion controller handles pause, focus and reduced motion. */
   will-change: transform;
-}
-.logo-marquee:hover .logo-marquee-track {
-  animation-play-state: paused;
 }
 .logo-marquee-item {
   flex: 0 0 auto;
@@ -389,13 +387,6 @@ html.banner-dismissed #hero-split {
 }
 @media (min-width: 1024px) { .logo-marquee-img { height: 60px; width: 60px; border-radius: 12px; } }
 .logo-marquee-item:hover .logo-marquee-img { opacity: 1; transform: scale(1.04); }
-@keyframes kaci-logo-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .logo-marquee-track { animation: none; }
-}
 
 /* Services block */
 .services-head {
@@ -710,16 +701,14 @@ html.banner-dismissed #hero-split {
   margin-bottom: 16px;
   display: block;
 }
-/* Marquee wrapper — continuous spin + grab to browse */
+/* Testimonial viewport — native scrolling while paused. */
 .love-marquee {
   overflow-x: clip;
   overflow-y: visible;
-  cursor: grab;
   margin: 0 calc(-1 * var(--pad-gutter));
   mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
 }
-.love-marquee.is-grabbing { cursor: grabbing; }
 .love-marquee-track {
   display: flex;
   gap: 16px;
@@ -939,3 +928,28 @@ html:not(.js) .services-list .svc-row::after { transform: scaleX(1); }
 html:not(.js) .love-full-wrap { grid-template-rows: 1fr; }
 html:not(.js) .love-expand-btn { display: none; }
 
+
+/* Static browsing is the default, including without JavaScript. */
+.logo-marquee, .love-marquee {
+  overflow-x: auto;
+  overflow-y: hidden;
+  mask-image: none;
+  -webkit-mask-image: none;
+  cursor: auto;
+}
+.logo-marquee:not(.is-animated) [data-carousel-clone],
+.love-marquee:not(.is-animated) [data-carousel-clone] { display: none; }
+.logo-marquee.is-animated, .love-marquee.is-animated { overflow-x: clip; }
+.logo-marquee:focus-visible, .love-marquee:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -3px; }
+.marquee-controls { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin: 0 var(--pad-gutter) 12px; }
+.marquee-controls button {
+  min-height: 44px; padding: 8px 14px; border: 1px solid currentColor;
+  border-radius: 4px; background: transparent; color: inherit;
+  font: 500 13px var(--font-sans); cursor: pointer;
+}
+.marquee-controls button:hover:not(:disabled) { background: var(--cream); color: var(--mahogany); }
+.marquee-controls button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+.marquee-controls button:disabled { cursor: default; }
+@media (max-width: 430px) { .marquee-controls { justify-content: flex-start; gap: 6px; } .marquee-controls button { padding-inline: 10px; } }
+
+.love > .marquee-controls { margin-inline: 0; }

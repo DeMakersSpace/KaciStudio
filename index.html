@@ -666,6 +666,7 @@ function whenVisible(selector, callback, options) {
 </script>
 
 
+<script src="assets/marquee.js"></script>
 <script src="assets/chrome.js?v=20260902-1"></script>
 <script>
   KaciChrome.init();
@@ -673,7 +674,6 @@ function whenVisible(selector, callback, options) {
   whenVisible('.love-marquee', function (marquee) {
     var track = document.getElementById('loveTrack');
     if (!track) return;
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     // Clone cards for seamless infinite loop
     var originals = Array.prototype.slice.call(track.querySelectorAll('.love-card'));
@@ -682,6 +682,7 @@ function whenVisible(selector, callback, options) {
       var clone = card.cloneNode(true);
       clone.removeAttribute('id');
       clone.setAttribute('data-carousel-clone', '');
+      clone.setAttribute('inert', '');
       clone.setAttribute('aria-hidden', 'true');
       clone.querySelectorAll('[id]').forEach(function (el) {
         el.removeAttribute('id');
@@ -695,123 +696,7 @@ function whenVisible(selector, callback, options) {
     });
     track.appendChild(cloneFragment);
 
-    var SPEED = 0.7;
-    var pos = 0;
-    var isGrabbing = false;
-    var isHovered  = false;
-    var isVisible = true;
-    var startX = 0, startPos = 0;
-    var half = 0;
-    var rafId = 0;
-    var lastTs = 0;
-
-    function measureTrack() {
-      half = track.scrollWidth / 2;
-      if (half) setPos(pos);
-    }
-
-    function setPos(p) {
-      if (!half) return;
-      pos = ((p % half) + half) % half;
-      track.style.transform = 'translateX(' + (-pos) + 'px)';
-    }
-
-    function stopTick() {
-      if (!rafId) return;
-      cancelAnimationFrame(rafId);
-      rafId = 0;
-      lastTs = 0;
-    }
-
-    function tick(ts) {
-      if (!rafId) return;
-      if (!lastTs) lastTs = ts;
-      var frameScale = (ts - lastTs) / 16.6667;
-      lastTs = ts;
-      if (!isGrabbing && !isHovered && isVisible && !document.hidden) {
-        setPos(pos + (SPEED * frameScale));
-      }
-      rafId = requestAnimationFrame(tick);
-    }
-
-    function startTick() {
-      if (rafId || reduceMotion.matches) return;
-      rafId = requestAnimationFrame(tick);
-    }
-
-    function syncMotionState() {
-      if (reduceMotion.matches || document.hidden || !isVisible) {
-        stopTick();
-      } else {
-        startTick();
-      }
-    }
-
-    measureTrack();
-    syncMotionState();
-
-    // ── Hover pause ──
-    marquee.addEventListener('mouseenter', function () { isHovered = true; });
-    marquee.addEventListener('mouseleave', function () { isHovered = false; });
-
-    function releaseGrab() {
-      isGrabbing = false;
-      marquee.classList.remove('is-grabbing');
-    }
-
-    // ── Mouse drag ──
-    marquee.addEventListener('mousedown', function (e) {
-      if (e.button !== 0) return;
-      isGrabbing = true;
-      startX = e.pageX;
-      startPos = pos;
-      marquee.classList.add('is-grabbing');
-      e.preventDefault();
-    });
-    document.addEventListener('mousemove', function (e) {
-      if (!isGrabbing) return;
-      // Self-healing: if the primary button isn't actually down anymore,
-      // the mouseup that should have released the drag was missed (e.g.
-      // released outside the window) — recover instead of staying stuck.
-      if ((e.buttons & 1) === 0) { releaseGrab(); return; }
-      setPos(startPos + (startX - e.pageX));
-    });
-    document.addEventListener('mouseup', releaseGrab);
-    window.addEventListener('blur', releaseGrab);
-
-    // ── Touch drag (mobile) ──
-    marquee.addEventListener('touchstart', function (e) {
-      isGrabbing = true;
-      startX = e.touches[0].clientX;
-      startPos = pos;
-    }, { passive: true });
-    marquee.addEventListener('touchmove', function (e) {
-      if (!isGrabbing) return;
-      setPos(startPos + (startX - e.touches[0].clientX));
-    }, { passive: true });
-    marquee.addEventListener('touchend', releaseGrab, { passive: true });
-    // touchcancel fires when the OS/browser cancels the gesture mid-drag
-    // (system gestures, scroll conflicts, notifications) — touchend never
-    // fires in that case, so without this the marquee freezes permanently.
-    marquee.addEventListener('touchcancel', releaseGrab, { passive: true });
-
-    if (typeof ResizeObserver !== 'undefined') {
-      new ResizeObserver(measureTrack).observe(track);
-    } else {
-      window.addEventListener('resize', measureTrack, { passive: true });
-    }
-
-    if (typeof IntersectionObserver !== 'undefined') {
-      new IntersectionObserver(function (entries) {
-        isVisible = entries.some(function (entry) { return entry.isIntersecting; });
-        syncMotionState();
-      }, { threshold: 0.05 }).observe(marquee);
-    }
-
-    if (reduceMotion.addEventListener) {
-      reduceMotion.addEventListener('change', syncMotionState);
-    }
-    document.addEventListener('visibilitychange', syncMotionState);
+    initKaciMarquee(marquee, track, 'testimonials', 42);
   }, { threshold: 0.05, rootMargin: '240px 0px' });
 
   whenVisible('.love-marquee', function (marquee) {
@@ -872,9 +757,12 @@ function whenVisible(selector, callback, options) {
         var item = createBrandNode(brand);
         if (hideFromAssistiveTech) {
           item.setAttribute("aria-hidden", "true");
+          item.setAttribute("data-carousel-clone", "");
+          item.setAttribute("inert", "");
           var cloneLink = item.querySelector("a");
           if (cloneLink) {
             cloneLink.setAttribute("tabindex", "-1");
+            cloneLink.setAttribute("aria-hidden", "true");
             cloneLink.removeAttribute("aria-label");
           }
         }
@@ -882,7 +770,9 @@ function whenVisible(selector, callback, options) {
       });
     }
 
+    var motionControls;
     function build() {
+      if (track.contains(document.activeElement)) return;
       var viewport = marquee.offsetWidth || window.innerWidth;
       var sample = document.createDocumentFragment();
       appendBrandSet(sample, false);
@@ -892,12 +782,14 @@ function whenVisible(selector, callback, options) {
       var requiredSets = Math.max(1, Math.ceil((viewport * 1.2) / singleSetWidth));
       var finalFragment = document.createDocumentFragment();
       for (var i = 0; i < requiredSets; i++) {
-        appendBrandSet(finalFragment, false);
+        appendBrandSet(finalFragment, i > 0);
       }
       for (var j = 0; j < requiredSets; j++) {
         appendBrandSet(finalFragment, true);
       }
       track.replaceChildren(finalFragment);
+      if (motionControls) motionControls.refresh();
+      else motionControls = initKaciMarquee(marquee, track, "brands", 35);
     }
 
     function scheduleBuild() {
