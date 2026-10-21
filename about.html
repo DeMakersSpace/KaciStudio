@@ -413,7 +413,8 @@
       grid.style.gridTemplateRows = '1fr';
     } else {
       grid.style.gridTemplateColumns = '1fr';
-      grid.style.gridTemplateRows = template;
+      // Mobile rows grow with the expanded biography instead of clipping it.
+      grid.style.gridTemplateRows = 'none';
     }
   }
 

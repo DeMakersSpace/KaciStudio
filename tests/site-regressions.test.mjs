@@ -1156,3 +1156,86 @@ test('unselected service descriptions remain readable at normal opacity', async 
     for (const pair of pairs) { assert.equal(pair.opacity, '1'); assert.ok(contrastRatio(pair.text, pair.background) >= 4.5, JSON.stringify(pair)); }
   } finally { await page.close(); }
 });
+
+test('mobile team biographies and service steps fit at normal and enlarged text sizes', async () => {
+  const page = await browser.newPage();
+  try {
+    await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+    await page.setRequestInterception(true);
+    page.on('request', request => {
+      if (new URL(request.url()).hostname === '127.0.0.1') request.continue();
+      else request.abort();
+    });
+    const scenarios = [
+      { width: 320, scale: 1 }, { width: 393, scale: 1 }, { width: 402, scale: 1 },
+      { width: 320, scale: 1.25 }, { width: 393, scale: 1.25 }, { width: 402, scale: 1.25 },
+      { width: 393, scale: 2 },
+    ];
+    async function prepare(route, scenario) {
+      await page.setViewport({ width: scenario.width, height: 900, isMobile: true });
+      await open(page, route);
+      await page.evaluate(() => document.fonts.ready);
+      await page.addStyleTag({ content: '.team-member-card, .team-member-info, .team-future-grid, .onboard-card, .onboard-card-body, .onboard-chip { animation: none !important; transition: none !important; }' });
+      if (scenario.scale !== 1) {
+        await page.evaluate(scale => {
+          const sizes = [...document.querySelectorAll('body *')]
+            .filter(element => !element.closest('svg'))
+            .map(element => [element, parseFloat(getComputedStyle(element).fontSize)]);
+          sizes.forEach(([element, size]) => { element.style.fontSize = `${size * scale}px`; });
+        }, scenario.scale);
+      }
+    }
+    for (const scenario of scenarios) {
+      const label = `${scenario.width}px at ${scenario.scale * 100}% text`;
+      await prepare('/about', scenario);
+      for (let index = 0; index < 5; index++) {
+        await page.$$eval('.team-member-card', (cards, index) => cards[index].click(), index);
+        await page.$eval('.team-member-card.is-expanded', card => card.scrollIntoView({ block: 'center' }));
+        const clipped = await page.$eval('.team-member-card.is-expanded', card => {
+          const bounds = card.getBoundingClientRect();
+          return [...card.querySelectorAll('.team-member-info > *')].filter(element => {
+            const rect = element.getBoundingClientRect();
+            return rect.top < bounds.top - 1 || rect.bottom > bounds.bottom + 1
+              || rect.left < bounds.left - 1 || rect.right > bounds.right + 1;
+          }).map(element => element.className);
+        });
+        assert.deepEqual(clipped, [], `${label}, team member ${index + 1}: clipped content`);
+      }
+      await prepare('/services', scenario);
+      await page.$eval('.onboard-chips', element => element.scrollIntoView({ block: 'center' }));
+      const chipProblems = await page.$$eval('.onboard-chip', chips => chips.flatMap(chip => {
+        const bounds = chip.getBoundingClientRect();
+        const container = chip.closest('.onboard-carousel').getBoundingClientRect();
+        const range = document.createRange();
+        range.selectNodeContents(chip);
+        const textOutside = [...range.getClientRects()].some(rect => rect.left < bounds.left - 1
+          || rect.right > bounds.right + 1 || rect.top < bounds.top - 1 || rect.bottom > bounds.bottom + 1);
+        return bounds.height < 44 || bounds.left < container.left || bounds.right > container.right || textOutside
+          ? [chip.textContent.trim()] : [];
+      }));
+      assert.deepEqual(chipProblems, [], `${label}: step labels must fit and remain touch-sized`);
+      for (let index = 0; index < 5; index++) {
+        await page.$$eval('.onboard-chip', (chips, index) => chips[index].click(), index);
+        await page.$eval('#onboardCarousel', root => root.dispatchEvent(new Event('onboard:pause')));
+        await page.$eval('.onboard-card.is-active', card => card.scrollIntoView({ block: 'center' }));
+        const fits = await page.$eval('.onboard-card.is-active', card => {
+          const rect = selector => card.querySelector(selector).getBoundingClientRect();
+          const meta = rect('.onboard-card-meta');
+          const title = rect('.onboard-card-pill');
+          const description = rect('.onboard-card-desc');
+          return meta.bottom <= title.top + 1 && title.bottom <= description.top + 1
+            && description.bottom <= card.getBoundingClientRect().bottom + 1;
+        });
+        assert.equal(fits, true, `${label}, step ${index + 1}: card text must not overlap or clip`);
+      }
+    }
+    // Switching back to desktop must restore the original horizontal team layout.
+    await prepare('/about', { width: 393, scale: 1 });
+    await page.setViewport({ width: 1440, height: 900 });
+    await page.waitForFunction(() => document.querySelector('.team-future-grid').style.gridTemplateColumns.includes('5fr'));
+    await page.setViewport({ width: 393, height: 900 });
+    await page.waitForFunction(() => document.querySelector('.team-future-grid').style.gridTemplateRows === 'none');
+  } finally {
+    await page.close();
+  }
+});

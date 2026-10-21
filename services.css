@@ -1863,6 +1863,7 @@ html:not(.js) .onboard-card-body {
 /* Chips column */
 .onboard-chips {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
@@ -1870,6 +1871,8 @@ html:not(.js) .onboard-card-body {
 }
 .onboard-chip {
   display: inline-flex;
+  max-width: 100%;
+  min-height: 44px;
   align-items: center;
   gap: 12px;
   padding: 12px 22px;
@@ -1882,7 +1885,8 @@ html:not(.js) .onboard-card-body {
   color: color-mix(in srgb, var(--cream) 55%, transparent);
   background: transparent;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: left;
   opacity: 0.7;
   transition: background 0.45s ease, color 0.45s ease, border-color 0.45s ease, opacity 0.45s ease;
 }
@@ -1897,6 +1901,7 @@ html:not(.js) .onboard-card-body {
   border-color: color-mix(in srgb, var(--cream) 45%, transparent);
 }
 .onboard-chip-num {
+  flex-shrink: 0;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 15px;
@@ -1904,6 +1909,8 @@ html:not(.js) .onboard-card-body {
   text-transform: none;
 }
 .onboard-chip-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-family: var(--font-sans);
   font-size: 12px;
   letter-spacing: 0.18em;
@@ -2031,6 +2038,33 @@ html:not(.js) .onboard-card-body {
   line-height: 1.6;
   color: color-mix(in srgb, var(--cream) 85%, transparent);
   margin: 0;
+}
+
+/* Let phone cards grow with their copy. All slides share one grid row so
+   changing steps does not move the section below the carousel. */
+@media (max-width: 767px) {
+  .onboard-stage {
+    display: grid;
+    aspect-ratio: auto;
+  }
+  .onboard-card {
+    position: relative;
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+  .onboard-card-body {
+    position: relative;
+    min-height: 100%;
+    padding-top: 56px;
+  }
+  .onboard-card-pill,
+  .onboard-card-desc {
+    flex-shrink: 0;
+  }
+  html:not(.js) .onboard-card {
+    grid-area: auto;
+    aspect-ratio: auto;
+  }
 }
 
 .tier-card:hover {

@@ -739,8 +739,9 @@
   .team-future-grid {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 5fr 1fr 1fr 1fr 1fr;
-    height: min(720px, 150vw);
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    height: auto;
     gap: 8px;
     overflow: hidden;
     border-radius: 8px;
@@ -749,6 +750,7 @@
     cursor: pointer;
     border-radius: 6px;
     overflow: hidden;
+    min-height: clamp(48px, 15vw, 76px);
   }
   .team-member-card::after { display: block; }
   .team-member-label {
@@ -776,6 +778,15 @@
                 transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .team-member-name { color: #fff; font-size: 18px; }
+  /* The expanded biography determines its row height, including larger text. */
+  .team-member-card.is-expanded .team-member-info,
+  .team-member-card[data-active="true"] .team-member-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: clamp(250px, 80vw, 380px);
+  }
   .team-member-role { color: rgba(255,255,255,0.72); margin-top: 4px; margin-bottom: 8px; }
   .team-member-bio {
     display: block;
