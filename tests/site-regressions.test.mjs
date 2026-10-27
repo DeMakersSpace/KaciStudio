@@ -165,6 +165,82 @@ after(async () => {
   if (server && !server.killed) server.kill();
 });
 
+test('all pages tolerate unavailable browser storage', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.evaluateOnNewDocument(() => {
+    Object.defineProperty(window, 'sessionStorage', { get() { throw new DOMException('Storage blocked', 'SecurityError'); } });
+  });
+  try {
+    for (const route of SITE_ROUTES) {
+      await open(page, route);
+      if (await page.$('.kaci-banner-close')) {
+        await page.click('.kaci-banner-close');
+        assert.equal(await page.$eval('#kaci-banner', el => getComputedStyle(el).display), 'none');
+      }
+    }
+    assert.deepEqual(errors, []);
+  } finally { await page.close(); }
+});
+
+for (const route of ['/about', '/services']) {
+  test(`${route} carousel respects motion preferences, pause and keyboard focus`, async () => {
+    const page = await makePage(VIEWPORTS[0], { reducedMotion: false });
+    await page.evaluateOnNewDocument(() => {
+      const intervals = new Map();
+      let id = 0;
+      window.setInterval = (fn, delay) => { intervals.set(++id, { fn, delay }); return id; };
+      window.clearInterval = id => intervals.delete(id);
+      window.rotationTimers = () => [...intervals.values()].filter(t => [3500, 5000].includes(t.delay));
+    });
+    const root = route === '/about' ? '#valuesCarousel' : '#onboardCarousel';
+    const state = () => page.$eval(root, el => el.querySelector('.is-active')?.textContent.trim());
+    try {
+      await open(page, route);
+      await page.$eval(root, el => el.scrollIntoView({ block: 'center' }));
+      await page.mouse.move(0, 0);
+      await page.waitForFunction(() => window.rotationTimers().length === 1);
+      const first = await state();
+      await page.evaluate(() => window.rotationTimers()[0].fn());
+      assert.notEqual(await state(), first);
+      await page.click('.carousel-motion-control');
+      assert.equal(await page.evaluate(() => window.rotationTimers().length), 0);
+      await page.$eval(root + ' button', el => el.focus());
+      await page.$eval('.carousel-motion-control', el => el.click());
+      assert.equal(await page.evaluate(() => window.rotationTimers().length), 0, 'Focus must pause even after resume');
+      await page.$eval(root + ' button', el => el.blur());
+      await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+      await page.waitForFunction(() => document.querySelector('.carousel-motion-control').disabled);
+      assert.equal(await page.evaluate(() => window.rotationTimers().length), 0);
+      const beforeManual = await state();
+      await page.$eval(route === '/about' ? '#valuesNext' : '.onboard-chip:last-child', el => el.click());
+      assert.notEqual(await state(), beforeManual, 'Manual navigation stays available');
+    } finally { await page.close(); }
+  });
+}
+
+test('all onboarding labels and numerals remain readable in active and inactive states', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  try {
+    await open(page, '/services');
+    const colours = await page.$$eval('.onboard-chip', buttons => buttons.map(button => {
+      const style = getComputedStyle(button);
+      return {
+        opacity: style.opacity,
+        foreground: getComputedStyle(button.querySelector('.onboard-chip-label')).color,
+        numeral: getComputedStyle(button.querySelector('.onboard-chip-num')).color,
+        background: button.classList.contains('is-active') ? style.backgroundColor : getComputedStyle(button.closest('.onboard-carousel')).backgroundColor,
+      };
+    }));
+    for (const colour of colours) {
+      assert.equal(colour.opacity, '1');
+      assert.ok(contrastRatio(colour.foreground, colour.background) >= 4.5, JSON.stringify(colour));
+      assert.ok(contrastRatio(colour.numeral, colour.background) >= 4.5, JSON.stringify(colour));
+    }
+  } finally { await page.close(); }
+});
+
 test('production artifact is an allow-listed public surface', async () => {
   const files = await generatedFiles();
   const lowerFiles = new Set(files.map(file => file.toLowerCase()));

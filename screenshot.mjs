@@ -17,13 +17,17 @@ let n = 1;
 while (fs.existsSync(path.join(screenshotDir, `screenshot-${n}${label}.png`))) n++;
 const outPath = path.join(screenshotDir, `screenshot-${n}${label}.png`);
 
-// Update executablePath if your Chrome version changes
-// Run: node -e "const p = require('puppeteer'); p.executablePath().then(console.log)"
+// Prefer an explicit browser, then installed Chrome on Windows, then Puppeteer's browser.
+const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || (process.platform === 'win32'
+  ? [process.env.PROGRAMFILES || 'C:/Program Files', process.env['PROGRAMFILES(X86)'] || 'C:/Program Files (x86)', process.env.LOCALAPPDATA]
+    .filter(Boolean).map(base => path.join(base, 'Google', 'Chrome', 'Application', 'chrome.exe')).find(fs.existsSync)
+  : undefined);
 const browser = await puppeteer.launch({
-  executablePath: "C:/Users/darry/.cache/puppeteer/chrome/win64-146.0.7680.76/chrome-win64/chrome.exe",
+  ...(executablePath ? { executablePath } : {}),
   args: ["--no-sandbox", "--disable-setuid-sandbox"],
 });
 
+try {
 const page = await browser.newPage();
 await page.setViewport({ width, height: 900 });
 await page.goto(url, { waitUntil: "networkidle2", timeout: 30000 });
@@ -73,6 +77,8 @@ await page.evaluate(() => {
 await new Promise(r => setTimeout(r, 2500));
 
 await page.screenshot({ path: outPath, fullPage: true });
-await browser.close();
+} finally {
+  await browser.close();
+}
 
 console.log(`Screenshot saved: ${outPath}`);

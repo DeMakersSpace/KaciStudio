@@ -1251,6 +1251,23 @@ body.nav-locked { overflow: hidden; }
   text-align: center;
 }
 
+.carousel-motion-control {
+  display: block;
+  scroll-margin-top: 110px;
+  min-height: 44px;
+  margin: 0 0 20px;
+  padding: 10px 16px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.carousel-motion-control:disabled { cursor: default; }
+.carousel-motion-control:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
 @supports (content-visibility: auto) {
   section:not(:first-of-type),
   .showcase,

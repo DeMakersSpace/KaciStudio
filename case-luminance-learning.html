@@ -100,7 +100,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
-<script>if(sessionStorage.getItem('kaci-banner-dismissed')==='1')document.documentElement.classList.add('banner-dismissed');</script>
+<script>try{if(sessionStorage.getItem('kaci-banner-dismissed')==='1')document.documentElement.classList.add('banner-dismissed');}catch{}</script>
 <div id="kaci-banner" class="kaci-banner">
   <div class="kaci-banner-rainbow"></div>
   <span class="kaci-banner-text">Enquire about our next available intake. <a href="contact">Apply here →</a></span>

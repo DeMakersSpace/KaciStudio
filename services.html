@@ -214,7 +214,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
-<script>if(sessionStorage.getItem('kaci-banner-dismissed')==='1')document.documentElement.classList.add('banner-dismissed');</script>
+<script>try{if(sessionStorage.getItem('kaci-banner-dismissed')==='1')document.documentElement.classList.add('banner-dismissed');}catch{}</script>
 <div id="kaci-banner" class="kaci-banner">
   <div class="kaci-banner-rainbow"></div>
   <span class="kaci-banner-text">Enquire about our next available intake. <a href="contact">Apply here →</a></span>
@@ -624,6 +624,7 @@
 <script>KaciChrome.init();</script>
 <script src="assets/tweaks.js"></script>
 <script src="assets/parallax.js" defer></script>
+<script src="assets/carousel-rotation.js"></script>
 
 <script>
 /* §03 FAQ — staggered entrance, resets on scroll away */
@@ -863,10 +864,8 @@
 
   var total = cards.length;
   var index = 0;
-  var paused = false;
-  var timer = null;
   var AUTO_MS = 3500;
-  var ITEM_GAP = 58; /* vertical spacing between chip rows */
+  var rotation = initKaciRotation(root, next, AUTO_MS, 'Onboarding steps');
 
   function normalize(diff) {
     var half = total / 2;
@@ -903,12 +902,9 @@
     paint();
   }
   function startAuto() {
-    stopAuto();
-    timer = setInterval(function () {
-      if (!paused) next();
-    }, AUTO_MS);
+    rotation.start();
   }
-  function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+  function stopAuto() { rotation.stop(); }
   function restartAuto() { startAuto(); }
 
   chips.forEach(function (chip, i) {
@@ -925,12 +921,8 @@
       chips[target].focus();
     });
   });
-  root.addEventListener('mouseenter', function () { paused = true; });
-  root.addEventListener('mouseleave', function () { paused = false; });
-  root.addEventListener('focusin', function () { paused = true; });
-  root.addEventListener('focusout', function () { paused = false; });
-  root.addEventListener('onboard:pause', function () { paused = true; });
-  root.addEventListener('onboard:resume', function () { paused = false; });
+  root.addEventListener('onboard:pause', stopAuto);
+  root.addEventListener('onboard:resume', startAuto);
 
   paint();
   if (document.fonts && document.fonts.ready) {

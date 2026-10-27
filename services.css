@@ -1877,17 +1877,17 @@ html:not(.js) .onboard-card-body {
   gap: 12px;
   padding: 12px 22px;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--cream) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cream) 65%, transparent);
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--cream) 55%, transparent);
+  color: var(--cream);
   background: transparent;
   cursor: pointer;
   white-space: normal;
   text-align: left;
-  opacity: 0.7;
+  opacity: 1;
   transition: background 0.45s ease, color 0.45s ease, border-color 0.45s ease, opacity 0.45s ease;
 }
 .onboard-chip.is-active {
@@ -1916,7 +1916,7 @@ html:not(.js) .onboard-card-body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-.onboard-chip.is-active .onboard-chip-num { color: var(--accent-copy); }
+.onboard-chip.is-active .onboard-chip-num { color: inherit; }
 
 /* Card stage */
 .onboard-stage {

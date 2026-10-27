@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '127.0.0.1';
 const siteRoot = path.resolve(process.env.SITE_ROOT || __dirname);
 
 const MIME = {
@@ -37,7 +38,15 @@ function notFound(res) {
 }
 
 http.createServer((req, res) => {
-  let urlPath = decodeURIComponent(req.url.split('?')[0]);
+  let urlPath;
+  try {
+    urlPath = decodeURIComponent(req.url.split('?')[0]);
+  } catch {
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end('400 Bad Request');
+  }
+  // Reject Windows separators and NUL before any filesystem operation.
+  if (urlPath.includes('\\') || urlPath.includes('\0')) return notFound(res);
   if (urlPath === '/') urlPath = '/index.html';
 
   // Block dotfiles/dotfolders (.git, .github, .gitignore, etc.) at the path-segment level.
@@ -70,6 +79,6 @@ http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': contentType });
     res.end(data);
   });
-}).listen(PORT, () => {
+}).listen(PORT, HOST, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

@@ -11,7 +11,9 @@ npm ci
 node serve.mjs
 ```
 
-Open `http://localhost:3000`. The local server refuses unknown file types and dotfiles, but it serves from the source tree for convenient editing.
+Open `http://localhost:3000`. The local server binds to loopback by default, refuses malformed paths, unknown file types and dotfiles, and serves from the source tree for convenient editing. Set `HOST` explicitly only when intentionally sharing a preview on your network.
+
+On Windows PowerShell with script execution disabled, use `npm.cmd` in place of `npm`.
 
 ## Verification
 
@@ -34,6 +36,8 @@ Monthly maintenance: run `npm test`, `npm audit`, and `npm outdated`. After buil
 The checker reports the method and URL for HTTP errors, network failures, and 20-second request timeouts, continues through remaining references/private paths, and exits nonzero if any check fails. `loadedPages` counts completed page loads; `pages` is the number attempted. A timeout is an inconclusive request, not proof that a link is broken.
 
 ## Maintenance records
+
+- [27 October 2026](maintenance-2026-10-27.md): comprehensive local review, carousel motion controls, storage and preview-server fixes, and dependency update.
 
 - [14 October 2026](maintenance-2026-10-14.md): dependency and CI updates, release verification, and live checks.
 
