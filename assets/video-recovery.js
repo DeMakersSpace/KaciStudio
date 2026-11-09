@@ -31,10 +31,15 @@ for (const wrap of document.querySelectorAll('.case-video-wrap')) {
   retry.addEventListener('click', () => {
     const video = activeVideo();
     if (pending.has(video)) return;
-    pending.set(video, setTimeout(() => { pending.delete(video); failed.add(video); render(); }, 12000));
+    const attempt = setTimeout(() => { pending.delete(video); failed.add(video); render(); }, 12000);
+    pending.set(video, attempt);
     render();
     video.load();
-    video.play().catch(() => { clearPending(video); failed.add(video); render(); });
+    video.play().catch(() => {
+      // A canplay/error event or a newer retry may already have settled this attempt.
+      if (pending.get(video) !== attempt) return;
+      clearPending(video); failed.add(video); render();
+    });
   });
   strip?.addEventListener('scroll', render, { passive: true });
 }

@@ -1,4 +1,5 @@
 import { readdir, mkdir } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import puppeteer from 'puppeteer';
 import { spawn } from 'node:child_process';
@@ -15,13 +16,17 @@ const failures = [];
 let loadedPages = 0;
 try {
   if (!live) {
-    server = spawn(process.execPath, ['serve.mjs'], { cwd: root, env: { ...process.env, PORT: '4175', SITE_ROOT: path.join(root, '_site') }, stdio: 'ignore' });
+    server = spawn(process.execPath, ['serve.mjs'], { cwd: root, env: { ...process.env, HOST: '127.0.0.1', PORT: '4175', SITE_ROOT: path.join(root, '_site') }, windowsHide: true, stdio: 'ignore' });
     for (let i = 0; i < 50; i++) {
       try { if ((await fetch(base)).ok) break; } catch {}
       await new Promise(resolve => setTimeout(resolve, 100));
     }
   }
-  browser = await puppeteer.launch({ headless: true, ...(process.platform === 'win32' ? { executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe' } : {}), args: ['--no-sandbox'] });
+  const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || (process.platform === 'win32'
+    ? [process.env.PROGRAMFILES || 'C:/Program Files', process.env['PROGRAMFILES(X86)'] || 'C:/Program Files (x86)', process.env.LOCALAPPDATA]
+      .filter(Boolean).map(base => path.join(base, 'Google', 'Chrome', 'Application', 'chrome.exe')).find(existsSync)
+    : undefined);
+  browser = await puppeteer.launch({ headless: true, ...(executablePath ? { executablePath } : {}), args: ['--no-sandbox'] });
   const page = await browser.newPage();
   page.on('pageerror', error => failures.push(`JavaScript: ${error.message}`));
   page.on('response', response => { if (response.status() >= 400 && response.url().startsWith(base)) failures.push(`${response.status()} ${response.url()}`); });

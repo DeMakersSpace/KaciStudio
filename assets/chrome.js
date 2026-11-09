@@ -142,18 +142,24 @@ const KaciChrome = (() => {
     const desktop = window.matchMedia('(min-width: 769px)');
 
     let lastY = window.scrollY;
+    let movement = 0;
     let ticking = false;
 
     function update() {
       const y = window.scrollY;
       const delta = y - lastY;
+      // Accumulate small scroll steps, resetting when direction changes.
+      if (delta) movement = Math.sign(delta) === Math.sign(movement) ? movement + delta : delta;
 
       if (y < 80 || nav.contains(document.activeElement) || document.body.classList.contains('nav-locked')) {
         nav.classList.remove('kaci-nav-hidden');
-      } else if (delta > 6) {
+        movement = 0;
+      } else if (movement > 6) {
         nav.classList.add('kaci-nav-hidden');
-      } else if (delta < -6) {
+        movement = 0;
+      } else if (movement < -6) {
         nav.classList.remove('kaci-nav-hidden');
+        movement = 0;
       }
 
       lastY = y;
@@ -170,6 +176,7 @@ const KaciChrome = (() => {
     desktop.addEventListener('change', () => {
       nav.classList.remove('kaci-nav-hidden');
       lastY = window.scrollY;
+      movement = 0;
     });
   }
 

@@ -37,6 +37,8 @@ The checker reports the method and URL for HTTP errors, network failures, and 20
 
 ## Maintenance records
 
+- [9 November 2026](maintenance-2026-11-09.md): slow-scroll navigation and video retry fixes, maintenance browser discovery, and regression verification.
+
 - [27 October 2026](maintenance-2026-10-27.md): comprehensive local review, carousel motion controls, storage and preview-server fixes, and dependency update.
 
 - [14 October 2026](maintenance-2026-10-14.md): dependency and CI updates, release verification, and live checks.

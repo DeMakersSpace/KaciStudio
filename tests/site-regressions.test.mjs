@@ -1172,6 +1172,53 @@ test('Work selector opens with arrows and closes cleanly on Tab and scroll', asy
 });
 
 
+test('slow scrolling hides and reveals navigation after cumulative movement', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  try {
+    await open(page, '/services');
+    const states = await page.evaluate(async () => {
+      const nav = document.querySelector('.kaci-nav');
+      async function scroll(y) {
+        window.scrollTo({ top: y, behavior: 'instant' });
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      }
+      await scroll(400);
+      const hiddenAfterDown = nav.classList.contains('kaci-nav-hidden');
+      for (let y = 398; y >= 380; y -= 2) await scroll(y);
+      const hiddenAfterSlowUp = nav.classList.contains('kaci-nav-hidden');
+      for (let y = 382; y <= 400; y += 2) await scroll(y);
+      return { hiddenAfterDown, hiddenAfterSlowUp, hiddenAfterSlowDown: nav.classList.contains('kaci-nav-hidden') };
+    });
+    assert.deepEqual(states, { hiddenAfterDown: true, hiddenAfterSlowUp: false, hiddenAfterSlowDown: true });
+  } finally { await page.close(); }
+});
+
+test('a stale video retry rejection cannot undo recovery or a newer retry', async () => {
+  const page = await makePage(VIEWPORTS[1]);
+  try {
+    await open(page, '/case-melissa-shoes');
+    await page.$eval('video', video => {
+      window.rejectRetries = [];
+      video.load = () => {};
+      video.play = () => new Promise((resolve, reject) => window.rejectRetries.push(reject));
+      video.dispatchEvent(new Event('error'));
+    });
+    await page.$eval('.video-recovery button', button => button.click());
+    await page.$eval('video', video => video.dispatchEvent(new Event('canplay')));
+    await page.evaluate(async () => { window.rejectRetries[0](new DOMException('Interrupted', 'AbortError')); await Promise.resolve(); });
+    assert.equal(await page.$eval('.video-recovery', el => el.hidden), true, 'A recovered video must stay recovered');
+
+    await page.$eval('video', video => video.dispatchEvent(new Event('error')));
+    await page.$eval('.video-recovery button', button => button.click());
+    await page.$eval('video', video => video.dispatchEvent(new Event('error')));
+    await page.$eval('.video-recovery button', button => button.click());
+    await page.evaluate(async () => { window.rejectRetries[1](new Error('Old attempt failed')); await Promise.resolve(); });
+    assert.equal(await page.$eval('.video-recovery', el => el.getAttribute('aria-busy')), 'true', 'The newer retry must remain pending');
+    await page.evaluate(async () => { window.rejectRetries[2](new Error('Current attempt failed')); await Promise.resolve(); });
+    assert.equal(await page.$eval('.video-recovery', el => el.getAttribute('aria-busy')), 'false');
+  } finally { await page.close(); }
+});
+
 test('video failures offer a retry and recover without leaving the case study', async () => {
   const page = await makePage(VIEWPORTS[1]);
   try {
