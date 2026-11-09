@@ -185,7 +185,7 @@ test('all pages tolerate unavailable browser storage', async () => {
 });
 
 for (const route of ['/about', '/services']) {
-  test(`${route} carousel respects motion preferences, pause and keyboard focus`, async () => {
+  test(`${route} carousel has no rotation button and respects motion preferences and keyboard focus`, async () => {
     const page = await makePage(VIEWPORTS[0], { reducedMotion: false });
     await page.evaluateOnNewDocument(() => {
       const intervals = new Map();
@@ -204,14 +204,12 @@ for (const route of ['/about', '/services']) {
       const first = await state();
       await page.evaluate(() => window.rotationTimers()[0].fn());
       assert.notEqual(await state(), first);
-      await page.click('.carousel-motion-control');
-      assert.equal(await page.evaluate(() => window.rotationTimers().length), 0);
+      assert.equal(await page.$('.carousel-motion-control'), null);
       await page.$eval(root + ' button', el => el.focus());
-      await page.$eval('.carousel-motion-control', el => el.click());
-      assert.equal(await page.evaluate(() => window.rotationTimers().length), 0, 'Focus must pause even after resume');
+      assert.equal(await page.evaluate(() => window.rotationTimers().length), 0, 'Focus must pause rotation');
       await page.$eval(root + ' button', el => el.blur());
       await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
-      await page.waitForFunction(() => document.querySelector('.carousel-motion-control').disabled);
+      await page.waitForFunction(() => window.rotationTimers().length === 0);
       assert.equal(await page.evaluate(() => window.rotationTimers().length), 0);
       const beforeManual = await state();
       await page.$eval(route === '/about' ? '#valuesNext' : '.onboard-chip:last-child', el => el.click());
